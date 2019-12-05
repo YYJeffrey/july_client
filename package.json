@@ -1,0 +1,22 @@
+{
+  "name": "july_client",
+  "version": "1.0.0",
+  "description": "july client with mini program",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YYJeffrey/july_client.git"
+  },
+  "author": "Jeffrey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YYJeffrey/july_client/issues"
+  },
+  "homepage": "https://github.com/YYJeffrey/july_client#readme",
+  "dependencies": {
+    "lin-ui": "^0.6.12"
+  }
+}

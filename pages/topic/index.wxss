@@ -1,0 +1,124 @@
+/* pages/topic/index.wxss */
+
+.tag-scroll {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  white-space: nowrap;
+  height: 50rpx;
+  width: 750rpx;
+  padding: 20rpx 0;
+  background: #f7f7f7;
+}
+
+.tag {
+  margin: 0 10rpx;
+}
+
+.popup-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50rpx;
+  height: 50rpx;
+  position: fixed;
+  z-index: 100;
+  top: 20rpx;
+  right: 0;
+  background: #f7f7f7;
+  border-left: 1px #ccc solid;
+  opacity: 0.8;
+}
+
+.popup-btn .btn {
+  transform: rotate(45deg);
+  transition: All 0.3s ease;
+}
+
+.popup-btn .btn-active {
+  transition: All 0.3s ease;
+}
+
+.popup {
+  padding: 10rpx 0 20rpx 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  background: #f7f7f7;
+}
+
+.popup .tag {
+  margin-top: 10rpx;
+}
+
+.card {
+  width: 100% !important;
+  margin-bottom: 20rpx !important;
+  border-radius: 0 !important;
+  padding: 20rpx 30rpx !important;
+}
+
+.avter-content {
+  color: #333;
+  text-align: justify;
+  letter-spacing: 1rpx;
+  font-size: 28rpx;
+  margin: 10rpx 0;
+}
+
+.avter-share-container {
+  display: flex;
+  flex-direction: row;
+  height: 60rpx;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 10rpx;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.avter-share-container .like-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.like-container  .number {
+  margin-left: 10rpx;
+}
+
+.posters {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10rpx;
+  flex-wrap: wrap;
+}
+
+.posters image {
+  width: 180rpx;
+  height: 180rpx;
+  margin-right: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.posters .column-one {
+  width: 360rpx;
+}
+
+.posters .column-two {
+  width: 270rpx;
+  height: 270rpx;
+}
+
+.topic-scroll {
+  margin-top: 90rpx;
+}
+
+.loading {
+  margin-top: 15rpx;
+}

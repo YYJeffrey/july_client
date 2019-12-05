@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/topic/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "七月",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f7f7f7"
+  },
+  "usingComponents": {
+    "l-toast": "./miniprogram_npm/lin-ui/toast/index",
+    "l-message": "./miniprogram_npm/lin-ui/message/index",
+    "l-loading": "./miniprogram_npm/lin-ui/loading/index",
+    "l-tag": "./miniprogram_npm/lin-ui/tag/index",
+    "l-icon": "./miniprogram_npm/lin-ui/icon/index"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

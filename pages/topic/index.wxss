@@ -120,5 +120,5 @@
 }
 
 .loading {
-  margin-top: 15rpx;
+  margin-top: -35rpx;
 }

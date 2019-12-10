@@ -7,7 +7,7 @@ App({
   wxutil: wxutil,
 
   globalData: {
-    app_id: wx.getAccountInfoSync().miniProgram.appId
+    appId: wx.getAccountInfoSync().miniProgram.appId
   },
 
   onLaunch: function() {

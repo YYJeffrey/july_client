@@ -2,23 +2,23 @@
 
 <!-- 标签栏 -->
 <scroll-view scroll-x enable-flex class="tag-scroll">
-  <l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{true}}" shape="circle" bg-color="#337559" font-color="#337559">#{{item.name}}</l-tag>
+  <l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{labelId == item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{labelId == item.id ? '#fff' : '#337559'}}" bind:lintap="clickTag" data-label="{{item.id}}">#{{item.name}}</l-tag>
 </scroll-view>
 
 <!-- 弹出层按钮 -->
-<view class="popup-btn" bindtap="showPopup">
+<view class="popup-btn" bindtap="switchPopup">
   <l-icon l-class="{{show? 'btn-active' : 'btn'}}" name="close" size="15" color="#777" />
 </view>
 
 <!-- 弹出层 -->
-<l-popup show="{{show}}" animation="show" content-align="top" bind:lintap="showPopup" z-index="99">
+<l-popup show="{{show}}" animation="show" content-align="top" bind:lintap="switchPopup" z-index="99">
   <view class="popup">
-    <l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{true}}" shape="circle" bg-color="#337559" font-color="#337559">#{{item.name}}</l-tag>
+    <l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{labelId == item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{labelId == item.id ? '#fff' : '#337559'}}" bind:lintap="clickTag" data-label="{{item.id}}">#{{item.name}}</l-tag>
   </view>
 </l-popup>
 
 <!-- 话题内容 -->
-<scroll-view scroll-y enable-back-to-top class="topic-scroll" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" style="height: {{height}}rpx">
+<scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" style="height: {{height}}rpx">
   <l-card type="avatar" l-class="card" wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}" title="{{item.user.nick_name}}" describe="{{item.create_time}}">
     <view class="avter-content">{{item.content}}</view>
 
@@ -36,21 +36,21 @@
 
     <view class="avter-share-container">
       <view class="like-container">
-        <l-icon name="eye" color="#666" size="28" />
-        <view class="number">{{item.click_count}}</view>
+        <l-icon name="comment" color="#666" size="28" />
+        <view class="number">{{item.comment_count}}</view>
       </view>
       <view class="like-container">
         <l-icon name="like" color="#666" size="28" />
         <view class="number">{{item.star_count}}</view>
       </view>
       <view class="like-container">
-        <l-icon name="comment" color="#666" size="28" />
-        <view class="number">{{item.comment_count}}</view>
+        <l-icon name="eye" color="#666" size="28" />
+        <view class="number">{{item.click_count}}</view>
       </view>
     </view>
     <l-tag shape="circle" bg-color="#f3f3f3" font-color="#337559" slot="more" size="medium">
       + 关注
     </l-tag>
   </l-card>
-  <l-loading l-class="loading" show="{{loading}}" size="medium" type="flash" color="#337559" />
+  <l-loading l-class="loading" show="{{loading}}" size="medium" type="change" color="#337559" />
 </scroll-view>

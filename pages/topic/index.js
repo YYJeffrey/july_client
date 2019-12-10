@@ -2,11 +2,14 @@
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil
+const pageSize = 10 // 每页显示条数
 
 Page({
   data: {
     labels: [],
-    topic: [],
+    topics: [],
+    page: 1,
+    labelId: -1,
     height: 1206,
     show: false,
     loading: false
@@ -18,56 +21,9 @@ Page({
     this.getTopics()
   },
 
-  getLabels() {
-    const that = this
-    const url = api.labelAPI
-    const data = {
-      app_id: app.globalData.app_id
-    }
-    wxutil.request.get(url, data).then((res) => {
-      this.setData({
-        labels: res.data.data
-      })
-    })
-  },
-
-  getTopics(size = 10, page = 1) {
-    const that = this
-    const url = api.topicAPI
-    const data = {
-      app_id: app.globalData.app_id,
-      size: size,
-      page: page,
-    }
-    wx.showNavigationBarLoading()
-    wxutil.request.get(url, data).then((res) => {
-      this.setData({
-        topics: res.data.data
-      })
-      wx.hideNavigationBarLoading()
-    })
-  },
-
-  previewImage(event) {
-    const index = event.currentTarget.dataset.index
-    const current = event.currentTarget.dataset.src
-    const urls = this.data.topics[index].images
-    wx.previewImage({
-      current: current,
-      urls: urls
-    })
-  },
-
-  scrollToUpper(event) {
-    this.getTopics()
-  },
-
-  scrollToLower(event) {
-    this.setData({
-      loading: true
-    })
-  },
-
+  /**
+   * 获取话题窗口高度
+   */
   getScrollHeight() {
     const that = this;
     wx.getSystemInfo({
@@ -80,6 +36,122 @@ Page({
           height: height - 90
         })
       }
+    })
+  },
+
+  /**
+   * 获取标签
+   */
+  getLabels() {
+    const that = this
+    const url = api.labelAPI
+    const data = {
+      app_id: app.globalData.appId
+    }
+
+    wxutil.request.get(url, data).then((res) => {
+      this.setData({
+        labels: res.data.data
+      })
+    })
+  },
+
+  /**
+   * 获取话题
+   */
+  getTopics(page = 1, labelId = -1, size = pageSize) {
+    const url = api.topicAPI
+    let data = {
+      app_id: app.globalData.appId,
+      size: size,
+      page: page
+    }
+    if (labelId != -1) {
+      data["label_id"] = labelId
+    }
+
+    wx.showNavigationBarLoading()
+    wxutil.request.get(url, data).then((res) => {
+      const topics = res.data.data
+      this.setData({
+        page: (topics.length == 0 && page != 1) ? page - 1 : page,
+        loading: false,
+        topics: page == 1 ? topics : this.data.topics.concat(topics)
+      })
+      wx.hideNavigationBarLoading()
+    })
+  },
+
+  /**
+   * 图片浏览
+   */
+  previewImage(event) {
+    const index = event.currentTarget.dataset.index
+    const current = event.currentTarget.dataset.src
+    const urls = this.data.topics[index].images
+
+    wx.previewImage({
+      current: current,
+      urls: urls
+    })
+  },
+
+  /**
+   * 触顶刷新
+   */
+  scrollToUpper() {
+    const labelId = this.data.labelId
+
+    if (labelId == -1) {
+      this.getTopics()
+    } else {
+      this.getTopics(1, labelId)
+    }
+  },
+
+  /**
+   * 触底加载
+   */
+  scrollToLower() {
+    const labelId = this.data.labelId
+    const page = this.data.page
+
+    this.setData({
+      loading: true
+    })
+    if (labelId == -1) {
+      this.getTopics(page + 1)
+    } else {
+      this.getTopics(page + 1, labelId)
+    }
+  },
+
+  /**
+   * 标签切换
+   */
+  clickTag(event) {
+    const labelId = this.data.labelId
+    const currLabelId = event.currentTarget.dataset.label
+
+    if (labelId == currLabelId) {
+      this.getTopics(1, -1)
+      this.setData({
+        labelId: -1
+      })
+    } else {
+      this.getTopics(1, currLabelId)
+      this.setData({
+        labelId: currLabelId
+      })
+    }
+  },
+
+  /**
+   * 弹窗显影
+   */
+  switchPopup() {
+    this.setData({
+      show: !this.data.show
     })
   },
 
@@ -97,11 +169,5 @@ Page({
 
   onShareAppMessage() {
 
-  },
-
-  showPopup() {
-    this.setData({
-      show: !this.data.show
-    })
   }
 })

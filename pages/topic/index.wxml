@@ -17,6 +17,9 @@
   </view>
 </l-popup>
 
+<!-- nothing -->
+<nothing wx:if="{{topics.length == 0}}" pic="../../images/pictures/pic_topic.png" tip="暂时没有话题" />
+
 <!-- 话题内容 -->
 <scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" style="height: {{height}}rpx">
   <l-card type="avatar" l-class="card" wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}" title="{{item.user.nick_name}}" describe="{{item.create_time}}">

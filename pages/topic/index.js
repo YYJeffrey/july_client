@@ -155,19 +155,10 @@ Page({
     })
   },
 
-  onShow() {
-
-  },
-
-  onPullDownRefresh() {
-
-  },
-
-  onReachBottom() {
-
-  },
-
   onShareAppMessage() {
-
+    return {
+      title: "七月",
+      path: "/pages/topic/index"
+    }
   }
 })

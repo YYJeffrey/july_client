@@ -1,0 +1,6 @@
+<!--components/nothing/index.wxml-->
+
+<view class="bg-box">
+  <image class="bg-pic" src="{{pic}}" />
+  <text class="bg-tip">{{tip}}</text>
+</view>

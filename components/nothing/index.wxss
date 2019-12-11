@@ -1,0 +1,24 @@
+/* components/nothing/index.wxss */
+
+.bg-box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 80%;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.bg-box .bg-pic {
+  display: block;
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.bg-box .bg-tip {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ccc;
+  margin-top: 50rpx;
+}

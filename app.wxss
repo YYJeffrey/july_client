@@ -4,8 +4,8 @@ page {
   background: #f7f7f7;
   font-family: "苹方";
   font-size: 28rpx;
-  box-sizing: border-box; /* 宽度包含 */
   color: #333;
+  box-sizing: border-box; /* 宽度包含 */
   letter-spacing: 2rpx; /* 字间距 */
   word-wrap: break-word; /* 长词汇换行 */
 }

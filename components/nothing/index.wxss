@@ -4,16 +4,17 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 80%;
+  height: 100%;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  position: fixed;
 }
 
 .bg-box .bg-pic {
   display: block;
   width: 150rpx;
   height: 150rpx;
+  margin-top: -250rpx;
 }
 
 .bg-box .bg-tip {

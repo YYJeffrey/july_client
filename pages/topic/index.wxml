@@ -55,5 +55,6 @@
       + 关注
     </l-tag>
   </l-card>
-  <l-loading l-class="loading" show="{{loading}}" size="medium" type="change" color="#337559" />
+  <l-loadmore wx:if="{{!isEnd}}" show="{{loading}}" line l-class="loading" />
+  <l-loadmore show="{{isEnd}}" line l-class="loading" type="end" />
 </scroll-view>

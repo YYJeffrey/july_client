@@ -12,7 +12,8 @@ Page({
     labelId: -1,
     height: 1206,
     show: false,
-    loading: false
+    loading: false,
+    isEnd: false
   },
 
   onLoad() {
@@ -61,6 +62,8 @@ Page({
    */
   getTopics(page = 1, labelId = -1, size = pageSize) {
     const url = api.topicAPI
+
+    // 请求参数
     let data = {
       app_id: app.globalData.appId,
       size: size,
@@ -70,12 +73,19 @@ Page({
       data["label_id"] = labelId
     }
 
+    // 刷到底了
+    if (this.data.isEnd && page != 1) {
+      return
+    }
+
+    // 发起请求
     wx.showNavigationBarLoading()
     wxutil.request.get(url, data).then((res) => {
       const topics = res.data.data
       this.setData({
         page: (topics.length == 0 && page != 1) ? page - 1 : page,
         loading: false,
+        isEnd: (topics.length == 0 && page != 1) ? true : false,
         topics: page == 1 ? topics : this.data.topics.concat(topics)
       })
       wx.hideNavigationBarLoading()

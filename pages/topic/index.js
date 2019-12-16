@@ -10,10 +10,10 @@ Page({
     topics: [],
     page: 1,
     labelId: -1,
-    height: 1206,
-    show: false,
+    height: 1206, // 话题区高度
+    show: false, // 下拉区
     loading: false,
-    isEnd: false
+    isEnd: false // 是否到底
   },
 
   onLoad() {
@@ -63,7 +63,6 @@ Page({
   getTopics(page = 1, labelId = -1, size = pageSize) {
     const url = api.topicAPI
 
-    // 请求参数
     let data = {
       app_id: app.globalData.appId,
       size: size,
@@ -73,12 +72,10 @@ Page({
       data["label_id"] = labelId
     }
 
-    // 刷到底了
     if (this.data.isEnd && page != 1) {
       return
     }
 
-    // 发起请求
     wx.showNavigationBarLoading()
     wxutil.request.get(url, data).then((res) => {
       const topics = res.data.data
@@ -157,7 +154,7 @@ Page({
   },
 
   /**
-   * 弹窗显影
+   * 下拉切换
    */
   switchPopup() {
     this.setData({

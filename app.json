@@ -11,7 +11,8 @@
   },
   "usingComponents": {
     "l-tag": "./miniprogram_npm/lin-ui/tag/index",
-    "l-icon": "./miniprogram_npm/lin-ui/icon/index"
+    "l-icon": "./miniprogram_npm/lin-ui/icon/index",
+    "l-button": "./miniprogram_npm/lin-ui/button/index"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

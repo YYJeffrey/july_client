@@ -154,6 +154,23 @@ Page({
   },
 
   /**
+   * 点击显示或隐藏全文
+   */
+  clickFlod(event) {
+    const index = event.target.dataset.index
+    let topics = this.data.topics
+
+    if (topics[index].flod) {
+      topics[index].flod = false
+    } else {
+      topics[index].flod = true
+    }
+    this.setData({
+      topics: topics
+    })
+  },
+
+  /**
    * 下拉切换
    */
   switchPopup() {

@@ -23,7 +23,8 @@
 <!-- 话题内容 -->
 <scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" style="height: {{height}}rpx">
   <l-card type="avatar" l-class="card" wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}" title="{{item.user.nick_name}}" describe="{{item.create_time}}">
-    <view class="avter-content">{{item.content}}</view>
+    <view class="{{item.content.length >= 200 && !item.flod ? 'content-close' : 'avter-content'}}">{{item.content}}</view>
+    <view wx:if="{{item.content.length >= 200}}" data-index="{{cardIndex}}" class="text-flod" bindtap="clickFlod">{{item.flod ? '收起' : '全文'}}</view>
 
     <view class="posters">
       <block wx:if="{{item.images.length == 1}}">

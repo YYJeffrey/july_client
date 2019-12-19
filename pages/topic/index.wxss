@@ -71,6 +71,25 @@
   margin: 10rpx 0;
 }
 
+.content-close {
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #333;
+  letter-spacing: 1rpx;
+  font-size: 28rpx;
+  margin: 10rpx 0;
+}
+
+.text-flod {
+  color: #0f6945;
+  font-weight: bold;
+  margin-bottom: 5rpx;
+}
+
 .avter-share-container {
   display: flex;
   flex-direction: row;

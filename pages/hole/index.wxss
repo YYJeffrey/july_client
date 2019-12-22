@@ -1,0 +1,61 @@
+/* pages/hole/index.wxss */
+
+.head-swiper {
+  height: 350rpx;
+}
+
+.head-swiper-item {
+  height: 280rpx;
+}
+
+.head-swiper-item .poster {
+  height: 280rpx;
+  width: 610rpx;
+  margin: 0 10rpx;
+  border-radius: 15rpx;
+}
+
+.poster .mark {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 30rpx;
+  height: 280rpx;
+  width: 550rpx;
+  margin: 0 10rpx;
+  border-radius: 15rpx;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+}
+
+.mark .title {
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 30rpx;
+  color: #fff;
+  margin-bottom: 15rpx;
+}
+
+.mark .btn-join {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 220rpx;
+  height: 65rpx;
+  border: 1rpx #fff solid;
+  border-radius: 10rpx;
+  margin-bottom: 30rpx;
+}
+
+.btn-join  text {
+  font-size: 24rpx;
+  color: #fff;
+  margin-right: 10rpx;
+}

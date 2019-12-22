@@ -66,7 +66,6 @@
 .avter-content {
   color: #333;
   text-align: justify;
-  letter-spacing: 1rpx;
   font-size: 28rpx;
   margin: 10rpx 0;
 }
@@ -79,7 +78,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   color: #333;
-  letter-spacing: 1rpx;
   font-size: 28rpx;
   margin: 10rpx 0;
 }

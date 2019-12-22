@@ -1,6 +1,7 @@
 {
   "pages": [
-    "pages/topic/index"
+    "pages/topic/index",
+    "pages/hole/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

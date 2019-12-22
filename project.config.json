@@ -62,6 +62,13 @@
 					"pathName": "pages/index/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "树洞页面",
+					"pathName": "pages/hole/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

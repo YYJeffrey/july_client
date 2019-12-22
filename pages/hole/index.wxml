@@ -1,0 +1,38 @@
+<!--pages/hole/index.wxml-->
+<swiper class="head-swiper" indicator-dots circular autoplay previous-margin="60rpx" next-margin="60rpx" indicator-active-color="#337559">
+  <swiper-item class="head-swiper-item">
+    <image class="poster" mode="aspectFill" src="http://f.hiphotos.baidu.com/image/pic/item/0e2442a7d933c8956c0e8eeadb1373f08202002a.jpg">
+      <view class="mark">
+        <text class="title">你听过最美的一句话是什么？</text>
+        <view plain class="btn-join">
+          <text>立即参与</text>
+          <l-icon name="backward" color="#fff" size="25" />
+        </view>
+      </view>
+    </image>
+  </swiper-item>
+
+  <swiper-item class="head-swiper-item">
+    <image class="poster" mode="aspectFill" src="http://a.hiphotos.baidu.com/image/pic/item/f603918fa0ec08fa3139e00153ee3d6d55fbda5f.jpg">
+      <view class="mark">
+        <text class="title">你听过最美的一句话是什么？</text>
+        <view plain class="btn-join">
+          <text>立即参与</text>
+          <l-icon name="backward" color="#fff" size="25" />
+        </view>
+      </view>
+    </image>
+  </swiper-item>
+
+  <swiper-item class="head-swiper-item">
+    <image class="poster" mode="aspectFill" src="http://www.btcha.com/uploadfile/yxdownimg/08/ja4evlebxwh.jpg">
+      <view class="mark">
+        <text class="title">你听过最美的一句话是什么？</text>
+        <view plain class="btn-join">
+          <text>立即参与</text>
+          <l-icon name="backward" color="#fff" size="25" />
+        </view>
+      </view>
+    </image>
+  </swiper-item>
+</swiper>

@@ -2,6 +2,8 @@
 
 .head-swiper {
   height: 350rpx;
+  background: #fff;
+  padding-bottom: 10rpx;
 }
 
 .head-swiper-item {
@@ -54,8 +56,72 @@
   margin-bottom: 30rpx;
 }
 
-.btn-join  text {
+.btn-join text {
   font-size: 24rpx;
   color: #fff;
   margin-right: 10rpx;
+}
+
+.content-box {
+  margin-top: 20rpx;
+  padding-top: 30rpx;
+  background: #fff;
+}
+
+.head {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.head-line {
+  width: 8rpx;
+  height: 42rpx;
+  transform: rotate(30deg);
+  border-radius: 5rpx;
+}
+
+.line-left {
+  background: #3584a7;
+}
+
+.line-right {
+  background: #30d2be;
+}
+
+.head-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  background-image: linear-gradient(-225deg, #473b7b 0%, #3584a7 51%, #30d2be 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0 20rpx;
+}
+
+.box {
+  display: flex;
+  flex-direction: row;
+  padding: 10rpx 30rpx 30rpx 30rpx;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.box-item {
+  width: 335rpx;
+  margin-top: 20rpx;
+}
+
+.item-poster {
+  width: 335rpx;
+  height: 190rpx;
+  border-radius: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.item-title {
+  margin: 0 8rpx;
+  font-size: 24rpx;
+  color: #666;
 }

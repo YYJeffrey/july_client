@@ -1,4 +1,4 @@
-const baseAPI = 'http://api.july.yejiefeng.com/api/v1/'
+const baseAPI = 'https://api.july.yejiefeng.com/api/v1/'
 
 module.exports = {
   baseAPI, // 根接口

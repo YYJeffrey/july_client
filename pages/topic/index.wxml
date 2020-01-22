@@ -53,7 +53,7 @@
       </view>
     </view>
     <l-tag shape="circle" bg-color="#f3f3f3" font-color="#337559" slot="more" size="medium">
-      + 关注
+      举报
     </l-tag>
   </l-card>
   <l-loadmore wx:if="{{!isEnd}}" show="{{loading}}" line l-class="loading" />

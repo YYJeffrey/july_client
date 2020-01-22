@@ -62,6 +62,24 @@
   margin-right: 10rpx;
 }
 
+.desp-box {
+  background: #fff;
+  margin: 20rpx 0;
+  padding: 20rpx 30rpx;
+}
+
+.desp-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #337559;
+}
+
+.desp-content {
+  text-align: justify;
+  margin-top: 10rpx;
+  color: #666;
+}
+
 .content-box {
   margin-top: 20rpx;
   padding-top: 30rpx;

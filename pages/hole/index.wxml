@@ -1,33 +1,11 @@
 <!--pages/hole/index.wxml-->
-<swiper class="head-swiper" indicator-dots circular autoplay previous-margin="60rpx" next-margin="60rpx" indicator-active-color="#337559">
-  <swiper-item class="head-swiper-item">
-    <image class="poster" mode="aspectFill" src="http://f.hiphotos.baidu.com/image/pic/item/0e2442a7d933c8956c0e8eeadb1373f08202002a.jpg">
-      <view class="mark">
-        <text class="title">你听过最美的一句话是什么？</text>
-        <view class="btn-join">
-          <text>立即参与</text>
-          <l-icon name="backward" color="#fff" size="25" />
-        </view>
-      </view>
-    </image>
-  </swiper-item>
 
-  <swiper-item class="head-swiper-item">
-    <image class="poster" mode="aspectFill" src="http://a.hiphotos.baidu.com/image/pic/item/f603918fa0ec08fa3139e00153ee3d6d55fbda5f.jpg">
+<!-- 头部Banner -->
+<swiper wx:if="{{holes.length != 0}}" class="head-swiper" indicator-dots circular autoplay previous-margin="60rpx" next-margin="60rpx" indicator-active-color="#337559">
+  <swiper-item wx:for="{{holes}}" wx:if="{{index < 3}}" wx:key="item" class="head-swiper-item">
+    <image class="poster" mode="aspectFill" src="{{item.poster}}">
       <view class="mark">
-        <text class="title">你听过最美的一句话是什么？</text>
-        <view class="btn-join">
-          <text>立即参与</text>
-          <l-icon name="backward" color="#fff" size="25" />
-        </view>
-      </view>
-    </image>
-  </swiper-item>
-
-  <swiper-item class="head-swiper-item">
-    <image class="poster" mode="aspectFill" src="http://www.btcha.com/uploadfile/yxdownimg/08/ja4evlebxwh.jpg">
-      <view class="mark">
-        <text class="title">你听过最美的一句话是什么？</text>
+        <text class="title">{{item.title}}</text>
         <view class="btn-join">
           <text>立即参与</text>
           <l-icon name="backward" color="#fff" size="25" />
@@ -37,12 +15,14 @@
   </swiper-item>
 </swiper>
 
-<view class="desp-box">
+<!-- 树洞须知 -->
+<view class="desp-box" wx:if="{{holes.length != 0}}">
   <view class="desp-title">树洞须知</view>
-  <view class="desp-content">进入树洞前请积极营造健康的网络环境（这是重中之重）。选择一个自己喜欢的话题，等待志同道合的朋友一起交流分享，每个树洞会在每天特点的时间开启，请把握好时间。</view>
+  <view class="desp-content">进入树洞前请积极营造健康的网络环境（这是重中之重）。选择一个自己喜欢的话题，等待志同道合的朋友一起交流互动，每个树洞会在每天特点的时间开启，请把握好时间。</view>
 </view>
 
-<view class="content-box">
+<!-- 往期话题 -->
+<view class="content-box" wx:if="{{holes.length != 0}}">
   <view class="head">
     <view class="head-line line-left"></view>
     <text class="head-title">往期话题</text>
@@ -50,32 +30,15 @@
   </view>
 
   <view class="box">
-    <view class="box-item">
-      <image class="item-poster" mode="aspectFill" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578137185436&di=cb90278160900585cb916932b958e7ef&imgtype=jpg&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D27462582%2C3824324443%26fm%3D214%26gp%3D0.jpg"
-      />
-      <view class="item-title">该不该看情侣的手机？我娶你没你大？</view>
-    </view>
-
-    <view class="box-item">
-      <image class="item-poster" mode="aspectFill" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578137226278&di=32f343ac495059ac5cdc362350bea0c2&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201508%2F20%2F20150820205940_jBZva.thumb.700_0.jpeg"
-      />
-      <view class="item-title">该不该看情侣的手机？我娶你没你大？</view>
-    </view>
-
-    <view class="box-item">
-      <image class="item-poster" mode="aspectFill" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1578137318088&di=d95090d0258b79376c00cfb203137743&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F7LsWdDW5_xN3otqbppnN2DJv%2Fzhidao%2Fpic%2Fitem%2Fb58f8c5494eef01fb3d22c03ebfe9925bd317d35.jpg"
-      />
-      <view class="item-title">该不该看情侣的手机？我娶你没你大？</view>
-    </view>
-
-    <view class="box-item">
-      <image class="item-poster" mode="aspectFill" src="http://attach.bbs.miui.com/forum/201305/05/201954rwwc6ceji1jcka91.jpg" />
-      <view class="item-title">该不该看情侣的手机？我娶你没你大？</view>
-    </view>
-
-    <view class="box-item">
-      <image class="item-poster" mode="aspectFill" src="http://c.hiphotos.baidu.com/zhidao/pic/item/c8177f3e6709c93d128067ed9f3df8dcd10054bd.jpg" />
-      <view class="item-title">该不该看情侣的手机？我娶你没你大？</view>
+    <view wx:for="{{holes}}" wx:if="{{index >= 3}}" wx:key="item" class="box-item">
+      <image class="item-poster" mode="aspectFill" src="{{item.poster}}" />
+      <view class="item-title">{{item.title}}</view>
     </view>
   </view>
 </view>
+
+<!-- 加载更多 -->
+<l-loadmore wx:if="{{!isEnd}}" show="{{loading}}" line l-class="loading" />
+
+<!-- nothing -->
+<nothing wx:if="{{holes.length == 0}}" pic="../../images/pictures/pic_hole.png" tip="暂时没有树洞" />

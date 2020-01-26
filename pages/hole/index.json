@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "树洞",
-  "usingComponents": {}
+  "usingComponents": {
+    "l-loadmore": "../miniprogram_npm/lin-ui/loadmore/index",
+    "nothing": "../../components/nothing/index"
+  }
 }

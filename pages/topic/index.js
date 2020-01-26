@@ -2,7 +2,7 @@
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil
-const pageSize = 10 // 每页显示条数
+const pageSize = 16 // 每页显示条数
 
 Page({
   data: {

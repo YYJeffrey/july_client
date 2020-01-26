@@ -1,66 +1,66 @@
 // pages/hole/index.js
+const app = getApp()
+const api = app.api
+const wxutil = app.wxutil
+const pageSize = 16 // 每页显示条数
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
+    holes: [],
+    page: 1,
+    loading: false,
+    isEnd: false // 是否到底
+  },
 
+  onLoad() {
+    this.getHoles()
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   * 获取树洞
    */
-  onLoad: function (options) {
+  getHoles(page = 1, size = pageSize) {
+    const url = api.holeAPI
 
+    let data = {
+      app_id: app.globalData.appId,
+      size: size,
+      page: page
+    }
+
+    if (this.data.isEnd && page != 1) {
+      return
+    }
+
+    wx.showNavigationBarLoading()
+    wxutil.request.get(url, data).then((res) => {
+      const holes = res.data.data
+      this.setData({
+        page: (holes.length == 0 && page != 1) ? page - 1 : page,
+        loading: false,
+        isEnd: (holes.length == 0 && page != 1) ? true : false,
+        holes: page == 1 ? holes : this.data.holes.concat(holes)
+      })
+      wx.hideNavigationBarLoading()
+    })
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
+   * 触底加载
    */
-  onReady: function () {
+  onReachBottom() {
+    const page = this.data.page
 
+    this.setData({
+      loading: true
+    })
+    this.getHoles(page + 1)
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  onShareAppMessage() {
+    return {
+      title: "树洞",
+      path: "/pages/hole/index"
+    }
   }
 })

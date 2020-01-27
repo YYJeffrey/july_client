@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "个人中心",
+  "usingComponents": {
+    "l-button": "../miniprogram_npm/lin-ui/button/index",
+    "l-tabs": "../miniprogram_npm/lin-ui/tabs/index",
+    "l-tabpanel": "../miniprogram_npm/lin-ui/tabpanel/index",
+    "nothing": "../../components/nothing/index"
+  }
+}

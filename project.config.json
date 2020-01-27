@@ -69,6 +69,13 @@
 					"pathName": "pages/hole/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的页面",
+					"pathName": "pages/profile/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

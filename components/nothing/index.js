@@ -1,6 +1,7 @@
 // components/nothing/index.js
 
 Component({
+  externalClasses: ['nothing-class'],
   /**
    * 组件的属性列表
    */

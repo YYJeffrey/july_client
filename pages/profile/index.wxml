@@ -1,0 +1,48 @@
+<!--pages/profile/index.wxml-->
+
+<!-- 封面 -->
+<image class="poster" src="https://img.yejiefeng.com/poster/profile_poster.jpg" mode="aspectFill" />
+
+<!-- 个人信息 -->
+<view class="header">
+  <view class="avatar-box">
+    <image class="avatar" src="https://img.yejiefeng.com/avatar/ba0408f1-e69d-4912-a7db-34d86755a4eb" />
+    <view class="btn-box">
+      <l-button shape="semicircle" size="mini" bgColor="#337559" width="180" height="55">授权登录</l-button>
+      <view class="setting">
+        <l-icon name="setting" color="#fff" size="25" />
+      </view>
+    </view>
+  </view>
+  <text class="nick-name">Abner Jeffrey</text>
+  <text class="signeture">左脑编程，右脑写诗</text>
+  <view class="follow-box">
+    <view class="follow follower">
+      <text class="num">8387</text>
+      <text class="text">关注我的</text>
+    </view>
+    <view class="follow following">
+      <text class="num">23</text>
+      <text class="text">我关注的</text>
+    </view>
+  </view>
+</view>
+
+<!-- 我的内容 -->
+<l-tabs animated animated-for-line active-color="#337559" l-header-class="tabs" l-line-class="tabs-line">
+  <l-tabpanel tab="动态" key="topic" slot="topic">
+    <view class="tab-content">
+      <nothing pic="../../images/icon_nothing/pic_topic.png" tip="您还没有发布动态" nothing-class="nothing" />
+    </view>
+  </l-tabpanel>
+  <l-tabpanel tab="评论" key="comment" slot="comment">
+    <view class="tab-content">
+      <nothing pic="../../images/icon_nothing/pic_comment.png" tip="您还没有发表评论" nothing-class="nothing" />
+    </view>
+  </l-tabpanel>
+  <l-tabpanel tab="收藏" key="star" slot="star">
+    <view class="tab-content">
+      <nothing pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态" nothing-class="nothing" />
+    </view>
+  </l-tabpanel>
+</l-tabs>

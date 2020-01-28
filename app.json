@@ -11,6 +11,31 @@
     "navigationBarTextStyle": "black",
     "backgroundColor": "#f7f7f7"
   },
+  "tabBar": {
+    "backgroundColor": "#f7f7f7",
+    "color": "#8a8a8a",
+    "selectedColor": "#337559",
+    "list": [
+      {
+        "pagePath": "pages/topic/index",
+        "text": "主页",
+        "iconPath": "images/icon_tab/topic.png",
+        "selectedIconPath": "images/icon_tab/topic_hl.png"
+      },
+      {
+        "pagePath": "pages/hole/index",
+        "text": "树洞",
+        "iconPath": "images/icon_tab/hole.png",
+        "selectedIconPath": "images/icon_tab/hole_hl.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "images/icon_tab/profile.png",
+        "selectedIconPath": "images/icon_tab/profile_hl.png"
+      }
+    ]
+  },
   "usingComponents": {
     "l-tag": "./miniprogram_npm/lin-ui/tag/index",
     "l-icon": "./miniprogram_npm/lin-ui/icon/index",

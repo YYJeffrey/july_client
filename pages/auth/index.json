@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "授权",
+  "usingComponents": {
+    "l-status-show": "../miniprogram_npm/lin-ui/status-show/index"
+  }
+}

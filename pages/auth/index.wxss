@@ -1,0 +1,16 @@
+/* pages/auth/index.wxss */
+
+.bg {
+  width: 600rpx !important;
+  height: 400rpx !important;
+}
+
+.auth-btn {
+  background: #337559 !important;
+  width: 480rpx;
+}
+
+.desc-text {
+  color: #9c9c9c !important;
+  font-size: 26rpx !important;
+}

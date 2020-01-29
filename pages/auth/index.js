@@ -1,4 +1,4 @@
-// pages/profile/index.js
+// pages/auth/index.js
 Page({
   data: {
 
@@ -10,8 +10,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "个人中心",
-      path: "/pages/profile/index"
+      title: "授权",
+      path: "/pages/share/index"
     }
   }
 })

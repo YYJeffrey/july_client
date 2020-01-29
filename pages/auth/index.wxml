@@ -1,0 +1,4 @@
+<!--pages/auth/index.wxml-->
+
+<!-- 授权展示 -->
+<l-status-show show="{{true}}" image="/images/auth/bg.png" describe="获得您的公开信息(昵称、头像等)" button-text="微信授权" l-image-class="bg" l-button-class="auth-btn" l-describe-class="desc-text" />

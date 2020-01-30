@@ -5,24 +5,28 @@
 
 <!-- 个人信息 -->
 <view class="header">
-  <view class="avatar-box">
-    <image class="avatar" src="https://img.yejiefeng.com/avatar/ba0408f1-e69d-4912-a7db-34d86755a4eb" />
+  <view class="user-box">
+    <view wx:if="{{!avatar}}" class="avatar-box">
+      <open-data class="avatar" type="userAvatarUrl"></open-data>
+    </view>
+    <image wx:else class="avatar" src="{{avatar}}" />
     <view class="btn-box">
-      <l-button shape="semicircle" size="mini" bgColor="#337559" width="180" height="55">授权登录</l-button>
+      <l-button shape="semicircle" size="mini" bgColor="#337559" width="180" height="55" bind:lintap="gotoAuth">用户授权</l-button>
       <view class="setting">
         <l-icon name="setting" color="#fff" size="25" />
       </view>
     </view>
   </view>
-  <text class="nick-name">Abner Jeffrey</text>
-  <text class="signeture">左脑编程，右脑写诗</text>
+  <text wx:if="{{nickName}}" class="nick-name">{{nickName}}</text>
+  <open-data wx:else class="nick-name" type="userNickName"></open-data>
+  <text class="signature">{{signature}}</text>
   <view class="follow-box">
     <view class="follow follower">
-      <text class="num">8387</text>
+      <text class="num">{{follower}}</text>
       <text class="text">关注我的</text>
     </view>
     <view class="follow following">
-      <text class="num">23</text>
+      <text class="num">{{following}}</text>
       <text class="text">我关注的</text>
     </view>
   </view>

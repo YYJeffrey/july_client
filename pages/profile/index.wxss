@@ -12,14 +12,23 @@
   padding: 30rpx;
 }
 
-.header .avatar-box {
+.header .user-box {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
 
-.avatar-box .avatar {
+.avatar-box {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 50%;
+  margin-top: -100rpx;
+  border: 4rpx #fff solid;
+  overflow: hidden;
+}
+
+.avatar {
   width: 150rpx;
   height: 150rpx;
   border-radius: 50%;
@@ -27,7 +36,7 @@
   border: 4rpx #fff solid;
 }
 
-.avatar-box .btn-box {
+.user-box .btn-box {
   display: flex;
   flex-direction: row;
 }
@@ -51,7 +60,7 @@
   font-weight: bold;
 }
 
-.header .signeture {
+.header .signature {
   display: block;
   font-size: 28rpx;
   color: #7c7c7c;

@@ -1,0 +1,8 @@
+<!--pages/follower/index.wxml-->
+
+<!-- nothing -->
+<nothing wx:if="{{followerList.length == 0}}" pic="../../images/icon_nothing/pic_follow.png" tip="暂时没有用户关注" />
+
+<!-- 关注我的 -->
+<l-list wx:for="{{followerList}}" wx:key="item" title="{{item.user.nick_name}}" desc="{{item.user.signature}}" image="{{item.user.avatar}}" gap="30" tag-content="+ 关注" tag-position="right" tagShape="circle" tag-color="#337559" is-link="{{false}}" l-class="list"
+  l-image-class="list-avatar" l-desc-class="list-desc" />

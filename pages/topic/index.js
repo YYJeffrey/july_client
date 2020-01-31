@@ -8,10 +8,21 @@ Page({
   data: {
     labels: [],
     topics: [],
+    actionList: [{
+        name: "分享",
+        color: "#666",
+        openType: "share"
+      },
+      {
+        name: "举报",
+        color: "#666"
+      }
+    ],
     page: 1,
     labelId: -1,
     height: 1206, // 话题区高度
-    show: false, // 下拉区
+    showPopup: false, // 下拉区
+    showAction: false, // 操作菜单
     loading: false,
     isEnd: false // 是否到底
   },
@@ -171,11 +182,29 @@ Page({
   },
 
   /**
+   * 点击更多
+   */
+  clickMore() {
+    this.setData({
+      showAction: true
+    })
+  },
+
+  /**
+   * 关闭操作菜单
+   */
+  lincancel(e) {
+    this.setData({
+      showAction: false
+    })
+  },
+
+  /**
    * 下拉切换
    */
-  switchPopup() {
+  togglePopup() {
     this.setData({
-      show: !this.data.show
+      showPopup: !this.data.showPopup
     })
   },
 

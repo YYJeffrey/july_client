@@ -3,6 +3,6 @@
     "l-popup": "../miniprogram_npm/lin-ui/popup/index",
     "l-card": "../miniprogram_npm/lin-ui/card/index",
     "l-loadmore": "../miniprogram_npm/lin-ui/loadmore/index",
-    "nothing": "../../components/nothing/index"
+    "l-action-sheet": "../miniprogram_npm/lin-ui/action-sheet/index"
   }
 }

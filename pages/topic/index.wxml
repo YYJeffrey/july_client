@@ -6,12 +6,12 @@
 </scroll-view>
 
 <!-- 弹出层按钮 -->
-<view class="popup-btn" bindtap="switchPopup">
+<view class="popup-btn" bindtap="togglePopup">
   <l-icon l-class="{{show? 'btn-active' : 'btn'}}" name="close" size="15" color="#777" />
 </view>
 
 <!-- 弹出层 -->
-<l-popup show="{{show}}" animation="show" content-align="top" bind:lintap="switchPopup" z-index="99">
+<l-popup show="{{showPopup}}" animation="show" content-align="top" bind:lintap="togglePopup" z-index="99">
   <view class="popup">
     <l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{labelId == item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{labelId == item.id ? '#fff' : '#337559'}}" bind:lintap="clickTag" data-label="{{item.id}}">#{{item.name}}</l-tag>
   </view>
@@ -19,6 +19,9 @@
 
 <!-- nothing -->
 <nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="暂时没动态" />
+
+<!-- 操作菜单 -->
+<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:linitemtap="linItemtap" bind:lincancel="lincancel" />
 
 <!-- 动态内容 -->
 <scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" style="height: {{height}}rpx">
@@ -52,9 +55,7 @@
         <view class="number">{{item.click_count}}</view>
       </view>
     </view>
-    <l-tag shape="circle" bg-color="#f3f3f3" font-color="#337559" slot="more" size="medium">
-      举报
-    </l-tag>
+    <l-icon l-class="ellipsis" slot="more" name="ellipsis" color="#777" size="32" bindtap="clickMore" />
   </l-card>
   <l-loadmore wx:if="{{!isEnd}}" show="{{loading}}" line l-class="loading" />
   <l-loadmore show="{{isEnd}}" line l-class="loading" type="end" />

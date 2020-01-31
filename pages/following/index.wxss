@@ -1,0 +1,20 @@
+/* pages/following/index.wxss */
+
+.list {
+  background: #fff;
+  height: 100rpx;
+}
+
+.list-avatar {
+  width: 60rpx !important;
+  height: 60rpx !important;
+  border-radius: 50%;
+}
+
+.list-desc {
+  width: 350rpx;
+  color: #999 !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

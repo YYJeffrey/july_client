@@ -83,6 +83,13 @@
 					"pathName": "pages/auth/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的关注",
+					"pathName": "pages/following/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

@@ -11,7 +11,7 @@
     </view>
     <image wx:else class="avatar" src="{{avatar}}" />
     <view class="btn-box">
-      <l-button shape="semicircle" size="mini" bgColor="#337559" width="180" height="55" bind:lintap="gotoAuth">用户授权</l-button>
+      <l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="{{!isAuth ? 'gotoAuth' : 'editInfo'}}">{{!isAuth ? '用户授权' : '编辑'}}</l-button>
       <view class="setting">
         <l-icon name="setting" color="#fff" size="25" />
       </view>
@@ -21,11 +21,11 @@
   <open-data wx:else class="nick-name" type="userNickName"></open-data>
   <text class="signature">{{signature}}</text>
   <view class="follow-box">
-    <view class="follow follower">
+    <view class="follow follower" bindtap="gotoFollower">
       <text class="num">{{follower}}</text>
       <text class="text">关注我的</text>
     </view>
-    <view class="follow following">
+    <view class="follow following" bindtap="gotoFollowing">
       <text class="num">{{following}}</text>
       <text class="text">我关注的</text>
     </view>

@@ -139,3 +139,7 @@
 .loading {
   padding-bottom: 20rpx;
 }
+
+.ellipsis {
+  margin-top: -38rpx;
+}

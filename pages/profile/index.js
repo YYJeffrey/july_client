@@ -8,8 +8,10 @@ Page({
     avatar: null,
     nickName: null,
     gender: null,
+    isAuth: false,
     follower: 0,
     following: 0,
+    userId: -1,
     signature: "这个家伙很懒，什么都没有留下"
   },
 
@@ -44,7 +46,9 @@ Page({
         nickName: userDetail.nick_name,
         gender: userDetail.gender,
         follower: userDetail.follower,
-        following: userDetail.following
+        following: userDetail.following,
+        userId: userDetail.id,
+        isAuth: true
       })
       if (userDetail.signature) {
         this.setData({
@@ -60,6 +64,31 @@ Page({
   gotoAuth() {
     wx.navigateTo({
       url: "/pages/auth/index"
+    })
+  },
+
+  /**
+   * 跳转到编辑资料页面
+   */
+  editInfo() {
+
+  },
+
+  /**
+   * 跳转到关注我的页面
+   */
+  gotoFollower() {
+    wx.navigateTo({
+      url: "/pages/follower/index?userId=" + this.data.userId
+    })
+  },
+
+  /**
+   * 跳转到我关注的页面
+   */
+  gotoFollowing() {
+    wx.navigateTo({
+      url: "/pages/following/index?userId=" + this.data.userId
     })
   },
 

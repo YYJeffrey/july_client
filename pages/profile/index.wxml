@@ -10,10 +10,13 @@
       <open-data class="avatar" type="userAvatarUrl"></open-data>
     </view>
     <image wx:else class="avatar" src="{{avatar}}" />
+    <view wx:if="{{gender != 0}}" class="gender-box {{gender == 1 ? 'male' : 'female'}}">
+      <image class="gender-icon" src="../../images/icon_gender/{{gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
+    </view>
     <view class="btn-box">
       <l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="{{!isAuth ? 'gotoAuth' : 'editInfo'}}">{{!isAuth ? '用户授权' : '编辑'}}</l-button>
       <view class="setting">
-        <l-icon name="setting" color="#fff" size="25" />
+        <l-icon name="setting" color="#fff" size="30" />
       </view>
     </view>
   </view>

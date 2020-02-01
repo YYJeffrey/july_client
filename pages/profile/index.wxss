@@ -29,11 +29,38 @@
 }
 
 .avatar {
+  position: relative;
   width: 150rpx;
   height: 150rpx;
   border-radius: 50%;
   margin-top: -100rpx;
   border: 4rpx #fff solid;
+}
+
+.gender-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  border: 4rpx #fff solid;
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  margin-left: 115rpx;
+  margin-top: 5rpx;
+}
+
+.gender-box .gender-icon {
+  width: 20rpx;
+  height: 20rpx;
+}
+
+.male {
+  background: #eaf2ff;
+}
+
+.female {
+  background: #f8eff0;
 }
 
 .user-box .btn-box {

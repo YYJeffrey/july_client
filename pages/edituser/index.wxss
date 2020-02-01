@@ -1,0 +1,36 @@
+/* pages/edituser/index.wxss */
+
+.title {
+  margin-left: 30rpx;
+  color: #999;
+  line-height: 60rpx;
+  font-size: 28rpx;
+}
+
+.input-text {
+  padding-left: 5rpx;
+  background: #fff;
+}
+
+.input-radio {
+  padding-left: 30rpx;
+  display: flex;
+  align-items: center;
+  height: 88rpx;
+  background: #fff;
+}
+
+.radio {
+  margin-right: 38rpx;
+}
+
+.textarea-box {
+  display: flex;
+  background: #fff;
+  padding-left: 5rpx;
+}
+
+.save-btn {
+  display: block;
+  margin: 60rpx 235rpx 0 235rpx;
+}

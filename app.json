@@ -5,7 +5,8 @@
     "pages/profile/index",
     "pages/auth/index",
     "pages/following/index",
-    "pages/follower/index"
+    "pages/follower/index",
+    "pages/edituser/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -44,6 +45,8 @@
     "l-icon": "./miniprogram_npm/lin-ui/icon/index",
     "l-button": "./miniprogram_npm/lin-ui/button/index",
     "l-list": "./miniprogram_npm/lin-ui/list/index",
+    "l-input": "./miniprogram_npm/lin-ui/input/index",
+    "l-textarea": "./miniprogram_npm/lin-ui/textarea/index",
     "nothing": "../../components/nothing/index"
   },
   "style": "v2",

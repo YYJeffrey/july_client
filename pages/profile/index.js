@@ -7,8 +7,8 @@ Page({
   data: {
     avatar: null,
     nickName: null,
-    gender: null,
     isAuth: false,
+    gender: 0,
     follower: 0,
     following: 0,
     userId: -1,
@@ -71,7 +71,9 @@ Page({
    * 跳转到编辑资料页面
    */
   editInfo() {
-
+    wx.navigateTo({
+      url: "/pages/edituser/index"
+    })
   },
 
   /**

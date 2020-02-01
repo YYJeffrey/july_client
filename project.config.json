@@ -90,6 +90,13 @@
 					"pathName": "pages/following/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "编辑资料",
+					"pathName": "pages/edituser/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

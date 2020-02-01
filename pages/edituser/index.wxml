@@ -1,0 +1,16 @@
+<!--pages/edituser/index.wxml-->
+
+<!-- 表单编辑 -->
+<text class="title">昵称</text>
+<l-input placeholder="请输入用户名" hide-label value="{{userDetail.nick_name}}" l-class="input-text" />
+<text class="title">性别</text>
+<l-radio-group current="{{userDetail.gender}}" placement="row" l-class="input-radio">
+  <l-radio select-color="#337559" key="1" l-class="radio">男</l-radio>
+  <l-radio select-color="#337559" key="2" l-class="radio">女</l-radio>
+  <l-radio select-color="#337559" key="0" l-class="radio">保密</l-radio>
+</l-radio-group>
+<text class="title">个性签名</text>
+<view class="textarea-box">
+  <l-textarea placeholder="请输入个性签名" border="{{false}}" maxlength="30" value="{{userDetail.signature}}" />
+</view>
+<l-button bg-color="#337559" width="280" l-class="auth-btn" l-class="save-btn">保存</l-button>

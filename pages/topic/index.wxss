@@ -63,6 +63,11 @@
   padding: 20rpx 30rpx !important;
 }
 
+.card-title {
+  color: #337559 !important;
+  font-weight: bold;
+}
+
 .avter-content {
   color: #333;
   text-align: justify;
@@ -107,6 +112,10 @@
 
 .like-container  .number {
   margin-left: 10rpx;
+}
+
+.has-text {
+  color: #d81e05;
 }
 
 .posters {

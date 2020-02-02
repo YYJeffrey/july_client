@@ -47,6 +47,7 @@
     "l-list": "./miniprogram_npm/lin-ui/list/index",
     "l-input": "./miniprogram_npm/lin-ui/input/index",
     "l-textarea": "./miniprogram_npm/lin-ui/textarea/index",
+    "l-message": "./miniprogram_npm/lin-ui/message/index",
     "nothing": "../../components/nothing/index"
   },
   "style": "v2",

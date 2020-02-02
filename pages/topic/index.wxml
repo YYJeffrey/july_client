@@ -25,7 +25,7 @@
 
 <!-- 动态内容 -->
 <scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" style="height: {{height}}rpx">
-  <l-card type="avatar" l-class="card" wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}" title="{{item.user.nick_name}}" describe="{{item.create_time}}">
+  <l-card type="avatar" l-class="card" l-title-class="card-title" wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}" title="{{item.user.nick_name}}" describe="{{item.create_time}}">
     <view class="{{item.content.length >= 200 && !item.flod ? 'content-close' : 'avter-content'}}">{{item.content}}</view>
     <view wx:if="{{item.content.length >= 200}}" data-index="{{cardIndex}}" class="text-flod" bindtap="clickFlod">{{item.flod ? '收起' : '全文'}}</view>
 
@@ -43,12 +43,12 @@
 
     <view class="avter-share-container">
       <view class="like-container">
-        <l-icon name="comment" color="#666" size="28" />
-        <view class="number">{{item.comment_count}}</view>
+        <l-icon name="comment" color="{{item.has_comment ? '#d81e05' : '#666'}}" size="28" />
+        <view class="{{item.has_comment ? 'has-text' : ''}} number">{{item.comment_count}}</view>
       </view>
       <view class="like-container">
-        <l-icon name="like" color="#666" size="28" />
-        <view class="number">{{item.star_count}}</view>
+        <l-icon name="like" color="{{item.has_star ? '#d81e05' : '#666'}}" size="28" />
+        <view class="{{item.has_star ? 'has-text' : ''}} number">{{item.star_count}}</view>
       </view>
       <view class="like-container">
         <l-icon name="eye" color="#666" size="28" />

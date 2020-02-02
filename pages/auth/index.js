@@ -5,7 +5,7 @@ const wxutil = app.wxutil
 
 Page({
   data: {
-
+    
   },
 
   onLoad() {

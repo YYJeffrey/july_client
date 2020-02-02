@@ -27,7 +27,11 @@
 .textarea-box {
   display: flex;
   background: #fff;
-  padding-left: 5rpx;
+}
+
+.input-textarea {
+  width: 780rpx !important;
+  padding-left: 50rpx;
 }
 
 .save-btn {

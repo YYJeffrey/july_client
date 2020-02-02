@@ -89,13 +89,15 @@ Page({
 
     wx.showNavigationBarLoading()
     wxutil.request.get(url, data).then((res) => {
-      const topics = res.data.data
-      this.setData({
-        page: (topics.length == 0 && page != 1) ? page - 1 : page,
-        loading: false,
-        isEnd: (topics.length == 0 && page != 1) ? true : false,
-        topics: page == 1 ? topics : this.data.topics.concat(topics)
-      })
+      if (res.data.code === 200) {
+        const topics = res.data.data
+        this.setData({
+          page: (topics.length == 0 && page != 1) ? page - 1 : page,
+          loading: false,
+          isEnd: (topics.length == 0 && page != 1) ? true : false,
+          topics: page == 1 ? topics : this.data.topics.concat(topics)
+        })
+      }
       wx.hideNavigationBarLoading()
     })
   },

@@ -34,13 +34,15 @@ Page({
 
     wx.showNavigationBarLoading()
     wxutil.request.get(url, data).then((res) => {
-      const holes = res.data.data
-      this.setData({
-        page: (holes.length == 0 && page != 1) ? page - 1 : page,
-        loading: false,
-        isEnd: (holes.length == 0 && page != 1) ? true : false,
-        holes: page == 1 ? holes : this.data.holes.concat(holes)
-      })
+      if (res.data.code === 200) {
+        const holes = res.data.data
+        this.setData({
+          page: (holes.length == 0 && page != 1) ? page - 1 : page,
+          loading: false,
+          isEnd: (holes.length == 0 && page != 1) ? true : false,
+          holes: page == 1 ? holes : this.data.holes.concat(holes)
+        })
+      }
       wx.hideNavigationBarLoading()
     })
   },

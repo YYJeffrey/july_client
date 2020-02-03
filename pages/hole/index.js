@@ -32,7 +32,6 @@ Page({
       return
     }
 
-    wx.showNavigationBarLoading()
     wxutil.request.get(url, data).then((res) => {
       if (res.data.code === 200) {
         const holes = res.data.data
@@ -43,7 +42,6 @@ Page({
           holes: page == 1 ? holes : this.data.holes.concat(holes)
         })
       }
-      wx.hideNavigationBarLoading()
     })
   },
 

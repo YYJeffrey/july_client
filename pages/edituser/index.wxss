@@ -30,8 +30,8 @@
 }
 
 .input-textarea {
-  width: 780rpx !important;
-  padding-left: 50rpx;
+  width: 750rpx !important;
+  padding-left: 25rpx;
 }
 
 .save-btn {

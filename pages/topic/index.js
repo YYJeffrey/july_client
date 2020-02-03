@@ -87,7 +87,6 @@ Page({
       return
     }
 
-    wx.showNavigationBarLoading()
     wxutil.request.get(url, data).then((res) => {
       if (res.data.code === 200) {
         const topics = res.data.data
@@ -98,7 +97,6 @@ Page({
           topics: page == 1 ? topics : this.data.topics.concat(topics)
         })
       }
-      wx.hideNavigationBarLoading()
     })
   },
 

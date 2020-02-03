@@ -30,14 +30,12 @@ Page({
           data["code"] = event.code
           const url = api.userAPI
 
-          wx.showNavigationBarLoading()
           wxutil.request.post(url, data).then((res) => {
             if (res.data.code === 200) {
               // 缓存用户详细信息
               wxutil.setStorage("userDetail", res.data.data)
               wx.navigateBack()
             }
-            wx.hideNavigationBarLoading()
           })
         }
       })

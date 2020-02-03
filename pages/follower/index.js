@@ -36,7 +36,6 @@ Page({
       return
     }
 
-    wx.showNavigationBarLoading()
     wxutil.request.get(url, data).then((res) => {
       if (res.data.code === 200) {
         const followerList = res.data.data
@@ -47,7 +46,6 @@ Page({
           followerList: page == 1 ? followerList : this.data.followerList.concat(followerList)
         })
       }
-      wx.hideNavigationBarLoading()
     })
   },
 

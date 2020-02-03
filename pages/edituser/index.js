@@ -7,8 +7,8 @@ Page({
   data: {
     nickName: null,
     signature: null,
-    userId: -1,
     gender: 0,
+    userId: -1
   },
 
   onLoad() {
@@ -74,7 +74,6 @@ Page({
     const nickName = this.data.nickName
     const gender = this.data.gender
     const signature = this.data.signature
-    const userId = this.data.userId
 
     if (!wxutil.isNotNull(nickName)) {
       wx.lin.showMessage({
@@ -85,7 +84,7 @@ Page({
     }
 
     // 请求体数据
-    const url = api.userAPI + userId + "/"
+    const url = api.userAPI
     const data = [{
       "op": "replace",
       "path": "/nick_name",
@@ -104,9 +103,9 @@ Page({
     wxutil.request.put(url, data).then((res) => {
       if (res.data.code === 200) {
         let userDetail = wxutil.getStorage("userDetail")
-        userDetail.nick_name = nickName
-        userDetail.gender = gender
-        userDetail.signature = signature
+        // 更新缓存
+        const user = res.data.data
+        userDetail = Object.assign(userDetail, user)
         wxutil.setStorage("userDetail", userDetail)
 
         wx.lin.showMessage({

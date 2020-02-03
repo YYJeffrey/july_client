@@ -36,7 +36,6 @@ Page({
       return
     }
 
-    wx.showNavigationBarLoading()
     wxutil.request.get(url, data).then((res) => {
       if (res.data.code === 200) {
         const followingList = res.data.data
@@ -47,7 +46,6 @@ Page({
           followingList: page == 1 ? followingList : this.data.followingList.concat(followingList)
         })
       }
-      wx.hideNavigationBarLoading()
     })
   },
 
@@ -62,6 +60,13 @@ Page({
       loading: true
     })
     this.getFollowingList(userId, page + 1)
+  },
+
+  /**
+   * 关注或取关
+   */
+  followOrCancel() {
+
   },
 
   onShareAppMessage() {

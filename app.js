@@ -10,7 +10,19 @@ App({
     appId: wx.getAccountInfoSync().miniProgram.appId
   },
 
-  onLaunch: function() {
+  onLaunch() {
     wxutil.autoUpdate()
+  },
+
+  /**
+   * 获取全局请求头
+   */
+  getHeader() {
+    const userDetail = wxutil.getStorage("userDetail")
+    let header = {}
+    if (userDetail) {
+      header["Authorization"] = "Token " + userDetail.token
+    }
+    return header
   }
 })

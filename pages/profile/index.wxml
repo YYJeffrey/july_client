@@ -9,7 +9,7 @@
     <view wx:if="{{!avatar}}" class="avatar-box">
       <open-data class="avatar" type="userAvatarUrl"></open-data>
     </view>
-    <image wx:else class="avatar" src="{{avatar}}" />
+    <image wx:else class="avatar" src="{{avatar}}" bindtap="changeAvatar" />
     <view wx:if="{{gender != 0}}" class="gender-box {{gender == 1 ? 'male' : 'female'}}">
       <image class="gender-icon" src="../../images/icon_gender/{{gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
     </view>
@@ -53,3 +53,6 @@
     </view>
   </l-tabpanel>
 </l-tabs>
+
+<!-- 消息提示 -->
+<l-message />

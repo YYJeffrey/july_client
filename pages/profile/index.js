@@ -28,7 +28,7 @@ Page({
    */
   getUser() {
     const userInfo = wxutil.getStorage("userInfo")
-    const userDetail = wxutil.getStorage("userDetail")
+    let userDetail = wxutil.getStorage("userDetail")
 
     // 使用userInfo的信息
     if (userInfo && !userDetail) {
@@ -41,20 +41,36 @@ Page({
 
     // 授权用户使用userDetail的信息
     if (userDetail) {
+      const userId = userDetail.id
+      const url = api.userAPI + userId + "/"
+
       this.setData({
-        avatar: userDetail.avatar,
-        nickName: userDetail.nick_name,
-        gender: userDetail.gender,
-        follower: userDetail.follower,
-        following: userDetail.following,
-        userId: userDetail.id,
+        userId: userId,
         isAuth: true
       })
-      if (userDetail.signature) {
-        this.setData({
-          signature: userDetail.signature
-        })
-      }
+
+      wxutil.request.get(url).then((res) => {
+        if (res.data.code === 200) {
+          // 更新缓存
+          const user = res.data.data
+          userDetail = Object.assign(userDetail, user)
+          wxutil.setStorage("userDetail", userDetail)
+
+          this.setData({
+            avatar: userDetail.avatar,
+            nickName: userDetail.nick_name,
+            gender: userDetail.gender,
+            follower: userDetail.follower,
+            following: userDetail.following,
+          })
+
+          if (userDetail.signature) {
+            this.setData({
+              signature: userDetail.signature
+            })
+          }
+        }
+      })
     }
   },
 
@@ -91,6 +107,45 @@ Page({
   gotoFollowing() {
     wx.navigateTo({
       url: "/pages/following/index?userId=" + this.data.userId
+    })
+  },
+
+  /**
+   * 修改头像
+   */
+  changeAvatar() {
+    wxutil.image.choose(1).then((res) => {
+      if (res.errMsg === "chooseImage:ok") {
+        const url = api.userAPI + "upload/"
+
+        wxutil.file.upload({
+          url: url,
+          fileKey: "file",
+          filePath: res.tempFilePaths[0]
+        }).then((res) => {
+          const data = JSON.parse(res.data);
+          if (data.code === 200) {
+            // 更新缓存
+            const user = data.data
+            let userDetail = wxutil.getStorage("userDetail")
+            userDetail = Object.assign(userDetail, user)
+            wxutil.setStorage("userDetail", userDetail)
+
+            this.setData({
+              avatar: userDetail.avatar
+            })
+            wx.lin.showMessage({
+              type: "success",
+              content: "头像修改成功！"
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "头像修改失败F！"
+            })
+          }
+        })
+      }
     })
   },
 

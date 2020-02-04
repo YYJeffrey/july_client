@@ -1,7 +1,7 @@
 <!--pages/profile/index.wxml-->
 
 <!-- 封面 -->
-<image class="poster" src="https://img.yejiefeng.com/poster/profile_poster.jpg" mode="aspectFill" />
+<image class="poster" src="https://img.yejiefeng.com/poster/default.jpg" mode="aspectFill" />
 
 <!-- 个人信息 -->
 <view class="header">

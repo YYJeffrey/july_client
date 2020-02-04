@@ -2,7 +2,7 @@
 
 .poster {
   width: 100%;
-  height: 295rpx;
+  height: 365rpx;
 }
 
 .header {
@@ -129,5 +129,5 @@
 }
 
 .nothing {
-  margin-top: 300rpx;
+  margin-top: 335rpx;
 }

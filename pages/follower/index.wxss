@@ -18,3 +18,12 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.list-tag {
+  width: 100rpx;
+}
+
+.action-title {
+  font-size: 24rpx !important;
+  color: #999 !important;
+}

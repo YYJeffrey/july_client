@@ -63,10 +63,62 @@ Page({
   },
 
   /**
+   * 点击标签
+   */
+  toggleTag(event) {
+    const index = event.currentTarget.dataset.followIndex
+    const item = this.data.followingList[index]
+    const followUser = item.follow_user
+    const hasFollow = item.has_follow
+    const that = this
+
+    if (hasFollow) {
+      wx.lin.showActionSheet({
+        title: "确定要取消关注" + followUser.nick_name + "吗？",
+        showCancel: true,
+        cancelText: "放弃",
+        itemList: [{
+          name: "取消关注",
+          color: "#666",
+        }],
+        success() {
+          that.followOrCancel(followUser.id, "取消关注", index)
+        }
+      })
+    } else {
+      this.followOrCancel(followUser.id, "关注", index)
+    }
+  },
+
+  /**
    * 关注或取关
    */
-  followOrCancel() {
+  followOrCancel(followUserId, msg, index) {
+    const url = api.followingAPI
+    const data = {
+      "follow_user_id": followUserId
+    }
 
+    wxutil.request.post(url, data).then((res) => {
+      if (res.data.code === 200) {
+        wx.lin.showMessage({
+          type: "success",
+          content: msg + "成功！",
+        })
+
+        let followingList = this.data.followingList
+        followingList[index].has_follow = !followingList[index].has_follow
+
+        this.setData({
+          followingList: followingList
+        })
+      } else {
+        wx.lin.showMessage({
+          type: "error",
+          content: msg + "失败！",
+        })
+      }
+    })
   },
 
   onShareAppMessage() {

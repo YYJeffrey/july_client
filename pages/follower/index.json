@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "关注我的"
+  "navigationBarTitleText": "关注我的",
+  "usingComponents": {
+    "l-action-sheet": "../miniprogram_npm/lin-ui/action-sheet/index"
+  }
 }

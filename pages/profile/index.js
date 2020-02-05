@@ -6,6 +6,7 @@ const wxutil = app.wxutil
 Page({
   data: {
     avatar: null,
+    poster: null,
     nickName: null,
     isAuth: false,
     gender: 0,
@@ -58,6 +59,7 @@ Page({
 
           this.setData({
             avatar: userDetail.avatar,
+            poster: userDetail.poster,
             nickName: userDetail.nick_name,
             gender: userDetail.gender,
             follower: userDetail.follower,
@@ -111,12 +113,27 @@ Page({
   },
 
   /**
-   * 修改头像
+   * 修改图片
    */
-  changeAvatar() {
+  changeImg(event) {
+    const imgType = event.currentTarget.dataset.imgType
+    let imgText = null;
+
+    if (imgType === "avatar") {
+      imgText = "头像"
+    } else if (imgType === "poster") {
+      imgText = "封面"
+    }
+
+    // 提示
+    wx.lin.showMessage({
+      content: "设置" + imgText + "图片"
+    })
+
+    // 上传图片
     wxutil.image.choose(1).then((res) => {
       if (res.errMsg === "chooseImage:ok") {
-        const url = api.userAPI + "upload/"
+        const url = api.userAPI + imgType + "/"
 
         wxutil.file.upload({
           url: url,
@@ -131,17 +148,24 @@ Page({
             userDetail = Object.assign(userDetail, user)
             wxutil.setStorage("userDetail", userDetail)
 
-            this.setData({
-              avatar: userDetail.avatar
-            })
+            if (imgType === "avatar") {
+              this.setData({
+                avatar: userDetail.avatar
+              })
+            } else if (imgType === "poster") {
+              this.setData({
+                poster: userDetail.poster
+              })
+            }
+
             wx.lin.showMessage({
               type: "success",
-              content: "头像修改成功！"
+              content: imgText + "修改成功！"
             })
           } else {
             wx.lin.showMessage({
               type: "error",
-              content: "头像修改失败F！"
+              content: imgText + "修改成功！"
             })
           }
         })

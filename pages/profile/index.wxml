@@ -1,7 +1,7 @@
 <!--pages/profile/index.wxml-->
 
 <!-- 封面 -->
-<image class="poster" src="https://img.yejiefeng.com/poster/default.jpg" mode="aspectFill" />
+<image class="poster" src="{{poster ? poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" bindtap="changeImg" data-img-type="poster" />
 
 <!-- 个人信息 -->
 <view class="header">
@@ -9,7 +9,7 @@
     <view wx:if="{{!avatar}}" class="avatar-box">
       <open-data class="avatar" type="userAvatarUrl"></open-data>
     </view>
-    <image wx:else class="avatar" src="{{avatar}}" bindtap="changeAvatar" />
+    <image wx:else class="avatar" src="{{avatar}}" bindtap="changeImg" data-img-type="avatar" />
     <view wx:if="{{gender != 0}}" class="gender-box {{gender == 1 ? 'male' : 'female'}}">
       <image class="gender-icon" src="../../images/icon_gender/{{gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
     </view>

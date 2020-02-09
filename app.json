@@ -6,7 +6,8 @@
     "pages/auth/index",
     "pages/following/index",
     "pages/follower/index",
-    "pages/edituser/index"
+    "pages/edituser/index",
+    "pages/setting/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

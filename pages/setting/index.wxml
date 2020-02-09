@@ -1,0 +1,18 @@
+<!--pages/setting/index.wxml-->
+
+<!-- 设置列表 -->
+<button hover-class="btn-list" bindtap="authorize">
+  <l-list title="授权信息" icon="help" icon-color="#337559" icon-size="30rpx" gap="30" />
+</button>
+<button hover-class="btn-list" bindtap="clearStorage">
+  <l-list title="清除缓存" icon="delete" icon-color="#337559" icon-size="30rpx" gap="30" />
+</button>
+<button hover-class="btn-list" open-type="contact">
+  <l-list title="联系客服" icon="customer-service" icon-color="#337559" icon-size="30rpx" gap="30" />
+</button>
+<button hover-class="btn-list" open-type="share">
+  <l-list title="分享" icon="share" icon-color="#337559" icon-size="30rpx" gap="30" />
+</button>
+
+<!-- 消息对话框 -->
+<l-dialog />

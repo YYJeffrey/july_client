@@ -97,6 +97,12 @@
 					"pathName": "pages/edituser/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "设置页面",
+					"pathName": "pages/setting/index",
+					"scene": null
 				}
 			]
 		}

@@ -1,0 +1,31 @@
+/* pages/setting/index.wxss */
+
+.btn-list {
+  background: #f1f1f1;
+}
+
+button {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 14px;
+  padding-right: 14px;
+  box-sizing: border-box;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 2.55555556;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  background-color: #fff;
+  width: 100% !important;
+  font-weight: 400;
+}
+
+button::after {
+  border: none;
+}

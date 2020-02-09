@@ -74,6 +74,21 @@ Page({
         }
       })
     }
+
+    // 两种用户信息都没有
+    if (!userInfo && !userDetail) {
+      this.setData({
+        avatar: null,
+        poster: null,
+        nickName: null,
+        isAuth: false,
+        gender: 0,
+        follower: 0,
+        following: 0,
+        userId: -1,
+        signature: "这个家伙很懒，什么都没有留下"
+      })
+    }
   },
 
   /**

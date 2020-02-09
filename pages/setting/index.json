@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "设置",
+  "usingComponents": {
+    "l-dialog": "../miniprogram_npm/lin-ui/dialog/index"
+  }
+}

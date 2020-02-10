@@ -13,6 +13,7 @@ Page({
     follower: 0,
     following: 0,
     userId: -1,
+    scale: 1, // 封面放大倍数
     signature: "这个家伙很懒，什么都没有留下"
   },
 
@@ -186,6 +187,24 @@ Page({
         })
       }
     })
+  },
+
+  /**
+   * 下拉放大图片
+   */
+  onPageScroll(event) {
+    const height = 365
+    let ratio = 1
+    wx.getSystemInfo({
+      success(res) {
+        ratio = 750 / res.windowWidth
+      }
+    })
+    if (event.scrollTop < 0 && event.scrollTop > -165) {
+      this.setData({
+        scale: 1 - event.scrollTop / (height / ratio) * 0.8,
+      })
+    }
   },
 
   onShareAppMessage() {

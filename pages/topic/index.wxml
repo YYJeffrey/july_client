@@ -7,7 +7,7 @@
 
 <!-- 弹出层按钮 -->
 <view class="popup-btn" bindtap="togglePopup">
-  <l-icon l-class="{{show? 'btn-active' : 'btn'}}" name="close" size="15" color="#777" />
+  <l-icon l-class="{{showPopup? 'btn-active' : 'btn'}}" name="close" size="15" color="#777" />
 </view>
 
 <!-- 弹出层 -->
@@ -31,13 +31,13 @@
 
     <view class="posters">
       <block wx:if="{{item.images.length == 1}}">
-        <image class="column-one" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="widthFix" bindtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" />
+        <image class="column-one" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="widthFix" bindtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
       </block>
       <block wx:elif="{{item.images.length == 2 || item.images.length == 4}}">
-        <image class="column-two" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" />
+        <image class="column-two" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
       </block>
       <block wx:else>
-        <image wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" />
+        <image wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
       </block>
     </view>
 

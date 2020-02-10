@@ -1,58 +1,60 @@
 <!--pages/profile/index.wxml-->
 
-<!-- 封面 -->
-<image class="poster" src="{{poster ? poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" bindtap="changeImg" data-img-type="poster" />
+<view class="container">
+  <!-- 封面 -->
+  <image class="poster" src="{{poster ? poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" bindtap="changeImg" data-img-type="poster" style="transform:scale({{scale}})" />
 
-<!-- 个人信息 -->
-<view class="header">
-  <view class="user-box">
-    <view wx:if="{{!avatar}}" class="avatar-box">
-      <open-data class="avatar" type="userAvatarUrl"></open-data>
+  <!-- 个人信息 -->
+  <view class="header">
+    <view class="user-box">
+      <view wx:if="{{!avatar}}" class="avatar-box">
+        <open-data class="avatar" type="userAvatarUrl"></open-data>
+      </view>
+      <image wx:else class="avatar" src="{{avatar}}" bindtap="changeImg" data-img-type="avatar" />
+      <view wx:if="{{gender != 0}}" class="gender-box {{gender == 1 ? 'male' : 'female'}}">
+        <image class="gender-icon" src="../../images/icon_gender/{{gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
+      </view>
+      <view class="btn-box">
+        <l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="{{!isAuth ? 'gotoAuth' : 'editInfo'}}">{{!isAuth ? '用户授权' : '编辑'}}</l-button>
+        <navigator class="setting" url="/pages/setting/index">
+          <l-icon name="setting" color="#fff" size="30" />
+        </navigator>
+      </view>
     </view>
-    <image wx:else class="avatar" src="{{avatar}}" bindtap="changeImg" data-img-type="avatar" />
-    <view wx:if="{{gender != 0}}" class="gender-box {{gender == 1 ? 'male' : 'female'}}">
-      <image class="gender-icon" src="../../images/icon_gender/{{gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
-    </view>
-    <view class="btn-box">
-      <l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="{{!isAuth ? 'gotoAuth' : 'editInfo'}}">{{!isAuth ? '用户授权' : '编辑'}}</l-button>
-      <navigator class="setting" url="/pages/setting/index">
-        <l-icon name="setting" color="#fff" size="30" />
-      </navigator>
+    <text wx:if="{{nickName}}" class="nick-name">{{nickName}}</text>
+    <open-data wx:else class="nick-name" type="userNickName"></open-data>
+    <text class="signature">{{signature}}</text>
+    <view class="follow-box">
+      <view class="follow follower" bindtap="gotoFollower">
+        <text class="num">{{follower}}</text>
+        <text class="text">关注我的</text>
+      </view>
+      <view class="follow following" bindtap="gotoFollowing">
+        <text class="num">{{following}}</text>
+        <text class="text">我关注的</text>
+      </view>
     </view>
   </view>
-  <text wx:if="{{nickName}}" class="nick-name">{{nickName}}</text>
-  <open-data wx:else class="nick-name" type="userNickName"></open-data>
-  <text class="signature">{{signature}}</text>
-  <view class="follow-box">
-    <view class="follow follower" bindtap="gotoFollower">
-      <text class="num">{{follower}}</text>
-      <text class="text">关注我的</text>
-    </view>
-    <view class="follow following" bindtap="gotoFollowing">
-      <text class="num">{{following}}</text>
-      <text class="text">我关注的</text>
-    </view>
-  </view>
+
+  <!-- 我的内容 -->
+  <l-tabs animated animated-for-line active-color="#337559" l-header-class="tabs" l-line-class="tabs-line">
+    <l-tabpanel tab="动态" key="topic" slot="topic">
+      <view class="tab-content">
+        <nothing pic="../../images/icon_nothing/pic_topic.png" tip="您还没有发布动态" nothing-class="nothing" />
+      </view>
+    </l-tabpanel>
+    <l-tabpanel tab="评论" key="comment" slot="comment">
+      <view class="tab-content">
+        <nothing pic="../../images/icon_nothing/pic_comment.png" tip="您还没有发表评论" nothing-class="nothing" />
+      </view>
+    </l-tabpanel>
+    <l-tabpanel tab="收藏" key="star" slot="star">
+      <view class="tab-content">
+        <nothing pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态" nothing-class="nothing" />
+      </view>
+    </l-tabpanel>
+  </l-tabs>
+
+  <!-- 消息提示 -->
+  <l-message />
 </view>
-
-<!-- 我的内容 -->
-<l-tabs animated animated-for-line active-color="#337559" l-header-class="tabs" l-line-class="tabs-line">
-  <l-tabpanel tab="动态" key="topic" slot="topic">
-    <view class="tab-content">
-      <nothing pic="../../images/icon_nothing/pic_topic.png" tip="您还没有发布动态" nothing-class="nothing" />
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="评论" key="comment" slot="comment">
-    <view class="tab-content">
-      <nothing pic="../../images/icon_nothing/pic_comment.png" tip="您还没有发表评论" nothing-class="nothing" />
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="收藏" key="star" slot="star">
-    <view class="tab-content">
-      <nothing pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态" nothing-class="nothing" />
-    </view>
-  </l-tabpanel>
-</l-tabs>
-
-<!-- 消息提示 -->
-<l-message />

@@ -7,7 +7,8 @@
     "pages/following/index",
     "pages/follower/index",
     "pages/edituser/index",
-    "pages/setting/index"
+    "pages/setting/index",
+    "pages/hole-detail/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

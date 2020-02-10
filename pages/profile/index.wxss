@@ -1,8 +1,19 @@
 /* pages/profile/index.wxss */
 
+.container {
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  padding: 0;
+}
+
 .poster {
   width: 100%;
+  transform-origin: 50% 0;
   height: 365rpx;
+  z-index: -2;
 }
 
 .header {
@@ -10,6 +21,8 @@
   border-radius: 20rpx 20rpx 0 0;
   margin-top: -20rpx;
   padding: 30rpx;
+  position: relative;
+  z-index: 999;
 }
 
 .header .user-box {

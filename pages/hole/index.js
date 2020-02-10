@@ -46,6 +46,14 @@ Page({
   },
 
   /**
+   * 下拉刷新
+   */
+  onPullDownRefresh() {
+    this.getHoles();
+    wx.stopPullDownRefresh();
+  },
+
+  /**
    * 触底加载
    */
   onReachBottom() {
@@ -55,6 +63,16 @@ Page({
       loading: true
     })
     this.getHoles(page + 1)
+  },
+
+  /**
+   * 跳转树洞详情页
+   */
+  gotoDetail(event) {
+    const holeId = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: "/pages/hole-detail/index?holeId=" + holeId
+    })
   },
 
   onShareAppMessage() {

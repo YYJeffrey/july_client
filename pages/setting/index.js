@@ -4,7 +4,7 @@ Page({
 
   },
 
-  onLoad(options) {
+  onLoad() {
 
   },
 
@@ -33,8 +33,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "设置",
-      path: "/pages/setting/index"
+      title: "主页",
+      path: "/pages/topic/index"
     }
   }
 })

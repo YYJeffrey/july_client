@@ -210,7 +210,7 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "七月",
+      title: "主页",
       path: "/pages/topic/index"
     }
   }

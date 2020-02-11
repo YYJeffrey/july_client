@@ -1,60 +1,4 @@
-/* pages/topic/index.wxss */
-
-.tag-scroll {
-  display: flex;
-  flex-direction: row;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99;
-  white-space: nowrap;
-  height: 50rpx;
-  width: 750rpx;
-  padding: 20rpx 0;
-  background: #f7f7f7;
-}
-
-.tag {
-  margin: 0 10rpx;
-}
-
-.popup-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50rpx;
-  height: 50rpx;
-  position: fixed;
-  z-index: 100;
-  top: 20rpx;
-  right: 0;
-  background: #f7f7f7;
-  border-left: 1px #ccc solid;
-  opacity: 0.8;
-}
-
-.popup-btn .btn {
-  transform: rotate(45deg);
-  transition: All 0.3s ease;
-}
-
-.popup-btn .btn-active {
-  transition: All 0.3s ease;
-}
-
-.popup {
-  padding: 10rpx 0 20rpx 0;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  height: auto;
-  background: #f7f7f7;
-}
-
-.popup .tag {
-  margin-top: 10rpx;
-}
+/* pages/topic-detail/index.wxss */
 
 .card {
   width: 100% !important;
@@ -141,14 +85,16 @@
   height: 270rpx;
 }
 
-.topic-scroll {
-  margin-top: 90rpx;
-}
-
-.loading {
-  padding-bottom: 20rpx;
-}
-
 .ellipsis {
   margin-top: -38rpx;
+}
+
+.label-box {
+  display: flex;
+  flex-direction: row;
+  margin: 25rpx 0 10rpx 0;
+}
+
+.tag {
+  margin-right: 10rpx;
 }

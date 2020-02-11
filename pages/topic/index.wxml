@@ -26,22 +26,22 @@
 <!-- 动态内容 -->
 <scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" style="height: {{height}}rpx">
   <l-card type="avatar" l-class="card" l-title-class="card-title" wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}" title="{{item.user.nick_name}}" describe="{{item.create_time}}">
-    <view class="{{item.content.length >= 200 && !item.flod ? 'content-close' : 'avter-content'}}">{{item.content}}</view>
+    <view class="{{item.content.length >= 200 && !item.flod ? 'content-close' : 'avater-content'}}" data-id="{{item.id}}" bindtap="gotoDetail">{{item.content}}</view>
     <view wx:if="{{item.content.length >= 200}}" data-index="{{cardIndex}}" class="text-flod" bindtap="clickFlod">{{item.flod ? '收起' : '全文'}}</view>
 
-    <view class="posters">
+    <view class="posters" data-id="{{item.id}}" bindtap="gotoDetail">
       <block wx:if="{{item.images.length == 1}}">
-        <image class="column-one" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="widthFix" bindtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
+        <image class="column-one" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="widthFix" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
       </block>
       <block wx:elif="{{item.images.length == 2 || item.images.length == 4}}">
-        <image class="column-two" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
+        <image class="column-two" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
       </block>
       <block wx:else>
-        <image wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
+        <image wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
       </block>
     </view>
 
-    <view class="avter-share-container">
+    <view class="avater-share-container">
       <view class="like-container">
         <l-icon name="comment" color="{{item.has_comment ? '#d81e05' : '#666'}}" size="28" />
         <view class="{{item.has_comment ? 'has-text' : ''}} number">{{item.comment_count}}</view>

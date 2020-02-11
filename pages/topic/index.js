@@ -208,6 +208,16 @@ Page({
     })
   },
 
+  /**
+   * 跳转话题详情页
+   */
+  gotoDetail(event) {
+    const topicId = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: "/pages/topic-detail/index?topicId=" + topicId
+    })
+  },
+
   onShareAppMessage() {
     return {
       title: "主页",

@@ -8,7 +8,8 @@
     "pages/follower/index",
     "pages/edituser/index",
     "pages/setting/index",
-    "pages/hole-detail/index"
+    "pages/hole-detail/index",
+    "pages/topic-detail/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

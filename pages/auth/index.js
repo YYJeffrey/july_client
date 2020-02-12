@@ -18,7 +18,7 @@ Page({
   auth(event) {
     let data = {}
 
-    if (event.detail.errMsg === "getUserInfo:ok") {
+    if (event.detail.errMsg == "getUserInfo:ok") {
       data["raw_data"] = event.detail.rawData
       data["app_id"] = app.globalData.appId
 
@@ -31,7 +31,7 @@ Page({
           const url = api.userAPI
 
           wxutil.request.post(url, data).then((res) => {
-            if (res.data.code === 200) {
+            if (res.data.code == 200) {
               // 缓存用户详细信息
               wxutil.setStorage("userDetail", res.data.data)
               wx.navigateBack()

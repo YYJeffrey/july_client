@@ -33,12 +33,12 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code === 200) {
+      if (res.data.code == 200) {
         const holes = res.data.data
         this.setData({
           page: (holes.length == 0 && page != 1) ? page - 1 : page,
           loading: false,
-          isEnd: (holes.length == 0 && page != 1) ? true : false,
+          isEnd: ((holes.length < pageSize) || (holes.length == 0 && page != 1)) ? true : false,
           holes: page == 1 ? holes : this.data.holes.concat(holes)
         })
       }

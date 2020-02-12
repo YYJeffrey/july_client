@@ -62,9 +62,11 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      this.setData({
-        labels: res.data.data
-      })
+      if (res.data.code == 200) {
+        this.setData({
+          labels: res.data.data
+        })
+      }
     })
   },
 
@@ -88,12 +90,12 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code === 200) {
+      if (res.data.code == 200) {
         const topics = res.data.data
         this.setData({
           page: (topics.length == 0 && page != 1) ? page - 1 : page,
           loading: false,
-          isEnd: (topics.length == 0 && page != 1) ? true : false,
+          isEnd: ((topics.length < pageSize) || (topics.length == 0 && page != 1)) ? true : false,
           topics: page == 1 ? topics : this.data.topics.concat(topics)
         })
       }

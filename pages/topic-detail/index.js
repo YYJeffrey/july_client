@@ -2,10 +2,13 @@
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil
+const pageSize = 16 // 每页显示条数
 
 Page({
   data: {
     topic: {},
+    comments: [],
+    stars: [],
     actionList: [{
         name: "分享",
         color: "#666",
@@ -16,12 +19,17 @@ Page({
         color: "#666"
       }
     ],
-    showAction: false // 操作菜单
+    page: 1,
+    loading: false,
+    showAction: false, // 操作菜单
+    isEnd: false // 是否到底
   },
 
   onLoad(options) {
     const topicId = options.topicId
     this.getTopicDetail(topicId)
+    this.getComments(topicId)
+    this.getStars(topicId)
   },
 
   /**
@@ -30,9 +38,52 @@ Page({
   getTopicDetail(topicId) {
     const url = api.topicAPI + topicId + "/"
     wxutil.request.get(url).then((res) => {
-      if (res.data.code === 200) {
+      if (res.data.code == 200) {
         this.setData({
           topic: res.data.data
+        })
+      }
+    })
+  },
+
+  /**
+   * 获取评论
+   */
+  getComments(topicId, page = 1, size = pageSize) {
+    const url = api.commentAPI + "topic/" + topicId + "/"
+
+    let data = {
+      size: size,
+      page: page
+    }
+
+    if (this.data.isEnd && page != 1) {
+      return
+    }
+
+    wxutil.request.get(url, data).then((res) => {
+      if (res.data.code == 200) {
+        const comments = res.data.data
+        this.setData({
+          page: (comments.length == 0 && page != 1) ? page - 1 : page,
+          loading: false,
+          isEnd: ((comments.length < pageSize) || (comments.length == 0 && page != 1)) ? true : false,
+          comments: page == 1 ? comments : this.data.comments.concat(comments)
+        })
+      }
+    })
+  },
+
+  /**
+   * 获取收藏
+   */
+  getStars(topicId) {
+    const url = api.starAPI + "topic/" + topicId + "/"
+
+    wxutil.request.get(url).then((res) => {
+      if (res.data.code == 200) {
+        this.setData({
+          stars: res.data.data
         })
       }
     })

@@ -61,6 +61,7 @@
   margin-bottom: 20rpx !important;
   border-radius: 0 !important;
   padding: 20rpx 30rpx !important;
+  box-shadow: none !important;
 }
 
 .card-title {

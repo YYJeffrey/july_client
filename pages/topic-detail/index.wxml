@@ -1,7 +1,7 @@
 <!--pages/topic-detail/index.wxml-->
 
 <!-- 动态详情 -->
-<l-card type="avatar" l-class="card" l-title-class="card-title" image="{{topic.user.avatar}}" title="{{topic.user.nick_name}}" describe="{{topic.create_time}}">
+<l-card type="avatar" l-class="card" l-title-class="nick-name" image="{{topic.user.avatar}}" title="{{topic.user.nick_name}}" describe="{{topic.create_time}}">
   <view class="avater-content">{{topic.content}}</view>
   <view class="posters">
     <block wx:if="{{topic.images.length == 1}}">
@@ -35,6 +35,33 @@
   </view>
   <l-icon l-class="ellipsis" slot="more" name="ellipsis" color="#777" size="32" bindtap="clickMore" />
 </l-card>
+
+<!-- 收藏 -->
+<view class="star-box" wx:if="{{stars.length > 0}}">
+  <view class="star-content">
+    <image wx:for="{{stars}}" wx:key="item" class="avatar" src="{{item.user.avatar}}" />
+  </view>
+  <view class="star-icon-box">
+    收藏
+    <l-icon l-class="star-icon" name="like" size="28" color="#777" />
+  </view>
+</view>
+
+<!-- 评论 -->
+<view class="comment-box">
+  <view class="comment" wx:for="{{comments}}" wx:key="item">
+    <image class="avatar" src="{{item.user.avatar}}" />
+    <view class="comment-right {{index == comments.length - 1 ? 'non-border' : ''}}">
+      <view class="comment-top">
+        <view class="nick-name">{{item.user.nick_name}}</view>
+        <view class="time">{{item.create_time}}</view>
+      </view>
+      <view class="content">
+        <text wx:if="{{item.reply_user}}" class="reply">回复<text class="nick-name">{{item.reply_user.nick_name}}: </text></text>{{item.content}}
+      </view>
+    </view>
+  </view>
+</view>
 
 <!-- 操作菜单 -->
 <l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:linitemtap="linItemtap" bind:lincancel="lincancel" />

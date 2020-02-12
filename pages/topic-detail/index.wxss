@@ -5,9 +5,10 @@
   margin-bottom: 20rpx !important;
   border-radius: 0 !important;
   padding: 20rpx 30rpx !important;
+  box-shadow: none !important;
 }
 
-.card-title {
+.nick-name {
   color: #337559 !important;
   font-weight: bold;
 }
@@ -97,4 +98,86 @@
 
 .tag {
   margin-right: 10rpx;
+}
+
+.star-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #fff;
+  padding: 20rpx 30rpx;
+  border-bottom: 1px #f1f1f1 solid;
+}
+
+.star-box .star-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 580rpx;
+  flex-wrap: wrap;
+}
+
+.star-box .star-icon-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #777;
+  font-size: 24rpx;
+  margin-left: 20rpx;
+}
+
+.star-icon-box .star-icon {
+  margin-left: 10rpx;
+}
+
+.comment-box {
+  width: 100%;
+  background: #fff;
+}
+
+.comment-box .comment {
+  display: flex;
+  flex-direction: row;
+  padding: 0 30rpx;
+}
+
+.avatar {
+  height: 60rpx;
+  width: 60rpx;
+  border-radius: 50%;
+  margin-top: 30rpx;
+}
+
+.comment .comment-right {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30rpx;
+  padding: 20rpx 0;
+  width: 600rpx;
+  border-bottom: 1px #f1f1f1 solid;
+}
+
+.comment-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8rpx;
+}
+
+.comment-top .time {
+  color: #666;
+  font-size: 24rpx;
+}
+
+.comment-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.star-content .avatar {
+  margin: 0 10rpx 0 0;
+}
+
+.non-border {
+  border-bottom: none !important;
 }

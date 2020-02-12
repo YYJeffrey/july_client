@@ -37,7 +37,7 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code === 200) {
+      if (res.data.code == 200) {
         const followingList = res.data.data
         this.setData({
           page: (followingList.length == 0 && page != 1) ? page - 1 : page,
@@ -100,7 +100,7 @@ Page({
     }
 
     wxutil.request.post(url, data).then((res) => {
-      if (res.data.code === 200) {
+      if (res.data.code == 200) {
         wx.lin.showMessage({
           type: "success",
           content: msg + "成功！",

@@ -19,7 +19,7 @@ Page({
   getHoleDetail(holeId) {
     const url = api.holeAPI + holeId + "/"
     wxutil.request.get(url).then((res) => {
-      if (res.data.code === 200) {
+      if (res.data.code == 200) {
         this.setData({
           hole: res.data.data
         })

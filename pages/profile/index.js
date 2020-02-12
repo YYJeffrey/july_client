@@ -52,7 +52,7 @@ Page({
       })
 
       wxutil.request.get(url).then((res) => {
-        if (res.data.code === 200) {
+        if (res.data.code == 200) {
           // 更新缓存
           const user = res.data.data
           userDetail = Object.assign(userDetail, user)
@@ -135,9 +135,9 @@ Page({
     const imgType = event.currentTarget.dataset.imgType
     let imgText = null;
 
-    if (imgType === "avatar") {
+    if (imgType == "avatar") {
       imgText = "头像"
-    } else if (imgType === "poster") {
+    } else if (imgType == "poster") {
       imgText = "封面"
     }
 
@@ -148,7 +148,7 @@ Page({
 
     // 上传图片
     wxutil.image.choose(1).then((res) => {
-      if (res.errMsg === "chooseImage:ok") {
+      if (res.errMsg == "chooseImage:ok") {
         const url = api.userAPI + imgType + "/"
 
         wxutil.file.upload({
@@ -157,18 +157,18 @@ Page({
           filePath: res.tempFilePaths[0]
         }).then((res) => {
           const data = JSON.parse(res.data);
-          if (data.code === 200) {
+          if (data.code == 200) {
             // 更新缓存
             const user = data.data
             let userDetail = wxutil.getStorage("userDetail")
             userDetail = Object.assign(userDetail, user)
             wxutil.setStorage("userDetail", userDetail)
 
-            if (imgType === "avatar") {
+            if (imgType == "avatar") {
               this.setData({
                 avatar: userDetail.avatar
               })
-            } else if (imgType === "poster") {
+            } else if (imgType == "poster") {
               this.setData({
                 poster: userDetail.poster
               })

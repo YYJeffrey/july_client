@@ -9,17 +9,16 @@ Page({
     labels: [],
     topics: [],
     actionList: [{
-        name: "分享",
-        color: "#666",
-        openType: "share"
-      },
-      {
-        name: "举报",
-        color: "#666"
-      }
-    ],
+      name: "分享",
+      color: "#666",
+      openType: "share"
+    }, {
+      name: "举报",
+      color: "#666"
+    }],
     page: 1,
     labelId: -1,
+    shareIndex: 0, // 分享话题的下标
     height: 1206, // 话题区高度
     showPopup: false, // 下拉区
     showAction: false, // 操作菜单
@@ -30,7 +29,23 @@ Page({
   onLoad() {
     this.getScrollHeight()
     this.getLabels()
-    this.getTopics()
+  },
+
+  onShow() {
+    const labelId = wxutil.getStorage("labelId")
+    if (labelId) {
+      // 从详情页标签点击跳转而来
+      this.getTopics(1, labelId)
+      this.setData({
+        labelId: labelId
+      })
+      wx.removeStorageSync("labelId")
+    } else {
+      this.setData({
+        labelId: -1
+      })
+      this.getTopics()
+    }
   },
 
   /**
@@ -186,9 +201,11 @@ Page({
   /**
    * 点击更多
    */
-  clickMore() {
+  clickMore(event) {
+    const shareIndex = event.currentTarget.dataset.index
     this.setData({
-      showAction: true
+      showAction: true,
+      shareIndex: shareIndex
     })
   },
 
@@ -220,7 +237,16 @@ Page({
     })
   },
 
-  onShareAppMessage() {
+  onShareAppMessage(res) {
+    if (res.from == "button") {
+      const shareIndex = this.data.shareIndex
+      const topics = this.data.topics
+      return {
+        title: topics[shareIndex].content,
+        imageUrl: topics[shareIndex].images ? topics[shareIndex].images[0] : '',
+        path: "/pages/topic-detail/index?topicId=" + topics[shareIndex].id
+      }
+    }
     return {
       title: "主页",
       path: "/pages/topic/index"

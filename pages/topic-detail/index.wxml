@@ -16,7 +16,7 @@
   </view>
 
   <view class="label-box" wx:if="{{topic.label}}">
-    <l-tag wx:for="{{topic.label}}" wx:key="item" l-class="tag" shape="circle" bg-color="#337559" font-color="#337559" plain>#{{item.name}}</l-tag>
+    <l-tag wx:for="{{topic.label}}" wx:key="item" l-class="tag" shape="circle" bg-color="#337559" font-color="#337559" plain bind:lintap="gotoTopic" data-label="{{item.id}}">#{{item.name}}</l-tag>
   </view>
 
   <view class="avater-share-container">
@@ -48,10 +48,10 @@
 </view>
 
 <!-- 评论 -->
-<view class="comment-box">
+<view class="comment-box" wx:if="{{comments.length > 0}}">
   <view class="comment" wx:for="{{comments}}" wx:key="item">
     <image class="avatar" src="{{item.user.avatar}}" />
-    <view class="comment-right {{index == comments.length - 1 ? 'non-border' : ''}}">
+    <view class="comment-right {{index == comments.length - 1 && isEnd ? 'non-border' : ''}}">
       <view class="comment-top">
         <view class="nick-name">{{item.user.nick_name}}</view>
         <view class="time">{{item.create_time}}</view>
@@ -61,7 +61,13 @@
       </view>
     </view>
   </view>
+  <view class="more" wx:if="{{!isEnd}}" bindtap="getMore">
+    <text>展开更多评论</text>
+    <view class="more-icon">
+      <l-icon name="down" color="#337559" size="22" />
+    </view>
+  </view>
 </view>
 
 <!-- 操作菜单 -->
-<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:linitemtap="linItemtap" bind:lincancel="lincancel" />
+<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:lincancel="lincancel" />

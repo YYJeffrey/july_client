@@ -21,7 +21,7 @@
 <nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="暂时没动态" />
 
 <!-- 操作菜单 -->
-<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:linitemtap="linItemtap" bind:lincancel="lincancel" />
+<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:lincancel="lincancel" />
 
 <!-- 动态内容 -->
 <scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" style="height: {{height}}rpx">
@@ -55,8 +55,8 @@
         <view class="number">{{item.click_count}}</view>
       </view>
     </view>
-    <l-icon l-class="ellipsis" slot="more" name="ellipsis" color="#777" size="32" bindtap="clickMore" />
+    <l-icon l-class="ellipsis" slot="more" name="ellipsis" color="#777" size="32" data-index="{{cardIndex}}" bindtap="clickMore" />
   </l-card>
   <l-loadmore wx:if="{{!isEnd}}" show="{{loading}}" line l-class="loading" />
-  <l-loadmore show="{{isEnd}}" line l-class="loading" type="end" />
+  <l-loadmore show="{{isEnd && page != 1}}" line l-class="loading" type="end" />
 </scroll-view>

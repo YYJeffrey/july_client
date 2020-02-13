@@ -10,17 +10,14 @@ Page({
     comments: [],
     stars: [],
     actionList: [{
-        name: "分享",
-        color: "#666",
-        openType: "share"
-      },
-      {
-        name: "举报",
-        color: "#666"
-      }
-    ],
+      name: "分享",
+      color: "#666",
+      openType: "share"
+    }, {
+      name: "举报",
+      color: "#666"
+    }],
     page: 1,
-    loading: false,
     showAction: false, // 操作菜单
     isEnd: false // 是否到底
   },
@@ -66,12 +63,20 @@ Page({
         const comments = res.data.data
         this.setData({
           page: (comments.length == 0 && page != 1) ? page - 1 : page,
-          loading: false,
           isEnd: ((comments.length < pageSize) || (comments.length == 0 && page != 1)) ? true : false,
           comments: page == 1 ? comments : this.data.comments.concat(comments)
         })
       }
     })
+  },
+
+  /**
+   * 加载更多评论
+   */
+  getMore() {
+    const page = this.data.page
+    const topicId = this.data.topic.id
+    this.getComments(topicId, page + 1)
   },
 
   /**
@@ -117,6 +122,17 @@ Page({
   lincancel(e) {
     this.setData({
       showAction: false
+    })
+  },
+
+  /**
+   * 跳转话题页面
+   */
+  gotoTopic(event) {
+    const labelId = event.currentTarget.dataset.label
+    wxutil.setStorage("labelId", labelId)
+    wx.switchTab({
+      url: "/pages/topic/index"
     })
   },
 

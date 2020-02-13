@@ -181,3 +181,20 @@
 .non-border {
   border-bottom: none !important;
 }
+
+.more {
+  color: #337559;
+  font-size: 24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 20rpx 0;
+}
+
+.more-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10rpx;
+}

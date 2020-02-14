@@ -104,9 +104,9 @@ Page({
   /**
    * 跳转到编辑资料页面
    */
-  editInfo() {
+  gotoUserEdit() {
     wx.navigateTo({
-      url: "/pages/edituser/index"
+      url: "/pages/user-edit/index"
     })
   },
 

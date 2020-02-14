@@ -15,7 +15,7 @@
         <image class="gender-icon" src="../../images/icon_gender/{{gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
       </view>
       <view class="btn-box">
-        <l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="{{!isAuth ? 'gotoAuth' : 'editInfo'}}">{{!isAuth ? '用户授权' : '编辑'}}</l-button>
+        <l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="{{!isAuth ? 'gotoAuth' : 'gotoUserEdit'}}">{{!isAuth ? '用户授权' : '编辑'}}</l-button>
         <navigator class="setting" url="/pages/setting/index">
           <l-icon name="setting" color="#fff" size="30" />
         </navigator>

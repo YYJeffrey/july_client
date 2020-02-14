@@ -1,4 +1,4 @@
-/* pages/edituser/index.wxss */
+/* pages/user-edit/index.wxss */
 
 .title {
   margin-left: 30rpx;
@@ -36,5 +36,5 @@
 
 .save-btn {
   display: block;
-  margin: 60rpx 235rpx 0 235rpx;
+  margin: 60rpx 235rpx;
 }

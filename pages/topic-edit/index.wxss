@@ -1,0 +1,50 @@
+/* pages/topic-edit/index.wxss */
+
+.title {
+  margin-left: 30rpx;
+  color: #999;
+  line-height: 60rpx;
+  font-size: 28rpx;
+}
+
+.textarea-box {
+  display: flex;
+  background: #fff;
+}
+
+.input-textarea {
+  width: 750rpx !important;
+  height: 250rpx;
+  padding-left: 25rpx;
+}
+
+.image-box {
+  background: #fff;
+  padding: 20rpx 30rpx;
+}
+
+.tag-items {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  padding: 20rpx 0;
+  background: #fff;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tag {
+  margin: 5rpx 10rpx;
+}
+
+.input-radio {
+  padding-left: 30rpx;
+  height: 60rpx;
+  background: #fff;
+  justify-content: center;
+}
+
+.save-btn {
+  display: block;
+  margin: 60rpx 235rpx;
+}

@@ -1,0 +1,25 @@
+<!--pages/topic-edit/index.wxml-->
+
+<!-- 表单编辑 -->
+<text class="title">内容</text>
+<view class="textarea-box">
+  <l-textarea l-class="input-textarea" placeholder="请输入你想发布的内容" border="{{false}}" maxlength="300" bind:lininput="" />
+</view>
+<text class="title">图片</text>
+<view class="image-box">
+  <l-image-picker count="9" size="3" bind:linchange="onChangeTap" mode="aspectFill" />
+</view>
+<text class="title">标签</text>
+<view class="tag-items">
+  <l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{!item.active}}" shape="circle" bg-color="#337559" font-color="{{item.active ? '#fff' : '#337559'}}" bind:lintap="chooseTag" data-label="{{item.id}}">#{{item.name}}</l-tag>
+</view>
+<text class="title" wx:if="{{canAnon}}">是否匿名</text>
+<l-radio-group l-class="input-radio" wx:if="{{canAnon}}">
+  <l-radio select-color="#337559" key="1" l-class="radio">匿名</l-radio>
+</l-radio-group>
+<form>
+  <l-button bg-color="#337559" width="280" l-class="save-btn">立即发布</l-button>
+</form>
+
+<!-- 消息提示 -->
+<l-message />

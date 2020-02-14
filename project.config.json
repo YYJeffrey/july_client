@@ -93,15 +93,16 @@
 				},
 				{
 					"id": -1,
-					"name": "编辑资料",
-					"pathName": "pages/edituser/index",
+					"name": "设置页面",
+					"pathName": "pages/setting/index",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "设置页面",
-					"pathName": "pages/setting/index",
+					"name": "发布页面",
+					"pathName": "pages/topic-edit/index",
+					"query": "",
 					"scene": null
 				}
 			]

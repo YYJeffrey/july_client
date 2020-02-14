@@ -1,4 +1,4 @@
-// pages/edituser/index.js
+// pages/user-edit/index.js
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil

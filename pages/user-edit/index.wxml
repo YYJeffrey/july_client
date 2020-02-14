@@ -1,4 +1,4 @@
-<!--pages/edituser/index.wxml-->
+<!--pages/user-edit/index.wxml-->
 
 <!-- 表单编辑 -->
 <text class="title">昵称</text>

@@ -6,10 +6,11 @@
     "pages/auth/index",
     "pages/following/index",
     "pages/follower/index",
-    "pages/edituser/index",
+    "pages/user-edit/index",
     "pages/setting/index",
     "pages/hole-detail/index",
-    "pages/topic-detail/index"
+    "pages/topic-detail/index",
+    "pages/topic-edit/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -51,6 +52,8 @@
     "l-input": "./miniprogram_npm/lin-ui/input/index",
     "l-textarea": "./miniprogram_npm/lin-ui/textarea/index",
     "l-message": "./miniprogram_npm/lin-ui/message/index",
+    "l-radio-group": "../miniprogram_npm/lin-ui/radio-group/index",
+    "l-radio": "../miniprogram_npm/lin-ui/radio/index",
     "nothing": "../../components/nothing/index"
   },
   "style": "v2",

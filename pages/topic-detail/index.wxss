@@ -55,7 +55,7 @@
   align-items: center;
 }
 
-.like-container  .number {
+.like-container .number {
   margin-left: 10rpx;
 }
 

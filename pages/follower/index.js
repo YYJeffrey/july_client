@@ -65,7 +65,7 @@ Page({
   /**
    * 点击标签
    */
-  toggleTag(event) {
+  onTagTap(event) {
     const index = event.currentTarget.dataset.followIndex
     const item = this.data.followerList[index]
     const followUser = item.user

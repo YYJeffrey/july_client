@@ -48,7 +48,6 @@ Page({
    */
   getComments(topicId, page = 1, size = pageSize) {
     const url = api.commentAPI + "topic/" + topicId + "/"
-
     let data = {
       size: size,
       page: page
@@ -73,7 +72,7 @@ Page({
   /**
    * 加载更多评论
    */
-  getMore() {
+  getMoreComments() {
     const page = this.data.page
     const topicId = this.data.topic.id
     this.getComments(topicId, page + 1)
@@ -95,7 +94,7 @@ Page({
   },
 
   /**
-   * 图片浏览
+   * 图片预览
    */
   previewImage(event) {
     const current = event.currentTarget.dataset.src
@@ -110,7 +109,7 @@ Page({
   /**
    * 点击更多
    */
-  clickMore() {
+  onMoreTap() {
     this.setData({
       showAction: true
     })
@@ -119,7 +118,7 @@ Page({
   /**
    * 关闭操作菜单
    */
-  lincancel(e) {
+  onCancelSheetTap() {
     this.setData({
       showAction: false
     })

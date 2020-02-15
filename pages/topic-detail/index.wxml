@@ -33,7 +33,7 @@
       <view class="number">{{topic.click_count}}</view>
     </view>
   </view>
-  <l-icon l-class="ellipsis" slot="more" name="ellipsis" color="#777" size="32" bindtap="clickMore" />
+  <l-icon l-class="ellipsis" slot="more" name="ellipsis" color="#777" size="32" bindtap="onMoreTap" />
 </l-card>
 
 <!-- 收藏 -->
@@ -61,7 +61,7 @@
       </view>
     </view>
   </view>
-  <view class="more" wx:if="{{!isEnd}}" bindtap="getMore">
+  <view class="more" wx:if="{{!isEnd}}" bindtap="getMoreComments">
     <text>展开更多评论</text>
     <view class="more-icon">
       <l-icon name="down" color="#337559" size="22" />
@@ -70,4 +70,4 @@
 </view>
 
 <!-- 操作菜单 -->
-<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:lincancel="lincancel" />
+<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:lincancel="onCancelSheetTap" />

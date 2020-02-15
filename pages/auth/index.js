@@ -5,7 +5,7 @@ const wxutil = app.wxutil
 
 Page({
   data: {
-    
+
   },
 
   onLoad() {
@@ -34,7 +34,18 @@ Page({
             if (res.data.code == 200) {
               // 缓存用户详细信息
               wxutil.setStorage("userDetail", res.data.data)
-              wx.navigateBack()
+              wx.lin.showMessage({
+                type: "success",
+                content: "授权成功！",
+                success() {
+                  wx.navigateBack()
+                }
+              })
+            } else {
+              wx.lin.showMessage({
+                type: "error",
+                content: "授权失败！"
+              })
             }
           })
         }

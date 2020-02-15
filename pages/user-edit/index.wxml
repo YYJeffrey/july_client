@@ -4,7 +4,7 @@
 <text class="title">昵称</text>
 <l-input placeholder="请输入用户名" hide-label value="{{nickName}}" maxlength="20" l-class="input-text" bind:lininput="setNickName" />
 <text class="title">性别</text>
-<l-radio-group current="{{gender}}" placement="row" l-class="input-radio" bind:linchange="setGender">
+<l-radio-group current="{{gender}}" placement="row" l-class="input-radio" bind:linchange="onChangeGenderTap">
   <l-radio select-color="#337559" key="1" l-class="radio">男</l-radio>
   <l-radio select-color="#337559" key="2" l-class="radio">女</l-radio>
   <l-radio select-color="#337559" key="0" l-class="radio">保密</l-radio>

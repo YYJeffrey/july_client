@@ -44,7 +44,7 @@
   justify-content: center;
 }
 
-.save-btn {
+.send-btn {
   display: block;
   margin: 60rpx 235rpx;
 }

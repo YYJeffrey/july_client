@@ -18,7 +18,7 @@
   margin: 0 10rpx;
 }
 
-.popup-btn {
+.btn-popup {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,12 +33,12 @@
   opacity: 0.8;
 }
 
-.popup-btn .btn {
+.btn-popup .btn {
   transform: rotate(45deg);
   transition: All 0.3s ease;
 }
 
-.popup-btn .btn-active {
+.btn-popup .btn-active {
   transition: All 0.3s ease;
 }
 
@@ -111,7 +111,7 @@
   align-items: center;
 }
 
-.like-container  .number {
+.like-container .number {
   margin-left: 10rpx;
 }
 
@@ -152,4 +152,18 @@
 
 .ellipsis {
   margin-top: -38rpx;
+}
+
+.btn-edit {
+  position: fixed;
+  bottom: 40rpx;
+  right: 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: #337559;
+  opacity: 0.9;
 }

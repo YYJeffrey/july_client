@@ -49,7 +49,7 @@ Page({
   /**
    * 设置性别
    */
-  setGender(event) {
+  onChangeGenderTap(event) {
     const gender = event.detail.key
     this.setData({
       gender: gender
@@ -127,7 +127,7 @@ Page({
   onShareAppMessage() {
     return {
       title: "编辑资料",
-      path: "/pages/edituser/index"
+      path: "/pages/user-edit/index"
     }
   }
 })

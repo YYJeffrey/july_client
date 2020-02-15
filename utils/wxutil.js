@@ -302,9 +302,9 @@ const showModal = (title, content, handler = {}) => {
  * @param {String} title
  * @param {Boolean} mask
  */
-const showLoading = (title, mask = false) => {
+const showLoading = (title = "加载中...", mask = true) => {
   return new Promise((resolve, reject) => {
-    wx.showToast({
+    wx.showLoading({
       title: title,
       mask: mask,
       success(res) {

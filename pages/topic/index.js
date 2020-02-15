@@ -22,8 +22,8 @@ Page({
     height: 1206, // 话题区高度
     showPopup: false, // 下拉区
     showAction: false, // 操作菜单
-    loading: false,
-    isEnd: false // 是否到底
+    isEnd: false, // 是否到底
+    loading: false
   },
 
   onLoad() {
@@ -34,7 +34,7 @@ Page({
   onShow() {
     const labelId = wxutil.getStorage("labelId")
     if (labelId) {
-      // 从详情页标签点击跳转而来
+      // 因wx.switchTab()无法传递参数，故使用缓存获取参数
       this.getTopics(1, labelId)
       this.setData({
         labelId: labelId
@@ -49,7 +49,7 @@ Page({
   },
 
   /**
-   * 获取话题窗口高度
+   * 获取窗口高度
    */
   getScrollHeight() {
     const that = this;
@@ -70,7 +70,6 @@ Page({
    * 获取标签
    */
   getLabels() {
-    const that = this
     const url = api.labelAPI
     const data = {
       app_id: app.globalData.appId
@@ -90,12 +89,12 @@ Page({
    */
   getTopics(page = 1, labelId = -1, size = pageSize) {
     const url = api.topicAPI
-
     let data = {
       app_id: app.globalData.appId,
       size: size,
       page: page
     }
+
     if (labelId != -1) {
       data["label_id"] = labelId
     }
@@ -118,7 +117,7 @@ Page({
   },
 
   /**
-   * 图片浏览
+   * 图片预览
    */
   previewImage(event) {
     const index = event.currentTarget.dataset.index
@@ -142,6 +141,8 @@ Page({
     } else {
       this.getTopics(1, labelId)
     }
+    // 振动交互
+    wx.vibrateShort()
   },
 
   /**
@@ -164,7 +165,7 @@ Page({
   /**
    * 标签切换
    */
-  clickTag(event) {
+  onTagTap(event) {
     const labelId = this.data.labelId
     const currLabelId = event.currentTarget.dataset.label
 
@@ -184,7 +185,7 @@ Page({
   /**
    * 点击显示或隐藏全文
    */
-  clickFlod(event) {
+  onFlodTap(event) {
     const index = event.target.dataset.index
     let topics = this.data.topics
 
@@ -201,7 +202,7 @@ Page({
   /**
    * 点击更多
    */
-  clickMore(event) {
+  onMoreTap(event) {
     const shareIndex = event.currentTarget.dataset.index
     this.setData({
       showAction: true,
@@ -212,14 +213,14 @@ Page({
   /**
    * 关闭操作菜单
    */
-  lincancel(e) {
+  onCancelSheetTap(e) {
     this.setData({
       showAction: false
     })
   },
 
   /**
-   * 下拉切换
+   * 下拉层显示或影藏
    */
   togglePopup() {
     this.setData({
@@ -235,6 +236,22 @@ Page({
     wx.navigateTo({
       url: "/pages/topic-detail/index?topicId=" + topicId
     })
+  },
+
+  /**
+   * 点击编辑
+   */
+  onEditTap() {
+    const userDetail = wxutil.getStorage("userDetail")
+    if (userDetail) {
+      wx.navigateTo({
+        url: "/pages/topic-edit/index"
+      })
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/index"
+      })
+    }
   },
 
   onShareAppMessage(res) {

@@ -7,3 +7,6 @@
   <text class="desc-text">获得你的公开信息(昵称、头像等)</text>
   <l-button bg-color="#337559" width="480" l-class="auth-btn" lang="zh_CN" open-type="getUserInfo" bindgetuserinfo="auth">微信授权</l-button>
 </l-status-show>
+
+<!-- 消息提示 -->
+<l-message />

@@ -51,6 +51,7 @@ Page({
   onPullDownRefresh() {
     this.getHoles();
     wx.stopPullDownRefresh();
+    wx.vibrateShort()
   },
 
   /**

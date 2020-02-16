@@ -11,11 +11,13 @@ Page({
     chooseCount: 0,
     canAnon: false,
     isAnon: false,
-    content: null
+    content: null,
+    commentTemplateId: null
   },
 
   onLoad() {
     this.getLabels()
+    this.getTemplateId()
   },
 
   /**
@@ -32,6 +34,25 @@ Page({
       if (res.data.code == 200) {
         this.setData({
           labels: res.data.data
+        })
+      }
+    })
+  },
+
+  /**
+   * 获取评论模板ID
+   */
+  getTemplateId(title = "评论模板") {
+    const url = api.templateAPI
+
+    const data = {
+      title: title
+    }
+
+    wxutil.request.get(url, data).then((res) => {
+      if (res.data.code == 200) {
+        this.setData({
+          commentTemplateId: res.data.data.template_id
         })
       }
     })
@@ -182,22 +203,32 @@ Page({
       return
     }
 
-    wxutil.showLoading("发布中...")
+    // 授权模板消息
+    const templateId = this.data.commentTemplateId
+    const that = this
 
-    if (imageFiles.length > 0) {
-      this.sendImages(imageFiles).then((res) => {
-        // 图片顺序可能打乱，首先排序
-        let imageList = res
-        imageList = imageList.sort(this.compare("index"))
+    wx.requestSubscribeMessage({
+      tmplIds: [templateId],
+      complete() {
+        // 发布话题
+        wxutil.showLoading("发布中...")
 
-        for (let i = 0; i < imageList.length; i++) {
-          images.push(imageList[i].url)
+        if (imageFiles.length > 0) {
+          that.sendImages(imageFiles).then((res) => {
+            // 图片顺序可能打乱，首先排序
+            let imageList = res
+            imageList = imageList.sort(that.compare("index"))
+
+            for (let i = 0; i < imageList.length; i++) {
+              images.push(imageList[i].url)
+            }
+            that.uploadTopic(content, isAnon, images, labels)
+          })
+        } else {
+          that.uploadTopic(content, isAnon, images, labels)
         }
-        this.uploadTopic(content, isAnon, images, labels)
-      })
-    } else {
-      this.uploadTopic(content, isAnon, images, labels)
-    }
+      }
+    })
   },
 
   /**
@@ -206,11 +237,11 @@ Page({
   uploadTopic(content, isAnon, images, labels) {
     const url = api.topicAPI
 
-    let data = {
-      "content": content,
-      "is_anon": isAnon,
-      "images": images,
-      "labels": labels
+    const data = {
+      content: content,
+      is_anon: isAnon,
+      images: images,
+      labels: labels
     }
 
     wxutil.request.post(url, data).then((res) => {

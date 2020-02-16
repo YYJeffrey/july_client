@@ -3,7 +3,7 @@
 <!-- 表单编辑 -->
 <text class="title">内容（必填）</text>
 <view class="textarea-box">
-  <l-textarea l-class="input-textarea" placeholder="请输入你想发布的内容" border="{{false}}" maxlength="300" bind:lininput="setContent" />
+  <l-textarea focus l-class="input-textarea" placeholder="请输入你想发布的内容" border="{{false}}" maxlength="300" bind:lininput="setContent" />
 </view>
 <text class="title">图片</text>
 <view class="image-box">

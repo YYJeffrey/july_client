@@ -1,5 +1,9 @@
 /* pages/topic-detail/index.wxss */
 
+page {
+  padding-bottom: 88rpx;
+}
+
 .card {
   width: 100% !important;
   margin-bottom: 20rpx !important;
@@ -197,4 +201,17 @@
   justify-content: center;
   align-items: center;
   margin-left: 10rpx;
+}
+
+.comment-edit {
+  border-top: 1px #f1f1f1 solid;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  height: 88rpx;
 }

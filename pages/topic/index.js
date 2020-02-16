@@ -254,6 +254,46 @@ Page({
     }
   },
 
+  /**
+   * 点赞或取消点赞
+   */
+  onStarTap(event) {
+    const index = event.currentTarget.dataset.index
+    let topics = this.data.topics
+    const url = api.starAPI
+
+    const data = {
+      topic_id: topics[index].id
+    }
+
+    wxutil.request.post(url, data).then((res) => {
+      if (res.data.code == 200) {
+        const hasStar = topics[index].has_star
+        topics[index].has_star = !topics[index].has_star
+
+        if (hasStar) {
+          topics[index].star_count--
+        } else {
+          topics[index].star_count++
+        }
+
+        this.setData({
+          topics: topics
+        })
+      }
+    })
+  },
+
+  /**
+   * 点击评论跳转话题详情
+   */
+  onCommentTap(event) {
+    const topicId = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: "/pages/topic-detail/index?focus=true&topicId=" + topicId
+    })
+  },
+
   onShareAppMessage(res) {
     if (res.from == "button") {
       const shareIndex = this.data.shareIndex

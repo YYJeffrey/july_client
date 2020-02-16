@@ -86,17 +86,17 @@ Page({
     // 请求体数据
     const url = api.userAPI
     const data = [{
-      "op": "replace",
-      "path": "/nick_name",
-      "value": nickName
+      op: "replace",
+      path: "/nick_name",
+      value: nickName
     }, {
-      "op": "replace",
-      "path": "/gender",
-      "value": gender
+      op: "replace",
+      path: "/gender",
+      value: gender
     }, {
-      "op": "replace",
-      "path": "/signature",
-      "value": signature
+      op: "replace",
+      path: "/signature",
+      value: signature
     }]
 
     // 更新用户信息

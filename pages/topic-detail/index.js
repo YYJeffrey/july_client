@@ -17,16 +17,31 @@ Page({
       name: "举报",
       color: "#666"
     }],
+    placeholder: "评论点什么吧...",
     page: 1,
+    comment: null,
+    commentId: null,
+    commentTemplateId: null, // 评论模板ID
+    focus: false, // 获取焦点
     showAction: false, // 操作菜单
     isEnd: false // 是否到底
   },
 
   onLoad(options) {
     const topicId = options.topicId
+    const focus = options.focus
+
+    // 评论获取焦点展开键盘
+    if (focus) {
+      this.setData({
+        focus: true
+      })
+    }
+
     this.getTopicDetail(topicId)
     this.getComments(topicId)
     this.getStars(topicId)
+    this.getTemplateId()
   },
 
   /**
@@ -94,6 +109,25 @@ Page({
   },
 
   /**
+   * 获取评论模板ID
+   */
+  getTemplateId(title = "评论模板") {
+    const url = api.templateAPI
+
+    const data = {
+      title: title
+    }
+
+    wxutil.request.get(url, data).then((res) => {
+      if (res.data.code == 200) {
+        this.setData({
+          commentTemplateId: res.data.data.template_id
+        })
+      }
+    })
+  },
+
+  /**
    * 图片预览
    */
   previewImage(event) {
@@ -132,6 +166,132 @@ Page({
     wxutil.setStorage("labelId", labelId)
     wx.switchTab({
       url: "/pages/topic/index"
+    })
+  },
+
+  /**
+   * 点赞或取消点赞
+   */
+  onStarTap(event) {
+    let topic = this.data.topic
+    const url = api.starAPI
+
+    const data = {
+      topic_id: topic.id
+    }
+
+    wxutil.request.post(url, data).then((res) => {
+      if (res.data.code == 200) {
+        // 重新获取收藏列表
+        this.getStars(topic.id)
+
+        const hasStar = topic.has_star
+        topic.has_star = !topic.has_star
+
+        if (hasStar) {
+          topic.star_count--
+        } else {
+          topic.star_count++
+        }
+
+        this.setData({
+          topic: topic
+        })
+      }
+    })
+  },
+
+  /**
+   * 点击评论列表
+   */
+  onCommentItemTap(event) {
+    const index = event.currentTarget.dataset.index
+    this.setData({
+      focus: true,
+      commentId: this.data.comments[index].id,
+      placeholder: "@" + this.data.comments[index].user.nick_name
+    })
+  },
+
+  /**
+   * 点击评论
+   */
+  onCommentTap(event) {
+    this.setData({
+      focus: true,
+      commentId: null,
+      placeholder: "评论点什么吧..."
+    })
+  },
+
+  /**
+   * 设置评论
+   */
+  inputComment(event) {
+    this.setData({
+      comment: event.detail.value
+    })
+  },
+
+  /**
+   * 发送评论
+   */
+  onCommntBtnTap() {
+    const comment = this.data.comment
+    if (!wxutil.isNotNull(comment)) {
+      wx.lin.showMessage({
+        type: "error",
+        content: "评论不能为空！"
+      })
+      return
+    }
+
+    // 授权模板消息
+    const templateId = this.data.commentTemplateId
+    const that = this
+
+    wx.requestSubscribeMessage({
+      tmplIds: [templateId],
+      complete() {
+        // 发送评论
+        const url = api.commentAPI
+        const topicId = that.data.topic.id
+        let data = {
+          content: comment,
+          topic_id: topicId
+        }
+
+        if (that.data.commentId) {
+          data["comment_id"] = that.data.commentId
+        }
+
+        wxutil.request.post(url, data).then((res) => {
+          if (res.data.code == 200) {
+            wx.lin.showMessage({
+              type: "success",
+              content: "评论成功！"
+            })
+            // 重新获取评论列表
+            that.getComments(topicId)
+            setTimeout(function() {
+              wx.pageScrollTo({
+                scrollTop: 1000
+              })
+            }, 1000)
+
+            that.setData({
+              comment: null,
+              commentId: null,
+              placeholder: "评论点什么吧..."
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "评论失败！"
+            })
+          }
+        })
+      }
     })
   },
 

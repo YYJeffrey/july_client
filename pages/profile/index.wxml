@@ -38,9 +38,9 @@
 
   <!-- 我的内容 -->
   <l-tabs animated animated-for-line active-color="#337559" l-header-class="tabs" l-line-class="tabs-line">
-    <l-tabpanel tab="动态" key="topic" slot="topic">
+    <l-tabpanel tab="话题" key="topic" slot="topic">
       <view class="tab-content">
-        <nothing pic="../../images/icon_nothing/pic_topic.png" tip="您还没有发布动态" nothing-class="nothing" />
+        <nothing pic="../../images/icon_nothing/pic_topic.png" tip="您还没有发布话题" nothing-class="nothing" />
       </view>
     </l-tabpanel>
     <l-tabpanel tab="评论" key="comment" slot="comment">

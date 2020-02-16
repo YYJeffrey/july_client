@@ -20,11 +20,11 @@
   </view>
 
   <view class="avater-share-container">
-    <view class="like-container">
+    <view class="like-container" bindtap="onCommentTap">
       <l-icon name="comment" color="{{topic.has_comment ? '#d81e05' : '#666'}}" size="28" />
       <view class="{{topic.has_comment ? 'has-text' : ''}} number">{{topic.comment_count}}</view>
     </view>
-    <view class="like-container">
+    <view class="like-container" bindtap="onStarTap">
       <l-icon name="like" color="{{topic.has_star ? '#d81e05' : '#666'}}" size="28" />
       <view class="{{topic.has_star ? 'has-text' : ''}} number">{{topic.star_count}}</view>
     </view>
@@ -49,7 +49,7 @@
 
 <!-- 评论 -->
 <view class="comment-box" wx:if="{{comments.length > 0}}">
-  <view class="comment" wx:for="{{comments}}" wx:key="item">
+  <view class="comment" wx:for="{{comments}}" wx:key="item" data-index="{{index}}" bindtap="onCommentItemTap">
     <image class="avatar" src="{{item.user.avatar}}" />
     <view class="comment-right {{index == comments.length - 1 && isEnd ? 'non-border' : ''}}">
       <view class="comment-top">
@@ -69,5 +69,14 @@
   </view>
 </view>
 
+<!-- 评论编辑区 -->
+<view class="comment-edit">
+  <l-input hide-label maxlength="150" width="600" focus="{{focus}}" placeholder="{{placeholder}}" value="{{comment}}" bind:lininput="inputComment" />
+  <l-button shape="circle" size="mini" bg-color="#337559" width="125" height="60" bind:lintap="onCommntBtnTap">评论</l-button>
+</view>
+
 <!-- 操作菜单 -->
 <l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:lincancel="onCancelSheetTap" />
+
+<!-- 消息提示 -->
+<l-message />

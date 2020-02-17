@@ -57,6 +57,7 @@ page {
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 60rpx;
 }
 
 .like-container .number {

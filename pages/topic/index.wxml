@@ -50,7 +50,7 @@
         <l-icon name="like" color="{{item.has_star ? '#d81e05' : '#666'}}" size="28" />
         <view class="{{item.has_star ? 'has-text' : ''}} number">{{item.star_count}}</view>
       </view>
-      <view class="like-container">
+      <view class="like-container" data-id="{{item.id}}" bindtap="gotoDetail">
         <l-icon name="eye" color="#666" size="28" />
         <view class="number">{{item.click_count}}</view>
       </view>

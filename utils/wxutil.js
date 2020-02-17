@@ -53,11 +53,8 @@ const request = {
         header: Object.assign(head, header),
         method: ['GET', 'POST', 'PUT', 'DELETE'].indexOf(method) > -1 ? method : 'GET',
         success(res) {
-          // Token验证失败时跳转授权页面
-          if (res.data.code == 400 && res.data.message == "Token Is Invalid") {
-            wx.navigateTo({
-              url: "/pages/auth/index",
-            })
+          if (getApp().gotoAuthPage) {
+            getApp().gotoAuthPage(res)
           }
           resolve(res)
         },

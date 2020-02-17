@@ -24,5 +24,16 @@ App({
       header["Authorization"] = "Token " + userDetail.token
     }
     return header
+  },
+
+  /**
+   * 特定情况跳转授权页面
+   */
+  gotoAuthPage(res) {
+    if (res.data.code == 400 && res.data.message == "Token Is Invalid") {
+      wx.navigateTo({
+        url: "/pages/auth/index",
+      })
+    }
   }
 })

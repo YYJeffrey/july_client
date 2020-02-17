@@ -255,7 +255,8 @@ Page({
       complete() {
         // 发送评论
         const url = api.commentAPI
-        const topicId = that.data.topic.id
+        let topic = that.data.topic
+        const topicId = topic.id
         let data = {
           content: comment,
           topic_id: topicId
@@ -279,11 +280,15 @@ Page({
               })
             }, 1000)
 
-            that.setData({
-              comment: null,
-              commentId: null,
-              placeholder: "评论点什么吧..."
-            })
+            topic.has_comment = true
+            topic.comment_count++
+
+              that.setData({
+                topic: topic,
+                comment: null,
+                commentId: null,
+                placeholder: "评论点什么吧..."
+              })
           } else {
             wx.lin.showMessage({
               type: "error",

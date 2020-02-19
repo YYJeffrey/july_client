@@ -136,44 +136,24 @@ Page({
   /**
    * 多图上传
    */
-  sendImages(imageFiles, i = 0) {
-    let images = []
-    let complete = 0
-
-    return new Promise((resolve, reject) => {
-      function upload(imageFiles, i) {
-        const url = api.topicAPI + "images/"
-        const index = i
-
+  sendImages(imageFiles) {
+    const url = api.topicAPI + "images/"
+    return Promise.all(imageFiles.map((imageFile) => {
+      return new Promise(function(resolve, reject) {
         wxutil.file.upload({
           url: url,
           fileKey: "file",
-          filePath: imageFiles[i]
+          filePath: imageFile
         }).then((res) => {
           const data = JSON.parse(res.data);
           if (data.code == 200) {
-            let image = {}
-            image["url"] = data.data.url
-            image["index"] = index
-            images.push(image)
-
-            complete++
-            if (complete == imageFiles.length) {
-              resolve(images)
-            }
+            resolve(data.data.url)
           }
         }).catch((error) => {
           reject(error)
         })
-
-        // 递归上传图片
-        if (i < imageFiles.length - 1) {
-          upload(imageFiles, ++i)
-        }
-      }
-      // 首次调用
-      upload(imageFiles, i)
-    })
+      })
+    }))
   },
 
   /**
@@ -212,17 +192,9 @@ Page({
       complete() {
         // 发布话题
         wxutil.showLoading("发布中...")
-
         if (imageFiles.length > 0) {
           that.sendImages(imageFiles).then((res) => {
-            // 图片顺序可能打乱，首先排序
-            let imageList = res
-            imageList = imageList.sort(that.compare("index"))
-
-            for (let i = 0; i < imageList.length; i++) {
-              images.push(imageList[i].url)
-            }
-            that.uploadTopic(content, isAnon, images, labels)
+            that.uploadTopic(content, isAnon, res, labels)
           })
         } else {
           that.uploadTopic(content, isAnon, images, labels)
@@ -261,17 +233,6 @@ Page({
         })
       }
     })
-  },
-
-  /**
-   * 属性值排序法
-   */
-  compare(property) {
-    return function(a, b) {
-      var valueA = a[property];
-      var valueB = b[property];
-      return valueA - valueB;
-    }
   },
 
   onShareAppMessage() {

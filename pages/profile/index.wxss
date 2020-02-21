@@ -1,16 +1,8 @@
 /* pages/profile/index.wxss */
 
-.container {
-  z-index: -1;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  padding: 0;
-}
-
 .poster {
-  width: 100%;
+  width: 750rpx;
+  overflow-y: none;
   transform-origin: 50% 0;
   height: 365rpx;
   z-index: -2;
@@ -103,6 +95,8 @@
 .header .signature {
   display: block;
   font-size: 28rpx;
+  width: 580rpx;
+  text-align: justify;
   color: #7c7c7c;
   margin-top: 10rpx;
 }
@@ -143,4 +137,47 @@
 
 .nothing {
   margin-top: 335rpx;
+}
+
+.card {
+  width: 100% !important;
+  border-radius: 0 !important;
+  padding: 20rpx 30rpx !important;
+  box-shadow: none !important;
+  border-bottom: 1px #f1f1f1 solid;
+}
+
+.right-img {
+  width: 160rpx !important;
+  height: 160rpx !important;
+}
+
+.right-img-none {
+  width: 0 !important;
+  height: 0 !important;
+  margin-left: 0 !important;
+}
+
+.topic-title {
+  color: #666 !important;
+  font-size: 24rpx !important;
+}
+
+.star-title {
+  color: #337559 !important;
+  font-size: 28rpx !important;
+  font-weight: bold;
+}
+
+.card-content {
+  color: #333;
+  font-size: 28rpx;
+  text-align: justify;
+  margin-top: 10rpx;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

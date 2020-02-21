@@ -53,7 +53,9 @@
     "l-textarea": "./miniprogram_npm/lin-ui/textarea/index",
     "l-message": "./miniprogram_npm/lin-ui/message/index",
     "l-radio-group": "../miniprogram_npm/lin-ui/radio-group/index",
+    "l-loadmore": "../miniprogram_npm/lin-ui/loadmore/index",
     "l-radio": "../miniprogram_npm/lin-ui/radio/index",
+    "l-card": "../miniprogram_npm/lin-ui/card/index",
     "nothing": "../../components/nothing/index"
   },
   "style": "v2",

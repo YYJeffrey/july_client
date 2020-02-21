@@ -38,7 +38,7 @@
 </view>
 
 <!-- 加载更多 -->
-<l-loadmore wx:if="{{!isEnd}}" show="{{loading}}" line l-class="loading" />
+<l-loadmore wx:if="{{!isEnd}}" show="{{loading}}" line />
 
 <!-- nothing -->
 <nothing wx:if="{{holes.length == 0}}" pic="../../images/icon_nothing/pic_hole.png" tip="暂时没有树洞" />

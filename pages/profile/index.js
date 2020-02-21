@@ -2,27 +2,44 @@
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil
+const pageSize = 16 // 每页显示条数
 
 Page({
   data: {
-    avatar: null,
-    poster: null,
-    nickName: null,
+    user: {},
+    topics: [],
+    comments: [],
+    stars: [],
+    pageTopic: 1,
+    pageComment: 1,
+    pageStar: 1,
+    tabIndex: 0,
     isAuth: false,
-    gender: 0,
-    follower: 0,
-    following: 0,
-    userId: -1,
-    scale: 1, // 封面放大倍数
-    signature: "这个家伙很懒，什么都没有留下"
+    isEndTopic: false, // 话题是否到底
+    isEndStar: false, // 收藏是否到底
+    isEndComment: false, // 评论是否到底
+    loading: false
   },
+
+  onLoad() {},
 
   onShow() {
     this.getUser()
-  },
 
-  onLoad() {
-
+    const userId = this.data.user.id
+    if (!userId) {
+      this.setData({
+        topics: [],
+        comments: [],
+        stars: [],
+        pageTopic: 1,
+        pageComment: 1,
+        pageStar: 1,
+        isEndTopic: false,
+        isEndStar: false,
+        isEndComment: false
+      })
+    }
   },
 
   /**
@@ -32,24 +49,18 @@ Page({
     const userInfo = wxutil.getStorage("userInfo")
     let userDetail = wxutil.getStorage("userDetail")
 
-    // 使用userInfo的信息
+    // 使用userInfo作为用户信息
     if (userInfo && !userDetail) {
       this.setData({
-        avatar: userInfo.avatarUrl,
-        nickName: userInfo.nickName,
-        gender: userInfo.gender
+        user: userInfo,
+        isAuth: false
       })
     }
 
-    // 授权用户使用userDetail的信息
+    // 授权用户使用userDetail作为用户信息
     if (userDetail) {
       const userId = userDetail.id
       const url = api.userAPI + userId + "/"
-
-      this.setData({
-        userId: userId,
-        isAuth: true
-      })
 
       wxutil.request.get(url).then((res) => {
         if (res.data.code == 200) {
@@ -59,18 +70,19 @@ Page({
           wxutil.setStorage("userDetail", userDetail)
 
           this.setData({
-            avatar: userDetail.avatar,
-            poster: userDetail.poster,
-            nickName: userDetail.nick_name,
-            gender: userDetail.gender,
-            follower: userDetail.follower,
-            following: userDetail.following,
+            isAuth: true,
+            user: userDetail
           })
 
-          if (userDetail.signature) {
-            this.setData({
-              signature: userDetail.signature
-            })
+          const tabIndex = this.data.tabIndex
+          if (tabIndex == 0) {
+            this.getTopics(userId)
+          }
+          if (tabIndex == 1) {
+            this.getComments(userId)
+          }
+          if (tabIndex == 2) {
+            this.getStars(userId)
           }
         }
       })
@@ -79,16 +91,110 @@ Page({
     // 两种用户信息都没有
     if (!userInfo && !userDetail) {
       this.setData({
-        avatar: null,
-        poster: null,
-        nickName: null,
-        isAuth: false,
-        gender: 0,
-        follower: 0,
-        following: 0,
-        userId: -1,
-        signature: "这个家伙很懒，什么都没有留下"
+        user: {},
+        isAuth: false
       })
+    }
+  },
+
+  /**
+   * 获取用户话题
+   */
+  getTopics(userId, pageTopic = 1, size = pageSize) {
+    const url = api.topicAPI + "user/" + userId + "/"
+    let data = {
+      size: size,
+      page: pageTopic
+    }
+
+    if (this.data.isEndTopic && pageTopic != 1) {
+      return
+    }
+
+    wxutil.request.get(url, data).then((res) => {
+      if (res.data.code == 200) {
+        const topics = res.data.data
+        this.setData({
+          pageTopic: (topics.length == 0 && pageTopic != 1) ? pageTopic - 1 : pageTopic,
+          loading: false,
+          isEndTopic: ((topics.length < pageSize) || (topics.length == 0 && pageTopic != 1)) ? true : false,
+          topics: pageTopic == 1 ? topics : this.data.topics.concat(topics)
+        })
+      }
+    })
+  },
+
+  /**
+   * 获取用户收藏
+   */
+  getStars(userId, pageStar = 1, size = pageSize) {
+    const url = api.starAPI + "user/" + userId + "/"
+    let data = {
+      size: size,
+      page: pageStar
+    }
+
+    if (this.data.isEndStar && pageStar != 1) {
+      return
+    }
+
+    wxutil.request.get(url, data).then((res) => {
+      if (res.data.code == 200) {
+        const stars = res.data.data
+        this.setData({
+          pageStar: (stars.length == 0 && pageStar != 1) ? pageStar - 1 : pageStar,
+          loading: false,
+          isEndStar: ((stars.length < pageSize) || (stars.length == 0 && pageStar != 1)) ? true : false,
+          stars: pageStar == 1 ? stars : this.data.stars.concat(stars)
+        })
+      }
+    })
+  },
+
+  /**
+   * 获取用户评论
+   */
+  getComments(userId, pageComment = 1, size = pageSize) {
+    const url = api.commentAPI + "user/" + userId + "/"
+    let data = {
+      size: size,
+      page: pageComment
+    }
+
+    if (this.data.isEndComment && pageComment != 1) {
+      return
+    }
+
+    wxutil.request.get(url, data).then((res) => {
+      if (res.data.code == 200) {
+        const comments = res.data.data
+        this.setData({
+          pageComment: (comments.length == 0 && pageComment != 1) ? pageComment - 1 : pageComment,
+          loading: false,
+          isEndComment: ((comments.length < pageSize) || (comments.length == 0 && pageComment != 1)) ? true : false,
+          comments: pageComment == 1 ? comments : this.data.comments.concat(comments)
+        })
+      }
+    })
+  },
+
+  /**
+   * Tab切换
+   */
+  changeTabs(event) {
+    const tabIndex = event.detail.currentIndex
+    const userId = this.data.user.id
+    this.setData({
+      tabIndex: tabIndex
+    })
+    if (tabIndex == 0) {
+      this.getTopics(userId)
+    }
+    if (tabIndex == 1) {
+      this.getComments(userId)
+    }
+    if (tabIndex == 2) {
+      this.getStars(userId)
     }
   },
 
@@ -115,7 +221,7 @@ Page({
    */
   gotoFollower() {
     wx.navigateTo({
-      url: "/pages/follower/index?userId=" + this.data.userId
+      url: "/pages/follower/index?userId=" + this.data.user.id
     })
   },
 
@@ -124,7 +230,7 @@ Page({
    */
   gotoFollowing() {
     wx.navigateTo({
-      url: "/pages/following/index?userId=" + this.data.userId
+      url: "/pages/following/index?userId=" + this.data.user.id
     })
   },
 
@@ -190,21 +296,37 @@ Page({
   },
 
   /**
-   * 下拉放大图片
+   * 触底加载
    */
-  onPageScroll(event) {
-    const height = 365
-    let ratio = 1
-    wx.getSystemInfo({
-      success(res) {
-        ratio = 750 / res.windowWidth
-      }
+  onReachBottom() {
+    const tabIndex = this.data.tabIndex
+    const userId = this.data.user.id
+
+    this.setData({
+      loading: true
     })
-    if (event.scrollTop < 0 && event.scrollTop > -165) {
-      this.setData({
-        scale: 1 - event.scrollTop / (height / ratio) * 0.8,
-      })
+    if (tabIndex == 0) {
+      const page = this.data.pageTopic
+      this.getTopics(userId, page + 1)
     }
+    if (tabIndex == 1) {
+      const page = this.data.pageComment
+      this.getComments(userId, page + 1)
+    }
+    if (tabIndex == 2) {
+      const page = this.data.pageStar
+      this.getStars(userId, page + 1)
+    }
+  },
+
+  /**
+   * 跳转话题详情页
+   */
+  gotoTopicDetail(event) {
+    const topicId = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: "/pages/topic-detail/index?topicId=" + topicId
+    })
   },
 
   onShareAppMessage() {

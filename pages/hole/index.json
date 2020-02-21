@@ -1,7 +1,4 @@
 {
   "navigationBarTitleText": "树洞",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "l-loadmore": "../miniprogram_npm/lin-ui/loadmore/index"
-  }
+  "enablePullDownRefresh": true
 }

@@ -18,7 +18,7 @@
 </l-popup>
 
 <!-- nothing -->
-<nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="暂时没动态" />
+<nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="暂时没有话题" />
 
 <!-- 操作菜单 -->
 <l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:lincancel="onCancelSheetTap" />

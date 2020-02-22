@@ -39,9 +39,6 @@ Page({
     }
 
     this.getTopicDetail(topicId)
-    this.getComments(topicId)
-    this.getStars(topicId)
-    this.getTemplateId()
   },
 
   /**
@@ -51,9 +48,15 @@ Page({
     const url = api.topicAPI + topicId + "/"
     wxutil.request.get(url).then((res) => {
       if (res.data.code == 200) {
+        const topic = res.data.data
         this.setData({
-          topic: res.data.data
+          topic: topic
         })
+        if ("id" in topic) {
+          this.getComments(topicId)
+          this.getStars(topicId)
+          this.getTemplateId()
+        }
       }
     })
   },

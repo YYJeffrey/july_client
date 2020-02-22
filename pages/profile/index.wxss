@@ -14,7 +14,7 @@
   margin-top: -20rpx;
   padding: 30rpx;
   position: relative;
-  z-index: 999;
+  z-index: 99;
 }
 
 .header .user-box {
@@ -148,14 +148,14 @@
 }
 
 .right-img {
-  width: 160rpx !important;
-  height: 160rpx !important;
+  width: 180rpx !important;
+  height: 180rpx !important;
 }
 
 .right-img-none {
   width: 0 !important;
   height: 0 !important;
-  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 .topic-title {
@@ -180,4 +180,18 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.delete-text {
+  color: #337559;
+  font-size: 26rpx;
+  font-weight: bold;
+  line-height: 40rpx;
+  width: 60rpx;
+  margin-top: 15rpx;
+}
+
+.delete-star-text {
+  color: #ccc;
+  width: 120rpx;
 }

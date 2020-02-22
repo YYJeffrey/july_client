@@ -40,11 +40,12 @@
   <l-tabpanel tab="话题" key="topic" slot="topic">
     <view class="tab-content">
       <nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="您还没有发布话题" nothing-class="nothing" />
-      <l-card data-id="{{item.id}}" bindtap="gotoTopicDetail" wx:for="{{topics}}" wx:key="item" l-class="card" l-img-class="{{item.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="topic-title" type="primary" position="right" image="{{item.images.length > 0 ? item.images[0] : ''}}"
+      <l-card data-id="{{item.id}}" bindtap="gotoTopicDetail" wx:for="{{topics}}" wx:key="item" l-class="card" l-img-class="{{item.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="topic-title" type="primary" position="left" image="{{item.images.length > 0 ? item.images[0] : ''}}"
         image-mode="aspectFill" title="{{item.create_time}}">
         <view class="card-content">
           {{item.content}}
         </view>
+        <text class="delete-text" data-id="{{item.id}}" catchtap="deleteTopic">删除</text>
       </l-card>
       <l-loadmore wx:if="{{!isEndTopic}}" show="{{loading}}" line />
       <l-loadmore show="{{isEndTopic && pageTopic != 1}}" line type="end" />
@@ -53,10 +54,11 @@
   <l-tabpanel tab="评论" key="comment" slot="comment">
     <view class="tab-content">
       <nothing wx:if="{{comments.length == 0}}" pic="../../images/icon_nothing/pic_comment.png" tip="您还没有发表评论" nothing-class="nothing" />
-      <l-card data-id="{{item.topic_id}}" bindtap="gotoTopicDetail" wx:for="{{comments}}" wx:key="item" l-class="card" l-img-class="right-img-none" l-title-class="topic-title" type="primary" position="right" title="{{item.create_time}}">
+      <l-card data-id="{{item.topic_id}}" bindtap="gotoTopicDetail" wx:for="{{comments}}" wx:key="item" l-class="card" l-img-class="right-img-none" l-title-class="topic-title" type="primary" position="left" title="{{item.create_time}}">
         <view class="card-content">
           {{item.content}}
         </view>
+        <view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
       </l-card>
       <l-loadmore wx:if="{{!isEndComment}}" show="{{loading}}" line />
       <l-loadmore show="{{isEndComment && pageComment != 1}}" line type="end" />
@@ -65,11 +67,12 @@
   <l-tabpanel tab="收藏" key="star" slot="star">
     <view class="tab-content">
       <nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态" nothing-class="nothing" />
-      <l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="star-title" type="primary" position="right" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}"
+      <l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="star-title" type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}"
         image-mode="aspectFill" title="{{item.topic.user.nick_name}}">
         <view class="card-content">
           {{item.topic.content}}
         </view>
+        <text class="delete-text delete-star-text" data-id="{{item.topic.id}}" catchtap="deleteStar">取消收藏</text>
       </l-card>
       <l-loadmore wx:if="{{!isEndStar}}" show="{{loading}}" line l-class="loading" />
       <l-loadmore show="{{isEndStar && pageStar != 1}}" line type="end" />
@@ -79,3 +82,6 @@
 
 <!-- 消息提示 -->
 <l-message />
+
+<!-- 消息对话框 -->
+<l-dialog />

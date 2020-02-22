@@ -1,7 +1,7 @@
 <!--pages/topic-detail/index.wxml-->
 
 <!-- 动态详情 -->
-<l-card type="avatar" l-class="card" l-title-class="nick-name" image="{{topic.user.avatar}}" title="{{topic.user.nick_name}}" describe="{{topic.create_time}}">
+<l-card wx:if="{{topic.id}}" type="avatar" l-class="card" l-title-class="nick-name" image="{{topic.user.avatar}}" title="{{topic.user.nick_name}}" describe="{{topic.create_time}}">
   <view class="avater-content">{{topic.content}}</view>
   <view class="posters">
     <block wx:if="{{topic.images.length == 1}}">
@@ -37,7 +37,7 @@
 </l-card>
 
 <!-- 收藏 -->
-<view class="star-box" wx:if="{{stars.length > 0}}">
+<view wx:if="{{topic.id}}" class="star-box" wx:if="{{stars.length > 0}}">
   <view class="star-content">
     <image wx:for="{{stars}}" wx:key="item" class="avatar" src="{{item.user.avatar}}" />
   </view>
@@ -48,7 +48,7 @@
 </view>
 
 <!-- 评论 -->
-<view class="comment-box" wx:if="{{comments.length > 0}}">
+<view wx:if="{{topic.id}}" class="comment-box" wx:if="{{comments.length > 0}}">
   <view class="comment" wx:for="{{comments}}" wx:key="item" data-index="{{index}}" bindtap="onCommentItemTap">
     <image class="avatar" src="{{item.user.avatar}}" />
     <view class="comment-right {{index == comments.length - 1 && isEnd ? 'non-border' : ''}}">
@@ -70,10 +70,13 @@
 </view>
 
 <!-- 评论编辑区 -->
-<view class="comment-edit">
+<view wx:if="{{topic.id}}" class="comment-edit">
   <l-input hide-label maxlength="150" width="600" focus="{{focus}}" placeholder="{{placeholder}}" value="{{comment}}" bind:lininput="inputComment" />
   <l-button shape="circle" size="mini" bg-color="#337559" width="125" height="60" bind:lintap="onCommntBtnTap">评论</l-button>
 </view>
+
+<!-- nothing -->
+<nothing wx:if="{{!topic.id}}" pic="../../images/icon_nothing/pic_topic.png" tip="该话题消失了" />
 
 <!-- 操作菜单 -->
 <l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:lincancel="onCancelSheetTap" />

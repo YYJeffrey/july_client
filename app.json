@@ -47,6 +47,7 @@
   "usingComponents": {
     "l-tag": "./miniprogram_npm/lin-ui/tag/index",
     "l-icon": "./miniprogram_npm/lin-ui/icon/index",
+    "l-dialog": "../miniprogram_npm/lin-ui/dialog/index",
     "l-button": "./miniprogram_npm/lin-ui/button/index",
     "l-list": "./miniprogram_npm/lin-ui/list/index",
     "l-input": "./miniprogram_npm/lin-ui/input/index",

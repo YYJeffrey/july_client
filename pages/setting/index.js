@@ -22,7 +22,7 @@ Page({
     wx.lin.showDialog({
       type: "confirm",
       title: "提示",
-      content: "是否要清除所有緩存",
+      content: "确定要清除所有缓存？",
       success: (res) => {
         if (res.confirm) {
           wx.clearStorage()

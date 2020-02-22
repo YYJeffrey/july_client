@@ -320,6 +320,109 @@ Page({
   },
 
   /**
+   * 删除话题
+   */
+  deleteTopic(event) {
+    wx.lin.showDialog({
+      type: "confirm",
+      title: "提示",
+      content: "确定要删除该条话题？",
+      success: (res) => {
+        if (res.confirm) {
+          const topicId = event.currentTarget.dataset.id
+          const url = api.topicAPI + topicId + "/"
+
+          wxutil.request.delete(url).then((res) => {
+            if (res.data.code == 200) {
+              this.getTopics(this.data.user.id)
+
+              wx.lin.showMessage({
+                type: "success",
+                content: "删除成功！"
+              })
+            } else {
+              wx.lin.showMessage({
+                type: "error",
+                content: "删除失败！"
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+
+  /**
+   * 删除评论
+   */
+  deleteComment(event) {
+    wx.lin.showDialog({
+      type: "confirm",
+      title: "提示",
+      content: "确定要删除该条评论？",
+      success: (res) => {
+        if (res.confirm) {
+          const commentId = event.currentTarget.dataset.id
+          const url = api.commentAPI + commentId + "/"
+
+          wxutil.request.delete(url).then((res) => {
+            if (res.data.code == 200) {
+              this.getComments(this.data.user.id)
+
+              wx.lin.showMessage({
+                type: "success",
+                content: "删除成功！"
+              })
+            } else {
+              wx.lin.showMessage({
+                type: "error",
+                content: "删除失败！"
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+
+  /**
+   * 删除收藏
+   */
+  deleteStar(event) {
+    wx.lin.showDialog({
+      type: "confirm",
+      title: "提示",
+      content: "确定要取消收藏该话题？",
+      success: (res) => {
+        if (res.confirm) {
+          const topicId = event.currentTarget.dataset.id
+          const url = api.starAPI
+
+          const data = {
+            topic_id: topicId
+          }
+
+          wxutil.request.post(url, data).then((res) => {
+            if (res.data.code == 200) {
+              this.getStars(this.data.user.id)
+
+              wx.lin.showMessage({
+                type: "success",
+                content: "取消成功！"
+              })
+            } else {
+              wx.lin.showMessage({
+                type: "error",
+                content: "取消失败！"
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+
+  /**
    * 跳转话题详情页
    */
   gotoTopicDetail(event) {

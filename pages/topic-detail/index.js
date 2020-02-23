@@ -9,21 +9,15 @@ Page({
     topic: {},
     comments: [],
     stars: [],
-    actionList: [{
-      name: "分享",
-      color: "#666",
-      openType: "share"
-    }, {
-      name: "举报",
-      color: "#666"
-    }],
+    actionList: [],
     placeholder: "评论点什么吧...",
+    userId: -1,
     page: 1,
     comment: null,
     commentId: null,
     commentTemplateId: null, // 评论模板ID
     focus: false, // 获取焦点
-    showAction: false, // 操作菜单
+    showAction: false, // 是否显示操作菜单
     isEnd: false // 是否到底
   },
 
@@ -37,8 +31,8 @@ Page({
         focus: true
       })
     }
-
     this.getTopicDetail(topicId)
+    this.getUserId()
   },
 
   /**
@@ -46,6 +40,7 @@ Page({
    */
   getTopicDetail(topicId) {
     const url = api.topicAPI + topicId + "/"
+
     wxutil.request.get(url).then((res) => {
       if (res.data.code == 200) {
         const topic = res.data.data
@@ -88,12 +83,15 @@ Page({
   },
 
   /**
-   * 加载更多评论
+   * 获取用户ID
    */
-  getMoreComments() {
-    const page = this.data.page
-    const topicId = this.data.topic.id
-    this.getComments(topicId, page + 1)
+  getUserId() {
+    const userDetail = wxutil.getStorage("userDetail")
+    if (userDetail) {
+      this.setData({
+        userId: userDetail.id
+      })
+    }
   },
 
   /**
@@ -116,7 +114,6 @@ Page({
    */
   getTemplateId(title = "评论模板") {
     const url = api.templateAPI
-
     const data = {
       title: title
     }
@@ -128,6 +125,15 @@ Page({
         })
       }
     })
+  },
+
+  /**
+   * 加载更多评论
+   */
+  getMoreComments() {
+    const page = this.data.page
+    const topicId = this.data.topic.id
+    this.getComments(topicId, page + 1)
   },
 
   /**
@@ -144,11 +150,28 @@ Page({
   },
 
   /**
-   * 点击更多
+   * 展开操作菜单
    */
   onMoreTap() {
+    let actionList = [{
+      name: "分享",
+      color: "#666",
+      openType: "share"
+    }, {
+      name: "举报",
+      color: "#666"
+    }]
+
+    if (this.data.userId == this.data.topic.user.id) {
+      actionList.push({
+        name: "删除",
+        color: "#d81e05"
+      })
+    }
+
     this.setData({
-      showAction: true
+      showAction: true,
+      actionList: actionList
     })
   },
 
@@ -158,6 +181,54 @@ Page({
   onCancelSheetTap() {
     this.setData({
       showAction: false
+    })
+  },
+
+  /**
+   * 点击操作菜单按钮
+   */
+  onActionItemtap(event) {
+    const index = event.detail.index
+    if (index == 1) {
+      // 举报话题
+    }
+    if (index == 2) {
+      // 删除话题
+      this.deleteTopic()
+    }
+  },
+
+  /**
+   * 删除话题
+   */
+  deleteTopic() {
+    wx.lin.showDialog({
+      type: "confirm",
+      title: "提示",
+      content: "确定要删除该条话题？",
+      success: (res) => {
+        if (res.confirm) {
+          const topicId = this.data.topic.id
+          const url = api.topicAPI + topicId + "/"
+
+          wxutil.request.delete(url).then((res) => {
+            if (res.data.code == 200) {
+              wx.lin.showMessage({
+                type: "success",
+                content: "删除成功！",
+                success() {
+                  wx.navigateBack()
+                }
+              })
+            } else {
+              wx.lin.showMessage({
+                type: "error",
+                content: "删除失败！"
+              })
+            }
+          })
+        }
+      }
     })
   },
 
@@ -177,8 +248,8 @@ Page({
    */
   onStarTap(event) {
     let topic = this.data.topic
-    const url = api.starAPI
 
+    const url = api.starAPI
     const data = {
       topic_id: topic.id
     }
@@ -205,6 +276,15 @@ Page({
   },
 
   /**
+   * 设置评论
+   */
+  inputComment(event) {
+    this.setData({
+      comment: event.detail.value
+    })
+  },
+
+  /**
    * 点击评论列表
    */
   onCommentItemTap(event) {
@@ -217,22 +297,13 @@ Page({
   },
 
   /**
-   * 点击评论
+   * 点击评论图标
    */
   onCommentTap(event) {
     this.setData({
       focus: true,
       commentId: null,
       placeholder: "评论点什么吧..."
-    })
-  },
-
-  /**
-   * 设置评论
-   */
-  inputComment(event) {
-    this.setData({
-      comment: event.detail.value
     })
   },
 
@@ -299,6 +370,39 @@ Page({
             })
           }
         })
+      }
+    })
+  },
+
+  /**
+   * 删除评论
+   */
+  deleteComment(event) {
+    wx.lin.showDialog({
+      type: "confirm",
+      title: "提示",
+      content: "确定要删除该条评论？",
+      success: (res) => {
+        if (res.confirm) {
+          const commentId = event.currentTarget.dataset.id
+          const url = api.commentAPI + commentId + "/"
+
+          wxutil.request.delete(url).then((res) => {
+            if (res.data.code == 200) {
+              this.getComments(this.data.topic.id)
+
+              wx.lin.showMessage({
+                type: "success",
+                content: "删除成功！"
+              })
+            } else {
+              wx.lin.showMessage({
+                type: "error",
+                content: "删除失败！"
+              })
+            }
+          })
+        }
       }
     })
   },

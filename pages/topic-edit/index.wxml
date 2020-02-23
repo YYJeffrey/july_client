@@ -17,7 +17,7 @@
 <l-radio-group l-class="input-radio" wx:if="{{canAnon}}" bind:linchange="onAnonTap">
   <l-radio select-color="#337559" key="1" l-class="radio">匿名</l-radio>
 </l-radio-group>
-<l-button bg-color="#337559" width="280" l-class="send-btn" bind:lintap="onSubmitTap">立即发布</l-button>
+<l-button bg-color="#337559" width="280" l-class="btn-send" bind:lintap="onSubmitTap">立即发布</l-button>
 
 <!-- 消息提示 -->
 <l-message />

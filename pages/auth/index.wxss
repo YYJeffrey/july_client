@@ -19,6 +19,6 @@
   font-size: 26rpx;
 }
 
-.auth-btn {
+.btn-auth {
   margin-top: 85rpx;
 }

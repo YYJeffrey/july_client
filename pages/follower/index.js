@@ -9,8 +9,8 @@ Page({
     followerList: [],
     page: 1,
     followUserId: -1,
-    loading: false,
-    isEnd: false // 是否到底
+    isEnd: false, // 是否到底
+    loading: false
   },
 
   onLoad(options) {
@@ -26,7 +26,6 @@ Page({
    */
   getFollowerList(followUserId, page = 1, size = pageSize) {
     const url = api.followingAPI + "follow_user/" + followUserId + "/"
-
     let data = {
       size: size,
       page: page

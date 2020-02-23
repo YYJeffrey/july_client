@@ -27,7 +27,7 @@ App({
   },
 
   /**
-   * 特定情况跳转授权页面
+   * 全局Token校验跳转授权页
    */
   gotoAuthPage(res) {
     if (res.data.code == 400 && res.data.message == "Token Is Invalid") {

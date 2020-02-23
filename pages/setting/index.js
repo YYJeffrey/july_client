@@ -1,12 +1,8 @@
 // pages/setting/index.js
 Page({
-  data: {
+  data: {},
 
-  },
-
-  onLoad() {
-
-  },
+  onLoad() {},
 
   /**
    * 权限页面

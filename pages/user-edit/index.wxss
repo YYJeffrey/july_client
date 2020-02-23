@@ -34,7 +34,7 @@
   padding-left: 25rpx;
 }
 
-.save-btn {
+.btn-save {
   display: block;
   margin: 60rpx 235rpx;
 }

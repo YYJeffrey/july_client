@@ -6,7 +6,7 @@ const wxutil = app.wxutil
 Page({
   data: {
     labels: [],
-    imageFiles: [], //  图片文件列表
+    imageFiles: [], // 图片文件列表
     labelsActive: [], // 选中的标签
     chooseCount: 0,
     canAnon: false,
@@ -44,7 +44,6 @@ Page({
    */
   getTemplateId(title = "评论模板") {
     const url = api.templateAPI
-
     const data = {
       title: title
     }
@@ -64,6 +63,15 @@ Page({
   setContent(event) {
     this.setData({
       content: event.detail.value
+    })
+  },
+
+  /**
+   * 设置匿名
+   */
+  onAnonTap(event) {
+    this.setData({
+      isAnon: event.detail.checked
     })
   },
 
@@ -157,15 +165,6 @@ Page({
   },
 
   /**
-   * 设置匿名
-   */
-  onAnonTap(event) {
-    this.setData({
-      isAnon: event.detail.checked
-    })
-  },
-
-  /**
    * 点击发布
    */
   onSubmitTap() {
@@ -208,7 +207,6 @@ Page({
    */
   uploadTopic(content, isAnon, images, labels) {
     const url = api.topicAPI
-
     const data = {
       content: content,
       is_anon: isAnon,

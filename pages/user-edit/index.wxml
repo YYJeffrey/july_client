@@ -13,7 +13,7 @@
 <view class="textarea-box">
   <l-textarea l-class="input-textarea" placeholder="请输入个性签名" border="{{false}}" maxlength="30" value="{{signature}}" bind:lininput="setSignature" />
 </view>
-<l-button bg-color="#337559" width="280" l-class="auth-btn" l-class="save-btn" bind:lintap="saveInfo">保存</l-button>
+<l-button bg-color="#337559" width="280" l-class="auth-btn" l-class="btn-save" bind:lintap="saveInfo">保存</l-button>
 
 <!-- 消息提示 -->
 <l-message />

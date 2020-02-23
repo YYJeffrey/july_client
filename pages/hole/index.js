@@ -21,7 +21,6 @@ Page({
    */
   getHoles(page = 1, size = pageSize) {
     const url = api.holeAPI
-
     let data = {
       app_id: app.globalData.appId,
       size: size,

@@ -8,20 +8,14 @@ Page({
   data: {
     labels: [],
     topics: [],
-    actionList: [{
-      name: "分享",
-      color: "#666",
-      openType: "share"
-    }, {
-      name: "举报",
-      color: "#666"
-    }],
+    actionList: [],
     page: 1,
     labelId: -1,
-    shareIndex: 0, // 分享话题的下标
+    userId: -1,
+    topicIndex: -1, // 点击的话题的下标
     height: 1206, // 话题区高度
-    showPopup: false, // 下拉区
-    showAction: false, // 操作菜单
+    showPopup: false, // 是否显示下拉区
+    showAction: false, // 是否显示操作菜单
     isEnd: false, // 是否到底
     loading: false
   },
@@ -29,12 +23,13 @@ Page({
   onLoad() {
     this.getScrollHeight()
     this.getLabels()
+    this.getUserId()
   },
 
   onShow() {
     const labelId = wxutil.getStorage("labelId")
     if (labelId) {
-      // 因wx.switchTab()无法传递参数，故使用缓存获取参数
+      // 因wx.switchTab()无法传递参数，故使用缓存获取标签参数
       this.getTopics(1, labelId)
       this.setData({
         labelId: labelId
@@ -82,6 +77,18 @@ Page({
         })
       }
     })
+  },
+
+  /**
+   * 获取用户ID
+   */
+  getUserId() {
+    const userDetail = wxutil.getStorage("userDetail")
+    if (userDetail) {
+      this.setData({
+        userId: userDetail.id
+      })
+    }
   },
 
   /**
@@ -200,13 +207,30 @@ Page({
   },
 
   /**
-   * 点击更多
+   * 展开操作菜单
    */
   onMoreTap(event) {
-    const shareIndex = event.currentTarget.dataset.index
+    const topicIndex = event.currentTarget.dataset.index
+    let actionList = [{
+      name: "分享",
+      color: "#666",
+      openType: "share"
+    }, {
+      name: "举报",
+      color: "#666"
+    }]
+
+    if (this.data.userId == this.data.topics[topicIndex].user.id) {
+      actionList.push({
+        name: "删除",
+        color: "#d81e05"
+      })
+    }
+
     this.setData({
+      actionList: actionList,
       showAction: true,
-      shareIndex: shareIndex
+      topicIndex: topicIndex
     })
   },
 
@@ -220,7 +244,55 @@ Page({
   },
 
   /**
-   * 下拉层显示或影藏
+   * 点击操作菜单按钮
+   */
+  onActionItemtap(event) {
+    const index = event.detail.index
+
+    if (index == 1) {
+      // 举报话题
+    }
+    if (index == 2) {
+      // 删除话题
+      this.deleteTopic()
+    }
+  },
+
+  /**
+   * 删除话题
+   */
+  deleteTopic() {
+    wx.lin.showDialog({
+      type: "confirm",
+      title: "提示",
+      content: "确定要删除该条话题？",
+      success: (res) => {
+        if (res.confirm) {
+          const topicId = this.data.topics[this.data.topicIndex].id
+          const url = api.topicAPI + topicId + "/"
+
+          wxutil.request.delete(url).then((res) => {
+            if (res.data.code == 200) {
+              this.getTopics(this.data.page, this.data.labelId)
+
+              wx.lin.showMessage({
+                type: "success",
+                content: "删除成功！"
+              })
+            } else {
+              wx.lin.showMessage({
+                type: "error",
+                content: "删除失败！"
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+
+  /**
+   * 展开或收起下拉层
    */
   togglePopup() {
     this.setData({
@@ -260,8 +332,8 @@ Page({
   onStarTap(event) {
     const index = event.currentTarget.dataset.index
     let topics = this.data.topics
+    
     const url = api.starAPI
-
     const data = {
       topic_id: topics[index].id
     }
@@ -296,12 +368,12 @@ Page({
 
   onShareAppMessage(res) {
     if (res.from == "button") {
-      const shareIndex = this.data.shareIndex
+      const topicIndex = this.data.topicIndex
       const topics = this.data.topics
       return {
-        title: topics[shareIndex].content,
-        imageUrl: topics[shareIndex].images ? topics[shareIndex].images[0] : '',
-        path: "/pages/topic-detail/index?topicId=" + topics[shareIndex].id
+        title: topics[topicIndex].content,
+        imageUrl: topics[topicIndex].images ? topics[topicIndex].images[0] : '',
+        path: "/pages/topic-detail/index?topicId=" + topics[topicIndex].id
       }
     }
     return {

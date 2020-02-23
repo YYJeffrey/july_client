@@ -1,6 +1,5 @@
 {
   "usingComponents": {
-    "l-popup": "../miniprogram_npm/lin-ui/popup/index",
-    "l-action-sheet": "../miniprogram_npm/lin-ui/action-sheet/index"
+    "l-popup": "../miniprogram_npm/lin-ui/popup/index"
   }
 }

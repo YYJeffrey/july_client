@@ -28,6 +28,7 @@ Page({
 
     const userId = this.data.user.id
     if (!userId) {
+      // 数据初始化
       this.setData({
         topics: [],
         comments: [],
@@ -235,7 +236,17 @@ Page({
   },
 
   /**
-   * 修改图片
+   * 跳转话题详情页
+   */
+  gotoTopicDetail(event) {
+    const topicId = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: "/pages/topic-detail/index?topicId=" + topicId
+    })
+  },
+
+  /**
+   * 修改头像或封面
    */
   changeImg(event) {
     const imgType = event.currentTarget.dataset.imgType
@@ -386,7 +397,7 @@ Page({
   },
 
   /**
-   * 删除收藏
+   * 取消收藏
    */
   deleteStar(event) {
     wx.lin.showDialog({
@@ -419,16 +430,6 @@ Page({
           })
         }
       }
-    })
-  },
-
-  /**
-   * 跳转话题详情页
-   */
-  gotoTopicDetail(event) {
-    const topicId = event.currentTarget.dataset.id
-    wx.navigateTo({
-      url: "/pages/topic-detail/index?topicId=" + topicId
     })
   },
 

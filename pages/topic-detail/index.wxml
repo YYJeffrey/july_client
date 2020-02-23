@@ -59,6 +59,9 @@
       <view class="content">
         <text wx:if="{{item.reply_user}}" class="reply">回复<text class="nick-name">{{item.reply_user.nick_name}}: </text></text>{{item.content}}
       </view>
+      <view class="delete-box" wx:if="{{userId == item.user.id}}">
+        <view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
+      </view>
     </view>
   </view>
   <view class="more" wx:if="{{!isEnd}}" bindtap="getMoreComments">
@@ -79,7 +82,10 @@
 <nothing wx:if="{{!topic.id}}" pic="../../images/icon_nothing/pic_topic.png" tip="该话题消失了" />
 
 <!-- 操作菜单 -->
-<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:lincancel="onCancelSheetTap" />
+<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:linitemtap="onActionItemtap" bind:lincancel="onCancelSheetTap" />
 
 <!-- 消息提示 -->
 <l-message />
+
+<!-- 消息对话框 -->
+<l-dialog />

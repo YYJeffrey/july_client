@@ -7,8 +7,8 @@ Page({
   data: {
     nickName: null,
     signature: null,
-    gender: 0,
-    userId: -1
+    userId: -1,
+    gender: 0
   },
 
   onLoad() {
@@ -40,9 +40,8 @@ Page({
    * 设置昵称
    */
   setNickName(event) {
-    const nickName = event.detail.value
     this.setData({
-      nickName: nickName
+      nickName: event.detail.value
     })
   },
 
@@ -50,9 +49,8 @@ Page({
    * 设置性别
    */
   onChangeGenderTap(event) {
-    const gender = event.detail.key
     this.setData({
-      gender: gender
+      gender: event.detail.key
     })
   },
 
@@ -60,9 +58,8 @@ Page({
    * 设置个性签名
    */
   setSignature(event) {
-    const signature = event.detail.value
     this.setData({
-      signature: signature
+      signature: event.detail.value
     })
   },
 
@@ -83,7 +80,7 @@ Page({
       return
     }
 
-    // 请求体数据
+    // 构造请求参数
     const url = api.userAPI
     const data = [{
       op: "replace",

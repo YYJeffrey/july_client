@@ -216,3 +216,19 @@ page {
   background: #fff;
   height: 88rpx;
 }
+
+.delete-box {
+  width: 100%;
+  margin-top: 8rpx;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.delete-text {
+  color: #337559;
+  font-size: 26rpx;
+  font-weight: bold;
+  line-height: 40rpx;
+  width: 60rpx;
+  text-align: right;
+}

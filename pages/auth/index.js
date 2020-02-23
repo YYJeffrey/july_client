@@ -4,13 +4,9 @@ const api = app.api
 const wxutil = app.wxutil
 
 Page({
-  data: {
+  data: {},
 
-  },
-
-  onLoad() {
-
-  },
+  onLoad() {},
 
   /**
    * 授权

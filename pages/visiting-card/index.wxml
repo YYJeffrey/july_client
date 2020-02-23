@@ -1,23 +1,17 @@
-<!--pages/profile/index.wxml-->
+<!--pages/visiting-card/index.wxml-->
 
 <!-- 封面 -->
-<image class="poster" src="{{user.poster ? user.poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" bindtap="changeImg" data-img-type="poster" />
+<image class="poster" src="{{user.poster ? user.poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" />
 
 <!-- 个人信息 -->
 <view class="header">
   <view class="user-box">
-    <view wx:if="{{!user.avatar}}" class="avatar-box">
-      <open-data class="avatar" type="userAvatarUrl"></open-data>
-    </view>
-    <image wx:else class="avatar" src="{{user.avatar}}" bindtap="changeImg" data-img-type="avatar" />
+    <image class="avatar" src="{{user.avatar}}" />
     <view wx:if="{{user.gender && user.gender != 0}}" class="gender-box {{user.gender == 1 ? 'male' : 'female'}}">
       <image class="gender-icon" src="../../images/icon_gender/{{user.gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
     </view>
     <view class="btn-box">
-      <l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="{{!isAuth ? 'gotoAuth' : 'gotoUserEdit'}}">{{!isAuth ? '用户授权' : '编辑'}}</l-button>
-      <navigator class="setting" url="/pages/setting/index">
-        <l-icon name="setting" color="#fff" size="30" />
-      </navigator>
+      <l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="onFollowTap">{{user.has_follow ? '取消关注' : '+ 关注'}}</l-button>
     </view>
   </view>
   <text wx:if="{{user.nick_name}}" class="nick-name">{{user.nick_name}}</text>
@@ -26,16 +20,16 @@
   <view class="follow-box">
     <view class="follow follower" bindtap="gotoFollower">
       <text class="num">{{user.follower ? user.follower : '0'}}</text>
-      <text class="text">关注我的</text>
+      <text class="text">关注{{genderText}}的</text>
     </view>
     <view class="follow following" bindtap="gotoFollowing">
       <text class="num">{{user.following ? user.following : '0'}}</text>
-      <text class="text">我关注的</text>
+      <text class="text">{{genderText}}关注的</text>
     </view>
   </view>
 </view>
 
-<!-- 我的动态 -->
+<!-- Ta的动态 -->
 <l-tabs id="tabs" animated animated-for-line active-color="#337559" l-header-class="tabs" l-line-class="tabs-line" bind:linchange="changeTabs">
   <l-tabpanel tab="话题" key="topic" slot="topic">
     <view class="tab-content">
@@ -45,7 +39,6 @@
         <view class="card-content">
           {{item.content}}
         </view>
-        <text class="delete-text" data-id="{{item.id}}" catchtap="deleteTopic">删除</text>
       </l-card>
       <l-loadmore wx:if="{{!isEndTopic}}" show="{{loading}}" line />
       <l-loadmore show="{{isEndTopic && pageTopic != 1}}" line type="end" />
@@ -58,7 +51,6 @@
         <view class="card-content">
           {{item.content}}
         </view>
-        <view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
       </l-card>
       <l-loadmore wx:if="{{!isEndComment}}" show="{{loading}}" line />
       <l-loadmore show="{{isEndComment && pageComment != 1}}" line type="end" />
@@ -68,7 +60,7 @@
     <view class="tab-content">
       <nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态" nothing-class="nothing" />
       <l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="star-title" type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}"
-        image-mode="aspectFill" title="{{item.topic.user.nick_name}}" bind:lintitle="gotoVisitingCard" data-user-id="{{item.topic.user.id}}">
+        image-mode="aspectFill" title="{{item.topic.user.nick_name}}">
         <view class="card-content">
           {{item.topic.content}}
         </view>
@@ -80,8 +72,8 @@
   </l-tabpanel>
 </l-tabs>
 
+<!-- 操作菜单 -->
+<l-action-sheet l-title-class="action-title" />
+
 <!-- 消息提示 -->
 <l-message />
-
-<!-- 消息对话框 -->
-<l-dialog />

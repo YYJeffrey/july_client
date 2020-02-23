@@ -101,6 +101,14 @@ Component({
       this.triggerEvent('lintap', {
         e
       }, { bubbles: true, composed: true });
+    },
+    // 图片点击事件
+    onImageTap() {
+      this.triggerEvent('linimage');
+    },
+    // 标题点击事件
+    onTitleTap() {
+      this.triggerEvent('lintitle');
     }
   }
 });

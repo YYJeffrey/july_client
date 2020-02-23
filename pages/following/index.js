@@ -15,6 +15,13 @@ Page({
 
   onLoad(options) {
     const userId = options.userId
+    const genderText = options.genderText
+    if (genderText) {
+      // 设置标题
+      wx.setNavigationBarTitle({
+        title: genderText + "关注的"
+      })
+    }
     this.setData({
       userId: userId
     })
@@ -111,12 +118,27 @@ Page({
         this.setData({
           followingList: followingList
         })
+      } else if (res.data.message == "Can Not Following Yourself") {
+        wx.lin.showMessage({
+          type: "error",
+          content: "不能关注自己",
+        })
       } else {
         wx.lin.showMessage({
           type: "error",
           content: msg + "失败！",
         })
       }
+    })
+  },
+
+  /**
+   * 跳转到用户名片页
+   */
+  gotoVisitingCard(event) {
+    const userId = event.target.dataset.userId
+    wx.navigateTo({
+      url: "/pages/visiting-card/index?userId=" + userId
     })
   },
 

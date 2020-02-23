@@ -244,6 +244,16 @@ Page({
   },
 
   /**
+   * 跳转到用户名片页
+   */
+  gotoVisitingCard(event) {
+    const userId = event.target.dataset.userId
+    wx.navigateTo({
+      url: "/pages/visiting-card/index?userId=" + userId
+    })
+  },
+
+  /**
    * 点赞或取消点赞
    */
   onStarTap(event) {

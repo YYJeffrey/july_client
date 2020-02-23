@@ -1,7 +1,7 @@
 <!--pages/topic-detail/index.wxml-->
 
 <!-- 动态详情 -->
-<l-card wx:if="{{topic.id}}" type="avatar" l-class="card" l-title-class="nick-name" image="{{topic.user.avatar}}" title="{{topic.user.nick_name}}" describe="{{topic.create_time}}">
+<l-card wx:if="{{topic.id}}" type="avatar" l-class="card" l-title-class="nick-name" image="{{topic.user.avatar}}" title="{{topic.user.nick_name}}" describe="{{topic.create_time}}" bind:linavatar="gotoVisitingCard" bind:lintitle="gotoVisitingCard" data-user-id="{{topic.user.id}}">
   <view class="avater-content">{{topic.content}}</view>
   <view class="posters">
     <block wx:if="{{topic.images.length == 1}}">

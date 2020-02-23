@@ -67,6 +67,7 @@
 .card-title {
   color: #337559 !important;
   font-weight: bold;
+  width: 560rpx;
 }
 
 .avater-content {

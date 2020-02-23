@@ -5,7 +5,7 @@
 
 <!-- 我的关注 -->
 <l-list wx:for="{{followingList}}" wx:key="item" title="{{item.follow_user.nick_name}}" desc="{{item.follow_user.signature}}" image="{{item.follow_user.avatar}}" gap="30" is-link="{{false}}" is-hover="{{false}}" l-class="list" l-desc-class="list-desc"
-  l-image-class="list-avatar">
+  l-image-class="list-avatar" bind:linimage="gotoVisitingCard" bind:lintitle="gotoVisitingCard" data-user-id="{{item.follow_user.id}}">
   <view slot="right-section">
     <l-tag shape="circle" size="mini" bg-color="#337559" font-color="{{item.has_follow ? '#337559' : '#fff'}}" plain="{{item.has_follow}}" l-class="list-tag" data-follow-index="{{index}}" bind:lintap="onTagTap">{{item.has_follow ? '取消关注' : '+ 关注'}}</l-tag>
   </view>

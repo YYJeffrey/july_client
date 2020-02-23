@@ -19,7 +19,8 @@
 
 <!-- 动态内容 -->
 <scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" style="height: {{height}}rpx">
-  <l-card type="avatar" l-class="card" l-title-class="card-title" wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}" title="{{item.user.nick_name}}" describe="{{item.create_time}}">
+  <l-card type="avatar" l-class="card" l-title-class="card-title" wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}" title="{{item.user.nick_name}}" describe="{{item.create_time}}" bind:linavatar="gotoVisitingCard" bind:lintitle="gotoVisitingCard"
+    data-user-id="{{item.user.id}}">
     <view class="{{item.content.length >= 200 && !item.flod ? 'content-close' : 'avater-content'}}" data-id="{{item.id}}" bindtap="gotoDetail">{{item.content}}</view>
     <view wx:if="{{item.content.length >= 200}}" data-index="{{cardIndex}}" class="text-flod" bindtap="onFlodTap">{{item.flod ? '收起' : '全文'}}</view>
 

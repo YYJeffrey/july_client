@@ -2,16 +2,16 @@
   <block wx:if="{{type ==='primary' || type ==='cover'}}">
     <image wx:if="{{!plaintext}}" class="l-img-class {{full?'cover-img-full':'cover-img-unfull'}} {{ 'card-img-' + type }} {{ 'card-img-' + type + '-' + position }}" mode="{{imageMode}}" lazy-load="{{true}}" src="{{image}}"></image>
     <view class="card-content">
-      <text class="l-title-class card-title {{'card-title-' + type}}">{{title}}</text>
+      <text class="l-title-class card-title {{'card-title-' + type}}" catchtap="onTitleTap">{{title}}</text>
       <slot />
     </view>
   </block>
   <block wx:if="{{type ==='avatar'}}">
     <view class="card-avatar-top">
       <view class="card-avatar-left">
-        <image lazy-load mode="{{imageMode}}" class="l-img-class {{ 'card-img-' + type }}" src='{{image}}'></image>
+        <image lazy-load mode="{{imageMode}}" class="l-img-class {{ 'card-img-' + type }}" src='{{image}}' catchtap="onAvatarTap"></image>
         <view class="card-avatar">
-          <text class="l-title-class card-title {{'card-title-' + type}}">{{title}}</text>
+          <text class="l-title-class card-title {{'card-title-' + type}}" catchtap="onTitleTap">{{title}}</text>
           <text class="describe">{{describe}}</text>
         </view>
       </view>

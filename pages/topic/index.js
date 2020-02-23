@@ -301,16 +301,6 @@ Page({
   },
 
   /**
-   * 跳转话题详情页
-   */
-  gotoDetail(event) {
-    const topicId = event.currentTarget.dataset.id
-    wx.navigateTo({
-      url: "/pages/topic-detail/index?topicId=" + topicId
-    })
-  },
-
-  /**
    * 点击编辑
    */
   onEditTap() {
@@ -332,7 +322,7 @@ Page({
   onStarTap(event) {
     const index = event.currentTarget.dataset.index
     let topics = this.data.topics
-    
+
     const url = api.starAPI
     const data = {
       topic_id: topics[index].id
@@ -357,12 +347,32 @@ Page({
   },
 
   /**
-   * 点击评论跳转话题详情
+   * 跳转话题详情页
+   */
+  gotoDetail(event) {
+    const topicId = event.currentTarget.dataset.id
+    wx.navigateTo({
+      url: "/pages/topic-detail/index?topicId=" + topicId
+    })
+  },
+
+  /**
+   * 点击评论跳转话题详情页
    */
   onCommentTap(event) {
     const topicId = event.currentTarget.dataset.id
     wx.navigateTo({
       url: "/pages/topic-detail/index?focus=true&topicId=" + topicId
+    })
+  },
+
+  /**
+   * 跳转到用户名片页
+   */
+  gotoVisitingCard(event) {
+    const userId = event.target.dataset.userId
+    wx.navigateTo({
+      url: "/pages/visiting-card/index?userId=" + userId
     })
   },
 

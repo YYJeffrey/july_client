@@ -3,14 +3,15 @@
     "pages/topic/index",
     "pages/hole/index",
     "pages/profile/index",
-    "pages/auth/index",
+    "pages/topic-detail/index",
+    "pages/topic-edit/index",
+    "pages/hole-detail/index",
+    "pages/user-edit/index",
     "pages/following/index",
     "pages/follower/index",
-    "pages/user-edit/index",
-    "pages/setting/index",
-    "pages/hole-detail/index",
-    "pages/topic-detail/index",
-    "pages/topic-edit/index"
+    "pages/visiting-card/index",
+    "pages/auth/index",
+    "pages/setting/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -58,6 +59,8 @@
     "l-action-sheet": "../miniprogram_npm/lin-ui/action-sheet/index",
     "l-loadmore": "../miniprogram_npm/lin-ui/loadmore/index",
     "l-card": "../miniprogram_npm/lin-ui/card/index",
+    "l-tabs": "../miniprogram_npm/lin-ui/tabs/index",
+    "l-tabpanel": "../miniprogram_npm/lin-ui/tabpanel/index",
     "nothing": "../../components/nothing/index"
   },
   "style": "v2",

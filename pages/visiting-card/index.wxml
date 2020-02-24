@@ -64,7 +64,6 @@
         <view class="card-content">
           {{item.topic.content}}
         </view>
-        <text class="delete-text delete-star-text" data-id="{{item.topic.id}}" catchtap="deleteStar">取消收藏</text>
       </l-card>
       <l-loadmore wx:if="{{!isEndStar}}" show="{{loading}}" line l-class="loading" />
       <l-loadmore show="{{isEndStar && pageStar != 1}}" line type="end" />

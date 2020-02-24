@@ -281,8 +281,9 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "个人中心",
-      path: "/pages/profile/index"
+      title: this.data.user.nick_name,
+      imageUrl: this.data.user.avatar,
+      path: "/pages/visiting-card/index?userId=" + this.data.user.id
     }
   }
 })

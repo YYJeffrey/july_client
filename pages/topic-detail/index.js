@@ -191,6 +191,7 @@ Page({
     const index = event.detail.index
     if (index == 1) {
       // 举报话题
+      this.reportTopic()
     }
     if (index == 2) {
       // 删除话题
@@ -224,6 +225,40 @@ Page({
               wx.lin.showMessage({
                 type: "error",
                 content: "删除失败！"
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+
+  /**
+   * 举报话题
+   */
+  reportTopic() {
+    wx.lin.showDialog({
+      type: "confirm",
+      title: "提示",
+      content: "确定要举报该条话题？",
+      success: (res) => {
+        if (res.confirm) {
+          const topicId = this.data.topic.id
+          const url = api.topicAPI + "report/"
+          const data = {
+            topic_id: topicId
+          }
+
+          wxutil.request.post(url, data).then((res) => {
+            if (res.data.code == 200) {
+              wx.lin.showMessage({
+                type: "success",
+                content: "举报成功！"
+              })
+            } else {
+              wx.lin.showMessage({
+                type: "error",
+                content: "举报失败！"
               })
             }
           })

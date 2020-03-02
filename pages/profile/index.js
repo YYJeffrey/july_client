@@ -48,7 +48,7 @@ Page({
    */
   getUser() {
     const userInfo = wxutil.getStorage("userInfo")
-    let userDetail = wxutil.getStorage("userDetail")
+    let userDetail = app.globalData.userDetail
 
     // 使用userInfo作为用户信息
     if (userInfo && !userDetail) {
@@ -69,6 +69,7 @@ Page({
           const user = res.data.data
           userDetail = Object.assign(userDetail, user)
           wxutil.setStorage("userDetail", userDetail)
+          app.globalData.userDetail = userDetail
 
           this.setData({
             isAuth: true,
@@ -288,9 +289,10 @@ Page({
           if (data.code == 200) {
             // 更新缓存
             const user = data.data
-            let userDetail = wxutil.getStorage("userDetail")
+            let userDetail = app.globalData.userDetail
             userDetail = Object.assign(userDetail, user)
             wxutil.setStorage("userDetail", userDetail)
+            app.globalData.userDetail = userDetail
 
             if (imgType == "avatar") {
               this.setData({

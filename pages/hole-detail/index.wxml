@@ -10,6 +10,12 @@
   <view class="desp">{{hole.description}}</view>
   <view class="btn-group">
     <l-button plain l-class="btn-share" open-type="share" width="240">分享好友</l-button>
-    <l-button bg-color="#337559" width="240" disabled="{{!hole.state}}">{{hole.state ? '立即参与' : '树洞关闭'}}</l-button>
+    <l-button bg-color="#337559" width="240" disabled="{{!hole.state}}" bind:lintap="onJoinTap">{{hole.state ? '立即参与' : '树洞关闭'}}</l-button>
   </view>
 </view>
+
+<!-- 消息对话框 -->
+<l-dialog />
+
+<!-- 消息提示 -->
+<l-message />

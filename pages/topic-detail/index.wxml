@@ -39,7 +39,7 @@
 <!-- 收藏 -->
 <view wx:if="{{topic.id}}" class="star-box" wx:if="{{stars.length > 0}}">
   <view class="star-content">
-    <image wx:for="{{stars}}" wx:key="item" class="avatar" src="{{item.user.avatar}}" />
+    <image wx:for="{{stars}}" wx:key="item" class="avatar" src="{{item.user.avatar}}" data-user-id="{{item.user.id}}" bindtap="gotoVisitingCard" />
   </view>
   <view class="star-icon-box">
     收藏
@@ -50,10 +50,10 @@
 <!-- 评论 -->
 <view wx:if="{{topic.id}}" class="comment-box" wx:if="{{comments.length > 0}}">
   <view class="comment" wx:for="{{comments}}" wx:key="item" data-index="{{index}}" bindtap="onCommentItemTap">
-    <image class="avatar" src="{{item.user.avatar}}" />
+    <image class="avatar" src="{{item.user.avatar}}" data-user-id="{{item.user.id}}" catchtap="gotoVisitingCard" />
     <view class="comment-right {{index == comments.length - 1 && isEnd ? 'non-border' : ''}}">
       <view class="comment-top">
-        <view class="nick-name">{{item.user.nick_name}}</view>
+        <view class="nick-name" data-user-id="{{item.user.id}}" catchtap="gotoVisitingCard">{{item.user.nick_name}}</view>
         <view class="time">{{item.create_time}}</view>
       </view>
       <view class="content">

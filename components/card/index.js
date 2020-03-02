@@ -2,7 +2,7 @@ Component({
   /**
    * 组件的属性列表
    */
-  externalClasses: ['l-class', 'l-img-class','l-title-class'],
+  externalClasses: ['l-class', 'l-img-class', 'l-title-class'],
   options: {
     multipleSlots: true // 在组件定义时的选项中启用多slot支持
   },
@@ -12,12 +12,12 @@ Component({
     describe: String,
     plaintext: Boolean,
     full: Boolean,
-    position:{
-      type:String,
-      value:'left'
+    position: {
+      type: String,
+      value: 'left'
     },
-    imageMode:{
-      type:String,
+    imageMode: {
+      type: String,
       value: 'aspectFit'
     },
     type: {
@@ -37,6 +37,13 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    // 头像点击事件
+    onAvatarTap() {
+      this.triggerEvent('linavatar');
+    },
+    // 标题点击事件
+    onTitleTap() {
+      this.triggerEvent('lintitle');
+    }
   }
 });

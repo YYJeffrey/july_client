@@ -30,6 +30,7 @@ Page({
             if (res.data.code == 200) {
               // 缓存用户详细信息
               wxutil.setStorage("userDetail", res.data.data)
+              app.globalData.userDetail = res.data.data
               wx.lin.showMessage({
                 type: "success",
                 content: "授权成功！",

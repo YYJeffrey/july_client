@@ -83,10 +83,9 @@ Page({
    * 获取用户ID
    */
   getUserId() {
-    const userDetail = wxutil.getStorage("userDetail")
-    if (userDetail) {
+    if (app.globalData.userDetail) {
       this.setData({
-        userId: userDetail.id
+        userId: app.globalData.userDetail.id
       })
     }
   },
@@ -339,8 +338,7 @@ Page({
    * 点击编辑
    */
   onEditTap() {
-    const userDetail = wxutil.getStorage("userDetail")
-    if (userDetail) {
+    if (app.globalData.userDetail) {
       wx.navigateTo({
         url: "/pages/topic-edit/index"
       })

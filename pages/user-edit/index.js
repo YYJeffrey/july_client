@@ -19,8 +19,7 @@ Page({
    * 获取用户详情
    */
   getUserDetail() {
-    const userDetail = wxutil.getStorage("userDetail")
-    const userId = userDetail.id
+    const userId = app.globalData.userDetail.id
     const url = api.userAPI + userId + "/"
 
     wxutil.request.get(url).then((res) => {
@@ -99,11 +98,12 @@ Page({
     // 更新用户信息
     wxutil.request.put(url, data).then((res) => {
       if (res.data.code == 200) {
-        let userDetail = wxutil.getStorage("userDetail")
+        let userDetail = app.globalData.userDetail
         // 更新缓存
         const user = res.data.data
         userDetail = Object.assign(userDetail, user)
         wxutil.setStorage("userDetail", userDetail)
+        app.globalData.userDetail = userDetail
 
         wx.lin.showMessage({
           type: "success",

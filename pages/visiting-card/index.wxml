@@ -1,17 +1,17 @@
 <!--pages/visiting-card/index.wxml-->
 
 <!-- 封面 -->
-<image class="poster" src="{{user.poster ? user.poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" />
+<image wx:if="{{user.id}}" class="poster" src="{{user.poster ? user.poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" />
 
 <!-- 个人信息 -->
-<view class="header">
+<view wx:if="{{user.id}}" class="header">
   <view class="user-box">
     <image class="avatar" src="{{user.avatar}}" />
     <view wx:if="{{user.gender && user.gender != 0}}" class="gender-box {{user.gender == 1 ? 'male' : 'female'}}">
       <image class="gender-icon" src="../../images/icon_gender/{{user.gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
     </view>
     <view class="btn-box">
-      <l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="onFollowTap">{{user.has_follow ? '取消关注' : '+ 关注'}}</l-button>
+      <l-button plain="{{user.has_follow}}" l-class="{{user.has_follow ? 'btn-unfollow' : ''}}" shape="semicircle" size="mini" bg-color="{{user.has_follow ? '#fff' : '#337559'}}" width="180" height="55" bind:lintap="onFollowTap">{{user.has_follow ? '取消关注' : '+ 关注'}}</l-button>
     </view>
   </view>
   <text wx:if="{{user.nick_name}}" class="nick-name">{{user.nick_name}}</text>
@@ -30,10 +30,10 @@
 </view>
 
 <!-- Ta的动态 -->
-<l-tabs id="tabs" animated animated-for-line active-color="#337559" l-header-class="tabs" l-line-class="tabs-line" bind:linchange="changeTabs">
+<l-tabs wx:if="{{user.id}}" id="tabs" animated animated-for-line active-color="#337559" l-header-class="tabs" l-line-class="tabs-line" bind:linchange="changeTabs">
   <l-tabpanel tab="话题" key="topic" slot="topic">
     <view class="tab-content">
-      <nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="您还没有发布话题" nothing-class="nothing" />
+      <nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="{{genderText}}还没有发布话题" nothing-class="nothing" />
       <l-card data-id="{{item.id}}" bindtap="gotoTopicDetail" wx:for="{{topics}}" wx:key="item" l-class="card" l-img-class="{{item.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="topic-title" type="primary" position="left" image="{{item.images.length > 0 ? item.images[0] : ''}}"
         image-mode="aspectFill" title="{{item.create_time}}">
         <view class="card-content">
@@ -46,7 +46,7 @@
   </l-tabpanel>
   <l-tabpanel tab="评论" key="comment" slot="comment">
     <view class="tab-content">
-      <nothing wx:if="{{comments.length == 0}}" pic="../../images/icon_nothing/pic_comment.png" tip="您还没有发表评论" nothing-class="nothing" />
+      <nothing wx:if="{{comments.length == 0}}" pic="../../images/icon_nothing/pic_comment.png" tip="{{genderText}}还没有发表评论" nothing-class="nothing" />
       <l-card data-id="{{item.topic_id}}" bindtap="gotoTopicDetail" wx:for="{{comments}}" wx:key="item" l-class="card" l-img-class="right-img-none" l-title-class="topic-title" type="primary" position="left" title="{{item.create_time}}">
         <view class="card-content">
           {{item.content}}
@@ -58,7 +58,7 @@
   </l-tabpanel>
   <l-tabpanel tab="收藏" key="star" slot="star">
     <view class="tab-content">
-      <nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态" nothing-class="nothing" />
+      <nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="{{genderText}}还没有收藏动态" nothing-class="nothing" />
       <l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="star-title" type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}"
         image-mode="aspectFill" title="{{item.topic.user.nick_name}}">
         <view class="card-content">
@@ -76,3 +76,6 @@
 
 <!-- 消息提示 -->
 <l-message />
+
+<!-- nothing -->
+<nothing wx:if="{{!user.id}}" pic="../../images/icon_nothing/pic_profile.png" tip="该用户消失了" />

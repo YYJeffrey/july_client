@@ -10,7 +10,7 @@ Page({
     comments: [],
     stars: [],
     actionList: [],
-    placeholder: "评论点什么吧...",
+    placeholder: "评论点什么吧~",
     userId: -1,
     page: 1,
     comment: null,
@@ -86,10 +86,9 @@ Page({
    * 获取用户ID
    */
   getUserId() {
-    const userDetail = wxutil.getStorage("userDetail")
-    if (userDetail) {
+    if (app.globalData.userDetail) {
       this.setData({
-        userId: userDetail.id
+        userId: app.globalData.userDetail.id
       })
     }
   },

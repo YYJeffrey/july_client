@@ -180,3 +180,8 @@
   font-size: 24rpx !important;
   color: #999 !important;
 }
+
+.btn-unfollow {
+  border-color: #337559 !important;
+  color: #337559 !important;
+}

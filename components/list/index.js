@@ -1,7 +1,7 @@
-import hover from '../behaviors/hover';
+import hover from '../../miniprogram_npm/lin-ui/behaviors/hover';
 
 Component({
-  behaviors:[hover],
+  behaviors: [hover],
   relations: {
     '../list/index': {
       type: 'parent', // 关联的目标节点应为子节点
@@ -88,7 +88,7 @@ Component({
   },
 
   methods: {
-    tapcell: function (e) {
+    tapcell: function(e) {
       const {
         linkType,
         url
@@ -100,7 +100,18 @@ Component({
       }
       this.triggerEvent('lintap', {
         e
-      }, { bubbles: true, composed: true });
+      }, {
+        bubbles: true,
+        composed: true
+      });
+    },
+    // 图片点击事件
+    onImageTap() {
+      this.triggerEvent('linimage');
+    },
+    // 标题点击事件
+    onTitleTap() {
+      this.triggerEvent('lintitle');
     }
   }
 });

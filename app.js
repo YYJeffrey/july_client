@@ -1,36 +1,49 @@
 //app.js
-const api = require("./config/api.js")
-const wxutil = require("./utils/wxutil.js")
+const api = require("./config/api")
+const wxutil = require("./utils/wxutil")
 
 App({
   api: api,
   wxutil: wxutil,
 
   globalData: {
-    appId: wx.getAccountInfoSync().miniProgram.appId
+    appId: wx.getAccountInfoSync().miniProgram.appId,
+    userDetail: null
   },
 
   onLaunch() {
+    this.getUserDetail()
     wxutil.autoUpdate()
   },
 
   /**
-   * 获取全局请求头
+   * 获取用户详情
+   */
+  getUserDetail() {
+    const userDetail = wxutil.getStorage("userDetail")
+    if (userDetail) {
+      this.globalData.userDetail = userDetail
+    } else {
+      this.globalData.userDetail = null
+    }
+  },
+
+  /**
+   * 获取请求头
    */
   getHeader() {
-    const userDetail = wxutil.getStorage("userDetail")
     let header = {}
-    if (userDetail) {
-      header["Authorization"] = "Token " + userDetail.token
+    if (this.globalData.userDetail) {
+      header["Authorization"] = "Token " + this.globalData.userDetail.token
     }
     return header
   },
 
   /**
-   * 全局Token校验跳转授权页
+   * Token无效跳转授权页
    */
   gotoAuthPage(res) {
-    if (res.data.code == 400 && res.data.message == "Token Is Invalid") {
+    if (res.data.message == "Token Is Invalid") {
       wx.navigateTo({
         url: "/pages/auth/index",
       })

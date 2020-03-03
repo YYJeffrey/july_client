@@ -70,6 +70,12 @@
   width: 560rpx;
 }
 
+.card-title-anon {
+  color: #7a8c9a !important;
+  font-weight: bold;
+  width: 560rpx;
+}
+
 .avater-content {
   color: #333;
   text-align: justify;

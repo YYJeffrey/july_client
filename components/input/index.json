@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "l-icon": "../../miniprogram_npm/lin-ui/icon/index",
+    "l-error-tip": "../../miniprogram_npm/lin-ui/error-tip/index"
+  }
+}

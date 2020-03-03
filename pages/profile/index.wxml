@@ -9,7 +9,7 @@
     <view wx:if="{{!user.avatar}}" class="avatar-box">
       <open-data class="avatar" type="userAvatarUrl"></open-data>
     </view>
-    <image wx:else class="avatar" src="{{user.avatar}}" bindtap="changeImg" data-img-type="avatar" />
+    <image wx:else class="avatar" src="{{user.avatar}}" bindtap="changeImg" data-img-type="avatar" mode="aspectFill" />
     <view wx:if="{{user.gender && user.gender != 0}}" class="gender-box {{user.gender == 1 ? 'male' : 'female'}}">
       <image class="gender-icon" src="../../images/icon_gender/{{user.gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
     </view>
@@ -22,7 +22,7 @@
   </view>
   <text wx:if="{{user.nick_name}}" class="nick-name">{{user.nick_name}}</text>
   <open-data wx:else class="nick-name" type="userNickName"></open-data>
-  <text class="signature">{{user.signature}}</text>
+  <text class="signature">{{user.signature ? user.signature : '这家伙很懒，什么都没有留下'}}</text>
   <view class="follow-box">
     <view class="follow follower" bindtap="gotoFollower">
       <text class="num">{{user.follower ? user.follower : '0'}}</text>
@@ -67,8 +67,8 @@
   <l-tabpanel tab="收藏" key="star" slot="star">
     <view class="tab-content">
       <nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态" nothing-class="nothing" />
-      <l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="star-title" type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}"
-        image-mode="aspectFill" title="{{item.topic.user.nick_name}}" bind:lintitle="gotoVisitingCard" data-user-id="{{item.topic.user.id}}">
+      <l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="{{item.topic.user.id != -1 ? 'star-title' : 'star-title-anon'}}"
+        type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}" image-mode="aspectFill" title="{{item.topic.user.nick_name}}" bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">
         <view class="card-content">
           {{item.topic.content}}
         </view>

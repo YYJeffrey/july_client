@@ -50,7 +50,6 @@
     "l-tag": "./miniprogram_npm/lin-ui/tag/index",
     "l-icon": "./miniprogram_npm/lin-ui/icon/index",
     "l-button": "./miniprogram_npm/lin-ui/button/index",
-    "l-input": "./miniprogram_npm/lin-ui/input/index",
     "l-textarea": "./miniprogram_npm/lin-ui/textarea/index",
     "l-radio": "../miniprogram_npm/lin-ui/radio/index",
     "l-radio-group": "../miniprogram_npm/lin-ui/radio-group/index",
@@ -62,6 +61,7 @@
     "l-tabpanel": "../miniprogram_npm/lin-ui/tabpanel/index",
     "l-card": "../../components/card/index",
     "l-list": "../../components/list/index",
+    "l-input": "../../components/input/index",
     "nothing": "../../components/nothing/index"
   },
   "style": "v2",

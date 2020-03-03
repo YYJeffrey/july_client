@@ -8,6 +8,7 @@ let socket = null
 Page({
   data: {
     content: null,
+    focus: false,
     userId: -1,
     msg: []
   },
@@ -63,6 +64,10 @@ Page({
       this.setData({
         msg: msg
       })
+
+      wx.pageScrollTo({
+        scrollTop: 1000
+      })
     })
   },
 
@@ -89,11 +94,15 @@ Page({
     }
     this.sendSocketMessage("send", content)
     this.setData({
-      content: null
+      content: null,
+      focus: true
     })
   },
 
   onShareAppMessage() {
-
+    return {
+      title: "树洞深处",
+      path: "/pages/chat-room/index"
+    }
   }
 })

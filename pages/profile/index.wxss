@@ -169,6 +169,12 @@
   font-weight: bold;
 }
 
+.star-title-anon {
+  color: #7a8c9a !important;
+  font-size: 28rpx !important;
+  font-weight: bold;
+}
+
 .card-content {
   color: #333;
   font-size: 28rpx;

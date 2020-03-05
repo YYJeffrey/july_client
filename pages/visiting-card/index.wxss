@@ -191,3 +191,15 @@
   border-color: #337559 !important;
   color: #337559 !important;
 }
+
+.tabs-fixed {
+  position: fixed;
+  top: 0;
+  margin-top: 0;
+  margin-bottom: 80rpx;
+  z-index: 999;
+}
+
+.tab-content-top {
+  margin-top: 80rpx;
+}

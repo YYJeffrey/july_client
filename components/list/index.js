@@ -84,7 +84,6 @@ Component({
       value: 'navigateTo'
     },
     url: String
-
   },
 
   methods: {
@@ -112,6 +111,10 @@ Component({
     // 标题点击事件
     onTitleTap() {
       this.triggerEvent('lintitle');
+    },
+    // 描述点击事件
+    onDescTap() {
+      this.triggerEvent('lindesc');
     }
   }
 });

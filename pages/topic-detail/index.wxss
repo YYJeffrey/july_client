@@ -15,13 +15,11 @@ page {
 .nick-name {
   color: #337559 !important;
   font-weight: bold;
-  width: 560rpx;
 }
 
 .nick-name-anon {
   color: #7a8c9a !important;
   font-weight: bold;
-  width: 560rpx;
 }
 
 .avater-content {

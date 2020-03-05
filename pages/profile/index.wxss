@@ -90,12 +90,13 @@
   font-size: 36rpx;
   color: #333;
   font-weight: bold;
+  height: 48rpx;
 }
 
 .header .signature {
   display: block;
   font-size: 28rpx;
-  width: 580rpx;
+  width: 530rpx;
   text-align: justify;
   color: #7c7c7c;
   margin-top: 10rpx;
@@ -200,4 +201,22 @@
 .delete-star-text {
   color: #ccc;
   width: 120rpx;
+}
+
+.tabs-fixed {
+  position: fixed;
+  top: 150rpx;
+  margin-top: 0;
+  margin-bottom: 80rpx;
+  z-index: 999;
+}
+
+.header-fixed {
+  position: fixed;
+  top: -445rpx;
+  z-index: 999;
+}
+
+.tab-content-top {
+  margin-top: 700rpx;
 }

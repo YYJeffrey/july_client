@@ -30,9 +30,9 @@
 </view>
 
 <!-- Ta的动态 -->
-<l-tabs wx:if="{{user.id}}" id="tabs" animated animated-for-line active-color="#337559" l-header-class="tabs" l-line-class="tabs-line" bind:linchange="changeTabs">
+<l-tabs wx:if="{{user.id}}" id="tabs" animated animated-for-line active-color="#337559" l-header-class="tabs {{tabsFixed ? 'tabs-fixed' : ''}}" l-line-class="tabs-line" bind:linchange="changeTabs">
   <l-tabpanel tab="话题" key="topic" slot="topic">
-    <view class="tab-content">
+    <view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
       <nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="{{genderText}}还没有发布话题" nothing-class="nothing" />
       <l-card data-id="{{item.id}}" bindtap="gotoTopicDetail" wx:for="{{topics}}" wx:key="item" l-class="card" l-img-class="{{item.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="topic-title" type="primary" position="left" image="{{item.images.length > 0 ? item.images[0] : ''}}"
         image-mode="aspectFill" title="{{item.create_time}}">
@@ -45,7 +45,7 @@
     </view>
   </l-tabpanel>
   <l-tabpanel tab="评论" key="comment" slot="comment">
-    <view class="tab-content">
+    <view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
       <nothing wx:if="{{comments.length == 0}}" pic="../../images/icon_nothing/pic_comment.png" tip="{{genderText}}还没有发表评论" nothing-class="nothing" />
       <l-card data-id="{{item.topic_id}}" bindtap="gotoTopicDetail" wx:for="{{comments}}" wx:key="item" l-class="card" l-img-class="right-img-none" l-title-class="topic-title" type="primary" position="left" title="{{item.create_time}}">
         <view class="card-content">
@@ -57,7 +57,7 @@
     </view>
   </l-tabpanel>
   <l-tabpanel tab="收藏" key="star" slot="star">
-    <view class="tab-content">
+    <view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
       <nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="{{genderText}}还没有收藏动态" nothing-class="nothing" />
       <l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="{{item.topic.user.id != -1 ? 'star-title' : 'star-title-anon'}}"
         type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}" image-mode="aspectFill" title="{{item.topic.user.nick_name}}" bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">

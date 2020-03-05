@@ -11,5 +11,6 @@ module.exports = {
   followingAPI: baseAPI + "following/", // 关注接口
   commentAPI: baseAPI + "comment/", // 评论接口
   starAPI: baseAPI + "star/", // 收藏接口
-  templateAPI: baseAPI + "template/" // 模板接口
+  templateAPI: baseAPI + "template/", // 模板接口
+  chatAPI: socketAPI + "chat" // 聊天接口
 }

@@ -14,7 +14,9 @@ Page({
     pageComment: 1,
     pageStar: 1,
     tabIndex: 0,
+    tabsTop: 305,
     genderText: "Ta",
+    tabsFixed: false, // Tabs是否吸顶
     isEndTopic: false, // 话题是否到底
     isEndStar: false, // 收藏是否到底
     isEndComment: false, // 评论是否到底
@@ -24,6 +26,18 @@ Page({
   onLoad(options) {
     const userId = options.userId
     this.getUser(userId)
+  },
+
+  /**
+   * 获取Tabs的高度
+   */
+  getTabsTop() {
+    const query = wx.createSelectorQuery();
+    query.select("#tabs").boundingClientRect((res) => {
+      this.setData({
+        tabsTop: res.top
+      })
+    }).exec();
   },
 
   /**
@@ -47,6 +61,9 @@ Page({
           user: user,
           genderText: genderText
         })
+
+        // 获取Tabs高度
+        this.getTabsTop()
 
         // 设置标题
         wx.setNavigationBarTitle({
@@ -286,6 +303,18 @@ Page({
     if (tabIndex == 2) {
       const page = this.data.pageStar
       this.getStars(userId, page + 1)
+    }
+  },
+
+  onPageScroll(event) {
+    if (event.scrollTop >= this.data.tabsTop) {
+      this.setData({
+        tabsFixed: true
+      })
+    } else {
+      this.setData({
+        tabsFixed: false
+      })
     }
   },
 

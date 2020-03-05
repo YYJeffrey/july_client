@@ -9,8 +9,6 @@ button {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 14px;
-  padding-right: 14px;
   box-sizing: border-box;
   font-size: 18px;
   text-align: center;
@@ -20,8 +18,8 @@ button {
   overflow: hidden;
   border: none;
   border-radius: 0;
-  padding: 0;
   background-color: #fff;
+  padding: 0 !important;
   width: 100% !important;
   font-weight: 400;
 }

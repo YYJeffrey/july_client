@@ -37,7 +37,7 @@ Page({
    * 连接Socket
    */
   connectSocket(roomId) {
-    socket = this.socket = io(api.socketAPI + "chat")
+    socket = this.socket = io(api.chatAPI)
     socket.on("connect", (res) => {
       const data = {
         room_id: roomId,

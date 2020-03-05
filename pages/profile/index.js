@@ -14,14 +14,18 @@ Page({
     pageComment: 1,
     pageStar: 1,
     tabIndex: 0,
+    tabsTop: 255,
     isAuth: false,
+    tabsFixed: false, // Tabs是否吸顶
     isEndTopic: false, // 话题是否到底
     isEndStar: false, // 收藏是否到底
     isEndComment: false, // 评论是否到底
     loading: false
   },
 
-  onLoad() {},
+  onLoad() {
+    this.getTabsTop()
+  },
 
   onShow() {
     this.getUser()
@@ -41,6 +45,19 @@ Page({
         isEndComment: false
       })
     }
+  },
+
+  /**
+   * 获取Tabs的高度
+   */
+  getTabsTop() {
+    const navigateHeight = 56
+    const query = wx.createSelectorQuery();
+    query.select("#tabs").boundingClientRect((res) => {
+      this.setData({
+        tabsTop: res.top - navigateHeight
+      })
+    }).exec();
   },
 
   /**
@@ -444,6 +461,18 @@ Page({
         }
       }
     })
+  },
+
+  onPageScroll(event) {
+    if (event.scrollTop >= this.data.tabsTop) {
+      this.setData({
+        tabsFixed: true
+      })
+    } else {
+      this.setData({
+        tabsFixed: false
+      })
+    }
   },
 
   onShareAppMessage() {

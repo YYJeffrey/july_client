@@ -44,6 +44,8 @@ page {
   border-radius: 15rpx;
   background: #fff;
   word-break: break-all;
+  min-width: 25rpx;
+  margin: 0 auto 0 0;
 }
 
 .message-box .content-right {
@@ -54,6 +56,8 @@ page {
   background: #258b63;
   color: #fff;
   word-break: break-all;
+  min-width: 25rpx;
+  margin: 0 0 0 auto;
 }
 
 .triangle-left::before {

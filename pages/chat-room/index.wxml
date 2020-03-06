@@ -1,22 +1,27 @@
 <!--pages/chat-room/index.wxml-->
 
 <!-- 消息内容 -->
-<block wx:for="{{msg}}" wx:key="item">
-  <view wx:if="{{item.type == 'status'}}" class="chat-item">
-    <view class="tip">{{item.nick_name + item.data}}</view>
+<scroll-view class="msg-scroll" style="height:{{height}}rpx" scroll-y scroll-with-animation scroll-top="{{scrollTop}}" enable-back-to-top>
+  <view class="msg-list">
+    <block wx:for="{{msg}}" wx:key="item" in="msg{{index+1}}">
+      <view wx:if="{{item.type == 'status'}}" class="chat-item">
+        <view class="tip">{{item.nick_name + item.data}}</view>
+      </view>
+      <view wx:if="{{item.type == 'message'}}" class="chat-item {{item.user_id == userId ? 'reverse' : ''}}">
+        <image class="avatar" src="{{item.avatar}}" />
+        <view class="message-box">
+          <view class="nick-name {{item.user_id == userId ? 'text-right' : ''}}">{{item.nick_name}}</view>
+          <view class="{{item.user_id == userId ? 'content-right triangle-right' : 'content-left triangle-left'}}">{{item.data}}</view>
+        </view>
+      </view>
+    </block>
   </view>
-  <view wx:if="{{item.type == 'message'}}" class="chat-item {{item.user_id == userId ? 'reverse' : ''}}">
-    <image class="avatar" src="{{item.avatar}}" />
-    <view class="message-box">
-      <view class="nick-name {{item.user_id == userId ? 'text-right' : ''}}">{{item.nick_name}}</view>
-      <view class="{{item.user_id == userId ? 'content-right triangle-right' : 'content-left triangle-left'}}">{{item.data}}</view>
-    </view>
-  </view>
-</block>
+</scroll-view>
 
 <!-- 内容编辑区 -->
 <view class="chat-edit">
-  <l-input hide-label maxlength="150" width="600" focus="{{focus}}" value="{{content}}" confirmHold="{{true}}" confirmType="发送" placeholder="聊点什么吧~" bind:lininput="setMessage" bind:linconfirm="onSendMessageTap" />
+  <l-input l-class="edit-input" hide-label maxlength="150" width="600" focus="{{focus}}" value="{{content}}" confirmHold="{{true}}" placeholder="聊点什么吧~" confirmType="发送" bind:lininput="setMessage" bind:linconfirm="onSendMessageTap" bind:linfocus="onFocusTap"
+    bind:linblur="onBlurTap" />
   <l-button shape="circle" size="mini" bg-color="#337559" width="125" height="60" bind:lintap="onSendMessageTap">发送</l-button>
 </view>
 

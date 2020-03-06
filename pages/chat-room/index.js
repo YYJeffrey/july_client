@@ -10,11 +10,14 @@ Page({
     content: null,
     focus: false,
     userId: -1,
+    scrollTop: 1000,
+    height: 1116,
     msg: []
   },
 
   onLoad(options) {
     this.getUserId()
+    this.getScrollHeight()
     this.connectSocket(options.roomId)
     this.onSocketMessage("status")
     this.onSocketMessage("message")
@@ -22,6 +25,24 @@ Page({
 
   onUnload() {
     this.sendSocketMessage("leave")
+  },
+
+  /**
+   * 获取窗口高度
+   */
+  getScrollHeight() {
+    const that = this;
+    wx.getSystemInfo({
+      success: function(res) {
+        const windowHeight = res.windowHeight;
+        const windowWidth = res.windowWidth;
+        const ratio = 750 / windowWidth;
+        const height = windowHeight * ratio;
+        that.setData({
+          height: height - 88
+        })
+      }
+    })
   },
 
   /**
@@ -64,11 +85,24 @@ Page({
       this.setData({
         msg: msg
       })
-
-      wx.pageScrollTo({
-        scrollTop: 1000
-      })
+      this.scrollToBottom()
     })
+  },
+
+  /**
+   * 滚动至底部
+   */
+  scrollToBottom() {
+    const query = wx.createSelectorQuery();
+    query.select(".msg-scroll").boundingClientRect();
+    query.select(".msg-list").boundingClientRect();
+    query.exec((res) => {
+      const scorllHeight = res[0].height;
+      const listHeight = res[1].height;
+      this.setData({
+        scrollTop: listHeight - scorllHeight
+      });
+    });
   },
 
   /**

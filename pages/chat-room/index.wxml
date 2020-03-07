@@ -20,8 +20,7 @@
 
 <!-- 内容编辑区 -->
 <view class="chat-edit">
-  <l-input l-class="edit-input" hide-label maxlength="150" width="600" focus="{{focus}}" value="{{content}}" confirmHold="{{true}}" placeholder="聊点什么吧~" confirmType="发送" bind:lininput="setMessage" bind:linconfirm="onSendMessageTap" bind:linfocus="onFocusTap"
-    bind:linblur="onBlurTap" />
+  <l-input l-class="edit-input" hide-label maxlength="150" width="600" value="{{content}}" confirmHold="{{true}}" placeholder="聊点什么吧~" confirmType="发送" bind:lininput="setMessage" bind:linconfirm="onSendMessageTap" />
   <l-button shape="circle" size="mini" bg-color="#337559" width="125" height="60" bind:lintap="onSendMessageTap">发送</l-button>
 </view>
 

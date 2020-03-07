@@ -78,8 +78,10 @@ Page({
       })
     } else {
       // 进入树洞
+      const countDown = (endTime - nowTime) / 1000
+      const roomId = this.data.hole.room_id
       if (app.globalData.userDetail) {
-        this.gotoChatRoom(this.data.hole.room_id)
+        this.gotoChatRoom(roomId, countDown)
       } else {
         this.gotoAuth()
       }
@@ -118,9 +120,9 @@ Page({
   /**
    * 跳转聊天室页面
    */
-  gotoChatRoom(roomId) {
+  gotoChatRoom(roomId, countDown) {
     wx.navigateTo({
-      url: "/pages/chat-room/index?roomId=" + roomId,
+      url: "/pages/chat-room/index?roomId=" + roomId + "&countDown=" + countDown,
     })
   },
 

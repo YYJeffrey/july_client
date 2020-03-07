@@ -8,17 +8,21 @@ let socket = null
 Page({
   data: {
     content: null,
-    focus: false,
     userId: -1,
     scrollTop: 1000,
-    height: 1116,
+    countDown: 0, // 倒计时秒数
+    height: 1116, // 消息内容区高度
     msg: []
   },
 
   onLoad(options) {
+    const roomId = options.roomId
+    const countDown = options.countDown
+
+    this.getCountDown(countDown)
     this.getUserId()
     this.getScrollHeight()
-    this.connectSocket(options.roomId)
+    this.connectSocket(roomId)
     this.onSocketMessage("status")
     this.onSocketMessage("message")
   },
@@ -43,6 +47,40 @@ Page({
         })
       }
     })
+  },
+
+  /**
+   * 获取倒计时
+   */
+  getCountDown(countDown) {
+    const interval = setInterval(() => {
+      this.setData({
+        countDown: --countDown
+      })
+      if (countDown == 300) {
+        wx.lin.showMessage({
+          content: "树洞将在5分钟后关闭！",
+          duration: 3000
+        })
+      }
+      if (countDown <= 60 && countDown > 3) {
+        wx.lin.showMessage({
+          content: "距离树洞关闭还剩 " + countDown + " 秒！",
+          duration: 1000
+        })
+      }
+      if (countDown == 3) {
+        wx.lin.showMessage({
+          type: "warning",
+          content: "树洞即将关闭！",
+          duration: 3000
+        })
+      }
+      if (countDown <= 0) {
+        clearInterval(interval)
+        wx.navigateBack()
+      }
+    }, 1000);
   },
 
   /**
@@ -129,7 +167,6 @@ Page({
     this.sendSocketMessage("send", content)
     this.setData({
       content: null,
-      focus: true
     })
   },
 

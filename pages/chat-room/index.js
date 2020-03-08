@@ -10,6 +10,7 @@ Page({
     content: null,
     userId: -1,
     scrollTop: 1000,
+    timeDown: 0, // 大于5分钟消息间隔报时
     countDown: 0, // 倒计时秒数
     height: 1116, // 消息内容区高度
     msg: []
@@ -54,8 +55,10 @@ Page({
    */
   getCountDown(countDown) {
     const interval = setInterval(() => {
+      let timeDown = this.data.timeDown
       this.setData({
-        countDown: --countDown
+        countDown: --countDown,
+        timeDown: ++timeDown
       })
       if (countDown == 300) {
         wx.lin.showMessage({
@@ -119,9 +122,20 @@ Page({
   onSocketMessage(path) {
     this.socket.on(path, (res) => {
       let msg = this.data.msg
+      let timeDown = this.data.timeDown
+
+      // 间隔时间大于5分钟输出时分秒
+      if (timeDown >= 300) {
+        msg.push({
+          type: "time",
+          content: wxutil.getDateTime().slice(-8, -3)
+        })
+      }
+
       msg.push(res)
       this.setData({
-        msg: msg
+        msg: msg,
+        timeDown: 0
       })
       this.scrollToBottom()
     })

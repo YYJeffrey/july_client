@@ -7,6 +7,9 @@
       <view wx:if="{{item.type == 'status'}}" class="chat-item">
         <view class="tip">{{item.nick_name + item.data}}</view>
       </view>
+      <view wx:if="{{item.type == 'time'}}" class="chat-item">
+        <view class="tip">{{item.content}}</view>
+      </view>
       <view wx:if="{{item.type == 'message'}}" class="chat-item {{item.user_id == userId ? 'reverse' : ''}}">
         <image class="avatar" src="{{item.avatar}}" />
         <view class="message-box">

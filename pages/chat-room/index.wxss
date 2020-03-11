@@ -78,12 +78,22 @@ page {
   right: 105rpx;
 }
 
+.msg-images {
+  width: 360rpx;
+  max-height: 800rpx;
+  border-radius: 15rpx;
+}
+
 .reverse {
   flex-direction: row-reverse;
 }
 
 .text-right {
   text-align: right;
+}
+
+.edit-input {
+  width: 555rpx !important;
 }
 
 .chat-edit {
@@ -97,4 +107,8 @@ page {
   width: 100%;
   background: #fff;
   height: 88rpx;
+}
+
+.add-pic {
+  margin-right: 15rpx;
 }

@@ -24,8 +24,9 @@ Page({
     this.getUserId()
     this.getScrollHeight()
     this.connectSocket(roomId)
-    this.onSocketMessage("status")
-    this.onSocketMessage("message")
+    this.onSocketMessage("status") // 监听状态信息
+    this.onSocketMessage("message") // 监听文字消息
+    this.onSocketMessage("images") // 监听图片消息
   },
 
   onUnload() {
@@ -181,6 +182,46 @@ Page({
     this.sendSocketMessage("send", content)
     this.setData({
       content: null,
+    })
+  },
+
+  /**
+   * 发送图片
+   */
+  sendImg(event) {
+    wxutil.image.choose(1).then((res) => {
+      if (res.errMsg == "chooseImage:ok") {
+        const url = api.holeAPI + "images/"
+
+        wxutil.file.upload({
+          url: url,
+          fileKey: "file",
+          filePath: res.tempFilePaths[0]
+        }).then((res) => {
+          const data = JSON.parse(res.data);
+          if (data.code == 200) {
+            this.sendSocketMessage("images", data.data.url)
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "图片上传失败！"
+            })
+          }
+        })
+      }
+    })
+  },
+
+  /**
+   * 图片预览
+   */
+  previewImage(event) {
+    const src = event.currentTarget.dataset.src
+    const urls = [src]
+
+    wx.previewImage({
+      current: src,
+      urls: urls
     })
   },
 

@@ -109,6 +109,7 @@
 					"id": -1,
 					"name": "聊天页面",
 					"pathName": "pages/chat-room/index",
+					"query": "",
 					"scene": null
 				}
 			]

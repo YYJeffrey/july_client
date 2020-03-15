@@ -275,27 +275,18 @@ Page({
   },
 
   /**
-   * 修改头像或封面
+   * 修改封面
    */
-  changeImg(event) {
-    const imgType = event.currentTarget.dataset.imgType
-    let imgText = null;
-
-    if (imgType == "avatar") {
-      imgText = "头像"
-    } else if (imgType == "poster") {
-      imgText = "封面"
-    }
-
+  changePoster() {
     // 提示
     wx.lin.showMessage({
-      content: "设置" + imgText + "图片"
+      content: "设置封面图片"
     })
 
-    // 上传图片
+    // 上传封面
     wxutil.image.choose(1).then((res) => {
       if (res.errMsg == "chooseImage:ok") {
-        const url = api.userAPI + imgType + "/"
+        const url = api.userAPI + "poster/"
 
         wxutil.file.upload({
           url: url,
@@ -311,26 +302,33 @@ Page({
             wxutil.setStorage("userDetail", userDetail)
             app.globalData.userDetail = userDetail
 
-            if (imgType == "avatar") {
-              this.setData({
-                avatar: userDetail.avatar
-              })
-            } else if (imgType == "poster") {
-              this.setData({
-                poster: userDetail.poster
-              })
-            }
+            this.setData({
+              poster: userDetail.poster
+            })
 
             wx.lin.showMessage({
               type: "success",
-              content: imgText + "修改成功！"
+              content: "封面修改成功！"
             })
           } else {
             wx.lin.showMessage({
               type: "error",
-              content: imgText + "修改成功！"
+              content: "封面修改失败！"
             })
           }
+        })
+      }
+    })
+  },
+
+  /**
+   * 修改头像
+   */
+  changeAvatar() {
+    wxutil.image.choose(1).then((res) => {
+      if (res.errMsg == "chooseImage:ok") {
+        wx.navigateTo({
+          url: "/pages/images-cropper/index?src=" + res.tempFilePaths[0],
         })
       }
     })

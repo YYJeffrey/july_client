@@ -220,7 +220,7 @@ Page({
     const urls = [src]
 
     wx.previewImage({
-      current: src,
+      current: "",
       urls: urls
     })
   },

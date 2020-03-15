@@ -111,6 +111,13 @@
 					"pathName": "pages/chat-room/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "图片裁剪",
+					"pathName": "pages/images-cropper/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

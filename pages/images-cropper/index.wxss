@@ -1,0 +1,23 @@
+/* pages/images-cropper/index.wxss */
+
+.cropper-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.cropper-btn {
+  display: flex;
+  flex-direction: row;
+  color: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 50px;
+  padding: 0 30rpx;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  background: #232323;
+  box-sizing: border-box;
+}

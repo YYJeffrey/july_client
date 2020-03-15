@@ -2,7 +2,7 @@
 
 <view class="{{tabsFixed ? 'header-fixed' : ''}}">
   <!-- 封面 -->
-  <image class="poster" src="{{user.poster ? user.poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" bindtap="changeImg" data-img-type="poster" />
+  <image class="poster" src="{{user.poster ? user.poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" bindtap="changePoster" />
 
   <!-- 个人信息 -->
   <view class="header">
@@ -10,7 +10,7 @@
       <view wx:if="{{!user.avatar}}" class="avatar-box">
         <open-data class="avatar" type="userAvatarUrl"></open-data>
       </view>
-      <image wx:else class="avatar" src="{{user.avatar}}" bindtap="changeImg" data-img-type="avatar" mode="aspectFill" />
+      <image wx:else class="avatar" src="{{user.avatar}}" bindtap="changeAvatar" mode="aspectFill" />
       <view wx:if="{{user.gender && user.gender != 0}}" class="gender-box {{user.gender == 1 ? 'male' : 'female'}}">
         <image class="gender-icon" src="../../images/icon_gender/{{user.gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
       </view>

@@ -9,6 +9,7 @@
     "pages/chat-room/index",
     "pages/user-edit/index",
     "pages/visiting-card/index",
+    "pages/images-cropper/index",
     "pages/following/index",
     "pages/follower/index",
     "pages/auth/index",

@@ -278,7 +278,6 @@ Page({
    * 修改封面
    */
   changePoster() {
-    // 提示
     wx.lin.showMessage({
       content: "设置封面图片"
     })
@@ -325,6 +324,9 @@ Page({
    * 修改头像
    */
   changeAvatar() {
+    wx.lin.showMessage({
+      content: "设置头像图片"
+    })
     wxutil.image.choose(1).then((res) => {
       if (res.errMsg == "chooseImage:ok") {
         wx.navigateTo({

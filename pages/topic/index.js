@@ -24,23 +24,25 @@ Page({
     this.getScrollHeight()
     this.getLabels()
     this.getUserId()
+    this.getTopics()
   },
 
   onShow() {
-    const labelId = wxutil.getStorage("labelId")
+    let labelId = wxutil.getStorage("labelId")
     if (labelId) {
-      // 因wx.switchTab()无法传递参数，故使用缓存获取标签参数
+      // 由于switchTab方法的传参限制，故用缓存获取标签参数
       this.getTopics(1, labelId)
-      this.setData({
-        labelId: labelId
-      })
       wx.removeStorageSync("labelId")
     } else {
-      this.setData({
-        labelId: -1
-      })
-      this.getTopics()
+      if (wxutil.getStorage("refreshTopics")) {
+        wx.removeStorageSync("refreshTopics")
+        this.getTopics()
+      }
+      labelId = -1
     }
+    this.setData({
+      labelId: labelId
+    })
   },
 
   /**

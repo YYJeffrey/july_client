@@ -221,6 +221,7 @@ Page({
           type: "success",
           content: "发布成功！",
           success() {
+            wxutil.setStorage("refreshTopics", true)
             wx.navigateBack()
           }
         })

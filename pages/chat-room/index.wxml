@@ -30,7 +30,7 @@
 
 <!-- 内容编辑区 -->
 <view class="chat-edit">
-  <l-input l-class="edit-input" hide-label maxlength="150" width="600" value="{{content}}" confirmHold="{{true}}" placeholder="聊点什么吧~" confirmType="发送" bind:lininput="setMessage" bind:linconfirm="onSendMessageTap" />
+  <l-input l-class="edit-input" hide-label maxlength="150" width="600" value="{{content}}" confirmHold="{{true}}" placeholder="聊点什么吧~" confirmType="send" bind:lininput="setMessage" bind:linconfirm="onSendMessageTap" />
   <view class="add-box">
     <l-icon name="add" size="45" color="#0f6945" l-class="add-pic" bindtap="sendImg" />
   </view>

@@ -222,11 +222,17 @@ page {
   height: 88rpx;
 }
 
-.delete-box {
-  width: 100%;
-  margin-top: 8rpx;
+.comment-bottom {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+}
+
+.content {
+  width: 100%;
+}
+
+.delete-box {
+  margin-left: 30rpx;
 }
 
 .delete-text {

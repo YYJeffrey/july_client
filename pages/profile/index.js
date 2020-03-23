@@ -207,14 +207,17 @@ Page({
     this.setData({
       tabIndex: tabIndex
     })
-    if (tabIndex == 0) {
-      this.getTopics(userId)
-    }
-    if (tabIndex == 1) {
-      this.getComments(userId)
-    }
-    if (tabIndex == 2) {
-      this.getStars(userId)
+
+    if (userId) {
+      if (tabIndex == 0) {
+        this.getTopics(userId)
+      }
+      if (tabIndex == 1) {
+        this.getComments(userId)
+      }
+      if (tabIndex == 2) {
+        this.getStars(userId)
+      }
     }
   },
 
@@ -268,10 +271,16 @@ Page({
    * 跳转到用户名片页
    */
   gotoVisitingCard(event) {
-    const userId = event.target.dataset.userId
-    wx.navigateTo({
-      url: "/pages/visiting-card/index?userId=" + userId
-    })
+    if (app.globalData.userDetail) {
+      const userId = event.target.dataset.userId
+      wx.navigateTo({
+        url: "/pages/visiting-card/index?userId=" + userId
+      })
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/index"
+      })
+    }
   },
 
   /**
@@ -285,6 +294,7 @@ Page({
     // 上传封面
     wxutil.image.choose(1).then((res) => {
       if (res.errMsg == "chooseImage:ok") {
+        wxutil.showLoading("上传中...")
         const url = api.userAPI + "poster/"
 
         wxutil.file.upload({
@@ -294,6 +304,7 @@ Page({
         }).then((res) => {
           const data = JSON.parse(res.data);
           if (data.code == 200) {
+            wx.hideLoading()
             // 更新缓存
             const user = data.data
             let userDetail = app.globalData.userDetail
@@ -302,7 +313,7 @@ Page({
             app.globalData.userDetail = userDetail
 
             this.setData({
-              poster: userDetail.poster
+              user: user
             })
 
             wx.lin.showMessage({

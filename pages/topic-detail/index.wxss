@@ -229,10 +229,16 @@ page {
 
 .content {
   width: 100%;
+  text-align: justify;
+}
+
+.reply {
+  display: flex;
+  flex-direction: row;
 }
 
 .delete-box {
-  margin-left: 30rpx;
+  margin-left: 20rpx;
 }
 
 .delete-text {

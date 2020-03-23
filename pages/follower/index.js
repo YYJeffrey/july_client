@@ -136,10 +136,16 @@ Page({
    * 跳转到用户名片页
    */
   gotoVisitingCard(event) {
-    const userId = event.target.dataset.userId
-    wx.navigateTo({
-      url: "/pages/visiting-card/index?userId=" + userId
-    })
+    if (app.globalData.userDetail) {
+      const userId = event.target.dataset.userId
+      wx.navigateTo({
+        url: "/pages/visiting-card/index?userId=" + userId
+      })
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/index"
+      })
+    }
   },
 
   onShareAppMessage() {

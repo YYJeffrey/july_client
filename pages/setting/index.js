@@ -1,7 +1,11 @@
 // pages/setting/index.js
-Page({
-  data: {},
+const app = getApp()
+const wxutil = app.wxutil
 
+Page({
+  data: {
+    showPopup: false
+  },
   onLoad() {},
 
   /**
@@ -22,7 +26,46 @@ Page({
       success: (res) => {
         if (res.confirm) {
           wx.clearStorage()
+          app.globalData.userDetail = null
         }
+      }
+    })
+  },
+
+  /**
+   * 展开或收起弹出层
+   */
+  togglePopup() {
+    this.setData({
+      showPopup: !this.data.showPopup
+    })
+  },
+
+  /**
+   * 图片预览
+   */
+  previewImage(event) {
+    const src = event.currentTarget.dataset.src
+    const urls = [src]
+
+    wx.previewImage({
+      current: "",
+      urls: urls
+    })
+  },
+
+  /**
+   * 复制仓库地址
+   */
+  copyLink() {
+    wx.setClipboardData({
+      data: app.globalData.githubURL,
+      success(res) {
+        wx.getClipboardData({
+          success(res) {
+            wxutil.showToast("仓库地址已复制")
+          }
+        })
       }
     })
   },

@@ -33,18 +33,20 @@ Page({
    * 获取预约模板ID
    */
   getTemplateId(title = "预约模板") {
-    const url = api.templateAPI
-    const data = {
-      title: title
-    }
-
-    wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        this.setData({
-          reportTemplateId: res.data.data.template_id
-        })
+    if (app.globalData.userDetail) {
+      const url = api.templateAPI
+      const data = {
+        title: title
       }
-    })
+
+      wxutil.request.get(url, data).then((res) => {
+        if (res.data.code == 200) {
+          this.setData({
+            reportTemplateId: res.data.data.template_id
+          })
+        }
+      })
+    }
   },
 
   /**

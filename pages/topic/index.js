@@ -28,21 +28,24 @@ Page({
   },
 
   onShow() {
-    let labelId = wxutil.getStorage("labelId")
-    if (labelId) {
-      // 由于switchTab方法的传参限制，故用缓存获取标签参数
-      this.getTopics(1, labelId)
-      wx.removeStorageSync("labelId")
-    } else {
-      if (wxutil.getStorage("refreshTopics")) {
-        wx.removeStorageSync("refreshTopics")
-        this.getTopics()
+    const labelId = wxutil.getStorage("labelId")
+    // 由于wx.switchTab()的传参限制，故用缓存获取标签参数
+
+    if (!wxutil.getStorage("refreshTopics")) {
+      if (labelId) {
+        wx.removeStorageSync("labelId")
+        this.setData({
+          labelId: labelId
+        })
+        this.getTopics(1, labelId)
       }
-      labelId = -1
+    } else {
+      wx.removeStorageSync("refreshTopics")
+      this.setData({
+        labelId: -1
+      })
+      this.getTopics()
     }
-    this.setData({
-      labelId: labelId
-    })
   },
 
   /**
@@ -74,8 +77,12 @@ Page({
 
     wxutil.request.get(url, data).then((res) => {
       if (res.data.code == 200) {
+        let labels = [{
+          id: -1,
+          name: "最新"
+        }]
         this.setData({
-          labels: res.data.data
+          labels: labels.concat(res.data.data)
         })
       }
     })
@@ -328,7 +335,7 @@ Page({
   },
 
   /**
-   * 展开或收起下拉层
+   * 展开或收起弹出层
    */
   togglePopup() {
     this.setData({
@@ -405,10 +412,16 @@ Page({
    * 跳转到用户名片页
    */
   gotoVisitingCard(event) {
-    const userId = event.target.dataset.userId
-    wx.navigateTo({
-      url: "/pages/visiting-card/index?userId=" + userId
-    })
+    if (app.globalData.userDetail) {
+      const userId = event.target.dataset.userId
+      wx.navigateTo({
+        url: "/pages/visiting-card/index?userId=" + userId
+      })
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/index"
+      })
+    }
   },
 
   onShareAppMessage(res) {

@@ -2,7 +2,7 @@
 
 <!-- 授权展示 -->
 <l-status-show show custom>
-  <image src="/images/auth/bg.png" class="bg" open-type="getUserInfo" />
+  <image src="/images/bg/bg_auth.png" class="bg" open-type="getUserInfo" />
   <text class="title-text">正在申请获得以下权限：</text>
   <text class="desc-text">获得你的公开信息(昵称、头像等)</text>
   <l-button bg-color="#337559" width="480" l-class="btn-auth" lang="zh_CN" open-type="getUserInfo" bindgetuserinfo="auth">微信授权</l-button>

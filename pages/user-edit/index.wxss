@@ -29,11 +29,6 @@
   background: #fff;
 }
 
-.input-textarea {
-  width: 750rpx !important;
-  padding-left: 25rpx;
-}
-
 .btn-save {
   display: block;
   margin: 60rpx 235rpx;

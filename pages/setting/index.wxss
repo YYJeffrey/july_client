@@ -21,9 +21,42 @@ button {
   background-color: #fff;
   padding: 0 !important;
   width: 100% !important;
-  font-weight: 400;
+  font-weight: 500 !important;
 }
 
 button::after {
   border: none;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  bottom: 100rpx;
+}
+
+.popup {
+  width: 350rpx;
+  height: 350rpx;
+  background: #fff;
+}
+
+.popup .qr_like {
+  width: 350rpx;
+  height: 350rpx;
+}
+
+.footer .github-logo {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+
+.footer .github-uri {
+  margin-top: 15rpx;
+  font-size: 24rpx;
+  color: #999;
 }

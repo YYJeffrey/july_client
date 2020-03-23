@@ -53,6 +53,7 @@
     "l-button": "./miniprogram_npm/lin-ui/button/index",
     "l-radio": "../miniprogram_npm/lin-ui/radio/index",
     "l-radio-group": "../miniprogram_npm/lin-ui/radio-group/index",
+    "l-popup": "../miniprogram_npm/lin-ui/popup/index",
     "l-message": "./miniprogram_npm/lin-ui/message/index",
     "l-dialog": "../miniprogram_npm/lin-ui/dialog/index",
     "l-action-sheet": "../miniprogram_npm/lin-ui/action-sheet/index",

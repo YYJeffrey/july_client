@@ -11,7 +11,7 @@
 </view>
 
 <!-- 下拉层 -->
-<l-popup show="{{showPopup}}" animation="show" content-align="top" bind:lintap="togglePopup" z-index="99">
+<l-popup show="{{showPopup}}" animation content-align="top" bind:lintap="togglePopup" z-index="99">
   <view class="popup">
     <l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{labelId == item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{labelId == item.id ? '#fff' : '#337559'}}" bind:lintap="onTagTap" data-label="{{item.id}}">#{{item.name}}</l-tag>
   </view>

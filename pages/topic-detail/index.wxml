@@ -59,8 +59,8 @@
       </view>
       <view class="comment-bottom">
         <view class="content">
-          <text wx:if="{{item.reply_user}}" class="reply">回复<text class="nick-name">{{item.reply_user.nick_name}}: </text></text>{{item.content}}
-        </view>
+          <text wx:if="{{item.reply_user.id}}">回复</text>
+          <text wx:if="{{item.reply_user.id}}" class="nick-name">{{item.reply_user.nick_name}}: </text>{{item.content}}</view>
         <view class="delete-box" wx:if="{{userId == item.user.id}}">
           <view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
         </view>

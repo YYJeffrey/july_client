@@ -112,18 +112,20 @@ Page({
    * 获取评论模板ID
    */
   getTemplateId(title = "评论模板") {
-    const url = api.templateAPI
-    const data = {
-      title: title
-    }
-
-    wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        this.setData({
-          commentTemplateId: res.data.data.template_id
-        })
+    if (app.globalData.userDetail) {
+      const url = api.templateAPI
+      const data = {
+        title: title
       }
-    })
+
+      wxutil.request.get(url, data).then((res) => {
+        if (res.data.code == 200) {
+          this.setData({
+            commentTemplateId: res.data.data.template_id
+          })
+        }
+      })
+    }
   },
 
   /**
@@ -281,10 +283,16 @@ Page({
    * 跳转到用户名片页
    */
   gotoVisitingCard(event) {
-    const userId = event.target.dataset.userId
-    wx.navigateTo({
-      url: "/pages/visiting-card/index?userId=" + userId
-    })
+    if (app.globalData.userDetail) {
+      const userId = event.target.dataset.userId
+      wx.navigateTo({
+        url: "/pages/visiting-card/index?userId=" + userId
+      })
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/index"
+      })
+    }
   },
 
   /**

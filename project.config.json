@@ -23,7 +23,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.10.2",
+	"libVersion": "2.10.3",
 	"appid": "wx0611fd1ba2b0bcd6",
 	"projectname": "july_client",
 	"debugOptions": {

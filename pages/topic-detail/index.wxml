@@ -1,84 +1,83 @@
 <!--pages/topic-detail/index.wxml-->
 
 <!-- 动态详情 -->
-<l-card wx:if="{{topic.id}}" type="avatar" l-class="card" l-title-class="{{topic.user.id != -1 ? 'nick-name' : 'nick-name-anon'}}" image="{{topic.user.avatar}}" title="{{topic.user.nick_name}}" describe="{{topic.create_time}}" bind:linavatar="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}"
-  bind:lintitle="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{topic.user.id}}">
-  <view class="avater-content">{{topic.content}}</view>
-  <view class="posters">
-    <block wx:if="{{topic.images.length == 1}}">
-      <image class="column-one" src="{{topic.images[0]}}" mode="widthFix" bindtap="previewImage" data-src="{{topic.images[0]}}" lazy-load />
-    </block>
-    <block wx:elif="{{topic.images.length == 2 || topic.images.length == 4}}">
-      <image class="column-two" wx:for="{{topic.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" lazy-load />
-    </block>
-    <block wx:else>
-      <image wx:for="{{topic.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" lazy-load />
-    </block>
-  </view>
+<l-card wx:if="{{topic.id}}" type="avatar" l-class="card" l-title-class="{{topic.user.id != -1 ? 'nick-name' : 'nick-name-anon'}}" image="{{topic.user.avatar}}" title="{{topic.user.nick_name}}" describe="{{topic.create_time}}" bind:linavatar="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" bind:lintitle="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{topic.user.id}}">
+	<view class="avater-content">{{topic.content}}</view>
+	<view class="posters">
+		<block wx:if="{{topic.images.length == 1}}">
+			<image class="column-one" src="{{topic.images[0]}}" mode="widthFix" bindtap="previewImage" data-src="{{topic.images[0]}}" lazy-load />
+		</block>
+		<block wx:elif="{{topic.images.length == 2 || topic.images.length == 4}}">
+			<image class="column-two" wx:for="{{topic.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" lazy-load />
+		</block>
+		<block wx:else>
+			<image wx:for="{{topic.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" lazy-load />
+		</block>
+	</view>
 
-  <view class="label-box" wx:if="{{topic.label}}">
-    <l-tag wx:for="{{topic.label}}" wx:key="item" l-class="tag" shape="circle" bg-color="#337559" font-color="#337559" plain bind:lintap="gotoTopic" data-label="{{item.id}}">#{{item.name}}</l-tag>
-  </view>
+	<view class="label-box" wx:if="{{topic.label}}">
+		<l-tag wx:for="{{topic.label}}" wx:key="item" l-class="tag" shape="circle" bg-color="#337559" font-color="#337559" plain bind:lintap="gotoTopic" data-label="{{item.id}}">#{{item.name}}</l-tag>
+	</view>
 
-  <view class="avater-share-container">
-    <view class="like-container" bindtap="onCommentTap">
-      <l-icon name="comment" color="{{topic.has_comment ? '#d81e05' : '#666'}}" size="28" />
-      <view class="{{topic.has_comment ? 'has-text' : ''}} number">{{topic.comment_count}}</view>
-    </view>
-    <view class="like-container" bindtap="onStarTap">
-      <l-icon name="like" color="{{topic.has_star ? '#d81e05' : '#666'}}" size="28" />
-      <view class="{{topic.has_star ? 'has-text' : ''}} number">{{topic.star_count}}</view>
-    </view>
-    <view class="like-container">
-      <l-icon name="eye" color="#666" size="28" />
-      <view class="number">{{topic.click_count}}</view>
-    </view>
-  </view>
-  <l-icon l-class="ellipsis" slot="more" name="ellipsis" color="#777" size="32" bindtap="onMoreTap" />
+	<view class="avater-share-container">
+		<view class="like-container" bindtap="onCommentTap">
+			<l-icon name="comment" color="{{topic.has_comment ? '#d81e05' : '#666'}}" size="28" />
+			<view class="{{topic.has_comment ? 'has-text' : ''}} number">{{topic.comment_count}}</view>
+		</view>
+		<view class="like-container" bindtap="onStarTap">
+			<l-icon name="like" color="{{topic.has_star ? '#d81e05' : '#666'}}" size="28" />
+			<view class="{{topic.has_star ? 'has-text' : ''}} number">{{topic.star_count}}</view>
+		</view>
+		<view class="like-container">
+			<l-icon name="eye" color="#666" size="28" />
+			<view class="number">{{topic.click_count}}</view>
+		</view>
+	</view>
+	<l-icon l-class="ellipsis" slot="more" name="ellipsis" color="#777" size="32" bindtap="onMoreTap" />
 </l-card>
 
 <!-- 收藏 -->
 <view wx:if="{{topic.id}}" class="star-box" wx:if="{{stars.length > 0}}">
-  <view class="star-content">
-    <image wx:for="{{stars}}" wx:key="item" class="avatar" src="{{item.user.avatar}}" data-user-id="{{item.user.id}}" bindtap="gotoVisitingCard" />
-  </view>
-  <view class="star-icon-box">
-    收藏
-    <l-icon l-class="star-icon" name="like" size="28" color="#777" />
-  </view>
+	<view class="star-content">
+		<image wx:for="{{stars}}" wx:key="item" class="avatar" src="{{item.user.avatar}}" data-user-id="{{item.user.id}}" bindtap="gotoVisitingCard" />
+	</view>
+	<view class="star-icon-box">
+		收藏
+		<l-icon l-class="star-icon" name="like" size="28" color="#777" />
+	</view>
 </view>
 
 <!-- 评论 -->
 <view wx:if="{{topic.id}}" class="comment-box" wx:if="{{comments.length > 0}}">
-  <view class="comment" wx:for="{{comments}}" wx:key="item" data-index="{{index}}" bindtap="onCommentItemTap">
-    <image class="avatar" src="{{item.user.avatar}}" data-user-id="{{item.user.id}}" catchtap="gotoVisitingCard" />
-    <view class="comment-right {{index == comments.length - 1 && isEnd ? 'non-border' : ''}}">
-      <view class="comment-top">
-        <view class="nick-name" data-user-id="{{item.user.id}}" catchtap="gotoVisitingCard">{{item.user.nick_name}}</view>
-        <view class="time">{{item.create_time}}</view>
-      </view>
-      <view class="comment-bottom">
-        <view class="content">
-          <text wx:if="{{item.reply_user.id}}">回复</text>
-          <text wx:if="{{item.reply_user.id}}" class="nick-name">{{item.reply_user.nick_name}}: </text>{{item.content}}</view>
-        <view class="delete-box" wx:if="{{userId == item.user.id}}">
-          <view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
-        </view>
-      </view>
-    </view>
-  </view>
-  <view class="more" wx:if="{{!isEnd}}" bindtap="getMoreComments">
-    <text>展开更多评论</text>
-    <view class="more-icon">
-      <l-icon name="down" color="#337559" size="22" />
-    </view>
-  </view>
+	<view class="comment" wx:for="{{comments}}" wx:key="item" data-index="{{index}}" bindtap="onCommentItemTap">
+		<image class="avatar" src="{{item.user.avatar}}" data-user-id="{{item.user.id}}" catchtap="gotoVisitingCard" />
+		<view class="comment-right {{index == comments.length - 1 && isEnd ? 'non-border' : ''}}">
+			<view class="comment-top">
+				<view class="nick-name" data-user-id="{{item.user.id}}" catchtap="gotoVisitingCard">{{item.user.nick_name}}</view>
+				<view class="time">{{item.create_time}}</view>
+			</view>
+			<view class="comment-bottom">
+				<view class="content">
+					<text wx:if="{{item.reply_user.id}}">回复</text>
+					<text wx:if="{{item.reply_user.id}}" class="nick-name">{{item.reply_user.nick_name}}: </text>{{item.content}}</view>
+				<view class="delete-box" wx:if="{{userId == item.user.id}}">
+					<view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
+				</view>
+			</view>
+		</view>
+	</view>
+	<view class="more" wx:if="{{!isEnd}}" bindtap="getMoreComments">
+		<text>展开更多评论</text>
+		<view class="more-icon">
+			<l-icon name="down" color="#337559" size="22" />
+		</view>
+	</view>
 </view>
 
 <!-- 评论编辑区 -->
 <view wx:if="{{topic.id}}" class="comment-edit">
-  <l-input hide-label maxlength="150" width="600" focus="{{focus}}" placeholder="{{placeholder}}" value="{{comment}}" bind:lininput="inputComment" />
-  <l-button shape="circle" size="mini" bg-color="#337559" width="125" height="60" bind:lintap="onCommntBtnTap">评论</l-button>
+	<l-input hide-label maxlength="150" width="600" focus="{{focus}}" placeholder="{{placeholder}}" value="{{comment}}" bind:lininput="inputComment" />
+	<l-button shape="circle" size="mini" bg-color="#337559" width="125" height="60" bind:lintap="onCommntBtnTap">评论</l-button>
 </view>
 
 <!-- nothing -->

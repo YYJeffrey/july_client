@@ -1,109 +1,80 @@
-// input/input.js
-import rules from '../../miniprogram_npm/lin-ui/behaviors/rules';
-
+import rules from "../../miniprogram_npm/lin-ui/behaviors/rules";
+import eventBus from "../../miniprogram_npm/lin-ui/utils/eventBus";
 Component({
-  /**
-   * 组件的属性列表
-   */
-  behaviors: ['wx://form-field', rules],
-  externalClasses: ['l-class', 'l-error-text', 'l-error-text-class', 'l-inner-class'],
+  behaviors: ["wx://form-field", rules],
+  externalClasses: ["l-class", "l-error-text", "l-error-text-class", "l-inner-class"],
   properties: {
-    // 占位文本
     placeholder: {
       type: String,
-      value: ''
+      value: ""
     },
-    // 输入框的值
     value: {
       type: String,
-      value: ''
+      value: ""
     },
-    // 获取焦点
     focus: {
       type: Boolean,
-      value: false
+      value: !1
     },
-    // 最大输入长度
     maxlength: {
       type: Number,
       value: 140
     },
-    // 表显示文字长度的计数器
     indicator: {
       type: Boolean,
-      value: true
+      value: !0
     },
-    // label标题的显示位置 left top right
     autoHeight: {
       type: Boolean,
-      value: false
+      value: !1
     },
-    // 是否禁用
     disabled: {
       type: Boolean,
-      value: false
+      value: !1
     },
-    // 是否显示边框
     border: {
       type: Boolean,
-      value: true
+      value: !0
     },
-    // 校验
     rules: {
-      type: Object,
+      type: Object
     },
-    // 占位文字的样式  
     placeholderStyle: {
       type: String,
-      value: ''
+      value: ""
     }
   },
-
-  /**
-   * 组件的初始数据
-   */
-  data: {
-
-  },
-
+  data: {},
   attached() {
-    this.initRules();
+    this.initRules()
   },
-
-  /**
-   * 组件的方法列表
-   */
   methods: {
-    handleInputChange(event) {
+    handleInputChange(e) {
       const {
-        detail = {}
-      } = event;
-      const {
-        value = ''
-      } = detail;
-
+        detail: t = {}
+      } = e, {
+        value: l = ""
+      } = t;
       this.setData({
-        value
-      });
-
-      this.triggerEvent('lininput', event.detail);
+        value: l
+      }), eventBus.emit(`lin-form-change-${this.id}`, this.id), this.triggerEvent("lininput", e.detail)
     },
-
-    handleInputFocus(event) {
-      this.triggerEvent('linfocus', event.detail);
+    handleInputFocus(e) {
+      this.triggerEvent("linfocus", e.detail)
     },
-
-    handleInputBlur(event) {
+    handleInputBlur(e) {
       this.validatorData({
-        value: event.detail.value
-      });
-      this.triggerEvent('linblur', event.detail);
+        [this.data.name]: e.detail.value
+      }), eventBus.emit(`lin-form-blur-${this.id}`, this.id), this.triggerEvent("linblur", e.detail)
     },
-    handleInputConfirm(event) {
-      this.triggerEvent('linconfirm', event.detail);
+    handleInputConfirm(e) {
+      this.triggerEvent("linconfirm", e.detail)
     },
-    // onClearTap(e) {
-    //   this.setData({ value: '' })
-    // },
+    getValues() {
+      return this.data.value
+    },
+    reset() {
+      this.data.value = ""
+    }
   }
 });

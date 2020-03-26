@@ -1,65 +1,45 @@
 import hover from '../../miniprogram_npm/lin-ui/behaviors/hover';
-
 Component({
   behaviors: [hover],
   relations: {
-    '../list/index': {
-      type: 'parent', // 关联的目标节点应为子节点
-      linked() {
-        // 每次有custom-li被插入时执行，target是该节点实例对象，触发在该节点attached生命周期之后
-      },
-      linkChanged() {
-        // 每次有custom-li被移动后执行，target是该节点实例对象，触发在该节点moved生命周期之后
-      },
-      unlinked() {
-        // 每次有custom-li被移除时执行，target是该节点实例对象，触发在该节点detached生命周期之后
-      }
+    "../list/index": {
+      type: "parent",
+      linked() {},
+      linkChanged() {},
+      unlinked() {}
     }
   },
-
   options: {
-    multipleSlots: true
+    multipleSlots: !0
   },
-  externalClasses: [
-    'l-class',
-    'l-class-icon',
-    'l-icon-class',
-    'l-class-image',
-    'l-image-class',
-    'l-class-right',
-    'l-right-class',
-    'l-class-content',
-    'l-content-class',
-    'l-class-desc',
-    'l-desc-class'
-  ],
+  externalClasses: ["l-class", "l-class-icon", "l-icon-class", "l-class-image", "l-image-class", "l-class-right", "l-right-class", "l-class-content", "l-content-class", "l-class-desc", "l-desc-class"],
   properties: {
     icon: String,
     iconColor: {
       type: String,
-      value: '#3963BC'
+      value: "#3963BC"
     },
     iconSize: {
       type: String,
-      value: '28'
+      value: "28"
     },
     image: String,
     title: String,
     desc: String,
     tagPosition: {
       type: String,
-      value: 'left'
+      value: "left"
     },
     tagContent: String,
     tagShape: {
       type: String,
-      value: 'square'
+      value: "square"
     },
     tagColor: String,
     tagPlain: Boolean,
     badgePosition: {
       type: String,
-      value: 'left'
+      value: "left"
     },
     dotBadge: Boolean,
     badgeCount: Number,
@@ -69,7 +49,7 @@ Component({
     },
     badgeCountType: {
       type: String,
-      value: 'overflow'
+      value: "overflow"
     },
     rightDesc: String,
     gap: Number,
@@ -77,32 +57,28 @@ Component({
     rightGap: Number,
     isLink: {
       type: Boolean,
-      value: true,
+      value: !0
     },
     linkType: {
       type: String,
-      value: 'navigateTo'
+      value: "navigateTo"
     },
     url: String
   },
-
   methods: {
-    tapcell: function(e) {
+    tapcell: function (e) {
       const {
-        linkType,
-        url
+        linkType: t,
+        url: l
       } = e.currentTarget.dataset;
-      if (url) {
-        wx[linkType]({
-          url
-        });
-      }
-      this.triggerEvent('lintap', {
-        e
+      l && wx[t]({
+        url: l
+      }), this.triggerEvent("lintap", {
+        e: e
       }, {
-        bubbles: true,
-        composed: true
-      });
+        bubbles: !0,
+        composed: !0
+      })
     },
     // 图片点击事件
     onImageTap() {

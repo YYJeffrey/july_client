@@ -148,12 +148,12 @@
   border-bottom: 1px #f1f1f1 solid;
 }
 
-.right-img {
+.card-img {
   width: 180rpx !important;
   height: 180rpx !important;
 }
 
-.right-img-none {
+.card-img-none {
   width: 0 !important;
   height: 0 !important;
   margin-right: 0 !important;

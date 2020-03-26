@@ -26,8 +26,7 @@
     "backgroundColor": "#f7f7f7",
     "color": "#8a8a8a",
     "selectedColor": "#337559",
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/topic/index",
         "text": "主页",
         "iconPath": "images/icon_tab/topic.png",

@@ -1,101 +1,50 @@
-// input/input.js
-import rules from '../../miniprogram_npm/lin-ui/behaviors/rules';
-
+import eventBus from "../../miniprogram_npm/lin-ui/utils/eventBus.js";
+import validator from "../../miniprogram_npm/lin-ui/behaviors/validator";
+import rules from "../../miniprogram_npm/lin-ui/behaviors/rules";
 Component({
-  /**
-   * 组件的属性列表
-   */
   options: {
-    multipleSlots: true,
+    multipleSlots: !0
   },
-  behaviors: ['wx://form-field', rules],
-  externalClasses: ['l-class', 'l-label-class', 'l-error-text', 'l-error-text-class'],
+  behaviors: ["wx://form-field", validator, rules],
+  externalClasses: ["l-class", "l-label-class", "l-error-text", "l-error-text-class"],
   properties: {
-    // 表单标题（label）的文本
-    label: {
-      type: String,
-      value: ''
-    },
-    // 是否隐藏label
-    hideLabel: {
-      type: Boolean,
-      value: false
-    },
-    // 是否自定义label部分
-    labelCustom: {
-      type: Boolean,
-      value: false
-    },
-    // 是否显示下划线
+    label: String,
+    hideLabel: Boolean,
+    labelCustom: Boolean,
     showRow: {
       type: Boolean,
-      value: true
+      value: !0
     },
-    // 是否必选
-    required: {
-      type: Boolean,
-      value: false
-    },
-    // 占位文本
-    placeholder: {
-      type: String,
-      value: ''
-    },
-    // 输入框类型
+    required: Boolean,
+    placeholder: String,
     type: {
       type: String,
-      value: 'text'
+      value: "text",
+      options: ["text", "idcard", "digit", "password", "number"]
     },
-    // 输入框的值
-    value: {
-      type: String,
-      value: ''
-    },
-    // 是否需要冒号
-    colon: {
-      type: Boolean,
-      value: false
-    },
-    // 获取焦点
-    focus: {
-      type: Boolean,
-      value: false
-    },
-    // 是否显示清除按钮
-    clear: {
-      type: Boolean,
-      value: false
-    },
-    // 最大输入长度
+    value: String,
+    colon: Boolean,
+    focus: Boolean,
+    clear: Boolean,
     maxlength: {
       type: Number,
       value: 140
     },
-    // 表单项的宽度，单位rpx
     width: {
       type: Number,
       value: 750
     },
-    // 表单项标题部分的宽度，单位rpx
     labelWidth: {
       type: Number,
       value: 200
     },
-    // label标题的显示位置 left top right
     labelLayout: {
       type: String,
-      value: 'left'
+      value: "left",
+      options: ["left", "right"]
     },
-    // 是否禁用
-    disabled: {
-      type: Boolean,
-      value: false
-    },
-    // 占位文字的样式  
-    placeholderStyle: {
-      type: String,
-      value: ''
-    },
+    disabled: Boolean,
+    placeholderStyle: String,
     // 保持键盘不收起
     confirmHold: {
       type: Boolean,
@@ -107,65 +56,49 @@ Component({
       value: ''
     }
   },
-
-  /**
-   * 组件的初始数据
-   */
-  data: {
-
-  },
-  attached() {
-    this.initRules();
-  },
-  /**
-   * 组件的方法列表
-   */
+  data: {},
+  attached() {},
   methods: {
-
-    handleInputChange(event) {
+    handleInputChange(e) {
       const {
-        detail = {}
-      } = event;
-      const {
-        value = ''
-      } = detail;
-
+        detail: t = {}
+      } = e, {
+        value: l = ""
+      } = t;
       this.setData({
-        value
-      });
-
-      this.triggerEvent('lininput', event.detail);
+        value: l
+      }), eventBus.emit(`lin-form-change-${this.id}`, this.id), this.triggerEvent("lininput", e.detail)
     },
-
-    handleInputFocus(event) {
-      this.triggerEvent('linfocus', event.detail);
+    handleInputFocus(e) {
+      this.triggerEvent("linfocus", e.detail)
     },
-
-    handleInputBlur(event) {
+    handleInputBlur(e) {
       this.validatorData({
-        value: event.detail.value
-      });
-      this.triggerEvent('linblur', event.detail);
+        [this.data.name]: e.detail.value
+      }), eventBus.emit(`lin-form-blur-${this.id}`, this.id), this.triggerEvent("linblur", e.detail)
     },
-    handleInputConfirm(event) {
+    handleInputConfirm(e) {
       const {
-        detail = {}
-      } = event;
-      const {
-        value = ''
-      } = detail;
-
+        detail: t = {}
+      } = e, {
+        value: l = ""
+      } = t;
       this.setData({
-        value
-      });
-
-      this.triggerEvent('linconfirm', event.detail);
+        value: l
+      }), this.triggerEvent("linconfirm", e.detail)
     },
-    onClearTap(event) {
+    onClearTap(e) {
       this.setData({
-        value: ''
-      });
-      this.triggerEvent('linclear', event.detail);
+        value: ""
+      }), this.triggerEvent("linclear", e.detail)
     },
+    getValues() {
+      return this.data.value
+    },
+    reset() {
+      this.setData({
+        value: ""
+      })
+    }
   }
 });

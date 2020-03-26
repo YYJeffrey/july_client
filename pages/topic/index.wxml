@@ -2,63 +2,62 @@
 
 <!-- 标签栏 -->
 <scroll-view scroll-x enable-flex class="tag-scroll">
-  <l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{labelId == item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{labelId == item.id ? '#fff' : '#337559'}}" bind:lintap="onTagTap" data-label="{{item.id}}">#{{item.name}}</l-tag>
+	<l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{labelId == item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{labelId == item.id ? '#fff' : '#337559'}}" bind:lintap="onTagTap" data-label="{{item.id}}">#{{item.name}}</l-tag>
 </scroll-view>
 
 <!-- 下拉层按钮 -->
 <view class="btn-popup" bindtap="togglePopup">
-  <l-icon l-class="{{showPopup? 'btn-active' : 'btn'}}" name="close" size="15" color="#777" />
+	<l-icon l-class="{{showPopup? 'btn-active' : 'btn'}}" name="close" size="15" color="#777" />
 </view>
 
 <!-- 下拉层 -->
 <l-popup show="{{showPopup}}" animation content-align="top" bind:lintap="togglePopup" z-index="99">
-  <view class="popup">
-    <l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{labelId == item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{labelId == item.id ? '#fff' : '#337559'}}" bind:lintap="onTagTap" data-label="{{item.id}}">#{{item.name}}</l-tag>
-  </view>
+	<view class="popup">
+		<l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{labelId == item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{labelId == item.id ? '#fff' : '#337559'}}" bind:lintap="onTagTap" data-label="{{item.id}}">#{{item.name}}</l-tag>
+	</view>
 </l-popup>
 
 <!-- 动态内容 -->
 <scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper" bindscrolltolower="scrollToLower" style="height:{{height}}rpx">
-  <l-card type="avatar" l-class="card" l-title-class="{{item.user.id != -1 ? 'card-title' : 'card-title-anon'}}" wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}" title="{{item.user.nick_name}}" describe="{{item.create_time}}"
-    bind:linavatar="{{item.user.id != -1 ? 'gotoVisitingCard' : ''}}" bind:lintitle="{{item.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.user.id}}">
-    <view class="{{item.content.length >= 200 && !item.flod ? 'content-close' : 'avater-content'}}" data-id="{{item.id}}" bindtap="gotoDetail">{{item.content}}</view>
-    <view wx:if="{{item.content.length >= 200}}" data-index="{{cardIndex}}" class="text-flod" bindtap="onFlodTap">{{item.flod ? '收起' : '全文'}}</view>
+	<l-card type="avatar" l-class="card" l-title-class="{{item.user.id != -1 ? 'card-title' : 'card-title-anon'}}" wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}" title="{{item.user.nick_name}}" describe="{{item.create_time}}" bind:linavatar="{{item.user.id != -1 ? 'gotoVisitingCard' : ''}}" bind:lintitle="{{item.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.user.id}}">
+		<view class="{{item.content.length >= 200 && !item.flod ? 'content-close' : 'avater-content'}}" data-id="{{item.id}}" bindtap="gotoDetail">{{item.content}}</view>
+		<view wx:if="{{item.content.length >= 200}}" data-index="{{cardIndex}}" class="text-flod" bindtap="onFlodTap">{{item.flod ? '收起' : '全文'}}</view>
 
-    <view class="posters" data-id="{{item.id}}" bindtap="gotoDetail">
-      <block wx:if="{{item.images.length == 1}}">
-        <image class="column-one" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="widthFix" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
-      </block>
-      <block wx:elif="{{item.images.length == 2 || item.images.length == 4}}">
-        <image class="column-two" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
-      </block>
-      <block wx:else>
-        <image wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
-      </block>
-    </view>
+		<view class="posters" data-id="{{item.id}}" bindtap="gotoDetail">
+			<block wx:if="{{item.images.length == 1}}">
+				<image class="column-one" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="widthFix" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
+			</block>
+			<block wx:elif="{{item.images.length == 2 || item.images.length == 4}}">
+				<image class="column-two" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
+			</block>
+			<block wx:else>
+				<image wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
+			</block>
+		</view>
 
-    <view class="avater-share-container">
-      <view class="like-container" data-id="{{item.id}}" bindtap="onCommentTap">
-        <l-icon name="comment" color="{{item.has_comment ? '#d81e05' : '#666'}}" size="28" />
-        <view class="{{item.has_comment ? 'has-text' : ''}} number">{{item.comment_count}}</view>
-      </view>
-      <view class="like-container" data-index="{{cardIndex}}" bindtap="onStarTap">
-        <l-icon name="like" color="{{item.has_star ? '#d81e05' : '#666'}}" size="28" />
-        <view class="{{item.has_star ? 'has-text' : ''}} number">{{item.star_count}}</view>
-      </view>
-      <view class="like-container" data-id="{{item.id}}" bindtap="gotoDetail">
-        <l-icon name="eye" color="#666" size="28" />
-        <view class="number">{{item.click_count}}</view>
-      </view>
-    </view>
-    <l-icon l-class="ellipsis" slot="more" name="ellipsis" color="#777" size="32" data-index="{{cardIndex}}" bindtap="onMoreTap" />
-  </l-card>
-  <l-loadmore wx:if="{{!isEnd}}" show="{{loading}}" line l-class="loading" />
-  <l-loadmore show="{{isEnd && page != 1}}" line l-class="loading" type="end" />
+		<view class="avater-share-container">
+			<view class="like-container" data-id="{{item.id}}" bindtap="onCommentTap">
+				<l-icon name="comment" color="{{item.has_comment ? '#d81e05' : '#666'}}" size="28" />
+				<view class="{{item.has_comment ? 'has-text' : ''}} number">{{item.comment_count}}</view>
+			</view>
+			<view class="like-container" data-index="{{cardIndex}}" bindtap="onStarTap">
+				<l-icon name="like" color="{{item.has_star ? '#d81e05' : '#666'}}" size="28" />
+				<view class="{{item.has_star ? 'has-text' : ''}} number">{{item.star_count}}</view>
+			</view>
+			<view class="like-container" data-id="{{item.id}}" bindtap="gotoDetail">
+				<l-icon name="eye" color="#666" size="28" />
+				<view class="number">{{item.click_count}}</view>
+			</view>
+		</view>
+		<l-icon l-class="ellipsis" slot="more" name="ellipsis" color="#777" size="32" data-index="{{cardIndex}}" bindtap="onMoreTap" />
+	</l-card>
+	<l-loadmore wx:if="{{!isEnd}}" show="{{loading}}" line l-class="loading" />
+	<l-loadmore show="{{isEnd && page != 1}}" line l-class="loading" type="end" />
 </scroll-view>
 
 <!-- 编辑按钮 -->
 <view class="btn-edit" bindtap="onEditTap">
-  <l-icon name="edit" color="#fff" size="30" />
+	<l-icon name="edit" color="#fff" size="30" />
 </view>
 
 <!-- nothing -->

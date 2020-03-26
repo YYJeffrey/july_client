@@ -1,11 +1,10 @@
+import validator from "../../miniprogram_npm/lin-ui/behaviors/validator";
 Component({
-  /**
-   * 组件的属性列表
-   */
-  externalClasses: ['l-class', 'l-img-class', 'l-title-class'],
+  externalClasses: ["l-class", "l-img-class", "l-title-class"],
   options: {
-    multipleSlots: true // 在组件定义时的选项中启用多slot支持
+    multipleSlots: !0
   },
+  bahaviors: [validator],
   properties: {
     image: String,
     title: String,
@@ -14,28 +13,20 @@ Component({
     full: Boolean,
     position: {
       type: String,
-      value: 'left'
-    },
-    imageMode: {
-      type: String,
-      value: 'aspectFit'
+      value: "left",
+      options: ["left", "right"]
     },
     type: {
       type: String,
-      value: 'primary'
+      value: "primary",
+      options: ["primary", "avatar"]
+    },
+    imageMode: {
+      type: String,
+      value: "scaleToFill"
     }
   },
-
-  /**
-   * 组件的初始数据
-   */
-  data: {
-
-  },
-
-  /**
-   * 组件的方法列表
-   */
+  data: {},
   methods: {
     // 头像点击事件
     onAvatarTap() {

@@ -2,39 +2,39 @@
 
 <!-- 头部Banner -->
 <swiper wx:if="{{holes.length != 0}}" class="head-swiper" indicator-dots circular autoplay previous-margin="60rpx" next-margin="60rpx" indicator-active-color="#337559">
-  <swiper-item wx:for="{{holes}}" wx:if="{{index < 3}}" wx:key="item" class="head-swiper-item" data-id="{{item.id}}" bindtap="gotoDetail">
-    <image class="poster" mode="aspectFill" src="{{item.poster}}">
-      <view class="mark">
-        <text class="title">{{item.title}}</text>
-        <view class="btn-join">
-          <text>立即参与</text>
-          <l-icon name="backward" color="#fff" size="25" />
-        </view>
-      </view>
-    </image>
-  </swiper-item>
+	<swiper-item wx:for="{{holes}}" wx:if="{{index < 4}}" wx:key="item" class="head-swiper-item" data-id="{{item.id}}" bindtap="gotoDetail">
+		<image class="poster" mode="aspectFill" src="{{item.poster}}">
+			<view class="mark">
+				<text class="title">{{item.title}}</text>
+				<view class="btn-join">
+					<text>立即参与</text>
+					<l-icon name="backward" color="#fff" size="25" />
+				</view>
+			</view>
+		</image>
+	</swiper-item>
 </swiper>
 
 <!-- 树洞须知 -->
 <view class="desp-box" wx:if="{{holes.length != 0}}">
-  <view class="desp-title">树洞须知</view>
-  <view class="desp-content">进入树洞前请积极营造健康的网络环境（这是重中之重）。选择一个自己喜欢的话题，等待志同道合的朋友一起交流互动，每个树洞会在每天特定的时间开启和关闭，请把握好时间。</view>
+	<view class="desp-title">树洞须知</view>
+	<view class="desp-content">进入树洞前请积极营造健康的网络环境（这是重中之重）。选择一个自己喜欢的话题，等待志同道合的朋友一起交流互动，每个树洞会在每天特定的时间开启和关闭，请把握好时间。</view>
 </view>
 
 <!-- 往期话题 -->
 <view class="content-box" wx:if="{{holes.length != 0}}">
-  <view class="head">
-    <view class="head-line line-left"></view>
-    <text class="head-title">往期话题</text>
-    <view class="head-line line-right"></view>
-  </view>
+	<view class="head">
+		<view class="head-line line-left"></view>
+		<text class="head-title">往期话题</text>
+		<view class="head-line line-right"></view>
+	</view>
 
-  <view class="box">
-    <view wx:for="{{holes}}" wx:if="{{index >= 3}}" wx:key="item" class="box-item" data-id="{{item.id}}" bindtap="gotoDetail">
-      <image class="item-poster" mode="aspectFill" src="{{item.poster}}" lazy-load />
-      <view class="item-title">{{item.title}}</view>
-    </view>
-  </view>
+	<view class="box">
+		<view wx:for="{{holes}}" wx:if="{{index >= 4}}" wx:key="item" class="box-item" data-id="{{item.id}}" bindtap="gotoDetail">
+			<image class="item-poster" mode="aspectFill" src="{{item.poster}}" lazy-load />
+			<view class="item-title">{{item.title}}</view>
+		</view>
+	</view>
 </view>
 
 <!-- 加载更多 -->

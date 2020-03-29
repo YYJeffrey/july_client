@@ -1,0 +1,15 @@
+<!--pages/message/index.wxml-->
+
+<!-- 动态消息 -->
+<l-card type="avatar" l-class="card" l-title-class="{{item.action_user.id != -1 ? 'nick-name' : 'nick-name-anon'}}" image="{{item.action_user.avatar}}" title="{{item.action_user.nick_name}}" describe="{{item.create_time}}" bind:linavatar="{{item.action_user.id != -1 ? 'gotoVisitingCard' : ''}}" bind:lintitle="{{item.action_user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.action_user.id}}" wx:for="{{messages}}" wx:key="item">
+	<view class="avater-content" wx:if="{{item.category == 'comment'}}" data-id="{{item.topic.id}}" bindtap="gotoTopicDetail">评论：{{item.topic.content}}</view>
+	<view class="avater-content" wx:if="{{item.category == 'star'}}" data-id="{{item.topic.id}}" bindtap="gotoTopicDetail">收藏了你的话题！</view>
+	<view class="avater-content" wx:if="{{item.category == 'follow'}}" bindtap="gotoFollower">悄悄地关注了你！</view>
+	<view class="comment-topic" wx:if="{{item.topic}}" data-id="{{item.topic.id}}" bindtap="gotoTopicDetail">
+		<image src="{{item.topic.images[0]}}" class="{{item.topic.images.length > 0 ? 'card-img comment-image' : 'card-img-none'}}" mode="aspectFill" />
+		<view class="comment-right">
+			<text class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" catchtap="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">{{item.topic.user.nick_name}}</text>
+			<text class="card-content">{{item.topic.content}}</text>
+		</view>
+	</view>
+</l-card>

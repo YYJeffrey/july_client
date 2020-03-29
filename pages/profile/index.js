@@ -20,11 +20,14 @@ Page({
     isEndTopic: false, // 话题是否到底
     isEndStar: false, // 收藏是否到底
     isEndComment: false, // 评论是否到底
-    loading: false
+    loading: false,
+    messageBrief: null
   },
 
   onLoad() {
     this.getTabsTop()
+    // 轮询获取消息概要
+    setInterval(this.getMessageBrief(), 5000)
   },
 
   onShow() {
@@ -199,6 +202,37 @@ Page({
   },
 
   /**
+   * 获取消息概要
+   */
+  getMessageBrief() {
+    const url = api.messageAPI + "brief/"
+
+    if (app.globalData.userDetail) {
+      wxutil.request.get(url).then((res) => {
+        if (res.data.code == 200) {
+          if (res.data.data.count > 0) {
+            this.setData({
+              messageBrief: res.data.data
+            })
+            wx.setTabBarBadge({
+              index: 2,
+              text: res.data.data.count + ""
+            })
+          } else {
+            this.setData({
+              messageBrief: null
+            })
+            wx.removeTabBarBadge({
+              index: 2
+            })
+          }
+        }
+      })
+    }
+    return this.getMessageBrief
+  },
+
+  /**
    * Tab切换
    */
   changeTabs(event) {
@@ -268,9 +302,19 @@ Page({
   },
 
   /**
+   * 跳转消息页
+   */
+  gotoMessage() {
+    wx.navigateTo({
+      url: "/pages/message/index"
+    })
+  },
+
+  /**
    * 跳转到用户名片页
    */
   gotoVisitingCard(event) {
+    console.log(event)
     if (app.globalData.userDetail) {
       const userId = event.target.dataset.userId
       wx.navigateTo({

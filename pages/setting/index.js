@@ -63,7 +63,7 @@ Page({
       success(res) {
         wx.getClipboardData({
           success(res) {
-            wxutil.showToast("仓库地址已复制")
+            wxutil.showToast("GitHub地址已复制")
           }
         })
       }

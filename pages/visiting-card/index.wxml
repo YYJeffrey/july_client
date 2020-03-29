@@ -5,70 +5,75 @@
 
 <!-- 个人信息 -->
 <view wx:if="{{user.id}}" class="header">
-  <view class="user-box">
-    <image class="avatar" src="{{user.avatar}}" />
-    <view wx:if="{{user.gender && user.gender != 0}}" class="gender-box {{user.gender == 1 ? 'male' : 'female'}}">
-      <image class="gender-icon" src="../../images/icon_gender/{{user.gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
-    </view>
-    <view class="btn-box">
-      <l-button plain="{{user.has_follow}}" l-class="{{user.has_follow ? 'btn-unfollow' : ''}}" shape="semicircle" size="mini" bg-color="{{user.has_follow ? '#fff' : '#337559'}}" width="180" height="55" bind:lintap="onFollowTap">{{user.has_follow ? '取消关注' : '+ 关注'}}</l-button>
-    </view>
-  </view>
-  <text wx:if="{{user.nick_name}}" class="nick-name">{{user.nick_name}}</text>
-  <open-data wx:else class="nick-name" type="userNickName"></open-data>
-  <text class="signature">{{user.signature ? user.signature : '这家伙很懒，什么都没有留下'}}</text>
-  <view class="follow-box">
-    <view class="follow follower" bindtap="gotoFollower">
-      <text class="num">{{user.follower ? user.follower : '0'}}</text>
-      <text class="text">关注{{genderText}}的</text>
-    </view>
-    <view class="follow following" bindtap="gotoFollowing">
-      <text class="num">{{user.following ? user.following : '0'}}</text>
-      <text class="text">{{genderText}}关注的</text>
-    </view>
-  </view>
+	<view class="user-box">
+		<image class="avatar" src="{{user.avatar}}" />
+		<view wx:if="{{user.gender && user.gender != 0}}" class="gender-box {{user.gender == 1 ? 'male' : 'female'}}">
+			<image class="gender-icon" src="../../images/icon_gender/{{user.gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
+		</view>
+		<view class="btn-box">
+			<l-button plain="{{user.has_follow}}" l-class="{{user.has_follow ? 'btn-unfollow' : ''}}" shape="semicircle" size="mini" bg-color="{{user.has_follow ? '#fff' : '#337559'}}" width="180" height="55" bind:lintap="onFollowTap">{{user.has_follow ? '取消关注' : '+ 关注'}}</l-button>
+		</view>
+	</view>
+	<text wx:if="{{user.nick_name}}" class="nick-name">{{user.nick_name}}</text>
+	<open-data wx:else class="nick-name" type="userNickName"></open-data>
+	<text class="signature">{{user.signature ? user.signature : '这家伙很懒，什么都没有留下'}}</text>
+	<view class="follow-box">
+		<view class="follow follower" bindtap="gotoFollower">
+			<text class="num">{{user.follower ? user.follower : '0'}}</text>
+			<text class="text">关注{{genderText}}的</text>
+		</view>
+		<view class="follow following" bindtap="gotoFollowing">
+			<text class="num">{{user.following ? user.following : '0'}}</text>
+			<text class="text">{{genderText}}关注的</text>
+		</view>
+	</view>
 </view>
 
 <!-- Ta的动态 -->
 <l-tabs wx:if="{{user.id}}" id="tabs" animated animated-for-line active-color="#337559" l-header-class="tabs {{tabsFixed ? 'tabs-fixed' : ''}}" l-line-class="tabs-line" bind:linchange="changeTabs">
-  <l-tabpanel tab="话题" key="topic" slot="topic">
-    <view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
-      <nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="{{genderText}}还没有发布话题" nothing-class="nothing" />
-      <l-card data-id="{{item.id}}" bindtap="gotoTopicDetail" wx:for="{{topics}}" wx:key="item" l-class="card" l-img-class="{{item.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="topic-title" type="primary" position="left" image="{{item.images.length > 0 ? item.images[0] : ''}}"
-        image-mode="aspectFill" title="{{item.create_time}}">
-        <view class="card-content">
-          {{item.content}}
-        </view>
-      </l-card>
-      <l-loadmore wx:if="{{!isEndTopic}}" show="{{loading}}" line />
-      <l-loadmore show="{{isEndTopic && pageTopic != 1}}" line type="end" />
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="评论" key="comment" slot="comment">
-    <view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
-      <nothing wx:if="{{comments.length == 0}}" pic="../../images/icon_nothing/pic_comment.png" tip="{{genderText}}还没有发表评论" nothing-class="nothing" />
-      <l-card data-id="{{item.topic_id}}" bindtap="gotoTopicDetail" wx:for="{{comments}}" wx:key="item" l-class="card" l-img-class="right-img-none" l-title-class="topic-title" type="primary" position="left" title="{{item.create_time}}">
-        <view class="card-content">
-          {{item.content}}
-        </view>
-      </l-card>
-      <l-loadmore wx:if="{{!isEndComment}}" show="{{loading}}" line />
-      <l-loadmore show="{{isEndComment && pageComment != 1}}" line type="end" />
-    </view>
-  </l-tabpanel>
-  <l-tabpanel tab="收藏" key="star" slot="star">
-    <view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
-      <nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="{{genderText}}还没有收藏动态" nothing-class="nothing" />
-      <l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'right-img' : 'right-img-none'}}" l-title-class="{{item.topic.user.id != -1 ? 'star-title' : 'star-title-anon'}}"
-        type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}" image-mode="aspectFill" title="{{item.topic.user.nick_name}}" bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">
-        <view class="card-content">
-          {{item.topic.content}}
-        </view>
-      </l-card>
-      <l-loadmore wx:if="{{!isEndStar}}" show="{{loading}}" line l-class="loading" />
-      <l-loadmore show="{{isEndStar && pageStar != 1}}" line type="end" />
-    </view>
-  </l-tabpanel>
+	<l-tabpanel tab="话题" key="topic" slot="topic">
+		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
+			<nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="{{genderText}}还没有发布话题" nothing-class="nothing" />
+			<l-card data-id="{{item.id}}" bindtap="gotoTopicDetail" wx:for="{{topics}}" wx:key="item" l-class="card" l-img-class="{{item.images.length > 0 ? 'card-img' : 'card-img-none'}}" l-title-class="topic-title" type="primary" position="left" image="{{item.images.length > 0 ? item.images[0] : ''}}" image-mode="aspectFill" title="{{item.create_time}}">
+				<view class="card-content">
+					{{item.content}}
+				</view>
+			</l-card>
+			<l-loadmore wx:if="{{!isEndTopic}}" show="{{loading}}" line />
+			<l-loadmore show="{{isEndTopic && pageTopic != 1}}" line type="end" />
+		</view>
+	</l-tabpanel>
+	<l-tabpanel tab="评论" key="comment" slot="comment">
+		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
+			<nothing wx:if="{{comments.length == 0}}" pic="../../images/icon_nothing/pic_comment.png" tip="{{genderText}}还没有发表评论" nothing-class="nothing" />
+			<l-card data-id="{{item.topic_id}}" bindtap="gotoTopicDetail" wx:for="{{comments}}" wx:key="item" l-class="card" l-img-class="card-img-none" l-title-class="topic-title" type="primary" position="left" title="{{item.create_time}}">
+				<view class="comment-top">
+					<view class="card-content">{{item.content}}</view>
+				</view>
+				<view class="comment-topic">
+					<image src="{{item.topic.images[0]}}" class="{{item.topic.images.length > 0 ? 'card-img comment-image' : 'card-img-none'}}" mode="aspectFill" />
+					<view class="comment-right">
+						<text class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" catchtap="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">{{item.topic.user.nick_name}}</text>
+						<text class="card-content">{{item.topic.content}}</text>
+					</view>
+				</view>
+			</l-card>
+			<l-loadmore wx:if="{{!isEndComment}}" show="{{loading}}" line />
+			<l-loadmore show="{{isEndComment && pageComment != 1}}" line type="end" />
+		</view>
+	</l-tabpanel>
+	<l-tabpanel tab="收藏" key="star" slot="star">
+		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
+			<nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="{{genderText}}还没有收藏动态" nothing-class="nothing" />
+			<l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'card-img' : 'card-img-none'}}" l-title-class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}" image-mode="aspectFill" title="{{item.topic.user.nick_name}}" bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">
+				<view class="card-content">
+					{{item.topic.content}}
+				</view>
+			</l-card>
+			<l-loadmore wx:if="{{!isEndStar}}" show="{{loading}}" line l-class="loading" />
+			<l-loadmore show="{{isEndStar && pageStar != 1}}" line type="end" />
+		</view>
+	</l-tabpanel>
 </l-tabs>
 
 <!-- 操作菜单 -->

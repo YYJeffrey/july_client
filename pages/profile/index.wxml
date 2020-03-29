@@ -37,6 +37,12 @@
 	</view>
 </view>
 
+<!-- 消息提示 -->
+<view wx:if="{{messageBrief}}" class="message-box" bindtap="gotoMessage">
+	<image class="message-avatar" src="{{messageBrief.avatar}}" />
+	<text class="message-tip">{{messageBrief.count}}条新动态</text>
+</view>
+
 <!-- 我的动态 -->
 <l-tabs id="tabs" animated animated-for-line active-color="#337559" l-header-class="tabs {{tabsFixed ? 'tabs-fixed' : ''}}" l-line-class="tabs-line" bind:linchange="changeTabs">
 	<l-tabpanel tab="话题" key="topic" slot="topic">
@@ -56,10 +62,17 @@
 		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
 			<nothing wx:if="{{comments.length == 0}}" pic="../../images/icon_nothing/pic_comment.png" tip="您还没有发表评论" nothing-class="nothing" />
 			<l-card data-id="{{item.topic_id}}" bindtap="gotoTopicDetail" wx:for="{{comments}}" wx:key="item" l-class="card" l-img-class="card-img-none" l-title-class="topic-title" type="primary" position="left" title="{{item.create_time}}">
-				<view class="card-content">
-					{{item.content}}
+				<view class="comment-top">
+					<view class="card-content">{{item.content}}</view>
+					<view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
 				</view>
-				<view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
+				<view class="comment-topic">
+					<image src="{{item.topic.images[0]}}" class="{{item.topic.images.length > 0 ? 'card-img comment-image' : 'card-img-none'}}" mode="aspectFill" />
+					<view class="comment-right">
+						<text class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" catchtap="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">{{item.topic.user.nick_name}}</text>
+						<text class="card-content">{{item.topic.content}}</text>
+					</view>
+				</view>
 			</l-card>
 			<l-loadmore wx:if="{{!isEndComment}}" show="{{loading}}" line />
 			<l-loadmore show="{{isEndComment && pageComment != 1}}" line type="end" />
@@ -68,7 +81,7 @@
 	<l-tabpanel tab="收藏" key="star" slot="star">
 		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
 			<nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态" nothing-class="nothing" />
-			<l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'card-img' : 'card-img-none'}}" l-title-class="{{item.topic.user.id != -1 ? 'star-title' : 'star-title-anon'}}" type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}" image-mode="aspectFill" title="{{item.topic.user.nick_name}}" bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">
+			<l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 ? 'card-img' : 'card-img-none'}}" l-title-class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}" image-mode="aspectFill" title="{{item.topic.user.nick_name}}" bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">
 				<view class="card-content">
 					{{item.topic.content}}
 				</view>

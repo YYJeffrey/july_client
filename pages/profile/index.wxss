@@ -124,6 +124,30 @@
   margin-left: 30rpx;
 }
 
+.message-box {
+  width: 260rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: #999;
+  margin: 30rpx auto 20rpx auto;
+}
+
+.message-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.message-tip {
+  font-size: 26rpx;
+  color: #fff;
+}
+
 .tabs {
   margin-top: 10rpx;
 }
@@ -137,7 +161,7 @@
 }
 
 .nothing {
-  margin-top: 335rpx;
+  margin-top: 350rpx;
 }
 
 .card {
@@ -164,13 +188,45 @@
   font-size: 24rpx !important;
 }
 
-.star-title {
+.comment-top {
+  display: flex;
+  flex-direction: row;
+}
+
+.comment-top .card-content {
+  width: 100%;
+}
+
+.comment-top .delete-text {
+  margin: 10rpx 0 0 20rpx;
+  width: 80rpx;
+}
+
+.comment-topic {
+  display: flex;
+  flex-direction: row;
+  background: #f7f7f7;
+  margin-top: 15rpx;
+}
+
+.comment-right {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx;
+}
+
+.comment-image {
+  min-width: 180rpx;
+  margin-right: 20rpx;
+}
+
+.tab-nick-name {
   color: #337559 !important;
   font-size: 28rpx !important;
   font-weight: bold;
 }
 
-.star-title-anon {
+.tab-anon {
   color: #7a8c9a !important;
   font-size: 28rpx !important;
   font-weight: bold;

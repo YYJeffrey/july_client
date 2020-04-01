@@ -54,7 +54,7 @@ Page({
   getScrollHeight() {
     const that = this;
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         const windowHeight = res.windowHeight;
         const windowWidth = res.windowWidth;
         const ratio = 750 / windowWidth;
@@ -79,7 +79,7 @@ Page({
       if (res.data.code == 200) {
         let labels = [{
           id: -1,
-          name: "最新"
+          name: "全部"
         }]
         this.setData({
           labels: labels.concat(res.data.data)

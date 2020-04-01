@@ -69,6 +69,10 @@ page {
   margin-left: 10rpx;
 }
 
+.like-container l-icon {
+  font-weight: bold;
+}
+
 .has-text {
   color: #d81e05;
 }

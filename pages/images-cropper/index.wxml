@@ -3,11 +3,11 @@
 
 <!-- 图片裁剪区 -->
 <view class="cropper-wrapper">
-  <template is="we-cropper" data="{{...cropperOpt}}" />
-  <view class="cropper-btn">
-    <view class="btn-upload" bindtap="uploadTap">重新上传</view>
-    <l-button l-class="btn-success" size="mini" type="success" bindlintap="comfireTap">确认上传</l-button>
-  </view>
+	<template is="we-cropper" data="{{...cropperOpt}}" />
+	<view class="cropper-btn">
+		<view class="btn-upload" bindtap="uploadTap">重新上传</view>
+		<l-button l-class="btn-success" size="mini" type="success" bindlintap="comfireTap">确认上传</l-button>
+	</view>
 </view>
 
 <!-- 消息提示 -->

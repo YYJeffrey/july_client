@@ -5,13 +5,13 @@
 
 <!-- 内容 -->
 <view class="content-box">
-  <view class="title">{{hole.title}}</view>
-  <view class="time">{{'开放时间：每天 ' + hole.start_time + ' ~ ' + hole.end_time}}</view>
-  <view class="desp">{{hole.description}}</view>
-  <view class="btn-group">
-    <l-button plain l-class="btn-share" open-type="share" width="240">分享好友</l-button>
-    <l-button bg-color="#337559" width="240" disabled="{{!hole.state}}" bind:lintap="onJoinTap">{{hole.state ? '立即参与' : '暂未开放'}}</l-button>
-  </view>
+	<view class="title">{{hole.title}}</view>
+	<view class="time">{{'开放时间：每天 ' + hole.start_time + ' ~ ' + hole.end_time}}</view>
+	<view class="desp">{{hole.description}}</view>
+	<view class="btn-group">
+		<l-button plain l-class="btn-share" open-type="share" width="240">分享好友</l-button>
+		<l-button bg-color="#337559" width="240" disabled="{{!hole.state}}" bind:lintap="onJoinTap">{{hole.state ? '立即参与' : '暂未开放'}}</l-button>
+	</view>
 </view>
 
 <!-- 消息对话框 -->

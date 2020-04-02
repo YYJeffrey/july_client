@@ -4,11 +4,10 @@
 <nothing wx:if="{{followerList.length == 0}}" pic="../../images/icon_nothing/pic_follow.png" tip="暂时没有用户关注" />
 
 <!-- 关注我的 -->
-<l-list wx:for="{{followerList}}" wx:key="item" title="{{item.user.nick_name}}" desc="{{item.user.signature}}" image="{{item.user.avatar}}" gap="30" is-link="{{false}}" is-hover="{{false}}" l-class="list" l-image-class="list-avatar" l-desc-class="list-desc"
-  bind:linimage="gotoVisitingCard" bind:lintitle="gotoVisitingCard" bind:lindesc="gotoVisitingCard" data-user-id="{{item.user.id}}">
-  <view slot="right-section">
-    <l-tag shape="circle" size="mini" bg-color="#337559" font-color="{{item.has_follow ? '#337559' : '#fff'}}" plain="{{item.has_follow}}" l-class="list-tag" data-follow-index="{{index}}" bind:lintap="onTagTap">{{item.has_follow ? '相互关注' : '+ 关注'}}</l-tag>
-  </view>
+<l-list wx:for="{{followerList}}" wx:key="item" title="{{item.user.nick_name}}" desc="{{item.user.signature}}" image="{{item.user.avatar}}" gap="30" is-link="{{false}}" is-hover="{{false}}" l-class="list" l-image-class="list-avatar" l-desc-class="list-desc" bind:linimage="gotoVisitingCard" bind:lintitle="gotoVisitingCard" bind:lindesc="gotoVisitingCard" data-user-id="{{item.user.id}}">
+	<view slot="right-section">
+		<l-tag shape="circle" size="mini" bg-color="#337559" font-color="{{item.has_follow ? '#337559' : '#fff'}}" plain="{{item.has_follow}}" l-class="list-tag" data-follow-index="{{index}}" bind:lintap="onTagTap">{{item.has_follow ? '相互关注' : '+ 关注'}}</l-tag>
+	</view>
 </l-list>
 
 <!-- 操作菜单 -->

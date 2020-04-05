@@ -190,7 +190,6 @@
 .card-content {
   color: #333;
   font-size: 28rpx;
-  text-align: justify;
   margin-top: 10rpx;
   display: -webkit-box;
   word-break: break-all;

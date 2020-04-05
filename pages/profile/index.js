@@ -96,7 +96,6 @@ Page({
             user: userDetail
           })
 
-          // 标签页切换
           const tabIndex = this.data.tabIndex
           if (tabIndex == 0) {
             this.getTopics(userId)

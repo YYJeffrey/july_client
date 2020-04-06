@@ -147,7 +147,7 @@ Page({
   sendImages(imageFiles) {
     const url = api.topicAPI + "images/"
     return Promise.all(imageFiles.map((imageFile) => {
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         wxutil.file.upload({
           url: url,
           fileKey: "file",
@@ -191,12 +191,19 @@ Page({
       complete() {
         // 发布话题
         wxutil.showLoading("发布中...")
+        let data = {
+          content: content,
+          is_anon: isAnon,
+          images: [],
+          labels: labels
+        }
         if (imageFiles.length > 0) {
           that.sendImages(imageFiles).then((res) => {
-            that.uploadTopic(content, isAnon, res, labels)
+            data.images = res
+            that.uploadTopic(data)
           })
         } else {
-          that.uploadTopic(content, isAnon, images, labels)
+          that.uploadTopic(data)
         }
       }
     })
@@ -205,14 +212,8 @@ Page({
   /**
    * 上传话题
    */
-  uploadTopic(content, isAnon, images, labels) {
+  uploadTopic(data) {
     const url = api.topicAPI
-    const data = {
-      content: content,
-      is_anon: isAnon,
-      images: images,
-      labels: labels
-    }
 
     wxutil.request.post(url, data).then((res) => {
       wx.hideLoading()

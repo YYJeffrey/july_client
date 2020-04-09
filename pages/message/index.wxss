@@ -20,9 +20,12 @@
 
 .avater-content {
   color: #333;
-  text-align: justify;
   font-size: 28rpx;
   margin: 10rpx 0;
+}
+
+.content-tip {
+  font-weight: bold;
 }
 
 .comment-topic {
@@ -58,7 +61,6 @@
 .card-content {
   color: #333;
   font-size: 28rpx;
-  text-align: justify;
   margin-top: 10rpx;
   display: -webkit-box;
   word-break: break-all;

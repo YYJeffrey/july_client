@@ -400,7 +400,7 @@ Page({
             })
             // 重新获取评论列表
             that.getComments(topicId)
-            setTimeout(function() {
+            setTimeout(function () {
               wx.pageScrollTo({
                 scrollTop: 1000
               })
@@ -409,12 +409,12 @@ Page({
             topic.has_comment = true
             topic.comment_count++
 
-              that.setData({
-                topic: topic,
-                comment: null,
-                commentId: null,
-                placeholder: "评论点什么吧..."
-              })
+            that.setData({
+              topic: topic,
+              comment: null,
+              commentId: null,
+              placeholder: "评论点什么吧..."
+            })
           } else {
             wx.lin.showMessage({
               type: "error",

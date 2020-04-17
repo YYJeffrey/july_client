@@ -17,6 +17,7 @@ Page({
     showPopup: false, // 是否显示下拉区
     showAction: false, // 是否显示操作菜单
     isEnd: false, // 是否到底
+    inRequest: false, // 在请求中
     loading: false
   },
 
@@ -114,9 +115,13 @@ Page({
       data["label_id"] = labelId
     }
 
-    if (this.data.isEnd && page != 1) {
+    if ((this.data.isEnd && page != 1) || this.data.inRequest) {
       return
     }
+
+    this.setData({
+      inRequest: true
+    })
 
     wxutil.request.get(url, data).then((res) => {
       if (res.data.code == 200) {
@@ -124,6 +129,7 @@ Page({
         this.setData({
           page: (topics.length == 0 && page != 1) ? page - 1 : page,
           loading: false,
+          inRequest: false,
           isEnd: ((topics.length < pageSize) || (topics.length == 0 && page != 1)) ? true : false,
           topics: page == 1 ? topics : this.data.topics.concat(topics)
         })
@@ -146,7 +152,7 @@ Page({
   },
 
   /**
-   * 触顶刷新
+   * 下拉刷新
    */
   scrollToUpper() {
     const labelId = this.data.labelId

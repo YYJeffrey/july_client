@@ -422,7 +422,7 @@ Page({
     wx.lin.showDialog({
       type: "confirm",
       title: "提示",
-      content: "确定要删除该条话题？",
+      content: "确定要删除该话题？",
       success: (res) => {
         if (res.confirm) {
           const topicId = event.currentTarget.dataset.id
@@ -455,7 +455,7 @@ Page({
     wx.lin.showDialog({
       type: "confirm",
       title: "提示",
-      content: "确定要删除该条评论？",
+      content: "确定要删除该评论？",
       success: (res) => {
         if (res.confirm) {
           const commentId = event.currentTarget.dataset.id

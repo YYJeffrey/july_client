@@ -18,7 +18,8 @@ Page({
     showAction: false, // 是否显示操作菜单
     isEnd: false, // 是否到底
     inRequest: false, // 在请求中
-    loading: false
+    loading: false, // 是否正在加载
+    toTag: null, // 滚动到标签
   },
 
   onLoad() {
@@ -36,7 +37,8 @@ Page({
       if (labelId) {
         wx.removeStorageSync("labelId")
         this.setData({
-          labelId: labelId
+          labelId: labelId,
+          toTag: "tag_" + labelId
         })
         this.getTopics(1, labelId)
       }
@@ -198,7 +200,14 @@ Page({
     } else {
       this.getTopics(1, currLabelId)
       this.setData({
-        labelId: currLabelId
+        labelId: currLabelId,
+      })
+    }
+
+    // 如果显示下拉区则滚动Tag
+    if (this.data.showPopup) {
+      this.setData({
+        toTag: "tag_" + currLabelId
       })
     }
   },

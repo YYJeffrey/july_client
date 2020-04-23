@@ -1,8 +1,10 @@
 <!--pages/topic/index.wxml-->
 
 <!-- 标签栏 -->
-<scroll-view scroll-x enable-flex class="tag-scroll">
-	<l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{labelId == item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{labelId == item.id ? '#fff' : '#337559'}}" bind:lintap="onTagTap" data-label="{{item.id}}">#{{item.name}}</l-tag>
+<scroll-view scroll-x enable-flex class="tag-scroll" scroll-into-view="{{toTag}}">
+	<view wx:for="{{labels}}" wx:key="item" id="{{'tag_' + item.id}}">
+		<l-tag l-class="tag" plain="{{labelId == item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{labelId == item.id ? '#fff' : '#337559'}}" bind:lintap="onTagTap" data-label="{{item.id}}">#{{item.name}}</l-tag>
+	</view>
 </scroll-view>
 
 <!-- 下拉层按钮 -->

@@ -1,11 +1,11 @@
 # july_client
-![](https://img.shields.io/badge/build-passing-brightgreen)
+![build](https://img.shields.io/badge/build-passing-brightgreen)
 
 七月微信小程序——客户端
 
 这是一款集成了Lin UI开发而成的SaaS社交平台微信小程序。
 
-该项目发起于2019年七月份，故名为“七月”，断断续续开发了快一年，打算由私仓转为开源，开发之时这是“一个人的社交平台”，自己发动态，自己评论自己，自己和自己聊天，孤独但不失情怀，平台最初的数据会带着个人的情感在内，又不舍得删掉，请大家不要介意。
+该项目发起于2019年七月份，故名为“七月”，断断续续开发持续到现在，打算由私仓转为开源，开发之时这是“一个人的社交平台”，自己发动态，自己评论自己，自己和自己聊天，孤独但不失情怀，平台最初的数据会带着个人的情感在内，又不舍得删掉，请大家不要介意。
 
 整个系统由多个项目构成，其中后端API服务由Flask开发而成，暂时还未开源，可以通过下方API文档查看具体的接口说明。
 
@@ -88,23 +88,23 @@ globalData: {
   - 获取模板详情
 
 
-## 效果展示
-<img src="https://img.yejiefeng.com/screenshots/1-%E8%AF%9D%E9%A2%98%E5%88%97%E8%A1%A8.jpeg-clipping" width="30%" /></br></br>
+## 产品展示
+![话题列表](https://img.yejiefeng.com/screenshots/1-%E8%AF%9D%E9%A2%98%E5%88%97%E8%A1%A8.jpeg-dog)
 
-<img src="https://img.yejiefeng.com/screenshots/2-%E8%AF%9D%E9%A2%98%E5%88%97%E8%A1%A8.jpeg-clipping" width="30%" /></br></br>
+![话题列表](https://img.yejiefeng.com/screenshots/2-%E8%AF%9D%E9%A2%98%E5%88%97%E8%A1%A8.jpeg-dog)
 
-<img src="https://img.yejiefeng.com/screenshots/3-%E8%AF%9D%E9%A2%98%E5%88%97%E8%A1%A8.jpeg-clipping" width="30%" /></br></br>
+![话题列表](https://img.yejiefeng.com/screenshots/3-%E8%AF%9D%E9%A2%98%E5%88%97%E8%A1%A8.jpeg-dog)
 
-<img src="https://img.yejiefeng.com/screenshots/4-%E8%AF%9D%E9%A2%98%E8%AF%A6%E6%83%85.jpeg-clipping" width="30%" /></br></br>
+![话题详情](https://img.yejiefeng.com/screenshots/4-%E8%AF%9D%E9%A2%98%E8%AF%A6%E6%83%85.jpeg-dog)
 
-<img src="https://img.yejiefeng.com/screenshots/5-%E8%AF%9D%E9%A2%98%E8%AF%A6%E6%83%85.jpeg-clipping" width="30%" /></br></br>
+![话题详情](https://img.yejiefeng.com/screenshots/5-%E8%AF%9D%E9%A2%98%E8%AF%A6%E6%83%85.jpeg-dog)
 
-<img src="https://img.yejiefeng.com/screenshots/6-%E6%A0%91%E6%B4%9E%E5%88%97%E8%A1%A8.jpeg-clipping" width="30%" /></br></br>
+![树洞列表](https://img.yejiefeng.com/screenshots/6-%E6%A0%91%E6%B4%9E%E5%88%97%E8%A1%A8.jpeg-dog)
 
-<img src="https://img.yejiefeng.com/screenshots/7-%E6%A0%91%E6%B4%9E%E8%AF%A6%E6%83%85.jpeg-clipping" width="30%" /></br></br>
+![树洞详情](https://img.yejiefeng.com/screenshots/7-%E6%A0%91%E6%B4%9E%E8%AF%A6%E6%83%85.jpeg-dog)
 
-<img src="https://img.yejiefeng.com/screenshots/8-%E6%A0%91%E6%B4%9E%E6%B7%B1%E5%A4%84.jpeg-clipping" width="30%" /></br></br>
+![树洞深处](https://img.yejiefeng.com/screenshots/8-%E6%A0%91%E6%B4%9E%E6%B7%B1%E5%A4%84.jpeg-dog)
 
-<img src="https://img.yejiefeng.com/screenshots/9-%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83.jpeg-clipping" width="30%" /></br></br>
+![用户授权](https://img.yejiefeng.com/screenshots/9-%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83.jpeg-dog)
 
-<img src="https://img.yejiefeng.com/screenshots/10-%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83.jpeg-clipping" width="30%" />
+![个人中心](https://img.yejiefeng.com/screenshots/10-%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83.jpeg-dog)

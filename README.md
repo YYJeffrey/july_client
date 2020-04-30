@@ -36,11 +36,13 @@ globalData: {
 
 
 ## API文档
-这是一套RESTful API，每一个功能模块对应着一种资源，简洁明了，清晰直观。
+这是一套RESTful API，每一个功能模块对应着一种资源，简洁明了，清晰直观。  
 [API文档地址](https://api.july.yejiefeng.com/api/doc)
 
 **功能模块**
-![接口功能图](https://img.yejiefeng.com/screenshots/%E6%8E%A5%E5%8F%A3%E5%8A%9F%E8%83%BD%E5%9B%BE.png)
+
+<img src="https://img.yejiefeng.com/screenshots/%E6%8E%A5%E5%8F%A3%E5%8A%9F%E8%83%BD%E5%9B%BE.png" width="380px" />
+
 
 ## 产品展示
 ![话题列表](https://img.yejiefeng.com/screenshots/1-%E8%AF%9D%E9%A2%98%E5%88%97%E8%A1%A8.jpeg-dog)

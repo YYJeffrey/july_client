@@ -1,5 +1,6 @@
 # july_client
 ![build](https://img.shields.io/badge/build-passing-brightgreen)
+![build](https://img.shields.io/badge/license-Apache%202-blue)
 
 七月微信小程序——客户端
 

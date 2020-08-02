@@ -65,8 +65,6 @@
 <img src="https://img.yejiefeng.com/screenshots/10-%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83.jpeg" width="280px" /><br/>
 
 
-## 申请体验
+## 体验七月
 
-扫描下方二维申请使用体验版，因小程序体验版体验人数有限，向管理员发起体验请求成功体验后，一段时间内将会收回体验权限，希望大家能够理解，谢谢！
-
-<img src="https://img.yejiefeng.com/qr/qr_exp.jpg" width="180px" />
+<img src="./images/logo/qr.jpg" width="180px" />

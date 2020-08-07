@@ -24,7 +24,7 @@
 该项目源码中已经存在miniprogram_npm文件夹，故该步骤可以跳过，若需要安装其他扩展，请确保您已经安装了npm，并使用`npm install`安装所需依赖。
 
 3. 修改AppID  
-该项目是一个SaaS平台，您使用的测试号或者其他或者其他未注册到该平台的AppID时是没有任何数据的，可以通过修改**app.js**中globalData下的appId，将其改成本小程序的AppID即可`wx0611fd1ba2b0bcd6`即可，具体代码见下。
+该项目是一个SaaS平台，您使用的测试号或者其他或者其他未注册到该平台的AppID时是没有任何数据的，可以通过修改**app.js**中globalData下的appId，将其改成本小程序的AppID即可`wx0611fd1ba2b0bcd6`即可。
 
     ```
     globalData: {
@@ -66,5 +66,9 @@
 
 
 ## 体验七月
+
+欢迎加入小程序交流群：592832957
+
+支持闲聊和回答技术问题 😁
 
 <img src="./images/logo/qr.jpg" width="180px" />

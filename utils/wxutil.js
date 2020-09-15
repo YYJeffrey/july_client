@@ -188,7 +188,7 @@ const socket = {
           resolve(res)
         },
         fail() {
-          reject('sendSocket failed')
+          reject('sendSocketMessage failed')
         }
       })
     })
@@ -217,7 +217,7 @@ const image = {
           resolve(res)
         },
         fail() {
-          reject('saveImage failed')
+          reject('saveImageToPhotosAlbum failed')
         }
       })
     })
@@ -490,7 +490,7 @@ const autoUpdate = () => {
 }
 
 /**
- * 字符串判不为空 - isNotNull用法：
+ * 判断字符串是否不为空 - isNotNull用法：
  * isNotNull("text")
  * @param {String} text 字符串
  * @return {Boolean} 字符串合法返回真否则返回假

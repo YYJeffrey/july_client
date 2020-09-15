@@ -1,4 +1,4 @@
-<!--pages/hole-detail/index.wxml-->
+<!-- pages/hole-detail/index.wxml -->
 
 <!-- 封面 -->
 <image class="poster" mode="aspectFill" src="{{hole.poster}}" />
@@ -10,7 +10,8 @@
 	<view class="desp">{{hole.description}}</view>
 	<view class="btn-group">
 		<l-button plain l-class="btn-share" open-type="share" width="240">分享好友</l-button>
-		<l-button bg-color="#337559" width="240" disabled="{{!hole.state}}" bind:lintap="onJoinTap">{{hole.state ? '立即参与' : '暂未开放'}}</l-button>
+		<l-button bg-color="#337559" width="240" disabled="{{!hole.state}}" bind:lintap="onJoinTap">
+			{{hole.state ? '立即参与' : '暂未开放'}}</l-button>
 	</view>
 </view>
 

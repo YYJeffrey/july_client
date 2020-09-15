@@ -65,6 +65,10 @@
 <img src="https://img.yejiefeng.com/screenshots/10-%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83.jpeg" width="280px" /><br/>
 
 
+## 版本说明
+* **v0.0.1** - 小程序已达到生产使用标准，基本功能完善，上线2个月内无异样
+
+
 ## 体验七月
 
 欢迎加入小程序交流群：592832957

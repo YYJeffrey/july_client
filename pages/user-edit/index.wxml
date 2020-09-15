@@ -1,8 +1,9 @@
-<!--pages/user-edit/index.wxml-->
+<!-- pages/user-edit/index.wxml -->
 
 <!-- 表单编辑 -->
 <text class="title">昵称</text>
-<l-input placeholder="请输入用户名" hide-label value="{{nickName}}" maxlength="20" l-class="input-text" bind:lininput="setNickName" />
+<l-input placeholder="请输入用户名" hide-label value="{{nickName}}" maxlength="20" l-class="input-text"
+	bind:lininput="setNickName" />
 <text class="title">性别</text>
 <l-radio-group current="{{gender}}" placement="row" l-class="input-radio" bind:linchange="onChangeGenderTap">
 	<l-radio select-color="#337559" key="1" l-class="radio">男</l-radio>
@@ -11,7 +12,8 @@
 </l-radio-group>
 <text class="title">个性签名</text>
 <view class="textarea-box">
-	<l-textarea l-class="input-textarea" placeholder="请输入个性签名" border="{{false}}" maxlength="30" value="{{signature}}" bind:lininput="setSignature" />
+	<l-textarea l-class="input-textarea" placeholder="请输入个性签名" border="{{false}}" maxlength="30" value="{{signature}}"
+		bind:lininput="setSignature" />
 </view>
 <l-button bg-color="#337559" width="280" l-class="auth-btn" l-class="btn-save" bind:lintap="saveInfo">保存</l-button>
 

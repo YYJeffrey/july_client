@@ -89,7 +89,7 @@ Page({
    * 确认上传
    */
   comfireTap() {
-    this.cropper.getCropperImage(function(path, err) {
+    this.cropper.getCropperImage(function (path, err) {
       if (err) {
         wxutil.showModal("提示", err.message)
       } else {

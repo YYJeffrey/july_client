@@ -4,9 +4,9 @@ Component({
   relations: {
     "../list/index": {
       type: "parent",
-      linked() {},
-      linkChanged() {},
-      unlinked() {}
+      linked() { },
+      linkChanged() { },
+      unlinked() { }
     }
   },
   options: {

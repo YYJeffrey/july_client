@@ -1,6 +1,3 @@
 {
-  "navigationBarTitleText": "发布",
-  "usingComponents": {
-    "l-image-picker": "../miniprogram_npm/lin-ui/image-picker/index"
-  }
+  "navigationBarTitleText": "发布"
 }

@@ -83,15 +83,15 @@
   width: 160rpx
 }
 
-.l-placement-left .l-tabs-header>view,
-.l-placement-right .l-tabs-header>view {
+.l-placement-left .l-tabs-header .l-tabs-header-sub,
+.l-placement-right .l-tabs-header .l-tabs-header-sub {
   width: 100%;
   height: 80rpx;
   background: #f6f8fa
 }
 
-.l-placement-left .l-tabs-header>.l-tabs-active,
-.l-placement-right .l-tabs-header>.l-tabs-active {
+.l-placement-left .l-tabs-header .l-tabs-active,
+.l-placement-right .l-tabs-header .l-tabs-active {
   background: #fff
 }
 

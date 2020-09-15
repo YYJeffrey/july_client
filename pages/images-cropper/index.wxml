@@ -1,4 +1,4 @@
-<!--pages/images-cropper/index.wxml-->
+<!-- pages/images-cropper/index.wxml -->
 <import src="../../templates/we-cropper/we-cropper.wxml" />
 
 <!-- 图片裁剪区 -->

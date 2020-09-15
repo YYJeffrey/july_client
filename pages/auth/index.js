@@ -5,8 +5,7 @@ const wxutil = app.wxutil
 
 Page({
   data: {},
-
-  onLoad() {},
+  onLoad() { },
 
   /**
    * 授权

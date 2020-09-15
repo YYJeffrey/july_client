@@ -57,7 +57,7 @@ Component({
     }
   },
   data: {},
-  attached() {},
+  attached() { },
   methods: {
     handleInputChange(e) {
       const {

@@ -223,7 +223,7 @@ Page({
             })
             wx.removeTabBarBadge({
               index: 2,
-              fail(error) {}
+              fail(error) { }
             })
           }
         }

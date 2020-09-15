@@ -1,4 +1,4 @@
-<!--pages/setting/index.wxml-->
+<!-- pages/setting/index.wxml -->
 
 <!-- 设置列表 -->
 <button hover-class="btn-list" bindtap="authorize">
@@ -25,7 +25,8 @@
 <!-- 下拉层 -->
 <l-popup show="{{showPopup}}" animation content-align="center" bind:lintap="togglePopup" z-index="99">
 	<view class="popup">
-		<image class="qr_like" data-src="https://img.yejiefeng.com/qr/qr_like.png" src="https://img.yejiefeng.com/qr/qr_like.png" bindtap="previewImage" />
+		<image class="qr_like" data-src="https://img.yejiefeng.com/qr/qr_like.png"
+			src="https://img.yejiefeng.com/qr/qr_like.png" bindtap="previewImage" />
 	</view>
 </l-popup>
 

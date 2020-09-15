@@ -5,9 +5,12 @@ page {
   font-family: "苹方";
   font-size: 28rpx;
   color: #333;
-  box-sizing: border-box; /* 宽度包含 */
-  letter-spacing: 1rpx; /* 字间距 */
-  word-wrap: break-word; /* 长词汇换行 */
+  box-sizing: border-box;
+  /* 宽度包含 */
+  letter-spacing: 1rpx;
+  /* 字间距 */
+  word-wrap: break-word;
+  /* 长词汇换行 */
 }
 
 button::after {

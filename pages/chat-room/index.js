@@ -39,7 +39,7 @@ Page({
   getScrollHeight() {
     const that = this;
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         const windowHeight = res.windowHeight;
         const windowWidth = res.windowWidth;
         const ratio = 750 / windowWidth;

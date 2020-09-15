@@ -6,7 +6,7 @@ Page({
   data: {
     showPopup: false
   },
-  onLoad() {},
+  onLoad() { },
 
   /**
    * 权限页面

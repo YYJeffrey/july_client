@@ -24,7 +24,7 @@
 3. 注册APP_ID  
 该项目是SaaS平台，若您使用自己的测试号或者其他微信小程序号，可以通过文档的“注册平台接口”填写相关信息注册。（完成了该步后第4步可不做）
 
-    <img src="https://img.yejiefeng.com/screenshots/%E4%BF%AE%E6%94%B9APP_ID.png" width="450px" />
+    <img src="https://img.yejiefeng.com/screenshots/%E4%BF%AE%E6%94%B9APP_ID.png" width="650px" />
 
 
 4. 修改APP_ID  
@@ -44,7 +44,7 @@
 
 **功能模块**
 
-<img src="https://img.yejiefeng.com/screenshots/%E6%8E%A5%E5%8F%A3%E5%8A%9F%E8%83%BD%E5%9B%BE.png" width="800px" />
+<img src="https://img.yejiefeng.com/screenshots/%E6%8E%A5%E5%8F%A3%E5%8A%9F%E8%83%BD%E5%9B%BE.png" width="450px" />
 
 
 ## 产品展示

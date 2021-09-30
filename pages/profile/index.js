@@ -26,12 +26,11 @@ Page({
 
   onLoad() {
     this.getTabsTop()
-    // 轮询获取消息概要
-    setInterval(this.getMessageBrief(), 5000)
   },
 
   onShow() {
     this.getUser()
+    this.getMessageBrief()
 
     const userId = this.data.user.id
     if (!userId) {

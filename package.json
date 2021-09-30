@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/YYJeffrey/july_client#readme",
   "dependencies": {
-    "lin-ui": "^0.7.6"
+    "lin-ui": "0.7.6"
   }
 }

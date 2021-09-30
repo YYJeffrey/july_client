@@ -18,6 +18,7 @@ Page({
     commentTemplateId: null, // 评论模板ID
     focus: false, // 获取焦点
     showAction: false, // 是否显示操作菜单
+    isAdmin: false, // 当前用户是否为管理员
     isEnd: false // 是否到底
   },
 
@@ -32,7 +33,10 @@ Page({
       })
     }
     this.getTopicDetail(topicId)
-    this.getUserId()
+  },
+
+  onShow() {
+    this.getUserInfo()
   },
 
   /**
@@ -83,12 +87,13 @@ Page({
   },
 
   /**
-   * 获取用户ID
+   * 获取用户信息
    */
-  getUserId() {
+  getUserInfo() {
     if (app.globalData.userDetail) {
       this.setData({
-        userId: app.globalData.userDetail.id
+        userId: app.globalData.userDetail.id,
+        isAdmin: app.globalData.userDetail.is_admin
       })
     }
   },
@@ -163,7 +168,7 @@ Page({
       color: "#666"
     }]
 
-    if (this.data.userId == this.data.topic.user.id) {
+    if (this.data.userId == this.data.topic.user.id || this.data.isAdmin) {
       actionList.push({
         name: "删除",
         color: "#d81e05"

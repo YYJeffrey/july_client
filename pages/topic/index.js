@@ -17,6 +17,7 @@ Page({
     showPopup: false, // 是否显示下拉区
     showAction: false, // 是否显示操作菜单
     isEnd: false, // 是否到底
+    isAdmin: false, // 当前用户是否为管理员
     inRequest: false, // 在请求中
     loading: false, // 是否正在加载
     toTag: null, // 滚动到标签
@@ -25,11 +26,11 @@ Page({
   onLoad() {
     this.getScrollHeight()
     this.getLabels()
-    this.getUserId()
     this.getTopics()
   },
 
   onShow() {
+    this.getUserInfo()
     const labelId = wxutil.getStorage("labelId")
     // 由于wx.switchTab()的传参限制，故用缓存获取标签参数
 
@@ -92,12 +93,13 @@ Page({
   },
 
   /**
-   * 获取用户ID
+   * 获取用户信息
    */
-  getUserId() {
+  getUserInfo() {
     if (app.globalData.userDetail) {
       this.setData({
-        userId: app.globalData.userDetail.id
+        userId: app.globalData.userDetail.id,
+        isAdmin: app.globalData.userDetail.is_admin
       })
     }
   },
@@ -243,7 +245,7 @@ Page({
       color: "#666"
     }]
 
-    if (this.data.userId == this.data.topics[topicIndex].user.id) {
+    if (this.data.userId == this.data.topics[topicIndex].user.id || this.data.isAdmin) {
       actionList.push({
         name: "删除",
         color: "#d81e05"

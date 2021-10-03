@@ -556,6 +556,22 @@ const getTimestamp = (date = new Date()) => {
   return date.getTime()
 }
 
+/**
+ * 获取UUID - getUUID用法
+ * getUUID()
+ */
+const getUUID = (isOnline = true) => {
+  const s = []
+  const hexDigits = '0123456789abcdef'
+  for (let i = 0; i < 36; i++) {
+    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
+  }
+  s[14] = '4'
+  s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1)
+  s[8] = s[13] = s[18] = s[23] = isOnline ? '-' : ''
+  return s.join('')
+}
+
 module.exports = {
   request: request,
   file: file,
@@ -573,5 +589,6 @@ module.exports = {
   autoUpdate: autoUpdate,
   isNotNull: isNotNull,
   getDateTime: getDateTime,
-  getTimestamp: getTimestamp
+  getTimestamp: getTimestamp,
+  getUUID: getUUID
 }

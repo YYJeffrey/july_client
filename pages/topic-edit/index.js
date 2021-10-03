@@ -2,6 +2,7 @@
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil
+const qiniuUploader = require("../../utils/qiniuUploader");
 
 Page({
   data: {
@@ -18,13 +19,30 @@ Page({
   onLoad() {
     this.getLabels()
     this.getTemplateId()
+    this.initQiniu()
+  },
+
+  /**
+   * 初始化七牛云配置
+   */
+  initQiniu(domain = api.ossDomain) {
+    wxutil.request.get(api.ossAPI).then((res) => {
+      if (res.data.code == 200) {
+        var options = {
+          region: 'ECN',
+          uptoken: res.data.data.uptoken,
+          domain: domain,
+          shouldUseQiniuFileName: false,
+        }
+        qiniuUploader.init(options)
+      }
+    })
   },
 
   /**
    * 获取标签
    */
   getLabels() {
-    const that = this
     const url = api.labelAPI
     const data = {
       app_id: app.globalData.appId
@@ -145,20 +163,18 @@ Page({
    * 多图上传
    */
   sendImages(imageFiles) {
-    const url = api.topicAPI + "images/"
     return Promise.all(imageFiles.map((imageFile) => {
       return new Promise(function (resolve, reject) {
-        wxutil.file.upload({
-          url: url,
-          fileKey: "file",
-          filePath: imageFile
-        }).then((res) => {
-          const data = JSON.parse(res.data);
-          if (data.code == 200) {
-            resolve(data.data.url)
-          }
-        }).catch((error) => {
+        qiniuUploader.upload(imageFile, (res) => {
+          resolve(res.imageURL)
+        }, (error) => {
           reject(error)
+        }, {
+          region: 'ECN',
+          uptoken: null,
+          domain: null,
+          shouldUseQiniuFileName: false,
+          key: 'topic/' + wxutil.getUUID(false)
         })
       })
     }))

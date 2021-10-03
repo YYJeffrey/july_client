@@ -12,15 +12,15 @@
 				<view class="tip">{{item.content}}</view>
 			</view>
 			<view wx:if="{{item.type == 'images'}}" class="chat-item {{item.user_id == userId ? 'reverse' : ''}}">
-				<image class="avatar" src="{{item.avatar}}" />
+				<image class="avatar" src="{{item.avatar + '?imageView2/1/w/60/h/60'}}" />
 				<view class="message-box">
 					<view class="nick-name {{item.user_id == userId ? 'text-right' : ''}}">{{item.nick_name}}</view>
-					<image src="{{item.data}}" data-src="{{item.data}}" mode="widthFix" class="msg-images"
-						bindtap="previewImage" />
+					<image src="{{item.data}}" data-src="{{item.data + '?imageView2/0/w/800/h/360'}}" mode="widthFix"
+						class="msg-images" bindtap="previewImage" />
 				</view>
 			</view>
 			<view wx:if="{{item.type == 'message'}}" class="chat-item {{item.user_id == userId ? 'reverse' : ''}}">
-				<image class="avatar" src="{{item.avatar}}" />
+				<image class="avatar" src="{{item.avatar + '?imageView2/1/w/60/h/60'}}" />
 				<view class="message-box">
 					<view class="nick-name {{item.user_id == userId ? 'text-right' : ''}}">{{item.nick_name}}</view>
 					<view class="{{item.user_id == userId ? 'content-right triangle-right' : 'content-left triangle-left'}}">

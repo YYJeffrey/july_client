@@ -12,7 +12,7 @@
 		bindtap="gotoTopicDetail">收藏了你的话题！</view>
 	<view class="avater-content" wx:if="{{item.category == 'follow'}}" bindtap="gotoFollower">悄悄地关注了你！</view>
 	<view class="comment-topic" wx:if="{{item.topic}}" data-id="{{item.topic.id}}" bindtap="gotoTopicDetail">
-		<image src="{{item.topic.images[0]}}"
+		<image src="{{item.topic.images[0] + '?imageView2/1/w/180/h/180'}}"
 			class="{{item.topic.images.length > 0 ? 'card-img comment-image' : 'card-img-none'}}" mode="aspectFill" />
 		<view class="comment-right">
 			<text class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}"

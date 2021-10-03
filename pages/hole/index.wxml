@@ -5,7 +5,7 @@
 	next-margin="60rpx" indicator-active-color="#337559">
 	<swiper-item wx:for="{{holes}}" wx:if="{{index < 4}}" wx:key="item" class="head-swiper-item" data-id="{{item.id}}"
 		bindtap="gotoDetail">
-		<image class="poster" mode="aspectFill" src="{{item.poster}}">
+		<image class="poster" mode="aspectFill" src="{{item.poster + '?imageView2/1/w/335/h/190'}}">
 			<view class="mark">
 				<text class="title">{{item.title}}</text>
 				<view class="btn-join">
@@ -27,14 +27,14 @@
 <view class="content-box" wx:if="{{holes.length != 0}}">
 	<view class="head">
 		<view class="head-line line-left"></view>
-		<text class="head-title">往期话题</text>
+		<text class="head-title">热门话题</text>
 		<view class="head-line line-right"></view>
 	</view>
 
 	<view class="box">
 		<view wx:for="{{holes}}" wx:if="{{index >= 4}}" wx:key="item" class="box-item" data-id="{{item.id}}"
 			bindtap="gotoDetail">
-			<image class="item-poster" mode="aspectFill" src="{{item.poster}}" lazy-load />
+			<image class="item-poster" mode="aspectFill" src="{{item.poster + '?imageView2/1/w/335/h/190'}}" lazy-load />
 			<view class="item-title">{{item.title}}</view>
 		</view>
 	</view>

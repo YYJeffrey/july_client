@@ -42,7 +42,7 @@
 
 <!-- 消息提示 -->
 <view wx:if="{{messageBrief}}" class="message-box" bindtap="gotoMessage">
-	<image class="message-avatar" src="{{messageBrief.avatar}}" />
+	<image class="message-avatar" src="{{messageBrief.avatar + '?imageView2/1/w/60/h/60'}}" />
 	<text class="message-tip">{{messageBrief.count}}条新动态</text>
 </view>
 
@@ -55,7 +55,8 @@
 				nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" />
 			<l-card data-id="{{item.id}}" bindtap="gotoTopicDetail" wx:for="{{topics}}" wx:key="item" l-class="card"
 				l-img-class="{{item.images.length > 0 ? 'card-img' : 'card-img-none'}}" l-title-class="topic-title"
-				type="primary" position="left" image="{{item.images.length > 0 ? item.images[0] : ''}}" image-mode="aspectFill"
+				type="primary" position="left"
+				image="{{item.images.length > 0 ? item.images[0] + '?imageView2/1/w/180/h/180' : ''}}" image-mode="aspectFill"
 				title="{{item.create_time}}">
 				<view class="card-content">
 					{{item.content}}
@@ -78,7 +79,7 @@
 					<view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
 				</view>
 				<view class="comment-topic">
-					<image src="{{item.topic.images[0]}}"
+					<image src="{{item.topic.images[0] + '?imageView2/1/w/180/h/180'}}"
 						class="{{item.topic.images.length > 0 ? 'card-img comment-image' : 'card-img-none'}}" mode="aspectFill" />
 					<view class="comment-right">
 						<text class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}"
@@ -99,9 +100,9 @@
 			<l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card"
 				l-img-class="{{item.topic.images.length > 0 ? 'card-img' : 'card-img-none'}}"
 				l-title-class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" type="primary" position="left"
-				image="{{item.topic.images.length > 0 ? item.topic.images[0] : ''}}" image-mode="aspectFill"
-				title="{{item.topic.user.nick_name}}" bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}"
-				data-user-id="{{item.topic.user.id}}">
+				image="{{item.topic.images.length > 0 ? item.topic.images[0] + '?imageView2/1/w/180/h/180' : ''}}"
+				image-mode="aspectFill" title="{{item.topic.user.nick_name}}"
+				bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">
 				<view class="card-content">
 					{{item.topic.content}}
 				</view>

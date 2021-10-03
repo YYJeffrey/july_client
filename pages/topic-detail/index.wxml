@@ -2,23 +2,23 @@
 
 <!-- 动态详情 -->
 <l-card wx:if="{{topic.id}}" type="avatar" l-class="card"
-	l-title-class="{{topic.user.id != -1 ? 'nick-name' : 'nick-name-anon'}}" image="{{topic.user.avatar}}"
-	title="{{topic.user.nick_name}}" describe="{{topic.create_time}}"
-	bind:linavatar="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}"
+	l-title-class="{{topic.user.id != -1 ? 'nick-name' : 'nick-name-anon'}}"
+	image="{{topic.user.avatar + '?imageView2/1/w/60/h/60'}}" title="{{topic.user.nick_name}}"
+	describe="{{topic.create_time}}" bind:linavatar="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}"
 	bind:lintitle="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{topic.user.id}}">
 	<view class="avater-content">{{topic.content}}</view>
 	<view class="posters">
 		<block wx:if="{{topic.images.length == 1}}">
-			<image class="column-one" src="{{topic.images[0]}}" mode="widthFix" bindtap="previewImage"
-				data-src="{{topic.images[0]}}" lazy-load />
+			<image class="column-one" src="{{topic.images[0] + '?imageView2/0/w/800/h/360'}}" mode="widthFix"
+				bindtap="previewImage" data-src="{{topic.images[0]}}" lazy-load />
 		</block>
 		<block wx:elif="{{topic.images.length == 2 || topic.images.length == 4}}">
-			<image class="column-two" wx:for="{{topic.images}}" wx:key="item" src="{{item}}" mode="aspectFill"
-				bindtap="previewImage" data-src="{{item}}" lazy-load />
+			<image class="column-two" wx:for="{{topic.images}}" wx:key="item" src="{{item + '?imageView2/1/w/270/h/270'}}"
+				mode="aspectFill" bindtap="previewImage" data-src="{{item}}" lazy-load />
 		</block>
 		<block wx:else>
-			<image wx:for="{{topic.images}}" wx:key="item" src="{{item}}" mode="aspectFill" bindtap="previewImage"
-				data-src="{{item}}" lazy-load />
+			<image wx:for="{{topic.images}}" wx:key="item" src="{{item + '?imageView2/1/w/180/h/180'}}" mode="aspectFill"
+				bindtap="previewImage" data-src="{{item}}" lazy-load />
 		</block>
 	</view>
 
@@ -47,8 +47,8 @@
 <!-- 收藏 -->
 <view wx:if="{{topic.id}}" class="star-box" wx:if="{{stars.length > 0}}">
 	<view class="star-content">
-		<image wx:for="{{stars}}" wx:key="item" class="avatar" src="{{item.user.avatar}}" data-user-id="{{item.user.id}}"
-			bindtap="gotoVisitingCard" />
+		<image wx:for="{{stars}}" wx:key="item" class="avatar" src="{{item.user.avatar + '?imageView2/1/w/60/h/60'}}"
+			data-user-id="{{item.user.id}}" bindtap="gotoVisitingCard" />
 	</view>
 	<view class="star-icon-box">
 		收藏
@@ -59,7 +59,8 @@
 <!-- 评论 -->
 <view wx:if="{{topic.id}}" class="comment-box" wx:if="{{comments.length > 0}}">
 	<view class="comment" wx:for="{{comments}}" wx:key="item" data-index="{{index}}" bindtap="onCommentItemTap">
-		<image class="avatar" src="{{item.user.avatar}}" data-user-id="{{item.user.id}}" catchtap="gotoVisitingCard" />
+		<image class="avatar" src="{{item.user.avatar + '?imageView2/1/w/60/h/60'}}" data-user-id="{{item.user.id}}"
+			catchtap="gotoVisitingCard" />
 		<view class="comment-right {{index == comments.length - 1 && isEnd ? 'non-border' : ''}}">
 			<view class="comment-top">
 				<view class="nick-name" data-user-id="{{item.user.id}}" catchtap="gotoVisitingCard">{{item.user.nick_name}}

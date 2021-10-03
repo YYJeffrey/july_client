@@ -179,6 +179,7 @@
 .card-img {
   width: 180rpx !important;
   height: 180rpx !important;
+  border-radius: 10rpx;
 }
 
 .card-img-none {

@@ -89,6 +89,7 @@ page {
   height: 180rpx;
   margin-right: 10rpx;
   margin-bottom: 10rpx;
+  border-radius: 10rpx;
 }
 
 .posters .column-one {

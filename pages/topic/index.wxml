@@ -27,7 +27,7 @@
 <scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper"
 	bindscrolltolower="scrollToLower" style="height:{{height}}rpx">
 	<l-card type="avatar" l-class="card" l-title-class="{{item.user.id != -1 ? 'card-title' : 'card-title-anon'}}"
-		wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar}}"
+		wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar + '?imageView2/1/w/60/h/60'}}"
 		title="{{item.user.nick_name}}" describe="{{item.create_time}}"
 		bind:linavatar="{{item.user.id != -1 ? 'gotoVisitingCard' : ''}}"
 		bind:lintitle="{{item.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.user.id}}">
@@ -38,16 +38,16 @@
 
 		<view class="posters" data-id="{{item.id}}" bindtap="gotoDetail">
 			<block wx:if="{{item.images.length == 1}}">
-				<image class="column-one" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="widthFix"
-					catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
+				<image class="column-one" wx:for="{{item.images}}" wx:key="item" src="{{item + '?imageView2/0/w/800/h/360'}}"
+					mode="widthFix" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
 			</block>
 			<block wx:elif="{{item.images.length == 2 || item.images.length == 4}}">
-				<image class="column-two" wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill"
-					catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
+				<image class="column-two" wx:for="{{item.images}}" wx:key="item" src="{{item + '?imageView2/1/w/270/h/270'}}"
+					mode="aspectFill" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
 			</block>
 			<block wx:else>
-				<image wx:for="{{item.images}}" wx:key="item" src="{{item}}" mode="aspectFill" catchtap="previewImage"
-					data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
+				<image wx:for="{{item.images}}" wx:key="item" src="{{item + '?imageView2/1/w/180/h/180'}}" mode="aspectFill"
+					catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />
 			</block>
 		</view>
 

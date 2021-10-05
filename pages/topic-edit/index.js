@@ -188,7 +188,6 @@ Page({
     const isAnon = this.data.isAnon
     const labels = this.data.labelsActive
     const imageFiles = this.data.imageFiles
-    let images = []
 
     if (!wxutil.isNotNull(content)) {
       wx.lin.showMessage({

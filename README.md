@@ -4,7 +4,7 @@
 
 七月微信小程序——客户端
 
-一款集成了Lin UI开发而成的SaaS社交平台微信小程序。该项目发起于2019年7月，故名为“七月”。开发之时是“一个人的社交平台”，自娱自乐，现已面向大众！
+一款集成Lin UI开发的SaaS社交平台微信小程序。项目发起于2019年7月，故名为“七月”。开发之时是“一个人的社交平台”，自娱自乐，现已面向大众！
 
 
 ## 技术栈
@@ -13,21 +13,25 @@
 
 
 ## 快速开始
-1. 下载源码  
+1. **下载源码**  
     ```
     git clone git@github.com:YYJeffrey/july_api.git
     ```
 
-2. 安装依赖  
-该项目源码中已经存在miniprogram_npm文件夹，故该步骤可以跳过，若需要安装其他扩展，请确保您已经安装了npm，并使用`npm install`安装所需依赖。
+2. **安装依赖**  
+    项目源码中已安装好依赖，只需确保文件`miniprogram_npm`存在，故该步骤可以跳过。如需安装其他依赖，请自行使用`npm install`安装。
 
-3. 注册APP_ID  
-该项目是SaaS平台，可以使用自身的微信小程序账户，通过[API文档](https://api.july.yejiefeng.com/api/doc)的“注册平台接口”填写相关信息注册。微信小程序的域名配置建议与七月保持一致（完成了该步后第4步可不做）
+3. **注册APP_ID**  
+    该项目是SaaS平台，可以使用自己的微信小程序APP ID注册加入七月联盟，通过[API文档](https://api.july.yejiefeng.com/api/doc)的“注册平台接口”填写相关信息注册。（完成了该步后第4步可不做）
 
     <img src="https://img.yejiefeng.com/screenshots/%E4%BF%AE%E6%94%B9APP_ID.png" width="650px" />
 
-4. 修改APP_ID  
-若不想注册，可以通过修改**app.js**中globalData下的appId，将其改成`wx0611fd1ba2b0bcd6`即可，但这一方案会使得用户授权受限及需要权限的接口受限，其余接口均可使用。
+    注册时请确保`app_id`和`app_secret`的正确性，否则将无法完成注册。完成注册后将获得管理自身平台的权限，小程序负责人可以通过登录[七月后台管理平台](https://admin.july.yejiefeng.com/)来管理自己的小程序，账号密码分别为`app_id`和`app_secret`。
+
+    <img src="https://img.yejiefeng.com/screenshots/%E4%B8%83%E6%9C%88%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0.png" width="650px" />
+
+4. **修改APP_ID**  
+    已完成`注册APP_ID`的朋友可跳过该步骤，不便平台注册的，可以通过修改**app.js**中globalData下的appId，将其改成`wx0611fd1ba2b0bcd6`即可，这一方案，用户授权、发布内容、通知接口等存在受限，其余接口均可使用，适用于测试显示内容等。
 
     ```
     globalData: {
@@ -38,7 +42,7 @@
 
 
 ## API文档
-七月接口遵循RESTful开发风格，具体内容参阅下方链接。  
+七月接口遵循RESTful开发风格，接口内容参阅下方链接。  
 [API文档地址](https://api.july.yejiefeng.com/api/doc)
 
 **功能模块**
@@ -69,6 +73,7 @@
 
 
 ## 版本说明
+* **v1.1.0** - 小程序对发布及显示图片等功能优化，开放各SaaS平台管理系统
 * **v0.0.1** - 小程序已达到生产使用标准，功能完善，上线数个月运行正常
 
 
@@ -76,6 +81,6 @@
 
 欢迎加入小程序交流群：592832957
 
-支持闲聊和回答技术问题 😁
+支持闲聊和技术问答 😁
 
 <img src="./images/logo/qr.jpg" width="180px" />

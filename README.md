@@ -18,7 +18,7 @@
     git clone git@github.com:YYJeffrey/july_api.git
     ```
 
-2. **安装依赖**  
+2. **安装依赖（可选）**  
     项目源码中已安装好依赖，只需确保文件`miniprogram_npm`存在，故该步骤可以跳过。如需安装其他依赖，请自行使用`npm install`安装。
 
 3. **注册APP_ID**  
@@ -30,12 +30,12 @@
 
     <img src="https://img.yejiefeng.com/screenshots/%E4%B8%83%E6%9C%88%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0.png" width="650px" />
 
-4. **修改APP_ID**  
-    已完成`注册APP_ID`的朋友可跳过该步骤，不便平台注册的，可以通过修改**app.js**中globalData下的appId，将其改成`wx0611fd1ba2b0bcd6`即可，这一方案，用户授权、发布内容、通知接口等存在受限，其余接口均可使用，适用于测试显示内容等。
+4. **修改APP_ID（可选）**  
+    若已完成上一步骤，则可跳过该步骤。若不便平台注册的，可以通过修改**app.js**中globalData下的appId，将其改成`wx0be6c8fa6d9cb4bf`即可，这一方案，用户授权、发布内容、通知接口等存在受限，仅少许接口可用，适用于测试显示内容等。
 
     ```
     globalData: {
-      appId: "wx0611fd1ba2b0bcd6",
+      appId: "wx0be6c8fa6d9cb4bf",
       ...
     },
     ```
@@ -73,7 +73,7 @@
 
 
 ## 版本说明
-* **v1.1.1** - 小程序对发布及显示图片等功能优化，开放各SaaS平台管理系统
+* **v1.1.1** - 小程序内容发布及图片显示等优化，开放SaaS平台管理系统
 * **v0.0.1** - 小程序已达到生产使用标准，功能完善，上线数个月运行正常
 
 
@@ -83,4 +83,4 @@
 
 支持闲聊和技术问答 😁
 
-<img src="./images/logo/qr.jpg" width="180px" />
+<img src="./images/logo/qrcode.jpg" width="180px" />

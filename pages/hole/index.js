@@ -48,8 +48,8 @@ Page({
    * 下拉刷新
    */
   onPullDownRefresh() {
-    this.getHoles();
-    wx.stopPullDownRefresh();
+    this.getHoles()
+    wx.stopPullDownRefresh()
     wx.vibrateShort()
   },
 

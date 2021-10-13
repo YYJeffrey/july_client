@@ -1,6 +1,6 @@
 {
   "name": "july_client",
-  "version": "0.0.1",
+  "version": "1.1.2",
   "description": "A WeChat Mini-Program for SaaS social platform.",
   "main": "app.js",
   "scripts": {

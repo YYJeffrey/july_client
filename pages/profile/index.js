@@ -517,6 +517,15 @@ Page({
     }
   },
 
+  /**
+   * 下拉刷新
+   */
+  onPullDownRefresh() {
+    this.getMessageBrief()
+    wx.stopPullDownRefresh()
+    wx.vibrateShort()
+  },
+
   onShareAppMessage() {
     return {
       title: "个人中心",

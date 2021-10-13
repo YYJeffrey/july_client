@@ -10,7 +10,7 @@
 <view class="image-box">
 	<l-image-picker count="9" size="3" bind:linchange="onChangeImage" bind:linremove="onChangeImage" mode="aspectFill" />
 </view>
-<text wx:if="{{labels.length > 0}}" class="title">标签（部分标签可匿名）</text>
+<text wx:if="{{labels.length > 0}}" class="title">标签</text>
 <view wx:if="{{labels.length > 0}}" class="tag-items">
 	<l-tag wx:for="{{labels}}" wx:key="item" l-class="tag" plain="{{!item.active}}" shape="circle" bg-color="#337559"
 		font-color="{{item.active ? '#fff' : '#337559'}}" bind:lintap="onTagTap" data-label="{{item.id}}">#{{item.name}}

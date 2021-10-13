@@ -26,7 +26,7 @@
 
     <img src="https://img.yejiefeng.com/screenshots/%E4%BF%AE%E6%94%B9APP_ID.png" width="650px" />
 
-    注册时请确保`app_id`和`app_secret`的正确性，否则将无法完成注册。完成注册后将获得管理自身平台的权限，小程序负责人可以通过登录[七月后台管理平台](https://admin.july.yejiefeng.com/)来管理自己的小程序，账号密码分别为`app_id`和`app_secret`。
+    注册时请确保`app_id`和`app_secret`的正确性，否则将无法完成注册。完成注册后小程序负责人可以通过登录[七月后台管理平台](https://admin.july.yejiefeng.com/)来管理自己的小程序，账号密码分别为`app_id`和`app_secret`。
 
     <img src="https://img.yejiefeng.com/screenshots/%E4%B8%83%E6%9C%88%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0.png" width="650px" />
 
@@ -39,6 +39,11 @@
       ...
     },
     ```
+
+5. **订阅消息配置**  
+    请确保第3步已经完成，配置订阅消息需要先在微信小程序平台内选择订阅的模板，七月使用了编号为`4652`的模板作为评论模板，编号为`372`的模板作为预约模板，建议使用相同编号的模板。  
+    选择完模板后，需要登录[七月后台管理平台](https://admin.july.yejiefeng.com/)，进入模板管理，添加两个模板，其中模板名称必须为`评论模板`和`预约模板`，否则配置不会生效，模板键名需要用英文的逗号分隔，建议与七月保持一致。
+    <img src="https://img.yejiefeng.com/screenshots/%E6%A8%A1%E6%9D%BF%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE.png" width="650px" />
 
 
 ## API文档
@@ -73,7 +78,8 @@
 
 
 ## 版本说明
-* **v1.1.1** - 小程序内容发布及图片显示等优化，开放SaaS平台管理系统
+* **v1.1.4** - 完成用户信息接口适配，修改登录授权接口逻辑
+* **v1.1.1** - 完成内容发布及图片显示等优化，开放SaaS平台管理系统
 * **v0.0.1** - 小程序已达到生产使用标准，功能完善，上线数个月运行正常
 
 

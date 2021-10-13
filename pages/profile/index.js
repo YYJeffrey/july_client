@@ -66,16 +66,7 @@ Page({
    * 获取用户信息
    */
   getUser() {
-    const userInfo = wxutil.getStorage("userInfo")
     let userDetail = app.globalData.userDetail
-
-    // 使用userInfo作为用户信息
-    if (userInfo && !userDetail) {
-      this.setData({
-        user: userInfo,
-        isAuth: false
-      })
-    }
 
     // 授权用户使用userDetail作为用户信息
     if (userDetail) {
@@ -107,10 +98,7 @@ Page({
           }
         }
       })
-    }
-
-    // 两种用户信息都没有
-    if (!userInfo && !userDetail) {
+    } else {
       this.setData({
         user: {},
         isAuth: false

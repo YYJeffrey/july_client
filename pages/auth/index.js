@@ -4,49 +4,73 @@ const api = app.api
 const wxutil = app.wxutil
 
 Page({
-  data: {},
-  onLoad() { },
+  data: {
+    code: null
+  },
+  onLoad() {
+    this.getCode()
+  },
 
   /**
-   * 授权
+   * 获取微信小程序code
    */
-  auth(event) {
-    let data = {}
+  getCode() {
+    const that = this
+    wx.login({
+      success(res) {
+        that.setData({
+          code: res.code
+        })
+      }
+    })
+  },
 
-    if (event.detail.errMsg == "getUserInfo:ok") {
-      data["raw_data"] = event.detail.rawData
-      data["app_id"] = app.globalData.appId
+  /**
+   * 授权登录
+   */
+  auth() {
+    const that = this
+    wx.getUserProfile({
+      desc: '授权用户信息将用于绑定用户',
+      lang: 'zh_CN',
+      success(res) {
+        const encrypted_data = res.encryptedData
+        const iv = res.iv
+        const code = that.data.code
+        const app_id = app.globalData.appId
 
-      // 缓存用户简要信息
-      wxutil.setStorage("userInfo", event.detail.userInfo)
-
-      wx.login({
-        success(event) {
-          data["code"] = event.code
-          const url = api.userAPI
-
-          wxutil.request.post(url, data).then((res) => {
-            if (res.data.code == 200) {
-              // 缓存用户详细信息
-              wxutil.setStorage("userDetail", res.data.data)
-              app.globalData.userDetail = res.data.data
-              wx.lin.showMessage({
-                type: "success",
-                content: "授权成功！",
-                success() {
-                  wx.navigateBack()
-                }
-              })
-            } else {
-              wx.lin.showMessage({
-                type: "error",
-                content: "授权失败！"
-              })
-            }
-          })
+        const data = {
+          encrypted_data,
+          iv,
+          code,
+          app_id
         }
-      })
-    }
+
+        wxutil.request.post(api.userAPI, data).then(res => {
+          if (res.data.code === 200) {
+            const userDetail = res.data.data
+            wxutil.setStorage('userDetail', userDetail, 86400 * 28)
+            app.globalData.userDetail = userDetail
+
+            wx.lin.showMessage({
+              type: 'success',
+              content: '授权成功',
+              success() {
+                wx.navigateBack()
+              }
+            })
+          } else {
+            wx.lin.showMessage({
+              type: 'error',
+              content: res.msg
+            })
+          }
+        })
+      },
+      complete() {
+        that.getCode()
+      }
+    })
   },
 
   onShareAppMessage() {

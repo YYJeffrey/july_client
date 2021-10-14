@@ -24,8 +24,7 @@
 </l-popup>
 
 <!-- 动态内容 -->
-<scroll-view scroll-y enable-back-to-top lower-threshold="-35" class="topic-scroll" bindscrolltoupper="scrollToUpper"
-	bindscrolltolower="scrollToLower" style="height:{{height}}rpx">
+<view class="topic-scroll">
 	<l-card type="avatar" l-class="card" l-title-class="{{item.user.id != -1 ? 'card-title' : 'card-title-anon'}}"
 		wx:for="{{topics}}" wx:key="item" wx:for-index="cardIndex" image="{{item.user.avatar + '?imageView2/1/w/60/h/60'}}"
 		title="{{item.user.nick_name}}" describe="{{item.create_time}}"
@@ -70,7 +69,7 @@
 	</l-card>
 	<l-loadmore wx:if="{{!isEnd}}" show="{{loading}}" line l-class="loading" />
 	<l-loadmore show="{{isEnd && page != 1}}" line l-class="loading" type="end" />
-</scroll-view>
+</view>
 
 <!-- 编辑按钮 -->
 <view class="btn-edit" bindtap="onEditTap">

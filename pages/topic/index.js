@@ -158,7 +158,7 @@ Page({
   /**
    * 下拉刷新
    */
-  scrollToUpper() {
+  onPullDownRefresh() {
     const labelId = this.data.labelId
 
     if (labelId == -1) {
@@ -166,6 +166,7 @@ Page({
     } else {
       this.getTopics(1, labelId)
     }
+    wx.stopPullDownRefresh()
     // 振动交互
     wx.vibrateShort()
   },
@@ -173,7 +174,7 @@ Page({
   /**
    * 触底加载
    */
-  scrollToLower() {
+  onReachBottom() {
     const labelId = this.data.labelId
     const page = this.data.page
 

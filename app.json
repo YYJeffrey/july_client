@@ -27,6 +27,7 @@
     "backgroundColor": "#f7f7f7",
     "color": "#8a8a8a",
     "selectedColor": "#337559",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/topic/index",

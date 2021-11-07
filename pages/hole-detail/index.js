@@ -21,9 +21,9 @@ Page({
   getHoleDetail(holeId) {
     const url = api.holeAPI + holeId + "/"
     wxutil.request.get(url).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         this.setData({
-          hole: res.data.data
+          hole: res.data
         })
       }
     })
@@ -40,9 +40,9 @@ Page({
       }
 
       wxutil.request.get(url, data).then((res) => {
-        if (res.data.code == 200) {
+        if (res.code == 200) {
           this.setData({
-            reportTemplateId: res.data.data.template_id
+            reportTemplateId: res.template_id
           })
         }
       })
@@ -100,12 +100,12 @@ Page({
     }
 
     wxutil.request.post(url, data).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         wx.lin.showMessage({
           type: "success",
           content: "预约成功！"
         })
-      } else if (res.data.message == "Can Not Repeated Report") {
+      } else if (res.message == "Can Not Repeated Report") {
         wx.lin.showMessage({
           type: "error",
           content: "请勿重复预约！"

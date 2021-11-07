@@ -46,8 +46,8 @@ Page({
     const url = api.topicAPI + topicId + "/"
 
     wxutil.request.get(url).then((res) => {
-      if (res.data.code == 200) {
-        const topic = res.data.data
+      if (res.code == 200) {
+        const topic = res.data
         this.setData({
           topic: topic
         })
@@ -75,8 +75,8 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        const comments = res.data.data
+      if (res.code == 200) {
+        const comments = res.data
         this.setData({
           page: (comments.length == 0 && page != 1) ? page - 1 : page,
           isEnd: ((comments.length < pageSize) || (comments.length == 0 && page != 1)) ? true : false,
@@ -105,9 +105,9 @@ Page({
     const url = api.starAPI + "topic/" + topicId + "/"
 
     wxutil.request.get(url).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         this.setData({
-          stars: res.data.data
+          stars: res.data
         })
       }
     })
@@ -124,9 +124,9 @@ Page({
       }
 
       wxutil.request.get(url, data).then((res) => {
-        if (res.data.code == 200) {
+        if (res.code == 200) {
           this.setData({
-            commentTemplateId: res.data.data.template_id
+            commentTemplateId: res.data.template_id
           })
         }
       })
@@ -219,7 +219,7 @@ Page({
           const url = api.topicAPI + topicId + "/"
 
           wxutil.request.delete(url).then((res) => {
-            if (res.data.code == 200) {
+            if (res.code == 200) {
               wx.lin.showMessage({
                 type: "success",
                 content: "删除成功！",
@@ -256,7 +256,7 @@ Page({
           }
 
           wxutil.request.post(url, data).then((res) => {
-            if (res.data.code == 200) {
+            if (res.code == 200) {
               wx.lin.showMessage({
                 type: "success",
                 content: "举报成功！"
@@ -312,7 +312,7 @@ Page({
     }
 
     wxutil.request.post(url, data).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         // 重新获取收藏列表
         this.getStars(topic.id)
 
@@ -398,7 +398,7 @@ Page({
         }
 
         wxutil.request.post(url, data).then((res) => {
-          if (res.data.code == 200) {
+          if (res.code == 200) {
             wx.lin.showMessage({
               type: "success",
               content: "评论成功！"
@@ -445,7 +445,7 @@ Page({
           const url = api.commentAPI + commentId + "/"
 
           wxutil.request.delete(url).then((res) => {
-            if (res.data.code == 200) {
+            if (res.code == 200) {
               this.getComments(this.data.topic.id)
 
               wx.lin.showMessage({

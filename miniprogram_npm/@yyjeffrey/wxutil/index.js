@@ -1,3 +1,10 @@
+module.exports = (function() {
+var __MODS__ = {};
+var __DEFINE__ = function(modId, func, req) { var m = { exports: {}, _tempexports: {} }; __MODS__[modId] = { status: 0, func: func, req: req, m: m }; };
+var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = __MODS__[modId].m; m._exports = m._tempexports; var desp = Object.getOwnPropertyDescriptor(m, "exports"); if (desp && desp.configurable) Object.defineProperty(m, "exports", { set: function (val) { if(typeof val === "object" && val !== m._exports) { m._exports.__proto__ = val.__proto__; Object.keys(val).forEach(function (k) { m._exports[k] = val[k]; }); } m._tempexports = val }, get: function () { return m._tempexports; } }); __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); } return __MODS__[modId].m.exports; };
+var __REQUIRE_WILDCARD__ = function(obj) { if(obj && obj.__esModule) { return obj; } else { var newObj = {}; if(obj != null) { for(var k in obj) { if (Object.prototype.hasOwnProperty.call(obj, k)) newObj[k] = obj[k]; } } newObj.default = obj; return newObj; } };
+var __REQUIRE_DEFAULT__ = function(obj) { return obj && obj.__esModule ? obj.default : obj; };
+__DEFINE__(1636292300329, function(require, module, exports) {
 /**
  * @Author: Jeffrey
  * @Date: 2019-04
@@ -6,37 +13,38 @@
 
 /**
  * request用法：
- * 1.request.get(url).then((data) => {}).catch((error) => {})
- * 2.request.post(url, data = {}, header = {}).then((data) => {}).catch((error) => {})
- * 3.request.put(url, data = {}, header = {}).then((data) => {}).catch((error) => {})
- * 4.request.delete(url, data = {}, header = {}).then((data) => {}).catch((error) => {})
+ * 1.request.get(url).then(res => {}).catch(error => {})
+ * 2.request.post(url, data = {}, header = {}).then(res => {}).catch(error => {})
+ * 3.request.put(url, data = {}, header = {}).then(res => {}).catch(error => {})
+ * 4.request.delete(url, data = {}, header = {}).then(res => {}).catch(error => {})
  * @param {String} url
  * @param {JSON Object} data
  * @param {JSON Object} header
+ * @param {Boolean} showLoading
  */
-const request = {
-  get(url, data = {}, header = {}) {
+ const request = {
+  get(url, data = {}, header = {}, showLoading = true) {
     const handler = { url, data, header }
-    return this.Request('GET', handler)
+    return this.Request('GET', handler, showLoading)
   },
 
-  post(url, data = {}, header = {}) {
+  post(url, data = {}, header = {}, showLoading = true) {
     const handler = { url, data, header }
-    return this.Request('POST', handler)
+    return this.Request('POST', handler, showLoading)
   },
 
-  put(url, data = {}, header = {}) {
+  put(url, data = {}, header = {}, showLoading = true) {
     const handler = { url, data, header }
-    return this.Request('PUT', handler)
+    return this.Request('PUT', handler, showLoading)
   },
 
-  delete(url, data = {}, header = {}) {
+  delete(url, data = {}, header = {}, showLoading = true) {
     const handler = { url, data, header }
-    return this.Request('DELETE', handler)
+    return this.Request('DELETE', handler, showLoading)
   },
 
   // RequestHandler
-  Request(method, handler) {
+  Request(method, handler, showLoading) {
     const { url, data, header } = handler
     let head = {
       'content-type': 'application/json'
@@ -45,7 +53,9 @@ const request = {
       const appHeader = getApp().getHeader()
       head = Object.assign(head, appHeader)
     }
-    wx.showNavigationBarLoading()
+    if (showLoading) {
+      wx.showNavigationBarLoading()
+    }
     return new Promise((resolve, reject) => {
       wx.request({
         url: url,
@@ -56,10 +66,10 @@ const request = {
           if (getApp().gotoAuthPage) {
             getApp().gotoAuthPage(res)
           }
-          resolve(res)
+          resolve(res.data)
         },
-        fail() {
-          reject('request failed')
+        fail(error) {
+          reject(error)
         },
         complete() {
           wx.hideNavigationBarLoading()
@@ -71,8 +81,8 @@ const request = {
 
 /**
  * file用法：
- * 1.file.download(url).then((data) => {})
- * 2.file.upload({url: url, fileKey: fileKey, filePath: filePath, data: {}, header: {}}).then((data) => {})
+ * 1.file.download(url).then(res => {})
+ * 2.file.upload({url: url, fileKey: fileKey, filePath: filePath, data: {}, header: {}}).then(res => {})
  * @param {JSON Object} handler
  */
 const file = {
@@ -97,8 +107,8 @@ const file = {
         success(res) {
           resolve(res)
         },
-        fail() {
-          reject('downloadFile failed')
+        fail(error) {
+          reject(error)
         },
         complete() {
           wx.hideNavigationBarLoading()
@@ -125,8 +135,8 @@ const file = {
         success(res) {
           resolve(res)
         },
-        fail() {
-          reject('uploadFile failed')
+        fail(error) {
+          reject(error)
         },
         complete() {
           wx.hideNavigationBarLoading()
@@ -141,13 +151,13 @@ const file = {
  * let socketOpen = false
  * socket.connect(url)
  *
- * wx.onSocketMessage((res) => {
+ * wx.onSocketMessage(res => {
  *  console.log(res)
  * }
  *
- * wx.onSocketOpen((res) => {
+ * wx.onSocketOpen(res => {
  *  socketOpen = true
- *  if socketOpen: socket.send("hello").then((data) => {})
+ *  if socketOpen: socket.send('hello').then((data) => {})
  *  socket.close(url) || wx.closeSocket()
  * })
  * @param {String} url
@@ -172,9 +182,9 @@ const socket = {
         success(res) {
           resolve(res)
         },
-        fail() {
-          reject('connect failed')
-        }
+        fail(error) {
+          reject(error)
+        },
       })
     })
   },
@@ -187,8 +197,8 @@ const socket = {
         success(res) {
           resolve(res)
         },
-        fail() {
-          reject('sendSocketMessage failed')
+        fail(error) {
+          reject(error)
         }
       })
     })
@@ -203,8 +213,9 @@ const socket = {
 
 /**
  * image用法：
- * 1.image.save(path).then((data) => {})
- * 2.image.choose(1).then((data) => {})
+ * 1.image.save(path).then(res => {})
+ * 2.image.preview([url])
+ * 3.image.choose(1).then(res => {})
  * @param {String} path
  * @param {JSON Object} urls
  */
@@ -216,8 +227,24 @@ const image = {
         success(res) {
           resolve(res)
         },
-        fail() {
-          reject('saveImageToPhotosAlbum failed')
+        fail(error) {
+          reject(error)
+        }
+      })
+    })
+  },
+
+  preview(urls, current = urls[0], showmenu = true) {
+    return new Promise((resolve, reject) => {
+      wx.previewImage({
+        current,
+        urls,
+        showmenu,
+        success(res) {
+          resolve(res)
+        },
+        fail(error) {
+          reject(error)
         }
       })
     })
@@ -231,8 +258,8 @@ const image = {
         success(res) {
           resolve(res)
         },
-        fail() {
-          reject('chooseImage failed')
+        fail(error) {
+          reject(error)
         }
       })
     })
@@ -241,7 +268,7 @@ const image = {
 
 /**
  * showToast用法：
- * showToast("成功")
+ * showToast('成功')
  * @param {String} title
  * @param {JSON Object} handler
  */
@@ -257,8 +284,8 @@ const showToast = (title, handler = {}) => {
       success(res) {
         resolve(res)
       },
-      fail() {
-        reject('showToast failed')
+      fail(error) {
+        reject(error)
       }
     })
   })
@@ -266,7 +293,7 @@ const showToast = (title, handler = {}) => {
 
 /**
  * showModal用法：
- * showModal("提示", "这是一个模态弹窗")
+ * showModal('提示', '这是一个模态弹窗')
  * @param {String} title
  * @param {String} content
  * @param {JSON Object} handler
@@ -287,13 +314,12 @@ const showModal = (title, content, handler = {}) => {
       cancelText: typeof cancelText === 'undefined' ? '取消' : cancelText,
       confirmText: typeof confirmText === 'undefined' ? '确定' : confirmText,
       cancelColor: typeof cancelColor === 'undefined' ? '#000000' : cancelColor,
-      confirmColor:
-        typeof confirmColor === 'undefined' ? '#576B95' : confirmColor,
+      confirmColor: typeof confirmColor === 'undefined' ? '#576B95' : confirmColor,
       success(res) {
         resolve(res)
       },
-      fail() {
-        reject('showModal failed')
+      fail(error) {
+        reject(error)
       }
     })
   })
@@ -301,11 +327,11 @@ const showModal = (title, content, handler = {}) => {
 
 /**
  * showLoading用法：
- * showLoading("加载中")
+ * showLoading('加载中')
  * @param {String} title
  * @param {Boolean} mask
  */
-const showLoading = (title = "加载中...", mask = true) => {
+const showLoading = (title = '加载中...', mask = true) => {
   return new Promise((resolve, reject) => {
     wx.showLoading({
       title: title,
@@ -313,8 +339,8 @@ const showLoading = (title = "加载中...", mask = true) => {
       success(res) {
         resolve(res)
       },
-      fail() {
-        reject('showLoading failed')
+      fail(error) {
+        reject(error)
       }
     })
   })
@@ -322,7 +348,7 @@ const showLoading = (title = "加载中...", mask = true) => {
 
 /**
  * showActionSheet用法：
- * showActionSheet(['A', 'B', 'C']).then((data) => {})
+ * showActionSheet(['A', 'B', 'C']).then(res => {})
  * @param {Array.<String>} itemList
  * @param {String} itemColor
  */
@@ -334,8 +360,8 @@ const showActionSheet = (itemList, itemColor = '#000000') => {
       success(res) {
         resolve(res.tapIndex)
       },
-      fail() {
-        return
+      fail(error) {
+        reject(error)
       }
     })
   })
@@ -343,8 +369,8 @@ const showActionSheet = (itemList, itemColor = '#000000') => {
 
 /**
  * setStorage用法：
- * 1.setStorage("userInfo", userInfo)
- * 2.setStorage("userInfo", userInfo, 86400)
+ * 1.setStorage('userInfo', userInfo)
+ * 2.setStorage('userInfo', userInfo, 86400)
  * @param {String} key
  * @param {Object} value
  * @param {Int} time 过期时间，可选参数
@@ -363,7 +389,7 @@ const setStorage = (key, value, time) => {
 
 /**
  * getStorage用法：
- * getStorage("userInfo")
+ * getStorage('userInfo')
  * @param {String} key
  */
 const getStorage = key => {
@@ -373,7 +399,7 @@ const getStorage = key => {
     return null
   }
   const res = wx.getStorageSync(key)
-  if (typeof (res) == "boolean") {
+  if (typeof (res) === 'boolean') {
     return res
   }
   return res ? res : null
@@ -401,40 +427,28 @@ const getLocation = (type = 'gcj02', watch = false) => {
           })
         }
       },
-      fail() {
-        reject('getLocation failed')
+      fail(error) {
+        reject(error)
       }
     })
   })
 }
 
 /**
- * getUserInfo用法：
- * getUserInfo(true).then((data) => {})
- * @param {Boolean} login
+ * getUserProfile用法：
+ * getUserProfile().then(res => {})
  * @param {String} lang
  */
-const getUserInfo = (login = false, lang = 'zh_CN') => {
-  let code = null
+const getUserProfile = (lang = 'zh_CN', desc = '授权用于获取个人公开信息') => {
   return new Promise((resolve, reject) => {
-    wx.getUserInfo({
-      withCredentials: login,
+    wx.getUserProfile({
       lang: lang,
+      desc: desc,
       success(res) {
-        if (login) {
-          wx.login({
-            success(data) {
-              code = data.code
-              res.code = code
-              resolve(res)
-            }
-          })
-        } else {
-          resolve(res)
-        }
+        resolve(res)
       },
-      fail() {
-        reject('getUserInfo failed')
+      fail(error) {
+        reject(error)
       }
     })
   })
@@ -442,7 +456,7 @@ const getUserInfo = (login = false, lang = 'zh_CN') => {
 
 /**
  * 微信支付 - requestPayment用法:
- * requestPayment({timeStamp: timeStamp, nonceStr: nonceStr, packageValue: packageValue, paySign: paySign}).then((data) => {})
+ * requestPayment({timeStamp: timeStamp, nonceStr: nonceStr, packageValue: packageValue, paySign: paySign}).then(res => {})
  * @param {JSON Object} handler
  */
 const requestPayment = handler => {
@@ -451,14 +465,14 @@ const requestPayment = handler => {
     wx.requestPayment({
       timeStamp: timeStamp,
       nonceStr: nonceStr,
-      package: packageValue,
+      packageValue: packageValue,
       paySign: paySign,
       signType: typeof signType === 'undefined' ? 'MD5' : signType,
       success(res) {
         resolve(res)
       },
-      fail() {
-        reject('requestPayment failed')
+      fail(error) {
+        reject(error)
       }
     })
   })
@@ -481,8 +495,7 @@ const autoUpdate = () => {
       })
       updateManager.onUpdateFailed(() => {
         showModal(
-          '更新提示',
-          '新版本已经准备好，请删除当前小程序，重新搜索打开'
+          '更新提示', '新版本已经准备好，请删除当前小程序，重新搜索打开'
         )
       })
     }
@@ -491,12 +504,12 @@ const autoUpdate = () => {
 
 /**
  * 判断字符串是否不为空 - isNotNull用法：
- * isNotNull("text")
+ * isNotNull('text')
  * @param {String} text 字符串
  * @return {Boolean} 字符串合法返回真否则返回假
  */
 const isNotNull = text => {
-  if (text == null) {
+  if (text === null) {
     return false
   }
   if (text.match(/^\s+$/)) {
@@ -557,10 +570,52 @@ const getTimestamp = (date = new Date()) => {
 }
 
 /**
+ * 精度计算 - calculate用法
+ * 1.calculate.add(0.1, 0.2)
+ * 2.calculate.sub(1, 0.8)
+ * 3.calculate.mul(6, 0.7)
+ * 4.calculate.div(1.2, 0.2)
+ */
+const calculate = {
+  add(num1, num2) {
+    let r1, r2, m
+    try { r1 = num1.toString().split('.')[1].length } catch (e) { r1 = 0 }
+    try { r2 = num2.toString().split('.')[1].length } catch (e) { r2 = 0 }
+    m = Math.pow(10, Math.max(r1, r2))
+    return (num1 * m + num2 * m) / m
+  },
+
+  sub(num1, num2) {
+    let r1, r2, m, n
+    try { r1 = num1.toString().split('.')[1].length } catch (e) { r1 = 0 }
+    try { r2 = num2.toString().split('.')[1].length } catch (e) { r2 = 0 }
+    m = Math.pow(10, Math.max(r1, r2))
+    n = (r1 >= r2) ? r1 : r2
+    return ((num1 * m - num2 * m) / m).toFixed(n)
+  },
+
+  mul(num1, num2) {
+    let m = 0, s1 = num1.toString(), s2 = num2.toString()
+    try { m += s1.split('.')[1].length } catch (e) { }
+    try { m += s2.split('.')[1].length } catch (e) { }
+    return Number(s1.replace('.', '')) * Number(s2.replace('.', '')) / Math.pow(10, m)
+  },
+
+  div(num1, num2) {
+    var t1 = 0, t2 = 0, r1, r2
+    try { t1 = num1.toString().split('.')[1].length } catch (e) { }
+    try { t2 = num2.toString().split('.')[1].length } catch (e) { }
+    r1 = Number(num1.toString().replace('.', ''))
+    r2 = Number(num2.toString().replace('.', ''))
+    return (r1 / r2) * Math.pow(10, t2 - t1)
+  }
+}
+
+/**
  * 获取UUID - getUUID用法
  * getUUID()
  */
-const getUUID = (isOnline = true) => {
+const getUUID = (hasOnline = true) => {
   const s = []
   const hexDigits = '0123456789abcdef'
   for (let i = 0; i < 36; i++) {
@@ -568,7 +623,7 @@ const getUUID = (isOnline = true) => {
   }
   s[14] = '4'
   s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1)
-  s[8] = s[13] = s[18] = s[23] = isOnline ? '-' : ''
+  s[8] = s[13] = s[18] = s[23] = hasOnline ? '-' : ''
   return s.join('')
 }
 
@@ -584,11 +639,17 @@ module.exports = {
   setStorage: setStorage,
   getStorage: getStorage,
   getLocation: getLocation,
-  getUserInfo: getUserInfo,
+  getUserProfile: getUserProfile,
   requestPayment: requestPayment,
   autoUpdate: autoUpdate,
   isNotNull: isNotNull,
   getDateTime: getDateTime,
   getTimestamp: getTimestamp,
+  calculate: calculate,
   getUUID: getUUID
 }
+}, function(modId) {var map = {}; return __REQUIRE__(map[modId], modId); })
+return __REQUIRE__(1636292300329);
+})()
+//miniprogram-npm-outsideDeps=[]
+//# sourceMappingURL=index.js.map

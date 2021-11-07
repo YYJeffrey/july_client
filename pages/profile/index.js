@@ -74,9 +74,9 @@ Page({
       const url = api.userAPI + userId + "/"
 
       wxutil.request.get(url).then((res) => {
-        if (res.data.code == 200) {
+        if (res.code == 200) {
           // 更新缓存
-          const user = res.data.data
+          const user = res.data
           userDetail = Object.assign(userDetail, user)
           wxutil.setStorage("userDetail", userDetail)
           app.globalData.userDetail = userDetail
@@ -121,8 +121,8 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        const topics = res.data.data
+      if (res.code == 200) {
+        const topics = res.data
         this.setData({
           pageTopic: (topics.length == 0 && pageTopic != 1) ? pageTopic - 1 : pageTopic,
           loading: false,
@@ -148,8 +148,8 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        const stars = res.data.data
+      if (res.code == 200) {
+        const stars = res.data
         this.setData({
           pageStar: (stars.length == 0 && pageStar != 1) ? pageStar - 1 : pageStar,
           loading: false,
@@ -175,8 +175,8 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        const comments = res.data.data
+      if (res.code == 200) {
+        const comments = res.data
         this.setData({
           pageComment: (comments.length == 0 && pageComment != 1) ? pageComment - 1 : pageComment,
           loading: false,
@@ -195,14 +195,14 @@ Page({
 
     if (app.globalData.userDetail) {
       wxutil.request.get(url).then((res) => {
-        if (res.data.code == 200) {
-          if (res.data.data.count > 0) {
+        if (res.code == 200) {
+          if (res.data.count > 0) {
             this.setData({
-              messageBrief: res.data.data
+              messageBrief: res.data
             })
             wx.setTabBarBadge({
               index: 2,
-              text: res.data.data.count + ""
+              text: res.data.count + ""
             })
           } else {
             this.setData({
@@ -416,7 +416,7 @@ Page({
           const url = api.topicAPI + topicId + "/"
 
           wxutil.request.delete(url).then((res) => {
-            if (res.data.code == 200) {
+            if (res.code == 200) {
               this.getTopics(this.data.user.id)
 
               wx.lin.showMessage({
@@ -449,7 +449,7 @@ Page({
           const url = api.commentAPI + commentId + "/"
 
           wxutil.request.delete(url).then((res) => {
-            if (res.data.code == 200) {
+            if (res.code == 200) {
               this.getComments(this.data.user.id)
 
               wx.lin.showMessage({
@@ -486,7 +486,7 @@ Page({
           }
 
           wxutil.request.post(url, data).then((res) => {
-            if (res.data.code == 200) {
+            if (res.code == 200) {
               this.getStars(this.data.user.id)
 
               wx.lin.showMessage({

@@ -47,8 +47,8 @@ Page({
     const url = api.userAPI + userId + "/"
 
     wxutil.request.get(url).then((res) => {
-      if (res.data.code == 200) {
-        const user = res.data.data
+      if (res.code == 200) {
+        const user = res.data
         let genderText = "Ta"
         if (user.gender == 1) {
           genderText = "他"
@@ -100,8 +100,8 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        const topics = res.data.data
+      if (res.code == 200) {
+        const topics = res.data
         this.setData({
           pageTopic: (topics.length == 0 && pageTopic != 1) ? pageTopic - 1 : pageTopic,
           loading: false,
@@ -127,8 +127,8 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        const stars = res.data.data
+      if (res.code == 200) {
+        const stars = res.data
         this.setData({
           pageStar: (stars.length == 0 && pageStar != 1) ? pageStar - 1 : pageStar,
           loading: false,
@@ -154,8 +154,8 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        const comments = res.data.data
+      if (res.code == 200) {
+        const comments = res.data
         this.setData({
           pageComment: (comments.length == 0 && pageComment != 1) ? pageComment - 1 : pageComment,
           loading: false,
@@ -176,7 +176,7 @@ Page({
       wx.lin.showActionSheet({
         title: "确定要取消关注" + user.nick_name + "吗？",
         showCancel: true,
-        cancelText: "放弃",
+        cancelText: "暂不取消",
         itemList: [{
           name: "取消关注",
           color: "#666",
@@ -200,7 +200,7 @@ Page({
     }
 
     wxutil.request.post(url, data).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         wx.lin.showMessage({
           type: "success",
           content: msg + "成功！",
@@ -210,7 +210,7 @@ Page({
         this.setData({
           user: user
         })
-      } else if (res.data.message == "Can Not Following Yourself") {
+      } else if (res.message == "Can Not Following Yourself") {
         wx.lin.showMessage({
           type: "error",
           content: "不能关注自己",

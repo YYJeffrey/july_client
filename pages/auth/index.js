@@ -47,8 +47,8 @@ Page({
         }
 
         wxutil.request.post(api.userAPI, data).then(res => {
-          if (res.data.code === 200) {
-            const userDetail = res.data.data
+          if (res.code === 200) {
+            const userDetail = res.data
             wxutil.setStorage('userDetail', userDetail, 86400 * 28)
             app.globalData.userDetail = userDetail
 

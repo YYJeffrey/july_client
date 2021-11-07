@@ -32,8 +32,8 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        const holes = res.data.data
+      if (res.code == 200) {
+        const holes = res.data
         this.setData({
           page: (holes.length == 0 && page != 1) ? page - 1 : page,
           loading: false,

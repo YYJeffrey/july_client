@@ -234,6 +234,7 @@ page {
 
 .content {
   width: 100%;
+  max-width: 525rpx;
   text-align: justify;
 }
 
@@ -243,7 +244,8 @@ page {
 }
 
 .delete-box {
-  margin-left: 20rpx;
+  position: absolute;
+  right: 30rpx;
 }
 
 .delete-text {

@@ -19,9 +19,9 @@ Page({
     const url = api.messageAPI
 
     wxutil.request.get(url).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         this.setData({
-          messages: res.data.data
+          messages: res.data
         })
       }
     })

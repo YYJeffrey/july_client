@@ -13,7 +13,6 @@ Page({
     labelId: -1,
     userId: -1,
     topicIndex: -1, // 点击的话题的下标
-    height: 1206, // 话题区高度
     showPopup: false, // 是否显示下拉区
     showAction: false, // 是否显示操作菜单
     isEnd: false, // 是否到底
@@ -24,7 +23,6 @@ Page({
   },
 
   onLoad() {
-    this.getScrollHeight()
     this.getLabels()
     this.getTopics()
   },
@@ -53,24 +51,6 @@ Page({
   },
 
   /**
-   * 获取窗口高度
-   */
-  getScrollHeight() {
-    const that = this;
-    wx.getSystemInfo({
-      success: function (res) {
-        const windowHeight = res.windowHeight;
-        const windowWidth = res.windowWidth;
-        const ratio = 750 / windowWidth;
-        const height = windowHeight * ratio;
-        that.setData({
-          height: height - 90
-        })
-      }
-    })
-  },
-
-  /**
    * 获取标签
    */
   getLabels() {
@@ -80,13 +60,13 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         let labels = [{
           id: -1,
           name: "全部"
         }]
         this.setData({
-          labels: labels.concat(res.data.data)
+          labels: labels.concat(res.data)
         })
       }
     })
@@ -128,8 +108,8 @@ Page({
     })
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        const topics = res.data.data
+      if (res.code == 200) {
+        const topics = res.data
         this.setData({
           page: (topics.length == 0 && page != 1) ? page - 1 : page,
           loading: false,
@@ -299,7 +279,7 @@ Page({
           const url = api.topicAPI + topicId + "/"
 
           wxutil.request.delete(url).then((res) => {
-            if (res.data.code == 200) {
+            if (res.code == 200) {
               this.getTopics(this.data.page, this.data.labelId)
 
               wx.lin.showMessage({
@@ -335,7 +315,7 @@ Page({
           }
 
           wxutil.request.post(url, data).then((res) => {
-            if (res.data.code == 200) {
+            if (res.code == 200) {
               wx.lin.showMessage({
                 type: "success",
                 content: "举报成功！"
@@ -389,7 +369,7 @@ Page({
     }
 
     wxutil.request.post(url, data).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         const hasStar = topics[index].has_star
         topics[index].has_star = !topics[index].has_star
 

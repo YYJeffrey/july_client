@@ -35,10 +35,11 @@
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "minifyWXSS": true
+    "minifyWXSS": true,
+    "minifyWXML": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.12.2",
+  "libVersion": "2.20.0",
   "appid": "wx0be6c8fa6d9cb4bf",
   "projectname": "july_client",
   "debugOptions": {

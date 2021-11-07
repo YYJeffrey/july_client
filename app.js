@@ -1,6 +1,6 @@
 //app.js
 const api = require("./config/api")
-const wxutil = require("./utils/wxutil")
+const wxutil = require("./miniprogram_npm/@yyjeffrey/wxutil/index")
 
 App({
   api: api,
@@ -44,7 +44,7 @@ App({
    * Token无效跳转授权页
    */
   gotoAuthPage(res) {
-    if (res.data.message == "Token Is Invalid") {
+    if (res.message == "Token Is Invalid") {
       wx.navigateTo({
         url: "/pages/auth/index",
       })

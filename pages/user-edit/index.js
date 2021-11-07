@@ -23,8 +23,8 @@ Page({
     const url = api.userAPI + userId + "/"
 
     wxutil.request.get(url).then((res) => {
-      if (res.data.code == 200) {
-        const user = res.data.data
+      if (res.code == 200) {
+        const user = res.data
         this.setData({
           userId: user.id,
           nickName: user.nick_name,
@@ -97,10 +97,10 @@ Page({
 
     // 更新用户信息
     wxutil.request.put(url, data).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         let userDetail = app.globalData.userDetail
         // 更新缓存
-        const user = res.data.data
+        const user = res.data
         userDetail = Object.assign(userDetail, user)
         wxutil.setStorage("userDetail", userDetail)
         app.globalData.userDetail = userDetail

@@ -43,8 +43,8 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
-        const followerList = res.data.data
+      if (res.code == 200) {
+        const followerList = res.data
         this.setData({
           page: (followerList.length == 0 && page != 1) ? page - 1 : page,
           loading: false,
@@ -106,7 +106,7 @@ Page({
     }
 
     wxutil.request.post(url, data).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         wx.lin.showMessage({
           type: "success",
           content: msg + "成功！",
@@ -118,7 +118,7 @@ Page({
         this.setData({
           followerList: followerList
         })
-      } else if (res.data.message == "Can Not Following Yourself") {
+      } else if (res.message == "Can Not Following Yourself") {
         wx.lin.showMessage({
           type: "error",
           content: "不能关注自己",

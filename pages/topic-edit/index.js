@@ -27,10 +27,10 @@ Page({
    */
   initQiniu(domain = api.ossDomain) {
     wxutil.request.get(api.ossAPI).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         var options = {
           region: 'ECN',
-          uptoken: res.data.data.uptoken,
+          uptoken: res.data.uptoken,
           domain: domain,
           shouldUseQiniuFileName: false,
         }
@@ -49,9 +49,9 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         this.setData({
-          labels: res.data.data
+          labels: res.data
         })
       }
     })
@@ -67,9 +67,9 @@ Page({
     }
 
     wxutil.request.get(url, data).then((res) => {
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         this.setData({
-          commentTemplateId: res.data.data.template_id
+          commentTemplateId: res.data.template_id
         })
       }
     })
@@ -232,7 +232,7 @@ Page({
 
     wxutil.request.post(url, data).then((res) => {
       wx.hideLoading()
-      if (res.data.code == 200) {
+      if (res.code == 200) {
         wx.lin.showMessage({
           type: "success",
           content: "发布成功！",

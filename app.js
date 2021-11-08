@@ -1,6 +1,6 @@
 //app.js
-const api = require("./config/api")
-const wxutil = require("./miniprogram_npm/@yyjeffrey/wxutil/index")
+import api from "./config/api"
+import wxutil, { autoUpdate, getStorage } from "./miniprogram_npm/@yyjeffrey/wxutil/index"
 
 App({
   api: api,
@@ -14,14 +14,14 @@ App({
 
   onLaunch() {
     this.getUserDetail()
-    wxutil.autoUpdate()
+    autoUpdate()
   },
 
   /**
    * 获取用户详情
    */
   getUserDetail() {
-    const userDetail = wxutil.getStorage("userDetail")
+    const userDetail = getStorage("userDetail")
     if (userDetail) {
       this.globalData.userDetail = userDetail
     } else {

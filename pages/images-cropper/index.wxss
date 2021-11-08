@@ -1,5 +1,9 @@
 /* pages/images-cropper/index.wxss */
 
+page {
+  background-color: #000;
+}
+
 .cropper-wrapper {
   position: absolute;
   top: 0;

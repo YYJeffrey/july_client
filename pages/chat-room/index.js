@@ -2,7 +2,7 @@
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil
-const io = require("../../utils/socket.io")
+import io from "../../utils/socket.io"
 
 let socket = null
 

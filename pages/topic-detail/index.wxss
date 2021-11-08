@@ -230,6 +230,7 @@ page {
 .comment-bottom {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .content {

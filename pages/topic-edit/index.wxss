@@ -7,13 +7,14 @@
   font-size: 28rpx;
 }
 
-.textarea-box {
-  display: flex;
+.input-textarea {
+  width: 750rpx !important;
   background: #fff;
+  height: 250rpx;
 }
 
-.input-textarea {
-  height: 250rpx;
+.inner-textarea {
+  width: 700rpx !important;
 }
 
 .image-box {

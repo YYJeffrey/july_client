@@ -11,10 +11,8 @@
 	<l-radio select-color="#337559" key="0" l-class="radio">保密</l-radio>
 </l-radio-group>
 <text class="title">个性签名</text>
-<view class="textarea-box">
-	<l-textarea l-class="input-textarea" placeholder="请输入个性签名" border="{{false}}" maxlength="30" value="{{signature}}"
-		bind:lininput="setSignature" />
-</view>
+<l-textarea l-class="input-textarea" l-inner-class="inner-textarea" placeholder="请输入个性签名" border="{{false}}"
+	indicator="{{false}}" maxlength="30" value="{{signature}}" bind:lininput="setSignature" />
 <l-button bg-color="#337559" width="280" l-class="auth-btn" l-class="btn-save" bind:lintap="saveInfo">保存</l-button>
 
 <!-- 消息提示 -->

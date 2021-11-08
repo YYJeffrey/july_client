@@ -2,7 +2,7 @@
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil
-const qiniuUploader = require("../../utils/qiniuUploader");
+import { init, upload } from "../../utils/qiniuUploader";
 
 Page({
   data: {
@@ -34,7 +34,7 @@ Page({
           domain: domain,
           shouldUseQiniuFileName: false,
         }
-        qiniuUploader.init(options)
+        init(options)
       }
     })
   },
@@ -100,7 +100,7 @@ Page({
     const files = event.detail.all
     let imageFiles = []
     for (let i = 0; i < files.length; i++) {
-      imageFiles.push(files[i].url)
+      imageFiles.push(files[i])
     }
     this.setData({
       imageFiles: imageFiles
@@ -165,7 +165,7 @@ Page({
   sendImages(imageFiles) {
     return Promise.all(imageFiles.map((imageFile) => {
       return new Promise(function (resolve, reject) {
-        qiniuUploader.upload(imageFile, (res) => {
+        upload(imageFile, (res) => {
           resolve(res.imageURL)
         }, (error) => {
           reject(error)

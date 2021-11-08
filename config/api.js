@@ -5,7 +5,7 @@ const baseAPI = "https://api.july.yejiefeng.com/api/v1/"
 const socketAPI = "wss://api.july.yejiefeng.com/"
 const ossDomain = "https://img.yejiefeng.com/"
 
-module.exports = {
+export default {
   baseAPI, // 根接口
   socketAPI: socketAPI, // Socket接口
   ossDomain: ossDomain, // OSS域名

@@ -4,9 +4,23 @@
 <text class="title">内容（必填）</text>
 <l-textarea l-class="input-textarea" l-inner-class="inner-textarea" placeholder="写点什么吧！" focus border="{{false}}"
 	indicator="{{false}}" maxlength="300" bind:lininput="setContent" />
-<text class="title">图片</text>
+<text class="title">图片/视频</text>
 <view class="image-box">
-	<l-image-picker count="9" size="3" bind:linchange="onChangeImage" bind:linremove="onChangeImage" mode="aspectFill" />
+	<l-image-picker wx:if="{{!video}}" count="9" size="3" bind:linchange="onChangeImage" bind:linremove="onChangeImage"
+		mode="aspectFill" custom>
+		<view>
+			<image src="/images/icon_edit/icon_picture.png" class="icon-pic" />
+		</view>
+	</l-image-picker>
+	<view class="video-btn" style="margin-top: 20rpx;" wx:if="{{imageFiles.length == 0 && !video}}"
+		bindtap="onChangeVideo">
+		<image src="/images/icon_edit/icon_video.png" width="210" class="icon-pic" />
+	</view>
+	<video wx:if="{{video}}" src="{{video.src}}" poster="{{video.cover}}" class="tmp-video">
+		<view class="icon-close-box" bindtap="onDelVideo">
+			<l-icon name="close" color="#fff" size="18" l-class="icon-close" />
+		</view>
+	</video>
 </view>
 <text wx:if="{{labels.length > 0}}" class="title">标签</text>
 <view wx:if="{{labels.length > 0}}" class="tag-items">

@@ -8,6 +8,9 @@
 	bind:lintitle="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{topic.user.id}}">
 	<view class="avater-content">{{topic.content}}</view>
 	<view class="posters">
+		<video wx:if="{{topic.video}}" src="{{topic.video.src}}" poster="{{topic.video.cover}}" direction="0"
+			play-btn-position="center" class="video"
+			style="{{topic.video.height > topic.video.width ? 'width: 380rpx;height: ' + 380 * topic.video.height / topic.video.width + 'rpx' : 'width: 450rpx;height: ' + 450 * topic.video.height / topic.video.width + 'rpx'}}" />
 		<block wx:if="{{topic.images.length == 1}}">
 			<image class="column-one" src="{{topic.images[0] + '?imageView2/0/w/800/h/360'}}" mode="widthFix"
 				bindtap="previewImage" data-src="{{topic.images[0]}}" lazy-load />

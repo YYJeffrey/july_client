@@ -20,7 +20,7 @@
 }
 
 .list-tag {
-  width: 100rpx;
+  width: 120rpx;
 }
 
 .action-title {

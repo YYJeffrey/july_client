@@ -131,6 +131,11 @@
   color: #d81e05;
 }
 
+.video {
+  max-height: 800rpx;
+  border-radius: 20rpx;
+}
+
 .posters {
   display: flex;
   flex-direction: row;

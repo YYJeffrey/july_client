@@ -1,9 +1,9 @@
-// const baseAPI = "http://127.0.0.1:5000/api/v1/"
-// const socketAPI = "ws://127.0.0.1:5000/"
+const baseAPI = "http://127.0.0.1:5000/api/v1/"
+const socketAPI = "ws://127.0.0.1:5000/"
 
-const baseAPI = "https://api.july.yejiefeng.com/api/v1/"
-const socketAPI = "wss://api.july.yejiefeng.com/"
-const ossDomain = "https://img.yejiefeng.com/"
+// const baseAPI = "https://api.july.yejiefeng.com/api/v1/"
+// const socketAPI = "wss://api.july.yejiefeng.com/"
+const ossDomain = "https://img.yejiefeng.com"
 
 export default {
   baseAPI, // 根接口

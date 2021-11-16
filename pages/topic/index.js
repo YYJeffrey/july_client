@@ -356,6 +356,8 @@ Page({
     }
   },
 
+  nothingTodo() { },
+
   /**
    * 点赞或取消点赞
    */
@@ -426,9 +428,18 @@ Page({
     if (res.from == "button") {
       const topicIndex = this.data.topicIndex
       const topics = this.data.topics
+      let imageUrl = null
+
+      if (topics[topicIndex].images) {
+        imageUrl = topics[topicIndex].images[0]
+      }
+      if (topics[topicIndex].video) {
+        imageUrl = topics[topicIndex].video.cover
+      }
+
       return {
         title: topics[topicIndex].content,
-        imageUrl: topics[topicIndex].images ? topics[topicIndex].images[0] : '',
+        imageUrl: imageUrl,
         path: "/pages/topic-detail/index?topicId=" + topics[topicIndex].id
       }
     }

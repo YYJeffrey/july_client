@@ -13,6 +13,7 @@ Page({
     canAnon: false,
     isAnon: false,
     content: null,
+    video: null,
     commentTemplateId: null
   },
 
@@ -164,20 +165,27 @@ Page({
    */
   sendImages(imageFiles) {
     return Promise.all(imageFiles.map((imageFile) => {
-      return new Promise(function (resolve, reject) {
-        upload(imageFile, (res) => {
-          resolve(res.imageURL)
-        }, (error) => {
-          reject(error)
-        }, {
-          region: 'ECN',
-          uptoken: null,
-          domain: null,
-          shouldUseQiniuFileName: false,
-          key: 'topic/' + wxutil.getUUID(false)
-        })
-      })
+      return this.sendMedia(imageFile)
     }))
+  },
+
+  /**
+   * 多媒体文件上传至OSS
+   */
+  sendMedia(imageFile, path = 'topic') {
+    return new Promise(function (resolve, reject) {
+      upload(imageFile, (res) => {
+        resolve(res.imageURL)
+      }, (error) => {
+        reject(error)
+      }, {
+        region: 'ECN',
+        uptoken: null,
+        domain: null,
+        shouldUseQiniuFileName: false,
+        key: path + '/' + wxutil.getUUID(false)
+      })
+    })
   },
 
   /**
@@ -188,6 +196,7 @@ Page({
     const isAnon = this.data.isAnon
     const labels = this.data.labelsActive
     const imageFiles = this.data.imageFiles
+    let video = this.data.video
 
     if (!wxutil.isNotNull(content)) {
       wx.lin.showMessage({
@@ -212,12 +221,29 @@ Page({
           images: [],
           labels: labels
         }
+        // 图文
         if (imageFiles.length > 0) {
           that.sendImages(imageFiles).then((res) => {
             data.images = res
             that.uploadTopic(data)
           })
-        } else {
+        }
+        // 视文
+        else if (video) {
+          that.sendMedia(video.src, 'video').then((src) => {
+            that.sendMedia(video.cover, 'video-cover').then((cover) => {
+              video.src = src
+              video.cover = cover
+              that.setData({
+                video: video
+              })
+              data.video = video
+              that.uploadTopic(data)
+            })
+          })
+        }
+        // 纯文
+        else {
           that.uploadTopic(data)
         }
       }
@@ -247,6 +273,42 @@ Page({
           content: "发布失败！"
         })
       }
+    })
+  },
+
+  /**
+   * 选择视频
+   */
+  onChangeVideo() {
+    const that = this
+    wx.chooseMedia({
+      count: 9,
+      mediaType: ['video'],
+      sourceType: ['album', 'camera'],
+      maxDuration: 60,
+      camera: 'back',
+      success(res) {
+        const videoRes = res.tempFiles[0]
+        that.setData({
+          video: {
+            src: videoRes.tempFilePath,
+            cover: videoRes.thumbTempFilePath,
+            duration: videoRes.duration,
+            height: videoRes.height,
+            width: videoRes.width,
+            size: videoRes.size,
+          }
+        })
+      }
+    })
+  },
+
+  /**
+   * 删除视频
+   */
+  onDelVideo() {
+    this.setData({
+      video: null
     })
   },
 

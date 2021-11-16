@@ -67,71 +67,7 @@
       "list": []
     },
     "miniprogram": {
-      "list": [
-        {
-          "id": 0,
-          "name": "模拟更新",
-          "pathName": "pages/index/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 1,
-          "name": "树洞页面",
-          "pathName": "pages/hole/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "我的页面",
-          "pathName": "pages/profile/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "授权页面",
-          "pathName": "pages/auth/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "我的关注",
-          "pathName": "pages/following/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "设置页面",
-          "pathName": "pages/setting/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "发布页面",
-          "pathName": "pages/topic-edit/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "聊天页面",
-          "pathName": "pages/chat-room/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "图片裁剪",
-          "pathName": "pages/images-cropper/index",
-          "query": "",
-          "scene": null
-        }
-      ]
+      "list": []
     }
   }
 }

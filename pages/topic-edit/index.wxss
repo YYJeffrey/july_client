@@ -22,6 +22,43 @@
   padding: 20rpx 30rpx;
 }
 
+.icon-pic {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.video-btn {
+  width: 210rpx;
+  height: 210rpx;
+  border: 1rpx solid #eee;
+  border-radius: 4rpx;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tmp-video {
+  width: 210rpx;
+  height: 210rpx;
+  position: relative;
+  border-radius: 4rpx;
+}
+
+.icon-close-box {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 10rpx;
+  top: 10rpx;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .4);
+  box-sizing: border-box;
+}
+
 .tag-items {
   display: flex;
   flex-direction: row;

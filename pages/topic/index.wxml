@@ -36,6 +36,9 @@
 			{{item.flod ? '收起' : '全文'}}</view>
 
 		<view class="posters" data-id="{{item.id}}" bindtap="gotoDetail">
+			<video wx:if="{{item.video}}" src="{{item.video.src}}" poster="{{item.video.cover}}" direction="0"
+				play-btn-position="center" catchtap="nothingTodo" class="video"
+				style="{{item.video.height > item.video.width ? 'width: 380rpx;height: ' + 380 * item.video.height / item.video.width + 'rpx' : 'width: 450rpx;height: ' + 450 * item.video.height / item.video.width + 'rpx'}}" />
 			<block wx:if="{{item.images.length == 1}}">
 				<image class="column-one" wx:for="{{item.images}}" wx:key="item" src="{{item + '?imageView2/0/w/800/h/360'}}"
 					mode="widthFix" catchtap="previewImage" data-src="{{item}}" data-index="{{cardIndex}}" lazy-load />

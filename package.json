@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/YYJeffrey/july_client#readme",
   "dependencies": {
-    "@yyjeffrey/wxutil": "1.1.1",
+    "@yyjeffrey/wxutil": "1.1.2",
     "lin-ui": "0.9.4"
   }
 }

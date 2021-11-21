@@ -467,8 +467,16 @@ Page({
   onShareAppMessage() {
     return {
       title: this.data.topic.content,
-      imageUrl: this.data.topic.images ? this.data.topic.images[0] : '',
+      imageUrl: this.data.topic.images.length > 0 ? this.data.topic.images[0] : (this.data.topic.video != null ? this.data.topic.video.cover : ''),
       path: "/pages/topic-detail/index?topicId=" + this.data.topic.id
+    }
+  },
+
+  onShareTimeline() {
+    return {
+      title: this.data.topic.content,
+      query: "topicId=" + this.data.topic.id,
+      imageUrl: this.data.topic.images.length > 0 ? this.data.topic.images[0] : (this.data.topic.video != null ? this.data.topic.video.cover : '')
     }
   }
 })

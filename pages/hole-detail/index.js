@@ -143,5 +143,13 @@ Page({
       imageUrl: this.data.hole.poster,
       path: "/pages/hole-detail/index?holeId=" + this.data.hole.id
     }
+  },
+
+  onShareTimeline() {
+    return {
+      title: this.data.hole.title,
+      query: "holeId=" + this.data.hole.id,
+      imageUrl: this.data.hole.poster
+    }
   }
 })

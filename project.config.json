@@ -40,7 +40,7 @@
     "useCompilerPlugins": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.20.1",
+  "libVersion": "2.20.2",
   "appid": "wx0be6c8fa6d9cb4bf",
   "projectname": "july_client",
   "debugOptions": {

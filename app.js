@@ -45,6 +45,7 @@ App({
    */
   gotoAuthPage(res) {
     if (res.message == "Token Is Invalid") {
+      wx.removeStorageSync('userDetail')
       wx.navigateTo({
         url: "/pages/auth/index",
       })

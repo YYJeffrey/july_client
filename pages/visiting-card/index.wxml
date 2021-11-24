@@ -7,7 +7,7 @@
 <!-- 个人信息 -->
 <view wx:if="{{user.id}}" class="header">
 	<view class="user-box">
-		<image class="avatar" src="{{user.avatar}}" />
+		<image class="avatar" src="{{user.avatar}}" bindtap="previewAvatar" />
 		<view wx:if="{{user.gender && user.gender != 0}}" class="gender-box {{user.gender == 1 ? 'male' : 'female'}}">
 			<image class="gender-icon"
 				src="../../images/icon_gender/{{user.gender == 1 ? 'icon_male' : 'icon_female'}}.png" />

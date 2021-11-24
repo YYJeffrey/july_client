@@ -1,7 +1,7 @@
 <!-- pages/hole/index.wxml -->
 
 <!-- 头部Banner -->
-<swiper wx:if="{{holes.length != 0}}" class="head-swiper" indicator-dots circular autoplay previous-margin="60rpx"
+<!-- <swiper wx:if="{{holes.length != 0}}" class="head-swiper" indicator-dots circular autoplay previous-margin="60rpx"
 	next-margin="60rpx" indicator-active-color="#337559">
 	<swiper-item wx:for="{{holes}}" wx:if="{{index < 4}}" wx:key="item" class="head-swiper-item" data-id="{{item.id}}"
 		bindtap="gotoDetail">
@@ -15,27 +15,29 @@
 			</view>
 		</image>
 	</swiper-item>
-</swiper>
+</swiper> -->
 
 <!-- 树洞须知 -->
-<view class="desp-box" wx:if="{{holes.length != 0}}">
+<!-- <view class="desp-box" wx:if="{{holes.length != 0}}">
 	<view class="desp-title">树洞须知</view>
 	<view class="desp-content">请积极营造健康的网络环境（重中之重）。选择一个喜欢的话题，等待志同道合的朋友一起交流互动。</view>
-</view>
+</view> -->
 
 <!-- 往期话题 -->
-<view class="content-box" wx:if="{{holes.length != 0}}">
+<view class="content-box">
 	<view class="head">
 		<view class="head-line line-left"></view>
-		<text class="head-title">热门话题</text>
+		<text class="head-title">兴趣树洞</text>
 		<view class="head-line line-right"></view>
 	</view>
 
 	<view class="box">
-		<view wx:for="{{holes}}" wx:if="{{index >= 4}}" wx:key="item" class="box-item" data-id="{{item.id}}"
-			bindtap="gotoDetail">
+		<view wx:for="{{holes}}" wx:key="item" class="box-item" data-id="{{item.id}}" bindtap="gotoDetail">
 			<image class="item-poster" mode="aspectFill" src="{{item.poster + '?imageView2/1/w/335/h/190'}}" lazy-load />
-			<view class="item-title">{{item.title}}</view>
+			<view class="box-right">
+				<view class="item-title">{{item.title}}</view>
+				<view class="item-tip">{{item.total_content + '条动态'}}</view>
+			</view>
 		</view>
 	</view>
 </view>

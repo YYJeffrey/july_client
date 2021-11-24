@@ -1,5 +1,5 @@
-const baseAPI = "http://127.0.0.1:5000/api/v1/"
-const socketAPI = "ws://127.0.0.1:5000/"
+const baseAPI = "http://192.168.123.200:5000/api/v1/"
+const socketAPI = "ws://192.168.123.200:5000/"
 
 // const baseAPI = "https://api.july.yejiefeng.com/api/v1/"
 // const socketAPI = "wss://api.july.yejiefeng.com/"
@@ -12,6 +12,7 @@ export default {
   labelAPI: baseAPI + "label/", // 标签接口
   topicAPI: baseAPI + "topic/", // 话题接口
   holeAPI: baseAPI + "hole/", // 树洞接口
+  chatResAPI: baseAPI + "chat/", // 聊天记录接口
   userAPI: baseAPI + "user/", // 用户接口
   followingAPI: baseAPI + "following/", // 关注接口
   commentAPI: baseAPI + "comment/", // 评论接口

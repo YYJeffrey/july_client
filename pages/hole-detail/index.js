@@ -64,7 +64,7 @@ Page({
       wx.lin.showDialog({
         type: "confirm",
         title: "提示",
-        content: "当前树洞暂未开启，是否提前预约？",
+        content: "树洞暂未开启，将于今日 " + this.data.hole.start_time + " 开启，是否提前预约？",
         success: (res) => {
           if (res.confirm) {
             const templateId = this.data.reportTemplateId
@@ -135,6 +135,15 @@ Page({
     wx.navigateTo({
       url: "/pages/auth/index"
     })
+  },
+
+  /**
+   * 下拉刷新
+   */
+  onPullDownRefresh() {
+    this.getHoleDetail(this.data.hole.id)
+    wx.stopPullDownRefresh()
+    wx.vibrateShort()
   },
 
   onShareAppMessage() {

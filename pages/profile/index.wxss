@@ -84,6 +84,23 @@
   margin-left: 20rpx;
 }
 
+.child-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30rpx;
+  height: 30rpx;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.child-core-circle {
+  width: 22rpx;
+  height: 22rpx;
+  border-radius: 50%;
+  background-color: #88929e;
+}
+
 .header .nick-name {
   display: block;
   margin-top: 10rpx;

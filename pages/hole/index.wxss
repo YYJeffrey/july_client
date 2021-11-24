@@ -1,88 +1,6 @@
 /* pages/hole/index.wxss */
 
-.head-swiper {
-  height: 350rpx;
-  background: #fff;
-  padding-bottom: 10rpx;
-}
-
-.head-swiper-item {
-  height: 280rpx;
-}
-
-.head-swiper-item .poster {
-  height: 280rpx;
-  width: 610rpx;
-  margin: 0 10rpx;
-  border-radius: 15rpx;
-}
-
-.poster .mark {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 30rpx;
-  height: 280rpx;
-  width: 550rpx;
-  margin: 0 10rpx;
-  border-radius: 15rpx;
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.4);
-  top: 0;
-  left: 0;
-}
-
-.mark .title {
-  display: -webkit-box;
-  word-break: break-all;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 30rpx;
-  color: #fff;
-  margin-bottom: 15rpx;
-}
-
-.mark .btn-join {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 220rpx;
-  height: 65rpx;
-  border: 1rpx #fff solid;
-  border-radius: 10rpx;
-  margin-bottom: 30rpx;
-}
-
-.btn-join text {
-  font-size: 24rpx;
-  color: #fff;
-  margin-right: 10rpx;
-}
-
-.desp-box {
-  background: #fff;
-  margin: 20rpx 0;
-  padding: 20rpx 30rpx;
-}
-
-.desp-title {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #337559;
-}
-
-.desp-content {
-  text-align: justify;
-  margin-top: 10rpx;
-  color: #666;
-}
-
 .content-box {
-  margin-top: 20rpx;
-  padding-top: 30rpx;
   background: #fff;
 }
 
@@ -91,6 +9,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding: 30rpx 0;
 }
 
 .head-line {
@@ -120,26 +39,39 @@
 
 .box {
   display: flex;
-  flex-direction: row;
-  padding: 10rpx 30rpx 30rpx 30rpx;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 0 30rpx;
 }
 
 .box-item {
-  width: 335rpx;
-  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30rpx;
 }
 
 .item-poster {
   width: 335rpx;
   height: 190rpx;
   border-radius: 10rpx;
-  margin-bottom: 10rpx;
+}
+
+.box-right {
+  width: 325rpx;
+  margin-left: 30rpx;
 }
 
 .item-title {
-  margin: 0 8rpx;
-  font-size: 24rpx;
-  color: #666;
+  text-align: justify;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+}
+
+.item-tip {
+  margin-top: 15rpx;
+  color: #999;
 }

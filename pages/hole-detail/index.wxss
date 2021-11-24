@@ -19,19 +19,21 @@
   font-weight: bold;
 }
 
-.content-box .time {
-  margin-top: 30rpx;
-  font-size: 26rpx;
-  color: #999;
-}
-
 .content-box .desp {
   margin-top: 30rpx;
   font-size: 30rpx;
   text-align: justify;
   letter-spacing: 2rpx;
   line-height: 48rpx;
-  color: #7c7c7c;
+}
+
+.content-box .tip-box {
+  margin-top: 30rpx;
+  color: #999;
+}
+
+.tip-box .tip-member {
+  margin-left: 20rpx;
 }
 
 .content-box .btn-group {

@@ -1,33 +1,23 @@
 <!-- pages/topic-detail/index.wxml -->
 
 <!-- 动态详情 -->
-<l-card wx:if="{{topic.id}}" type="avatar" l-class="card"
-	l-title-class="{{topic.user.id != -1 ? 'nick-name' : 'nick-name-anon'}}"
-	image="{{topic.user.avatar + '?imageView2/1/w/60/h/60'}}" title="{{topic.user.nick_name}}"
-	describe="{{topic.create_time}}" bind:linavatar="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}"
-	bind:lintitle="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{topic.user.id}}">
+<l-card wx:if="{{topic.id}}" type="avatar" l-class="card" l-title-class="{{topic.user.id != -1 ? 'nick-name' : 'nick-name-anon'}}" image="{{topic.user.avatar + '?imageView2/1/w/60/h/60'}}" title="{{topic.user.nick_name}}" describe="{{topic.create_time}}" bind:linavatar="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" bind:lintitle="{{topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{topic.user.id}}">
 	<view class="avater-content">{{topic.content}}</view>
 	<view class="posters">
-		<video wx:if="{{topic.video}}" src="{{topic.video.src}}" poster="{{topic.video.cover}}" direction="0"
-			play-btn-position="center" class="video"
-			style="{{topic.video.height > topic.video.width ? 'width: 380rpx;height: ' + 380 * topic.video.height / topic.video.width + 'rpx' : 'width: 450rpx;height: ' + 450 * topic.video.height / topic.video.width + 'rpx'}}" />
+		<video wx:if="{{topic.video}}" src="{{topic.video.src}}" poster="{{topic.video.cover}}" autoplay direction="0" play-btn-position="center" class="video" style="{{topic.video.height > topic.video.width ? 'width: 380rpx;height: ' + 380 * topic.video.height / topic.video.width + 'rpx' : 'width: 450rpx;height: ' + 450 * topic.video.height / topic.video.width + 'rpx'}}" />
 		<block wx:if="{{topic.images.length == 1}}">
-			<image class="column-one" src="{{topic.images[0] + '?imageView2/0/w/800/h/360'}}" mode="widthFix"
-				bindtap="previewImage" data-src="{{topic.images[0]}}" lazy-load />
+			<image class="column-one" src="{{topic.images[0] + '?imageView2/0/w/800/h/360'}}" mode="widthFix" bindtap="previewImage" data-src="{{topic.images[0]}}" lazy-load />
 		</block>
 		<block wx:elif="{{topic.images.length == 2 || topic.images.length == 4}}">
-			<image class="column-two" wx:for="{{topic.images}}" wx:key="item" src="{{item + '?imageView2/1/w/270/h/270'}}"
-				mode="aspectFill" bindtap="previewImage" data-src="{{item}}" lazy-load />
+			<image class="column-two" wx:for="{{topic.images}}" wx:key="item" src="{{item + '?imageView2/1/w/270/h/270'}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" lazy-load />
 		</block>
 		<block wx:else>
-			<image wx:for="{{topic.images}}" wx:key="item" src="{{item + '?imageView2/1/w/180/h/180'}}" mode="aspectFill"
-				bindtap="previewImage" data-src="{{item}}" lazy-load />
+			<image wx:for="{{topic.images}}" wx:key="item" src="{{item + '?imageView2/1/w/180/h/180'}}" mode="aspectFill" bindtap="previewImage" data-src="{{item}}" lazy-load />
 		</block>
 	</view>
 
 	<view class="label-box" wx:if="{{topic.label}}">
-		<l-tag wx:for="{{topic.label}}" wx:key="item" l-class="tag" shape="circle" bg-color="#337559" font-color="#337559"
-			plain bind:lintap="gotoTopic" data-label="{{item.id}}">#{{item.name}}</l-tag>
+		<l-tag wx:for="{{topic.label}}" wx:key="item" l-class="tag" shape="circle" bg-color="#337559" font-color="#337559" plain bind:lintap="gotoTopic" data-label="{{item.id}}">#{{item.name}}</l-tag>
 	</view>
 
 	<view class="avater-share-container">
@@ -50,8 +40,7 @@
 <!-- 收藏 -->
 <view wx:if="{{topic.id}}" class="star-box" wx:if="{{stars.length > 0}}">
 	<view class="star-content">
-		<image wx:for="{{stars}}" wx:key="item" class="avatar" src="{{item.user.avatar + '?imageView2/1/w/60/h/60'}}"
-			data-user-id="{{item.user.id}}" bindtap="gotoVisitingCard" />
+		<image wx:for="{{stars}}" wx:key="item" class="avatar" src="{{item.user.avatar + '?imageView2/1/w/60/h/60'}}" data-user-id="{{item.user.id}}" bindtap="gotoVisitingCard" />
 	</view>
 	<view class="star-icon-box">
 		收藏
@@ -62,8 +51,7 @@
 <!-- 评论 -->
 <view wx:if="{{topic.id}}" class="comment-box" wx:if="{{comments.length > 0}}">
 	<view class="comment" wx:for="{{comments}}" wx:key="item" data-index="{{index}}" bindtap="onCommentItemTap">
-		<image class="avatar" src="{{item.user.avatar + '?imageView2/1/w/60/h/60'}}" data-user-id="{{item.user.id}}"
-			catchtap="gotoVisitingCard" />
+		<image class="avatar" src="{{item.user.avatar + '?imageView2/1/w/60/h/60'}}" data-user-id="{{item.user.id}}" catchtap="gotoVisitingCard" />
 		<view class="comment-right {{index == comments.length - 1 && isEnd ? 'non-border' : ''}}">
 			<view class="comment-top">
 				<view class="nick-name" data-user-id="{{item.user.id}}" catchtap="gotoVisitingCard">{{item.user.nick_name}}
@@ -75,7 +63,7 @@
 					<text wx:if="{{item.reply_user.id}}">回复</text>
 					<text wx:if="{{item.reply_user.id}}" class="nick-name">{{item.reply_user.nick_name}}: </text>{{item.content}}
 				</view>
-				<view class="delete-box" wx:if="{{userId == item.user.id}}">
+				<view class="delete-box" wx:if="{{userId == item.user.id || isAdmin}}">
 					<view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
 				</view>
 			</view>
@@ -91,8 +79,7 @@
 
 <!-- 评论编辑区 -->
 <view wx:if="{{topic.id}}" class="comment-edit">
-	<l-input hide-label maxlength="150" width="600" focus="{{focus}}" placeholder="{{placeholder}}" value="{{comment}}"
-		bind:lininput="inputComment" />
+	<l-input hide-label maxlength="150" width="600" focus="{{focus}}" placeholder="{{placeholder}}" value="{{comment}}" bind:lininput="inputComment" />
 	<l-button shape="circle" size="mini" bg-color="#337559" width="125" height="60" bind:lintap="onCommntBtnTap">评论
 	</l-button>
 </view>
@@ -101,8 +88,7 @@
 <nothing wx:if="{{!topic.id}}" pic="../../images/icon_nothing/pic_topic.png" tip="该话题消失了" />
 
 <!-- 操作菜单 -->
-<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}"
-	bind:linitemtap="onActionItemtap" bind:lincancel="onCancelSheetTap" />
+<l-action-sheet show-cancel open-api="{{false}}" item-list="{{actionList}}" show="{{showAction}}" bind:linitemtap="onActionItemtap" bind:lincancel="onCancelSheetTap" />
 
 <!-- 消息提示 -->
 <l-message />

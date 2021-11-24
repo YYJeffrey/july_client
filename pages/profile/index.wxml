@@ -2,8 +2,7 @@
 
 <view class="{{tabsFixed ? 'header-fixed' : ''}}">
 	<!-- 封面 -->
-	<image class="poster" src="{{user.poster ? user.poster : 'https://img.yejiefeng.com/poster/default.jpg'}}"
-		mode="aspectFill" bindtap="changePoster" />
+	<image class="poster" src="{{user.poster ? user.poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" bindtap="changePoster" />
 
 	<!-- 个人信息 -->
 	<view class="header">
@@ -13,14 +12,14 @@
 			</view>
 			<image wx:else class="avatar" src="{{user.avatar}}" bindtap="changeAvatar" mode="aspectFill" />
 			<view wx:if="{{user.gender && user.gender != 0}}" class="gender-box {{user.gender == 1 ? 'male' : 'female'}}">
-				<image class="gender-icon"
-					src="../../images/icon_gender/{{user.gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
+				<image class="gender-icon" src="../../images/icon_gender/{{user.gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
 			</view>
 			<view class="btn-box">
-				<l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55"
-					bind:lintap="{{!isAuth ? 'gotoAuth' : 'gotoUserEdit'}}">{{!isAuth ? '用户授权' : '编辑'}}</l-button>
+				<l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="{{!isAuth ? 'gotoAuth' : 'gotoUserEdit'}}">{{!isAuth ? '用户授权' : '编辑'}}</l-button>
 				<navigator class="setting" url="/pages/setting/index">
-					<l-icon name="setting" color="#fff" size="30" />
+					<view class="child-circle">
+						<view class="child-core-circle"></view>
+					</view>
 				</navigator>
 			</view>
 		</view>
@@ -47,17 +46,11 @@
 </view>
 
 <!-- 我的动态 -->
-<l-tabs id="tabs" animated animated-for-line active-color="#337559"
-	l-header-class="tabs {{tabsFixed ? 'tabs-fixed' : ''}}" l-line-class="tabs-line" bind:linchange="changeTabs">
+<l-tabs id="tabs" animated animated-for-line active-color="#337559" l-header-class="tabs {{tabsFixed ? 'tabs-fixed' : ''}}" l-line-class="tabs-line" bind:linchange="changeTabs">
 	<l-tabpanel tab="话题" key="topic" slot="topic">
 		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
-			<nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="您还没有发布话题"
-				nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" />
-			<l-card data-id="{{item.id}}" bindtap="gotoTopicDetail" wx:for="{{topics}}" wx:key="item" l-class="card"
-				l-img-class="{{item.images.length > 0 || item.video ? 'card-img' : 'card-img-none'}}"
-				l-title-class="topic-title" type="primary" position="left"
-				image="{{item.images.length > 0 ? item.images[0] + '?imageView2/1/w/180/h/180' : (item.video ? item.video.cover + '?imageView2/1/w/180/h/180' : '')}}"
-				image-mode="aspectFill" title="{{item.create_time}}">
+			<nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="您还没有发布话题" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" />
+			<l-card data-id="{{item.id}}" bindtap="gotoTopicDetail" wx:for="{{topics}}" wx:key="item" l-class="card" l-img-class="{{item.images.length > 0 || item.video ? 'card-img' : 'card-img-none'}}" l-title-class="topic-title" type="primary" position="left" image="{{item.images.length > 0 ? item.images[0] + '?imageView2/1/w/180/h/180' : (item.video ? item.video.cover + '?imageView2/1/w/180/h/180' : '')}}" image-mode="aspectFill" title="{{item.create_time}}">
 				<view class="card-content">
 					{{item.content}}
 				</view>
@@ -69,24 +62,16 @@
 	</l-tabpanel>
 	<l-tabpanel tab="评论" key="comment" slot="comment">
 		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
-			<nothing wx:if="{{comments.length == 0}}" pic="../../images/icon_nothing/pic_comment.png" tip="您还没有发表评论"
-				nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" />
-			<l-card data-id="{{item.topic_id}}" bindtap="gotoTopicDetail" wx:for="{{comments}}" wx:key="item" l-class="card"
-				l-img-class="card-img-none" l-title-class="topic-title" type="primary" position="left"
-				title="{{item.create_time}}">
+			<nothing wx:if="{{comments.length == 0}}" pic="../../images/icon_nothing/pic_comment.png" tip="您还没有发表评论" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" />
+			<l-card data-id="{{item.topic_id}}" bindtap="gotoTopicDetail" wx:for="{{comments}}" wx:key="item" l-class="card" l-img-class="card-img-none" l-title-class="topic-title" type="primary" position="left" title="{{item.create_time}}">
 				<view class="comment-top">
 					<view class="card-content">{{item.content}}</view>
 					<view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
 				</view>
 				<view class="comment-topic">
-					<image
-						src="{{item.topic.images.length > 0 ? item.topic.images[0] + '?imageView2/1/w/180/h/180' : (item.topic.video ? item.topic.video.cover + '?imageView2/1/w/180/h/180' : '')}}"
-						class="{{item.topic.images.length > 0 || item.topic.video ? 'card-img comment-image' : 'card-img-none'}}"
-						mode="aspectFill" />
+					<image src="{{item.topic.images.length > 0 ? item.topic.images[0] + '?imageView2/1/w/180/h/180' : (item.topic.video ? item.topic.video.cover + '?imageView2/1/w/180/h/180' : '')}}" class="{{item.topic.images.length > 0 || item.topic.video ? 'card-img comment-image' : 'card-img-none'}}" mode="aspectFill" />
 					<view class="comment-right">
-						<text class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}"
-							catchtap="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}"
-							data-user-id="{{item.topic.user.id}}">{{item.topic.user.nick_name}}</text>
+						<text class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" catchtap="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">{{item.topic.user.nick_name}}</text>
 						<text class="card-content">{{item.topic.content}}</text>
 					</view>
 				</view>
@@ -97,14 +82,8 @@
 	</l-tabpanel>
 	<l-tabpanel tab="收藏" key="star" slot="star">
 		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
-			<nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态"
-				nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" />
-			<l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card"
-				l-img-class="{{item.topic.images.length > 0 || item.topic.video ? 'card-img' : 'card-img-none'}}"
-				l-title-class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" type="primary" position="left"
-				image="{{item.topic.images.length > 0 ? item.topic.images[0] + '?imageView2/1/w/180/h/180' : (item.topic.video ? item.topic.video.cover + '?imageView2/1/w/180/h/180' : '')}}"
-				image-mode="aspectFill" title="{{item.topic.user.nick_name}}"
-				bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">
+			<nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" />
+			<l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 || item.topic.video ? 'card-img' : 'card-img-none'}}" l-title-class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] + '?imageView2/1/w/180/h/180' : (item.topic.video ? item.topic.video.cover + '?imageView2/1/w/180/h/180' : '')}}" image-mode="aspectFill" title="{{item.topic.user.nick_name}}" bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">
 				<view class="card-content">
 					{{item.topic.content}}
 				</view>

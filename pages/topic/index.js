@@ -140,6 +140,7 @@ Page({
    */
   onPullDownRefresh() {
     const labelId = this.data.labelId
+    this.getLabels()
 
     if (labelId == -1) {
       this.getTopics()
@@ -392,7 +393,15 @@ Page({
    * 跳转话题详情页
    */
   gotoDetail(event) {
+    const index = event.currentTarget.dataset.index
     const topicId = event.currentTarget.dataset.id
+    let topics = this.data.topics
+    topics[index].click_count++;
+
+    this.setData({
+      topics: topics
+    })
+
     wx.navigateTo({
       url: "/pages/topic-detail/index?topicId=" + topicId
     })

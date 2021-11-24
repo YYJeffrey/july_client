@@ -283,6 +283,16 @@ Page({
   },
 
   /**
+   * 头像预览
+   */
+  previewAvatar() {
+    wx.previewImage({
+      current: "",
+      urls: [this.data.user.avatar]
+    })
+  },
+
+  /**
    * 触底加载
    */
   onReachBottom() {

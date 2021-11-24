@@ -1,8 +1,7 @@
 <!-- pages/chat-room/index.wxml -->
 
 <!-- 消息内容 -->
-<scroll-view class="msg-scroll" style="height:{{height}}rpx" scroll-y scroll-with-animation scroll-top="{{scrollTop}}"
-	enable-back-to-top>
+<scroll-view class="msg-scroll" style="height:{{height}}rpx" scroll-y scroll-with-animation scroll-top="{{scrollTop}}" enable-back-to-top bindscrolltoupper="scrolltoupper">
 	<view class="msg-list">
 		<block wx:for="{{msg}}" wx:key="item" in="msg{{index+1}}">
 			<view wx:if="{{item.type == 'status'}}" class="chat-item">
@@ -15,8 +14,7 @@
 				<image class="avatar" src="{{item.avatar + '?imageView2/1/w/60/h/60'}}" />
 				<view class="message-box">
 					<view class="nick-name {{item.user_id == userId ? 'text-right' : ''}}">{{item.nick_name}}</view>
-					<image src="{{item.data}}" data-src="{{item.data + '?imageView2/0/w/800/h/360'}}" mode="widthFix"
-						class="msg-images" bindtap="previewImage" />
+					<image src="{{item.data}}" data-src="{{item.data}}" mode="widthFix" class="msg-images" bindtap="previewImage" />
 				</view>
 			</view>
 			<view wx:if="{{item.type == 'message'}}" class="chat-item {{item.user_id == userId ? 'reverse' : ''}}">
@@ -33,8 +31,7 @@
 
 <!-- 内容编辑区 -->
 <view class="chat-edit">
-	<l-input l-class="edit-input" hide-label maxlength="150" width="600" value="{{content}}" confirmHold="{{true}}"
-		placeholder="聊点什么吧~" confirmType="send" bind:lininput="setMessage" bind:linconfirm="onSendMessageTap" />
+	<l-input l-class="edit-input" hide-label maxlength="150" width="600" value="{{content}}" confirmHold="{{true}}" placeholder="聊点什么吧~" confirmType="send" bind:lininput="setMessage" bind:linconfirm="onSendMessageTap" />
 	<view class="add-box">
 		<l-icon name="add" size="45" color="#0f6945" l-class="add-pic" bindtap="sendImg" />
 	</view>

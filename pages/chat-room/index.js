@@ -36,10 +36,6 @@ Page({
     this.onSocketMessage("images") // 监听图片消息
   },
 
-  onHide() {
-    this.sendSocketMessage("leave")
-  },
-
   onUnload() {
     this.sendSocketMessage("leave")
   },

@@ -1,8 +1,8 @@
-const baseAPI = "http://192.168.123.200:5000/api/v1/"
-const socketAPI = "ws://192.168.123.200:5000/"
+// const baseAPI = "http://192.168.123.200:5000/api/v1/"
+// const socketAPI = "ws://192.168.123.200:5000/"
 
-// const baseAPI = "https://api.july.yejiefeng.com/api/v1/"
-// const socketAPI = "wss://api.july.yejiefeng.com/"
+const baseAPI = "https://api.july.yejiefeng.com/api/v1/"
+const socketAPI = "wss://api.july.yejiefeng.com/"
 const ossDomain = "https://img.yejiefeng.com"
 
 export default {

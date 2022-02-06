@@ -1,0 +1,11 @@
+/* components/nickname/index.wxss */
+
+.nickname {
+  color: #337559 !important;
+  font-weight: bold;
+}
+
+.nickname-anon {
+  color: #7a8c9a !important;
+  font-weight: bold;
+}

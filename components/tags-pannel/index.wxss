@@ -1,0 +1,56 @@
+/* components/tags-pannel/index.wxss */
+
+.tag-scroll {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  width: 100%;
+  height: 90rpx;
+  padding: 20rpx 10rpx;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  white-space: nowrap;
+  background: #f7f7f7;
+}
+
+.btn-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50rpx;
+  height: 50rpx;
+  position: fixed;
+  top: 20rpx;
+  right: 0;
+  z-index: 100;
+  background: #f7f7f7;
+  opacity: 0.8;
+  border-left: 1px #ccc solid;
+}
+
+.btn {
+  transform: rotate(45deg);
+  transition: All 0.3s ease;
+}
+
+.btn-active {
+  transition: All 0.3s ease;
+}
+
+.popup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10rpx 10rpx 20rpx 10rpx;
+  background: #f7f7f7;
+}
+
+.popup .tag {
+  margin-top: 10rpx;
+}
+
+.tag {
+  margin: 0 5rpx;
+}

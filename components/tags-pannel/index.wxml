@@ -1,0 +1,24 @@
+<!--components/tags-pannel/index.wxml-->
+
+<!-- 标签面板 -->
+<view class="tags-pannel">
+  <!-- 标签栏 -->
+  <scroll-view class="tag-scroll" scroll-x enable-flex scroll-with-animation scroll-into-view="{{'tag_' + activeLabelId}}">
+    <view wx:for="{{labels}}" wx:key="index" id="{{'tag_' + item.id}}">
+      <l-tag l-class="tag" plain="{{activeLabelId === item.id ? false : true}}" shape="circle" bg-color="#337559" font-color="{{activeLabelId === item.id ? '#fff' : '#337559'}}" data-label-id="{{item.id}}" bind:lintap="onTagTap">
+        #{{item.name}}</l-tag>
+    </view>
+  </scroll-view>
+
+  <!-- 下拉按钮 -->
+  <view class="btn-popup" bindtap="togglePopup">
+    <l-icon l-class="{{showPopup ? 'btn-active' : 'btn'}}" name="close" size="15" color="#777" />
+  </view>
+
+  <!-- 下拉弹窗 -->
+  <l-popup show="{{showPopup}}" animation content-align="top" bind:lintap="togglePopup" z-index="99">
+    <view class="popup">
+      <l-tag l-class="tag" wx:for="{{labels}}" wx:key="index" shape="circle" bg-color="#337559" plain="{{activeLabelId === item.id ? false : true}}" font-color="{{activeLabelId === item.id ? '#fff' : '#337559'}}" data-label-id="{{item.id}}" bind:lintap="onTagTap">#{{item.name}}</l-tag>
+    </view>
+  </l-popup>
+</view>

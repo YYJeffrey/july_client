@@ -1,0 +1,9 @@
+<!--components/star-list/index.wxml-->
+
+<!-- 收藏列表 -->
+<view class="star-list">
+  <view class="star">
+    <avatar avatar-class="avatar" wx:for="{{stars}}" wx:key="index" src="{{item.user.avatar}}" user-id="{{item.user.id}}" />
+  </view>
+  <text class="star-tag">收藏</text>
+</view>

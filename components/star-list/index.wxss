@@ -1,0 +1,27 @@
+/* components/star-list/index.wxss */
+
+.star-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20rpx 30rpx 10rpx 30rpx;
+  border-bottom: 1px #f1f1f1 solid;
+  background: #fff;
+}
+
+.star {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 600rpx;
+}
+
+.star-tag {
+  font-size: 26rpx;
+  color: #777;
+  margin-top: 12rpx;
+}
+
+.avatar {
+  margin: 0 10rpx 10rpx 0;
+}

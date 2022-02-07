@@ -1,0 +1,17 @@
+<!--components/favor-bar/index.wxml-->
+
+<!-- 话题底部栏 -->
+<view class="favor-bar">
+  <view class="item" bindtap="onCommentIconTap">
+    <image class="item-icon" src="../../images/icon_favor/{{hasComment ? 'comment_hl' : 'comment'}}.png" />
+    <text class="{{hasComment ? 'item-text-active' : 'item-text'}}">{{commentCount}}</text>
+  </view>
+  <view class="item" bindtap="onStarIconTap">
+    <image class="item-icon" src="../../images/icon_favor/{{hasStar ? 'star_hl' : 'star'}}.png" />
+    <text class="{{hasStar ? 'item-text-active' : 'item-text'}}">{{starCount}}</text>
+  </view>
+  <view class="item" bindtap="onViewIconTap">
+    <image class="item-icon" src="../../images/icon_favor/{{hasView ? 'view_hl' : 'view'}}.png" />
+    <text class="{{hasView ? 'item-text-active' : 'item-text'}}">{{viewCount}}</text>
+  </view>
+</view>

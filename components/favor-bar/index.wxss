@@ -1,0 +1,28 @@
+/* components/favor-bar/index.wxss */
+
+.favor-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.item-icon {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
+}
+
+.item-text {
+  color: #777;
+}
+
+.item-text-active {
+  color: #eb4d4b;
+}

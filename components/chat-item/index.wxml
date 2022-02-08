@@ -1,0 +1,28 @@
+<!--components/chat-item/index.wxml-->
+
+<!-- 聊天消息单项 -->
+<view class="chat-item">
+  <view wx:if="{{chat.type === 'message'}}" class="chat {{isOwner? 'reverse' : ''}}">
+    <avatar src="{{chat.avatar}}" user-id="{{chat.user_id}}" size="80" />
+    <view class="message">
+      <nickname nickname-class="nickname {{isOwner ? 'text-right' : ''}}" nickname="{{chat.nick_name}}" user-id="{{chat.user_id}}" />
+      <view class="{{isOwner ? 'content-right triangle-right' : 'content-left triangle-left'}}">{{chat.data}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{chat.type === 'images'}}" class="chat {{isOwner ? 'reverse' : ''}}">
+    <avatar src="{{chat.avatar}}" user-id="{{chat.user_id}}" size="80" />
+    <view class="message">
+      <nickname nickname-class="nickname {{isOwner ? 'text-right' : ''}}" nickname="{{chat.nick_name}}" user-id="{{chat.user_id}}" />
+      <image src="{{chat.data}}" class="chat-images" mode="widthFix" bindtap="previewImage" />
+    </view>
+  </view>
+
+  <view wx:if="{{chat.type === 'status'}}" class="chat">
+    <view class="tip">{{chat.nick_name + chat.data}}</view>
+  </view>
+
+  <view wx:if="{{chat.type === 'time'}}" class="chat">
+    <view class="tip">{{chat.data}}</view>
+  </view>
+</view>

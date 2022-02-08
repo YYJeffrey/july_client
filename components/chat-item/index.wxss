@@ -1,0 +1,82 @@
+/* components/chat-item/index.wxss */
+
+.chat-item {
+  padding: 20rpx 30rpx;
+}
+
+.chat {
+  display: flex;
+  flex-direction: row;
+}
+
+.reverse {
+  flex-direction: row-reverse;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  max-width: 500rpx;
+  margin: 0 30rpx;
+}
+
+.nickname {
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.content-left {
+  display: flex;
+  flex-direction: row;
+  word-break: break-all;
+  min-width: 25rpx;
+  margin: 0 auto 0 0;
+  border-radius: 15rpx;
+  padding: 30rpx;
+  background: #fff;
+}
+
+.content-right {
+  display: flex;
+  flex-direction: row;
+  word-break: break-all;
+  min-width: 25rpx;
+  margin: 0 0 0 auto;
+  padding: 30rpx;
+  border-radius: 15rpx;
+  color: #fff;
+  background: #258b63;
+}
+
+.triangle-left::before {
+  content: "";
+  border-style: solid;
+  border-width: 20rpx;
+  border-color: transparent #fff transparent transparent;
+  position: absolute;
+  left: 105rpx;
+}
+
+.triangle-right::after {
+  content: "";
+  border-style: solid;
+  border-width: 20rpx;
+  border-color: transparent transparent transparent #258b63;
+  position: absolute;
+  right: 105rpx;
+}
+
+.chat-images {
+  width: 360rpx;
+  max-height: 800rpx;
+  border-radius: 15rpx;
+}
+
+.tip {
+  color: #ccc;
+  margin: 0 auto;
+}

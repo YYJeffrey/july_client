@@ -1,0 +1,47 @@
+<!--components/topic-item/index.wxml-->
+
+<!-- 话题单项 -->
+<view class="topic-item-class topic-item" wx:if="{{topic}}">
+  <!-- 话题头部 -->
+  <view class="header">
+    <view class="header-left">
+      <avatar src="{{topic.user.avatar}}" user-id="{{topic.user.id}}" size="80" />
+      <view class="header-info">
+        <nickname nickname="{{topic.user.nick_name}}" user-id="{{topic.user.id}}" />
+        <text class="time">{{topic.create_time}}</text>
+      </view>
+    </view>
+    <l-icon l-class="icon-more" name="ellipsis" bindtap="onMoreIconTap" />
+  </view>
+
+  <!-- 话题内容 -->
+  <view class="topic-content" bindtap="gotoTopicDetail">
+    <view class="{{!showDetail && topic.content.length > maxContentLen && !topic.expand ? 'content-text-expand' : 'content-text'}}">{{topic.content}}</view>
+    <text wx:if="{{!showDetail && topic.content.length > maxContentLen}}" class="text-expand" catchtap="onExpandTap">{{!topic.expand ? '展开' : '收起'}}</text>
+  </view>
+
+  <!-- 图片视频 -->
+  <view class="media" wx:if="{{topic.images.length > 0 || topic.video}}" bindtap="gotoTopicDetail">
+    <view class="posters">
+      <block wx:if="{{topic.images.length === 1}}">
+        <image class="column-one" wx:for="{{topic.images}}" wx:key="index" src="{{item + '?imageView2/0/w/800/h/360'}}" mode="widthFix" data-src="{{item}}" catchtap="previewImage" />
+      </block>
+      <block wx:elif="{{topic.images.length === 2 || topic.images.length === 4}}">
+        <image class="column-two" wx:for="{{topic.images}}" wx:key="index" src="{{item + '?imageView2/1/w/270/h/270'}}" mode="aspectFill" data-src="{{item}}" catchtap="previewImage" />
+      </block>
+      <block wx:else>
+        <image wx:for="{{topic.images}}" wx:key="index" src="{{item + '?imageView2/1/w/180/h/180'}}" mode="aspectFill" data-src="{{item}}" catchtap="previewImage" />
+      </block>
+    </view>
+
+    <video class="video" wx:if="{{topic.video}}" src="{{topic.video.src}}" poster="{{topic.video.cover}}" direction="0" play-btn-position="center" style="max-height: 580rpx;{{topic.video.height > topic.video.width ? 'height: 580rpx;width: ' + 580 * topic.video.width / topic.video.height + 'rpx' : 'width: 580rpx;height: ' + 580 * topic.video.height / topic.video.width + 'rpx'}}" autoplay="{{autoplay}}" catchtap="doNothing" />
+  </view>
+
+  <!-- 话题标签 -->
+  <view class="tags-list" wx:if="{{showTags && topic.label.length > 0}}">
+    <l-tag wx:for="{{topic.label}}" wx:key="index" l-class="tag" plain shape="circle" bg-color="#337559" font-color="#337559" data-label-id="{{item.id}}" bindtap="onTagTap">#{{item.name}}</l-tag>
+  </view>
+
+  <!-- 话题底部 -->
+  <favor-bar comment-count="{{topic.comment_count}}" star-count="{{topic.star_count}}" view-count="{{topic.click_count}}" has-comment="{{topic.has_comment}}" has-star="{{topic.has_star}}" />
+</view>

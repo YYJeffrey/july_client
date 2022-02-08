@@ -44,7 +44,7 @@ Component({
             const index = event.currentTarget.dataset.index
 
             wxutil.request.delete(api.topicAPI + topics[index].id + "/").then((res) => {
-              if (res.code == 200) {
+              if (res.code === 200) {
                 topics.splice(index, 1)
                 this.setData({
                   topics: topics

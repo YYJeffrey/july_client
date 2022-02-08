@@ -44,7 +44,7 @@ Component({
             const index = event.currentTarget.dataset.index
 
             wxutil.request.post(api.starAPI, { topic_id: stars[index].topic.id }).then((res) => {
-              if (res.code == 200) {
+              if (res.code === 200) {
                 stars.splice(index, 1)
                 this.setData({
                   stars: stars

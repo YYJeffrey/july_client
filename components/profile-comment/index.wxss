@@ -1,0 +1,65 @@
+/* components/profile-comment/index.wxss */
+
+.item {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  border-bottom: 1px #f1f1f1 solid;
+}
+
+.time {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.comment {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 15rpx 0;
+}
+
+.comment-content {
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 625rpx;
+}
+
+.delete {
+  font-size: 26rpx;
+  font-weight: bold;
+  height: 38rpx;
+  color: #337559;
+}
+
+.topic {
+  display: flex;
+  flex-direction: row;
+  background: #f7f7f7;
+  border-radius: 10rpx;
+}
+
+.img {
+  min-width: 180rpx;
+  min-height: 180rpx;
+  border-radius: 10rpx;
+}
+
+.topic-right {
+  padding: 20rpx;
+}
+
+.topic-content {
+  margin-top: 10rpx;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

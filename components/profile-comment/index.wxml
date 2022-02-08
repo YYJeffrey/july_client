@@ -1,0 +1,25 @@
+<!--components/profile-comment/index.wxml-->
+
+<!-- 所属评论 -->
+<view class="profile-comment">
+  <view class="item {{comments.length - 1 === index ? 'no-border' : ''}}" wx:for="{{comments}}" wx:key="index" data-index="{{index}}" bindtap="gotoTopicDetail">
+    <text class="time">{{item.create_time}}</text>
+    <view class="comment">
+      <text class="comment-content">{{item.content}}</text>
+      <text wx:if="{{isOwner}}" class="delete" data-index="{{index}}" bindtap="onDeleteTap">删除</text>
+    </view>
+    <view class="topic">
+      <image class="img" wx:if="{{item.topic.images.length > 0 || item.topic.video}}" src="{{item.topic.images.length > 0 ? item.topic.images[0] + '?imageView2/1/w/180/h/180' : (item.topic.video ? item.topic.video.cover + '?imageView2/1/w/180/h/180' : '')}}" mode="aspectFill" />
+      <view class="topic-right">
+        <nickname nickname="{{item.topic.user.nick_name}}" user-id="{{item.topic.user.id}}" />
+        <text class="topic-content">{{item.topic.content}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 消息对话框 -->
+<l-dialog id="dialog" />
+
+<!-- 消息提示 -->
+<l-message />

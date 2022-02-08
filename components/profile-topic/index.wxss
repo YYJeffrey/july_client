@@ -1,0 +1,37 @@
+/* components/profile-topic/index.wxss */
+
+.item {
+  display: flex;
+  flex-direction: row;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  border-bottom: 1px #f1f1f1 solid;
+}
+
+.img {
+  min-width: 180rpx;
+  min-height: 180rpx;
+  border-radius: 10%;
+  margin-right: 30rpx;
+}
+
+.time {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.content {
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 10rpx 0;
+}
+
+.delete {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #337559;
+}

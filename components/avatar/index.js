@@ -27,7 +27,7 @@ Component({
   },
   methods: {
     /**
-     * 点击头像跳转名片页或授权页
+     * 跳转名片页或授权页
      */
     onAvatarTap() {
       if (app.globalData.userDetail) {

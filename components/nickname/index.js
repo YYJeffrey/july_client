@@ -24,7 +24,7 @@ Component({
   },
   methods: {
     /**
-     * 点击昵称跳转名片页或授权页
+     * 跳转名片页或授权页
      */
     onNicknameTap() {
       if (app.globalData.userDetail) {

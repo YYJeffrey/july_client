@@ -1,0 +1,50 @@
+/* components/comment-item/index.wxss */
+
+.comment-item {
+  display: flex;
+  flex-direction: row;
+  padding: 20rpx 30rpx 0 30rpx;
+  background: #fff;
+}
+
+.comment-right {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 30rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1px #f1f1f1 solid;
+}
+
+.comment-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time {
+  color: #666;
+  font-size: 26rpx;
+}
+
+.comment-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15rpx;
+}
+
+.no-border {
+  border-bottom: none;
+}
+
+.content {
+  max-width: 525rpx;
+  text-align: justify;
+}
+
+.delete {
+  color: #337559;
+  font-size: 26rpx;
+  font-weight: bold;
+  height: 38rpx;
+}

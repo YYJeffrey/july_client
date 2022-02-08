@@ -1,0 +1,19 @@
+<!--components/comment-item/index.wxml-->
+
+<!-- 评论单项 -->
+<view class="comment-item" bindtap="onCommentTap">
+  <avatar src="{{comment.user.avatar}}" user-id="{{comment.user.id}}" />
+  <view class="comment-right {{!hasBorder ? 'no-border' : ''}}">
+    <view class="comment-top">
+      <nickname nickname="{{comment.user.nick_name}}" user-id="{{comment.user.id}}" />
+      <view class="time">{{comment.create_time}}</view>
+    </view>
+    <view class="comment-bottom">
+      <view class="content">
+        <text wx:if="{{comment.reply_user.id}}">回复</text>
+        <nickname wx:if="{{comment.reply_user.id}}" nickname="{{comment.reply_user.nick_name + ': '}}" user-id="{{comment.reply_user.id}}" />{{comment.content}}
+      </view>
+      <view class="delete" wx:if="{{isOwner}}" catchtap="onDeleteTap">删除</view>
+    </view>
+  </view>
+</view>

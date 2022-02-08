@@ -1,12 +1,11 @@
 <!-- pages/auth/index.wxml -->
 
-<!-- 授权展示 -->
+<!-- 用户授权 -->
 <l-status-show show custom>
-	<image src="/images/bg/bg_auth.png" class="bg" open-type="getUserInfo" />
+	<image class="bg" src="https://img.yejiefeng.com/bg/bg_auth.png" open-type="getUserInfo" />
 	<text class="title-text">正在申请获得以下权限：</text>
 	<text class="desc-text">获得你的公开信息(昵称、头像等)</text>
-	<l-button bg-color="#337559" width="480" height="80" shape="semicircle" l-class="btn-auth" bindtap="auth">微信授权
-	</l-button>
+	<l-button l-class="btn-auth" bg-color="#337559" width="480" height="80" shape="semicircle" bindtap="auth">微信授权</l-button>
 </l-status-show>
 
 <!-- 消息提示 -->

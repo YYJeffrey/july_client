@@ -4,14 +4,17 @@ const wxutil = app.wxutil
 
 Page({
   data: {
+    githubURI: app.globalData.githubURI,
+    likeAuthor: app.globalData.likeAuthor,
     showPopup: false
   },
+
   onLoad() { },
 
   /**
-   * 权限页面
+   * 打开权限页面
    */
-  authorize() {
+  openSetting() {
     wx.openSetting({})
   },
 
@@ -19,7 +22,9 @@ Page({
    * 清除缓存
    */
   clearStorage() {
-    wx.lin.showDialog({
+    const dialog = this.selectComponent('#dialog')
+
+    dialog.linShow({
       type: "confirm",
       title: "提示",
       content: "确定要清除所有缓存？",
@@ -44,13 +49,9 @@ Page({
   /**
    * 图片预览
    */
-  previewImage(event) {
-    const src = event.currentTarget.dataset.src
-    const urls = [src]
-
+  previewImage() {
     wx.previewImage({
-      current: "",
-      urls: urls
+      urls: [this.data.likeAuthor]
     })
   },
 
@@ -60,9 +61,9 @@ Page({
   copyLink() {
     wx.setClipboardData({
       data: app.globalData.githubURL,
-      success(res) {
+      success: () => {
         wx.getClipboardData({
-          success(res) {
+          success: () => {
             wxutil.showToast("GitHub地址已复制")
           }
         })
@@ -72,8 +73,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "主页",
-      path: "/pages/topic/index"
+      title: "设置",
+      path: "/pages/setting/index"
     }
   }
 })

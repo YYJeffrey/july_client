@@ -1,34 +1,34 @@
 <!-- pages/setting/index.wxml -->
 
 <!-- 设置列表 -->
-<button hover-class="btn-list" bindtap="authorize">
-	<l-list title="授权信息" icon="help" icon-color="#337559" icon-size="38" gap="30" bind:lintitle="authorize" />
+<button hover-class="btn-list" bindtap="openSetting">
+	<l-list title="授权信息" icon="help" icon-color="#337559" icon-size="38" gap="30" />
 </button>
 <button hover-class="btn-list" bindtap="clearStorage">
-	<l-list title="清除缓存" icon="delete" icon-color="#337559" icon-size="38" gap="30" bind:lintitle="clearStorage" />
+	<l-list title="清除缓存" icon="delete" icon-color="#337559" icon-size="38" gap="30" />
 </button>
 <button hover-class="btn-list" open-type="contact">
 	<l-list title="联系客服" icon="customer-service" icon-color="#337559" icon-size="38" gap="30" />
 </button>
 <button hover-class="btn-list" bindtap="togglePopup">
-	<l-list title="赞赏作者" icon="like" icon-color="#337559" icon-size="38" gap="30" bind:lintitle="togglePopup" />
+	<l-list title="赞赏作者" icon="like" icon-color="#337559" icon-size="38" gap="30" />
 </button>
 <button hover-class="btn-list" open-type="share">
-	<l-list title="分享" icon="share" icon-color="#337559" icon-size="36" gap="30" />
+	<l-list l-class="no-border" title="分享" icon="share" icon-color="#337559" icon-size="34" gap="30" />
 </button>
 
+<!-- 底部展示 -->
 <view class="footer">
 	<image class="github-logo" src="/images/logo/logo_github.png" bindtap="copyLink" />
-	<text class="github-uri" bindtap="copyLink">YYJeffrey/july_client</text>
+	<text class="github-uri" bindtap="copyLink">{{githubURI}}</text>
 </view>
 
 <!-- 下拉层 -->
 <l-popup show="{{showPopup}}" animation content-align="center" bind:lintap="togglePopup" z-index="99">
 	<view class="popup">
-		<image class="qr_like" data-src="https://img.yejiefeng.com/qr/qr_like.png"
-			src="https://img.yejiefeng.com/qr/qr_like.png" bindtap="previewImage" />
+		<image class="qr_like" src="{{likeAuthor}}" bindtap="previewImage" />
 	</view>
 </l-popup>
 
 <!-- 消息对话框 -->
-<l-dialog />
+<l-dialog id="dialog" />

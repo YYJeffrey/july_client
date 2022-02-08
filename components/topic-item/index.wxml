@@ -24,13 +24,13 @@
   <view class="media" wx:if="{{topic.images.length > 0 || topic.video}}" bindtap="gotoTopicDetail">
     <view class="posters">
       <block wx:if="{{topic.images.length === 1}}">
-        <image class="column-one" wx:for="{{topic.images}}" wx:key="index" src="{{item + '?imageView2/0/w/800/h/360'}}" mode="widthFix" data-src="{{item}}" catchtap="previewImage" />
+        <image class="image column-one" wx:for="{{topic.images}}" wx:key="index" src="{{item + '?imageView2/0/w/800/h/360'}}" mode="widthFix" data-src="{{item}}" catchtap="previewImage" />
       </block>
       <block wx:elif="{{topic.images.length === 2 || topic.images.length === 4}}">
-        <image class="column-two" wx:for="{{topic.images}}" wx:key="index" src="{{item + '?imageView2/1/w/270/h/270'}}" mode="aspectFill" data-src="{{item}}" catchtap="previewImage" />
+        <image class="image column-two" wx:for="{{topic.images}}" wx:key="index" src="{{item + '?imageView2/1/w/270/h/270'}}" mode="aspectFill" data-src="{{item}}" catchtap="previewImage" />
       </block>
       <block wx:else>
-        <image wx:for="{{topic.images}}" wx:key="index" src="{{item + '?imageView2/1/w/180/h/180'}}" mode="aspectFill" data-src="{{item}}" catchtap="previewImage" />
+        <image class="image" wx:for="{{topic.images}}" wx:key="index" src="{{item + '?imageView2/1/w/180/h/180'}}" mode="aspectFill" data-src="{{item}}" catchtap="previewImage" />
       </block>
     </view>
 

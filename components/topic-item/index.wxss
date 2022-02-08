@@ -65,7 +65,7 @@
   flex-wrap: wrap;
 }
 
-.posters image {
+.posters .image {
   width: 180rpx;
   height: 180rpx;
   margin-right: 10rpx;

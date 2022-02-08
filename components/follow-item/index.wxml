@@ -1,7 +1,7 @@
 <!--components/follow-item/index.wxml-->
 
 <!-- 关注单项 -->
-<view class="follow-item {{!hasBorder ? 'no-border' : ''}}">
+<view wx:if="{{user}}" class="follow-item {{!hasBorder ? 'no-border' : ''}}">
   <view class="user-info">
     <avatar src="{{user.avatar}}" user-id="{{user.id}}" />
     <view class="info-right">

@@ -1,0 +1,124 @@
+/* components/profile-card/index.wxss */
+
+.poster {
+  height: 365rpx;
+}
+
+.user-info {
+  position: relative;
+  z-index: 99;
+  margin-top: -20rpx;
+  padding: 30rpx;
+  background: #fff;
+  border-radius: 20rpx 20rpx 0 0;
+}
+
+.avatar-info {
+  position: relative;
+  width: 150rpx;
+  height: 150rpx;
+  margin-top: -100rpx;
+  border-radius: 50%;
+  border: 4rpx #fff solid;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.gender-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 36rpx;
+  height: 36rpx;
+  right: 0;
+  bottom: 5rpx;
+  border-radius: 50%;
+  border: 4rpx #fff solid;
+}
+
+.gender-icon {
+  width: 20rpx;
+  height: 20rpx;
+}
+
+.male {
+  background: #eaf2ff;
+}
+
+.female {
+  background: #f8eff0;
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 30rpx;
+  top: 30rpx;
+}
+
+.btn-unfollow {
+  border-color: #337559 !important;
+  color: #337559 !important;
+}
+
+.setting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 58rpx;
+  height: 58rpx;
+  margin-left: 20rpx;
+  border-radius: 50%;
+  background: #88929e;
+}
+
+.child-circle {
+  box-sizing: border-box;
+  width: 34rpx;
+  height: 34rpx;
+  border: 4rpx solid #fff;
+  border-radius: 50%;
+}
+
+.nickname {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.signature {
+  display: block;
+  width: 550rpx;
+  margin-top: 10rpx;
+  text-align: justify;
+  color: #7d7d7d;
+}
+
+.follow-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10rpx;
+}
+
+.following {
+  margin-left: 30rpx;
+}
+
+.follow-num {
+  font-size: 30rpx;
+  color: #337559;
+  font-weight: bold;
+}
+
+.follow-text {
+  color: #7d7d7d;
+  margin-left: 10rpx;
+}

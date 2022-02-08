@@ -1,0 +1,29 @@
+/* components/hole-item/index.wxss */
+
+.hole-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.item-poster {
+  min-width: 335rpx;
+  min-height: 190rpx;
+  border-radius: 10rpx;
+  margin-right: 30rpx;
+}
+
+.title {
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  text-align: justify;
+}
+
+.tip {
+  margin-top: 15rpx;
+  color: #999;
+}

@@ -1,0 +1,14 @@
+<!--components/follow-item/index.wxml-->
+
+<!-- 关注单项 -->
+<view class="follow-item {{!hasBorder ? 'no-border' : ''}}">
+  <view class="user-info">
+    <avatar src="{{user.avatar}}" user-id="{{user.id}}" />
+    <view class="info-right">
+      <nickname nickname="{{user.nick_name}}" user-id="{{user.id}}" />
+      <text class="signature" wx:if="{{user.signature}}">{{user.signature}}</text>
+    </view>
+  </view>
+  <l-tag shape="circle" bg-color="#337559" font-color="{{hasFollow ? '#337559' : '#fff'}}" plain="{{hasFollow}}" l-class="tag" catch:lintap="onTagTap">
+    {{hasFollow ? (isFollowing ? '相互关注' : '取消关注') : '关注'}}</l-tag>
+</view>

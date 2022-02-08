@@ -1,0 +1,41 @@
+/* components/follow-item/index.wxss */
+
+.follow-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100rpx;
+  padding: 0 30rpx;
+  background: #fff;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.no-border {
+  border: none;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.info-right {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20rpx;
+}
+
+.signature {
+  font-size: 26rpx;
+  color: #999;
+  width: 350rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tag {
+  width: 120rpx;
+}

@@ -1,7 +1,7 @@
 <!-- pages/topic-edit/index.wxml -->
 
 <!-- 话题发布 -->
-<scroll-view style="height: {{height}}px" scroll-y>
+<scroll-view style="height: {{height}}px" scroll-y scroll-with-animation enable-back-to-top>
 	<text class="title">内容（必填）</text>
 	<l-textarea l-class="input-textarea" l-inner-class="inner-textarea" placeholder="分享这一刻的想法" focus border="{{false}}" indicator="{{false}}" maxlength="300" bind:lininput="setContent" />
 

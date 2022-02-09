@@ -9,7 +9,7 @@ Page({
     labels: [],
     imageFiles: [],
     labelsActive: [], // 选中的标签
-    height: 100,  // 内容区高度
+    height: 1000,  // 内容区高度
     canAnon: false, // 是否可匿名
     isAnon: false,  // 是否为匿名话题
     commentTemplateId: null, // 评论订阅消息ID
@@ -239,7 +239,7 @@ Page({
     const imageFiles = this.data.imageFiles
     let video = this.data.video
 
-    // 授权模板消息
+    // 授权订阅消息
     wx.requestSubscribeMessage({
       tmplIds: [templateId],
       complete: () => {

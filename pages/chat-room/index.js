@@ -71,7 +71,7 @@ Page({
     const windowHeight = systemInfo.windowHeight
 
     const query = wx.createSelectorQuery()
-    query.select('.edit-item').boundingClientRect(rect => {
+    query.select(".edit-item").boundingClientRect(rect => {
       const editHeight = rect.height
       this.setData({
         height: windowHeight - editHeight

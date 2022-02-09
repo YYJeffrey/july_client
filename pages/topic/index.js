@@ -1,66 +1,38 @@
 // pages/topic/index.js
+import { Paging } from "../../utils/paging"
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil
-const pageSize = 16 // 每页显示条数
 
 Page({
   data: {
     labels: [],
     topics: [],
-    actionList: [],
-    page: 1,
     labelId: -1,
     userId: -1,
-    topicIndex: -1, // 点击的话题的下标
-    showPopup: false, // 是否显示下拉区
-    showAction: false, // 是否显示操作菜单
-    isEnd: false, // 是否到底
-    isAdmin: false, // 当前用户是否为管理员
-    inRequest: false, // 在请求中
+    topicPaging: null,  // 话题分页器
+    isAdmin: false, // 是否为平台管理员
+    hasMore: true, // 是否还有更多数据
     loading: false, // 是否正在加载
-    toTag: null, // 滚动到标签
   },
 
   onLoad() {
     this.getLabels()
-    this.getTopics()
+    this.initTopics()
   },
 
   onShow() {
     this.getUserInfo()
-    const labelId = wxutil.getStorage("labelId")
-    // 由于wx.switchTab()的传参限制，故用缓存获取标签参数
-
-    if (!wxutil.getStorage("refreshTopics")) {
-      if (labelId) {
-        wx.removeStorageSync("labelId")
-        this.setData({
-          labelId: labelId,
-          toTag: "tag_" + labelId
-        })
-        this.getTopics(1, labelId)
-      }
-    } else {
-      wx.removeStorageSync("refreshTopics")
-      this.setData({
-        labelId: -1
-      })
-      this.getTopics()
-    }
+    this.getMsgBrief()
+    this.reInitTopics()
   },
 
   /**
    * 获取标签
    */
   getLabels() {
-    const url = api.labelAPI
-    const data = {
-      app_id: app.globalData.appId
-    }
-
-    wxutil.request.get(url, data).then((res) => {
-      if (res.code == 200) {
+    wxutil.request.get(api.labelAPI, { app_id: app.globalData.appId }).then((res) => {
+      if (res.code === 200) {
         let labels = [{
           id: -1,
           name: "全部"
@@ -81,91 +53,88 @@ Page({
         userId: app.globalData.userDetail.id,
         isAdmin: app.globalData.userDetail.is_admin
       })
+    } else {
+      this.setData({
+        userId: -1,
+        isAdmin: false
+      })
     }
   },
 
   /**
-   * 获取话题
+   * 获取消息概要并标红点
    */
-  getTopics(page = 1, labelId = -1, size = pageSize) {
-    const url = api.topicAPI
-    let data = {
-      app_id: app.globalData.appId,
-      size: size,
-      page: page
-    }
-
-    if (labelId != -1) {
-      data["label_id"] = labelId
-    }
-
-    if ((this.data.isEnd && page != 1) || this.data.inRequest) {
+  getMsgBrief() {
+    if (!app.globalData.userDetail) {
       return
     }
-
-    this.setData({
-      inRequest: true
-    })
-
-    wxutil.request.get(url, data).then((res) => {
-      if (res.code == 200) {
-        const topics = res.data
-        this.setData({
-          page: (topics.length == 0 && page != 1) ? page - 1 : page,
-          loading: false,
-          inRequest: false,
-          isEnd: ((topics.length < pageSize) || (topics.length == 0 && page != 1)) ? true : false,
-          topics: page == 1 ? topics : this.data.topics.concat(topics)
-        })
+    wxutil.request.get(api.messageAPI + "brief/").then((res) => {
+      if (res.code === 200) {
+        if (res.data.count > 0) {
+          wx.setTabBarBadge({
+            index: 2,
+            text: res.data.count.toString()
+          })
+        } else {
+          wx.removeTabBarBadge({
+            index: 2
+          })
+        }
       }
     })
   },
 
   /**
-   * 图片预览
+   * 初始化话题
    */
-  previewImage(event) {
-    const index = event.currentTarget.dataset.index
-    const current = event.currentTarget.dataset.src
-    const urls = this.data.topics[index].images
-
-    wx.previewImage({
-      current: current,
-      urls: urls
-    })
-  },
-
-  /**
-   * 下拉刷新
-   */
-  onPullDownRefresh() {
-    const labelId = this.data.labelId
-    this.getLabels()
-
-    if (labelId == -1) {
-      this.getTopics()
-    } else {
-      this.getTopics(1, labelId)
+  async initTopics(labelId = -1) {
+    const params = { app_id: app.globalData.appId }
+    if (labelId !== -1) {
+      params.label_id = labelId
     }
-    wx.stopPullDownRefresh()
-    // 振动交互
-    wx.vibrateShort()
+    const topicPaging = new Paging(api.topicAPI, params)
+    this.setData({
+      topicPaging: topicPaging
+    })
+    this.getMoreTopics(topicPaging)
   },
 
   /**
-   * 触底加载
+   * 获取更多话题
    */
-  onReachBottom() {
-    const labelId = this.data.labelId
-    const page = this.data.page
-
+  async getMoreTopics(topicPaging) {
+    const data = await topicPaging.getMore()
+    if (!data) {
+      return
+    }
     this.setData({
-      loading: true
+      topics: data.accumulator,
+      hasMore: data.hasMore
     })
-    if (labelId == -1) {
-      this.getTopics(page + 1)
-    } else {
-      this.getTopics(page + 1, labelId)
+  },
+
+  /**
+   * 重新初始化话题
+   */
+  reInitTopics() {
+    // 由于 wx.switchTab() 传参限制，只能使用缓存获取参数
+    const refresh = wxutil.getStorage("refreshTopics")
+    const labelId = wxutil.getStorage("labelId")
+
+    if (refresh) {
+      wx.removeStorageSync("refreshTopics")
+      this.setData({
+        labelId: -1
+      })
+      this.initTopics()
+    }
+
+    if (labelId) {
+      wx.removeStorageSync("labelId")
+      this.setData({
+        labelId: labelId
+      })
+      this.initTopics(labelId)
     }
   },
 
@@ -173,115 +142,94 @@ Page({
    * 标签切换
    */
   onTagTap(event) {
-    const labelId = this.data.labelId
-    const currLabelId = event.currentTarget.dataset.label
-
-    if (labelId == currLabelId) {
-      this.getTopics(1, -1)
-      this.setData({
-        labelId: -1
-      })
-    } else {
-      this.getTopics(1, currLabelId)
-      this.setData({
-        labelId: currLabelId,
-      })
-    }
-
-    // 如果显示下拉区则滚动Tag
-    if (this.data.showPopup) {
-      this.setData({
-        toTag: "tag_" + currLabelId
-      })
-    }
-  },
-
-  /**
-   * 点击显示或隐藏全文
-   */
-  onFlodTap(event) {
-    const index = event.target.dataset.index
-    let topics = this.data.topics
-
-    if (topics[index].flod) {
-      topics[index].flod = false
-    } else {
-      topics[index].flod = true
-    }
+    const labelId = event.detail.activeLabelId
     this.setData({
-      topics: topics
+      labelId: labelId
     })
+    this.initTopics(labelId)
   },
 
   /**
-   * 展开操作菜单
+   * 显示操作菜单
    */
-  onMoreTap(event) {
-    const topicIndex = event.currentTarget.dataset.index
-    let actionList = [{
-      name: "分享",
-      color: "#666",
-      openType: "share"
-    }, {
+  showActions(event) {
+    const index = event.currentTarget.dataset.index
+    const topics = this.data.topics
+    const topic = topics[index]
+    let itemList = [{
       name: "举报",
       color: "#666"
     }]
 
-    if (this.data.userId == this.data.topics[topicIndex].user.id || this.data.isAdmin) {
-      actionList.push({
+    if (this.data.userId === topic.user.id || this.data.isAdmin) {
+      itemList.push({
         name: "删除",
-        color: "#d81e05"
+        color: "#d81e06"
       })
     }
 
-    this.setData({
-      actionList: actionList,
-      showAction: true,
-      topicIndex: topicIndex
+    wx.lin.showActionSheet({
+      itemList: itemList,
+      showCancel: true,
+      success: (res) => {
+        if (res.index === 0) {
+          this.reportTopic(topic.id)
+        } else if (res.index === 1) {
+          this.deleteTopic(topic.id, index)
+        }
+      }
     })
   },
 
   /**
-   * 关闭操作菜单
+   * 举报话题
    */
-  onCancelSheetTap(e) {
-    this.setData({
-      showAction: false
+  reportTopic(topicId) {
+    const dialog = this.selectComponent('#dialog')
+
+    dialog.linShow({
+      type: "confirm",
+      title: "提示",
+      content: "确定要举报该话题？",
+      success: (res) => {
+        if (res.confirm) {
+          wxutil.request.post(api.topicAPI + "report/", { topic_id: topicId }).then((res) => {
+            if (res.code === 200) {
+              wx.lin.showMessage({
+                type: "success",
+                content: "举报成功！"
+              })
+            } else {
+              wx.lin.showMessage({
+                type: "error",
+                content: "举报失败！"
+              })
+            }
+          })
+        }
+      }
     })
-  },
-
-  /**
-   * 点击操作菜单按钮
-   */
-  onActionItemtap(event) {
-    const index = event.detail.index
-
-    if (index == 1) {
-      // 举报话题
-      this.reportTopic()
-    }
-    if (index == 2) {
-      // 删除话题
-      this.deleteTopic()
-    }
   },
 
   /**
    * 删除话题
    */
-  deleteTopic() {
-    wx.lin.showDialog({
+  deleteTopic(topicId, topicIndex) {
+    const dialog = this.selectComponent('#dialog')
+    const topics = this.data.topics
+
+    dialog.linShow({
       type: "confirm",
       title: "提示",
       content: "确定要删除该话题？",
       success: (res) => {
         if (res.confirm) {
-          const topicId = this.data.topics[this.data.topicIndex].id
-          const url = api.topicAPI + topicId + "/"
-
-          wxutil.request.delete(url).then((res) => {
-            if (res.code == 200) {
-              this.getTopics(this.data.page, this.data.labelId)
+          wxutil.request.delete(api.topicAPI + topicId + "/").then((res) => {
+            if (res.code === 200) {
+              topics.splice(topicIndex, 1)
+              this.setData({
+                topics: topics
+              })
 
               wx.lin.showMessage({
                 type: "success",
@@ -300,50 +248,55 @@ Page({
   },
 
   /**
-   * 举报话题
+   * 跳转话题详情页
    */
-  reportTopic() {
-    wx.lin.showDialog({
-      type: "confirm",
-      title: "提示",
-      content: "确定要举报该话题？",
-      success: (res) => {
-        if (res.confirm) {
-          const topicId = this.data.topics[this.data.topicIndex].id
-          const url = api.topicAPI + "report/"
-          const data = {
-            topic_id: topicId
-          }
+  gotoTopicDetail(event) {
+    const index = event.currentTarget.dataset.index
+    const topics = this.data.topics
+    const topic = topics[index]
+    let url = "/pages/topic-detail/index?"
 
-          wxutil.request.post(url, data).then((res) => {
-            if (res.code == 200) {
-              wx.lin.showMessage({
-                type: "success",
-                content: "举报成功！"
-              })
-            } else {
-              wx.lin.showMessage({
-                type: "error",
-                content: "举报失败！"
-              })
-            }
-          })
+    if (event.type === "commentIconTap") {
+      url += "focus=true&"
+    }
+    topic.click_count++
+    this.setData({
+      topics: topics
+    })
+
+    wx.navigateTo({
+      url: url + "topicId=" + topic.id
+    })
+  },
+
+  /**
+   * 点击收藏
+   */
+  onStarTap(event) {
+    const index = event.currentTarget.dataset.index
+    const topics = this.data.topics
+    const topic = topics[index]
+
+    wxutil.request.post(api.starAPI, { topic_id: topic.id }).then((res) => {
+      if (res.code === 200) {
+        const hasStar = topic.has_star
+        topic.has_star = !topic.has_star
+
+        if (hasStar) {
+          topic.star_count--
+        } else {
+          topic.star_count++
         }
+
+        this.setData({
+          topics: topics
+        })
       }
     })
   },
 
   /**
-   * 展开或收起弹出层
-   */
-  togglePopup() {
-    this.setData({
-      showPopup: !this.data.showPopup
-    })
-  },
-
-  /**
-   * 点击编辑
+   * 跳转话题编辑页或授权页
    */
   onEditTap() {
     if (app.globalData.userDetail) {
@@ -357,101 +310,31 @@ Page({
     }
   },
 
-  nothingTodo() { },
-
   /**
-   * 点赞或取消点赞
+   * 下拉刷新
    */
-  onStarTap(event) {
-    const index = event.currentTarget.dataset.index
-    let topics = this.data.topics
-
-    const url = api.starAPI
-    const data = {
-      topic_id: topics[index].id
-    }
-
-    wxutil.request.post(url, data).then((res) => {
-      if (res.code == 200) {
-        const hasStar = topics[index].has_star
-        topics[index].has_star = !topics[index].has_star
-
-        if (hasStar) {
-          topics[index].star_count--
-        } else {
-          topics[index].star_count++
-        }
-
-        this.setData({
-          topics: topics
-        })
-      }
-    })
+  onPullDownRefresh() {
+    this.initTopics(this.data.labelId)
+    wx.stopPullDownRefresh()
+    // 振动交互
+    wx.vibrateShort()
   },
 
   /**
-   * 跳转话题详情页
+   * 触底加载
    */
-  gotoDetail(event) {
-    const index = event.currentTarget.dataset.index
-    const topicId = event.currentTarget.dataset.id
-    let topics = this.data.topics
-    topics[index].click_count++;
-
+  async onReachBottom() {
+    const topicPaging = this.data.topicPaging
     this.setData({
-      topics: topics
+      loading: true
     })
-
-    wx.navigateTo({
-      url: "/pages/topic-detail/index?topicId=" + topicId
-    })
-  },
-
-  /**
-   * 点击评论跳转话题详情页
-   */
-  onCommentTap(event) {
-    const topicId = event.currentTarget.dataset.id
-    wx.navigateTo({
-      url: "/pages/topic-detail/index?focus=true&topicId=" + topicId
+    await this.getMoreTopics(topicPaging)
+    this.setData({
+      loading: false
     })
   },
 
-  /**
-   * 跳转到用户名片页
-   */
-  gotoVisitingCard(event) {
-    if (app.globalData.userDetail) {
-      const userId = event.target.dataset.userId
-      wx.navigateTo({
-        url: "/pages/visiting-card/index?userId=" + userId
-      })
-    } else {
-      wx.navigateTo({
-        url: "/pages/auth/index"
-      })
-    }
-  },
-
-  onShareAppMessage(res) {
-    if (res.from == "button") {
-      const topicIndex = this.data.topicIndex
-      const topics = this.data.topics
-      let imageUrl = null
-
-      if (topics[topicIndex].images) {
-        imageUrl = topics[topicIndex].images[0]
-      }
-      if (topics[topicIndex].video) {
-        imageUrl = topics[topicIndex].video.cover
-      }
-
-      return {
-        title: topics[topicIndex].content,
-        imageUrl: imageUrl,
-        path: "/pages/topic-detail/index?topicId=" + topics[topicIndex].id
-      }
-    }
+  onShareAppMessage() {
     return {
       title: "主页",
       path: "/pages/topic/index"

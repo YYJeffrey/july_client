@@ -1,10 +1,9 @@
 /* pages/user-edit/index.wxss */
 
 .title {
+  line-height: 60rpx;
   margin-left: 30rpx;
   color: #999;
-  line-height: 60rpx;
-  font-size: 28rpx;
 }
 
 .input-text {
@@ -13,21 +12,23 @@
 }
 
 .input-radio {
-  padding-left: 30rpx;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
   height: 88rpx;
+  padding-left: 30rpx;
   background: #fff;
 }
 
 .radio {
+  font-size: 28rpx !important;
   margin-right: 38rpx;
 }
 
 .input-textarea {
-  width: 750rpx !important;
-  background: #fff;
+  width: 100% !important;
   height: 250rpx;
+  background: #fff;
 }
 
 .inner-textarea {
@@ -35,6 +36,10 @@
 }
 
 .btn-save {
-  display: block;
-  margin: 60rpx 235rpx;
+  position: fixed !important;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 80rpx !important;
+  border-radius: 0 !important;
 }

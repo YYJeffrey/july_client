@@ -5,10 +5,10 @@ const wxutil = app.wxutil
 
 Page({
   data: {
-    nickName: null,
-    signature: null,
     userId: -1,
-    gender: 0
+    gender: 0,
+    nickName: null,
+    signature: null
   },
 
   onLoad() {
@@ -20,10 +20,9 @@ Page({
    */
   getUserDetail() {
     const userId = app.globalData.userDetail.id
-    const url = api.userAPI + userId + "/"
 
-    wxutil.request.get(url).then((res) => {
-      if (res.code == 200) {
+    wxutil.request.get(api.userAPI + userId + "/").then((res) => {
+      if (res.code === 200) {
         const user = res.data
         this.setData({
           userId: user.id,
@@ -66,10 +65,9 @@ Page({
    * 保存用户信息
    */
   saveInfo() {
-    // 获取表单数据
     const nickName = this.data.nickName
-    const gender = this.data.gender
     const signature = this.data.signature
+    const gender = this.data.gender
 
     if (!wxutil.isNotNull(nickName)) {
       wx.lin.showMessage({
@@ -80,7 +78,6 @@ Page({
     }
 
     // 构造请求参数
-    const url = api.userAPI
     const data = [{
       op: "replace",
       path: "/nick_name",
@@ -96,26 +93,25 @@ Page({
     }]
 
     // 更新用户信息
-    wxutil.request.put(url, data).then((res) => {
-      if (res.code == 200) {
+    wxutil.request.put(api.userAPI, data).then((res) => {
+      if (res.code === 200) {
         let userDetail = app.globalData.userDetail
         // 更新缓存
-        const user = res.data
-        userDetail = Object.assign(userDetail, user)
+        userDetail = Object.assign(userDetail, res.data)
         wxutil.setStorage("userDetail", userDetail)
         app.globalData.userDetail = userDetail
 
         wx.lin.showMessage({
           type: "success",
-          content: "资料修改成功！",
-          success() {
+          content: "更新成功！",
+          success: () => {
             wx.navigateBack()
           }
         })
       } else {
         wx.lin.showMessage({
           type: "error",
-          content: "资料修改失败！"
+          content: "更新失败！"
         })
       }
     })
@@ -123,8 +119,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "编辑资料",
-      path: "/pages/user-edit/index"
+      title: "主页",
+      path: "/pages/topic/index"
     }
   }
 })

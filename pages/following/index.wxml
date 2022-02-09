@@ -1,19 +1,10 @@
 <!--pages/following/index.wxml -->
 
-<!-- nothing -->
-<nothing wx:if="{{followingList.length == 0}}" pic="../../images/icon_nothing/pic_follow.png" tip="暂时没有关注任何人" />
+<!-- Ta的关注 -->
+<follow-item wx:for="{{followingList}}" wx:key="index" user="{{item.follow_user}}" has-follow="{{item.has_follow}}" has-border="{{index !== followingList.length - 1}}" is-following data-index="{{index}}" bind:tagTap="onTagTap" />
 
-<!-- 我的关注 -->
-<l-list wx:for="{{followingList}}" wx:key="item" title="{{item.follow_user.nick_name}}"
-	desc="{{item.follow_user.signature}}" image="{{item.follow_user.avatar + '?imageView2/1/w/60/h/60'}}" gap="30"
-	is-link="{{false}}" is-hover="{{false}}" l-class="list" l-desc-class="list-desc" l-image-class="list-avatar"
-	bind:lintap="gotoVisitingCard" data-user-id="{{item.follow_user.id}}">
-	<view slot="right-section">
-		<l-tag shape="circle" bg-color="#337559" font-color="{{item.has_follow ? '#337559' : '#fff'}}"
-			plain="{{item.has_follow}}" l-class="list-tag" data-follow-index="{{index}}" catch:lintap="onTagTap">
-			{{item.has_follow ? '取消关注' : '+ 关注'}}</l-tag>
-	</view>
-</l-list>
+<!-- nothing -->
+<nothing wx:if="{{followingList.length === 0}}" pic="../../images/icon_nothing/pic_follow.png" tip="暂时还没有关注任何人" />
 
 <!-- 操作菜单 -->
 <l-action-sheet l-title-class="action-title" />

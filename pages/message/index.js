@@ -16,10 +16,8 @@ Page({
    * 获取动态消息
    */
   getMessages() {
-    const url = api.messageAPI
-
-    wxutil.request.get(url).then((res) => {
-      if (res.code == 200) {
+    wxutil.request.get(api.messageAPI).then((res) => {
+      if (res.code === 200) {
         this.setData({
           messages: res.data
         })
@@ -28,45 +26,27 @@ Page({
   },
 
   /**
-   * 跳转话题详情页
+   * 跳转话题详情页或我的关注页
    */
-  gotoTopicDetail(event) {
-    const topicId = event.currentTarget.dataset.id
-    wx.navigateTo({
-      url: "/pages/topic-detail/index?topicId=" + topicId
-    })
-  },
+  onMessageTap(event) {
+    const category = event.detail.category
+    const topicId = event.detail.topicId
 
-  /**
-   * 跳转到关注我的页面
-   */
-  gotoFollower() {
-    wx.navigateTo({
-      url: "/pages/follower/index?userId=" + app.globalData.userDetail.id
-    })
-  },
-
-  /**
-   * 跳转到用户名片页
-   */
-  gotoVisitingCard(event) {
-    console.log(event)
-    if (app.globalData.userDetail) {
-      const userId = event.target.dataset.userId
+    if (category === "star" || category === "comment") {
       wx.navigateTo({
-        url: "/pages/visiting-card/index?userId=" + userId
+        url: "/pages/topic-detail/index?topicId=" + topicId
       })
-    } else {
+    } else if (category === "follow") {
       wx.navigateTo({
-        url: "/pages/auth/index"
+        url: "/pages/follower/index?userId=" + app.globalData.userDetail.id + "&title=我的关注"
       })
     }
   },
 
   onShareAppMessage() {
     return {
-      title: "动态消息",
-      path: "/pages/message/index"
+      title: "主页",
+      path: "/pages/topic/index"
     }
   }
 })

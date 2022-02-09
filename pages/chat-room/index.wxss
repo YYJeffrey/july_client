@@ -1,114 +1,33 @@
 /* pages/chat-room/index.wxss */
 
-page {
-  padding-bottom: 88rpx;
-}
-
-.chat-item {
-  display: flex;
-  flex-direction: row;
-  padding: 30rpx 30rpx 20rpx 30rpx;
-}
-
-.chat-item .avatar {
-  width: 85rpx;
-  height: 85rpx;
-  border-radius: 50%;
-  margin-top: 25rpx;
-}
-
-.chat-item .message-box {
-  display: flex;
-  flex-direction: column;
-  max-width: 500rpx;
-  margin: 0 30rpx;
-}
-
-.chat-item .tip {
-  color: #ccc;
-  margin: 0 auto;
-}
-
-.message-box .nick-name {
-  font-size: 28rpx;
-  color: #0f6945;
-  font-weight: bold;
-  margin-bottom: 10rpx;
-  padding: 0 8rpx;
-}
-
-.message-box .content-left {
-  display: flex;
-  flex-direction: row;
-  padding: 30rpx;
-  border-radius: 15rpx;
-  background: #fff;
-  word-break: break-all;
-  min-width: 25rpx;
-  margin: 0 auto 0 0;
-}
-
-.message-box .content-right {
-  display: flex;
-  flex-direction: row;
-  padding: 30rpx;
-  border-radius: 15rpx;
-  background: #258b63;
-  color: #fff;
-  word-break: break-all;
-  min-width: 25rpx;
-  margin: 0 0 0 auto;
-}
-
-.triangle-left::before {
-  content: "";
-  border-style: solid;
-  border-width: 20rpx;
-  border-color: transparent #fff transparent transparent;
-  position: absolute;
-  left: 105rpx;
-}
-
-.triangle-right::after {
-  content: "";
-  border-style: solid;
-  border-width: 20rpx;
-  border-color: transparent transparent transparent #258b63;
-  position: absolute;
-  right: 105rpx;
-}
-
-.msg-images {
-  width: 360rpx;
-  max-height: 800rpx;
-  border-radius: 15rpx;
-}
-
-.reverse {
-  flex-direction: row-reverse;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.edit-input {
-  width: 555rpx !important;
-}
-
-.chat-edit {
-  border-top: 1px #f1f1f1 solid;
+.edit-item {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  width: 710rpx;
+  height: 88rpx;
+  padding: 0 20rpx;
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
+  border-top: 1px #f1f1f1 solid;
   background: #fff;
+  padding-bottom: calc(constant(safe-area-inset-bottom));
+  padding-bottom: calc(env(safe-area-inset-bottom));
+}
+
+.edit-input {
+  width: 500rpx !important;
   height: 88rpx;
 }
 
-.add-pic {
+.btn-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.add-icon {
   margin-right: 15rpx;
 }

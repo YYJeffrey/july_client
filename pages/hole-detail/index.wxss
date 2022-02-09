@@ -1,49 +1,46 @@
 /* pages/hole-detail/index.wxss */
 
 .poster {
-  width: 100%;
   height: 380rpx;
 }
 
-.content-box {
-  background: #fff;
-  border-radius: 20rpx 20rpx 0 0;
+.content {
   margin-top: -20rpx;
   padding: 30rpx;
+  border-radius: 20rpx 20rpx 0 0;
+  background: #fff;
 }
 
-.content-box .title {
-  margin-top: 10rpx;
+.title {
   font-size: 34rpx;
-  color: #333;
   font-weight: bold;
+  color: #333;
+  margin-top: 10rpx;
 }
 
-.content-box .desp {
-  margin-top: 30rpx;
-  font-size: 30rpx;
+.desp {
   text-align: justify;
-  letter-spacing: 2rpx;
   line-height: 48rpx;
+  margin-top: 30rpx;
 }
 
-.content-box .tip-box {
+.tip-group {
   margin-top: 30rpx;
   color: #999;
 }
 
-.tip-box .tip-member {
+.tip-member {
   margin-left: 20rpx;
 }
 
-.content-box .btn-group {
+.btn-group {
   display: flex;
   justify-content: center;
-  margin: 60rpx 0 40rpx 0;
+  margin: 50rpx 0 40rpx 0;
 }
 
-.btn-group .btn-share {
-  border-color: #337559;
-  color: #337559;
+.btn-share {
   margin-right: 15rpx;
+  color: #337559 !important;
+  border-color: #337559 !important;
 }

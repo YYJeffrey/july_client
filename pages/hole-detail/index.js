@@ -5,13 +5,15 @@ const wxutil = app.wxutil
 
 Page({
   data: {
-    reportTemplateId: null,
-    hole: {}
+    hole: null,
+    reportTemplateId: null  // 预约订阅消息ID
   },
 
   onLoad(options) {
-    const holeId = options.holeId
-    this.getHoleDetail(holeId)
+    this.getHoleDetail(options.holeId)
+  },
+
+  onShow() {
     this.getTemplateId()
   },
 
@@ -19,9 +21,8 @@ Page({
    * 获取树洞详情
    */
   getHoleDetail(holeId) {
-    const url = api.holeAPI + holeId + "/"
-    wxutil.request.get(url).then((res) => {
-      if (res.code == 200) {
+    wxutil.request.get(api.holeAPI + holeId + "/").then((res) => {
+      if (res.code === 200) {
         this.setData({
           hole: res.data
         })
@@ -30,63 +31,61 @@ Page({
   },
 
   /**
-   * 获取预约模板ID
+   * 获取预约订阅消息ID
    */
   getTemplateId(title = "预约模板") {
-    if (app.globalData.userDetail) {
-      const url = api.templateAPI
-      const data = {
-        title: title
-      }
-
-      wxutil.request.get(url, data).then((res) => {
-        if (res.code == 200) {
-          this.setData({
-            reportTemplateId: res.template_id
-          })
-        }
-      })
+    if (!app.globalData.userDetail) {
+      return
     }
+    wxutil.request.get(api.templateAPI, { title: title }).then((res) => {
+      if (res.code === 200) {
+        this.setData({
+          reportTemplateId: res.data.template_id
+        })
+      }
+    })
   },
 
   /**
-   * 点击参加
+   * 进入树洞或预约树洞
    */
   onJoinTap() {
-    const that = this
+    if (!app.globalData.userDetail) {
+      this.gotoAuth()
+    }
+
+    const hole = this.data.hole
     let now = wxutil.getDateTime()
     now = now.replace(/-/g, "/");
     const nowTime = new Date(now)
-    const startTime = new Date(now.substr(0, 11) + this.data.hole.start_time)
-    const endTime = new Date(now.substr(0, 11) + this.data.hole.end_time)
+    const startTime = new Date(now.substr(0, 11) + hole.start_time)
+    const endTime = new Date(now.substr(0, 11) + hole.end_time)
 
+    // 预约树洞
     if (nowTime < startTime || nowTime > endTime) {
-      wx.lin.showDialog({
+      const dialog = this.selectComponent('#dialog')
+
+      dialog.linShow({
         type: "confirm",
         title: "提示",
-        content: "树洞暂未开启，将于今日 " + this.data.hole.start_time + " 开启，是否提前预约？",
+        content: "树洞暂未开启，是否提前预约？",
         success: (res) => {
           if (res.confirm) {
-            const templateId = this.data.reportTemplateId
             wx.requestSubscribeMessage({
-              tmplIds: [templateId],
-              complete() {
-                // 预约树洞
-                that.orderHole(that.data.hole.id)
+              tmplIds: [this.data.reportTemplateId],
+              success: () => {
+                this.orderHole(hole.id)
               }
             })
           }
         }
       })
-    } else {
-      // 进入树洞
-      const countDown = (endTime - nowTime) / 1000
+    }
+    // 进入树洞
+    else {
       const roomId = this.data.hole.room_id
-      if (app.globalData.userDetail) {
-        this.gotoChatRoom(roomId, countDown)
-      } else {
-        this.gotoAuth()
-      }
+      const countDown = (endTime - nowTime) / 1000
+      this.gotoChatRoom(roomId, countDown)
     }
   },
 
@@ -94,18 +93,13 @@ Page({
    * 预约树洞
    */
   orderHole(holeId) {
-    const url = api.holeAPI + "order/"
-    const data = {
-      hole_id: holeId
-    }
-
-    wxutil.request.post(url, data).then((res) => {
-      if (res.code == 200) {
+    wxutil.request.post(api.holeAPI + "order/", { hole_id: holeId }).then((res) => {
+      if (res.code === 200) {
         wx.lin.showMessage({
           type: "success",
           content: "预约成功！"
         })
-      } else if (res.message == "Can Not Repeated Report") {
+      } else if (res.message === "Can Not Repeated Report") {
         wx.lin.showMessage({
           type: "error",
           content: "请勿重复预约！"
@@ -120,7 +114,7 @@ Page({
   },
 
   /**
-   * 跳转聊天室页面
+   * 跳转聊天室页
    */
   gotoChatRoom(roomId, countDown) {
     wx.navigateTo({
@@ -129,7 +123,7 @@ Page({
   },
 
   /**
-   * 跳转到授权页面
+   * 跳转授权页
    */
   gotoAuth() {
     wx.navigateTo({
@@ -146,19 +140,21 @@ Page({
     wx.vibrateShort()
   },
 
-  onShareAppMessage() {
+  onShareTimeline() {
+    const hole = this.data.hole
     return {
-      title: this.data.hole.title,
-      imageUrl: this.data.hole.poster,
-      path: "/pages/hole-detail/index?holeId=" + this.data.hole.id
+      title: hole.title,
+      query: "holeId=" + hole.id,
+      imageUrl: hole.poster
     }
   },
 
-  onShareTimeline() {
+  onShareAppMessage() {
+    const hole = this.data.hole
     return {
-      title: this.data.hole.title,
-      query: "holeId=" + this.data.hole.id,
-      imageUrl: this.data.hole.poster
+      title: hole.title,
+      imageUrl: hole.poster,
+      path: "/pages/hole-detail/index?holeId=" + hole.id
     }
   }
 })

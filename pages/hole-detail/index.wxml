@@ -1,25 +1,24 @@
 <!-- pages/hole-detail/index.wxml -->
 
 <!-- 封面 -->
-<image class="poster" mode="aspectFill" src="{{hole.poster}}" />
+<image class="poster" src="{{hole.poster}}" mode="aspectFill" />
 
 <!-- 内容 -->
-<view class="content-box">
+<view class="content">
 	<view class="title">{{hole.title}}</view>
 	<view class="desp">{{hole.description}}</view>
-	<view class="tip-box">
+	<view class="tip-group">
 		<text class="tip-content">{{hole.total_content}}条动态</text>
 		<text class="tip-member">{{hole.total_member}}人在线</text>
 	</view>
 	<view class="btn-group">
-		<l-button plain l-class="btn-share" open-type="share" width="240">分享好友</l-button>
-		<l-button bg-color="#337559" width="240" disabled="{{!hole.state}}" bind:lintap="onJoinTap">
-			{{hole.state ? '立即参与' : '暂未开放'}}</l-button>
+		<l-button l-class="btn-share" plain open-type="share" width="240">分享好友</l-button>
+		<l-button disabled="{{!hole.state}}" bg-color="#337559" width="240" bind:lintap="onJoinTap">{{hole.state ? '进入树洞' : '暂未开放'}}</l-button>
 	</view>
 </view>
 
 <!-- 消息对话框 -->
-<l-dialog />
+<l-dialog id="dialog" />
 
 <!-- 消息提示 -->
 <l-message />

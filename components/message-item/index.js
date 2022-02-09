@@ -1,7 +1,12 @@
 // components/message-item/index.js
 Component({
   properties: {
-    message: Object
+    message: Object,
+    // 是否存在边框
+    hasBorder: {
+      type: Boolean,
+      value: true
+    }
   },
   data: {
 

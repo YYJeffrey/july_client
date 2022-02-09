@@ -1,7 +1,7 @@
 <!--components/message-item/index.wxml-->
 
 <!-- 动态消息单项 -->
-<view class="message-item">
+<view class="message-item {{!hasBorder ? 'no-border' : ''}}">
   <view class="header">
     <avatar src="{{message.action_user.avatar}}" user-id="{{message.action_user.id}}" size="80" />
     <view class="header-text">

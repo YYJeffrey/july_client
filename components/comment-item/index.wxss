@@ -16,6 +16,10 @@
   border-bottom: 1px #f1f1f1 solid;
 }
 
+.no-border {
+  border: none;
+}
+
 .comment-top {
   display: flex;
   justify-content: space-between;
@@ -31,10 +35,6 @@
   display: flex;
   justify-content: space-between;
   margin-top: 15rpx;
-}
-
-.no-border {
-  border-bottom: none;
 }
 
 .content {

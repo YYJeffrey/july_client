@@ -36,10 +36,31 @@
 }
 
 .btn-save {
-  position: fixed !important;
+  position: fixed;
   left: 0;
   bottom: 0;
-  width: 100%;
-  height: 80rpx !important;
+  width: 100% !important;
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #fff;
+  background: #337559;
   border-radius: 0 !important;
+  padding: 20rpx 0;
+  padding-bottom: calc(20rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+}
+
+.btn-save-hover::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border: inherit;
+  border-radius: inherit;
+  opacity: .15;
+  transform: translate(-50%, -50%);
+  content: '';
+  background-color: #333;
+  border-color: #333
 }

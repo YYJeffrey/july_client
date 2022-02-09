@@ -15,7 +15,7 @@
 	<text class="title">个性签名</text>
 	<l-textarea l-class="input-textarea" l-inner-class="inner-textarea" placeholder="请输入个性签名" border="{{false}}" indicator="{{false}}" maxlength="30" value="{{signature}}" bind:lininput="setSignature" />
 
-	<l-button l-class="btn-save" bg-color="#337559" width="280" bind:lintap="saveInfo">保存</l-button>
+	<button class="btn-save" hover-class="btn-save-hover" bindtap="saveInfo">保存</button>
 </view>
 
 

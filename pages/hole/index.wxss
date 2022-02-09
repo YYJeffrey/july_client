@@ -1,10 +1,10 @@
 /* pages/hole/index.wxss */
 
-.content-box {
+.hole-content {
   background: #fff;
 }
 
-.head {
+.header {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -12,7 +12,7 @@
   padding: 30rpx 0;
 }
 
-.head-line {
+.header-line {
   width: 8rpx;
   height: 42rpx;
   transform: rotate(30deg);
@@ -27,51 +27,22 @@
   background: #30d2be;
 }
 
-.head-title {
+.header-title {
   font-size: 36rpx;
   font-weight: bold;
-  background-image: linear-gradient(-225deg, #473b7b 0%, #3584a7 51%, #30d2be 100%);
   -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
   margin: 0 20rpx;
+  color: transparent;
+  background-clip: text;
+  background-image: linear-gradient(-225deg, #473b7b 0%, #3584a7 51%, #30d2be 100%);
 }
 
-.box {
+.holes {
   display: flex;
   flex-direction: column;
   padding: 0 30rpx;
 }
 
-.box-item {
-  display: flex;
-  flex-direction: row;
+.hole-item {
   margin-bottom: 30rpx;
-}
-
-.item-poster {
-  width: 335rpx;
-  height: 190rpx;
-  border-radius: 10rpx;
-}
-
-.box-right {
-  width: 325rpx;
-  margin-left: 30rpx;
-}
-
-.item-title {
-  text-align: justify;
-  display: -webkit-box;
-  word-break: break-all;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: bold;
-}
-
-.item-tip {
-  margin-top: 15rpx;
-  color: #999;
 }

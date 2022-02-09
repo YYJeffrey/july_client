@@ -30,7 +30,6 @@ Page({
         focus: true
       })
     }
-    this.getScrollHeight()
     this.getTopicDetail(options.topicId)
   },
 
@@ -67,6 +66,7 @@ Page({
         this.initComments(topicId)
         this.getStars(topicId)
         this.getTemplateId()
+        this.getScrollHeight()
       }
     })
   },

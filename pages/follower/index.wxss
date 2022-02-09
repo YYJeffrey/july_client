@@ -1,29 +1,6 @@
 /* pages/follower/index.wxss */
 
-.list {
-  background: #fff;
-  height: 100rpx;
-}
-
-.list-avatar {
-  width: 60rpx !important;
-  height: 60rpx !important;
-  border-radius: 50%;
-}
-
-.list-desc {
-  width: 350rpx;
-  color: #999 !important;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.list-tag {
-  width: 120rpx;
-}
-
 .action-title {
-  font-size: 24rpx !important;
+  font-size: 26rpx !important;
   color: #999 !important;
 }

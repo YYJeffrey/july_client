@@ -11,9 +11,3 @@
     </view>
   </view>
 </view>
-
-<!-- 消息对话框 -->
-<l-dialog id="dialog" />
-
-<!-- 消息提示 -->
-<l-message />

@@ -29,41 +29,10 @@ Component({
     },
 
     /**
-     * 删除评论
+     * 点击删除评论事件
      */
     onDeleteTap(event) {
-      const dialog = this.selectComponent('#dialog')
-
-      dialog.linShow({
-        type: "confirm",
-        title: "提示",
-        content: "确定要删除该评论？",
-        success: (res) => {
-          if (res.confirm) {
-            const comments = this.data.comments
-            const index = event.currentTarget.dataset.index
-
-            wxutil.request.delete(api.commentAPI + comments[index].id + "/").then((res) => {
-              if (res.code === 200) {
-                comments.splice(index, 1)
-                this.setData({
-                  comments: comments
-                })
-
-                wx.lin.showMessage({
-                  type: "success",
-                  content: "删除成功！"
-                })
-              } else {
-                wx.lin.showMessage({
-                  type: "error",
-                  content: "删除失败！"
-                })
-              }
-            })
-          }
-        }
-      })
+      this.triggerEvent("deleteTap", { index: event.currentTarget.dataset.index })
     }
   }
 })

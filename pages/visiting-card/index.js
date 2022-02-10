@@ -1,188 +1,159 @@
 // pages/visiting-card/index.js
+import { Paging } from "../../utils/paging"
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil
-const pageSize = 16 // 每页显示条数
 
 Page({
   data: {
-    user: {},
+    user: null,
     topics: [],
     comments: [],
     stars: [],
-    pageTopic: 1,
-    pageComment: 1,
-    pageStar: 1,
-    tabIndex: 0,
-    tabsTop: 305,
-    genderText: "Ta",
+    tabIndex: 0,  // Tabs选中的栏目
+    tabsTop: 300, // Tabs距离顶部的高度
+    genderText: "Ta", // 性别文本
+    topicPaging: null,  // 话题分页器
+    commentPaging: null,  // 评论分页器
+    starPaging: null, // 收藏分页器
     tabsFixed: false, // Tabs是否吸顶
-    isEndTopic: false, // 话题是否到底
-    isEndStar: false, // 收藏是否到底
-    isEndComment: false, // 评论是否到底
+    hasMoreTopic: true, // 是否还有更多话题
+    hasMoreComment: true, // 是否还有更多评论
+    hasMoreStar: true, // 是否还有更多收藏
     loading: false
   },
 
   onLoad(options) {
-    const userId = options.userId
-    this.getUser(userId)
+    this.getUser(options.userId)
   },
 
   /**
-   * 获取Tabs的高度
+   * 计算Tabs距离顶部的高度
    */
   getTabsTop() {
-    const query = wx.createSelectorQuery();
+    const query = wx.createSelectorQuery()
     query.select("#tabs").boundingClientRect((res) => {
       this.setData({
         tabsTop: res.top
       })
-    }).exec();
+    }).exec()
   },
 
   /**
    * 获取用户信息
    */
   getUser(userId) {
-    const url = api.userAPI + userId + "/"
-
-    wxutil.request.get(url).then((res) => {
-      if (res.code == 200) {
+    wxutil.request.get(api.userAPI + userId + "/").then((res) => {
+      if (res.code === 200) {
         const user = res.data
-        let genderText = "Ta"
-        if (user.gender == 1) {
-          genderText = "他"
-        }
-        if (user.gender == 2) {
-          genderText = "她"
-        }
-
         this.setData({
-          user: user,
-          genderText: genderText
+          user: user
         })
 
-        // 获取Tabs高度
         this.getTabsTop()
-
-        // 设置标题
         wx.setNavigationBarTitle({
           title: user.nick_name
         })
 
-        // 标签页切换
-        const tabIndex = this.data.tabIndex
-        if (tabIndex == 0) {
-          this.getTopics(userId)
-        }
-        if (tabIndex == 1) {
-          this.getComments(userId)
-        }
-        if (tabIndex == 2) {
-          this.getStars(userId)
-        }
+        this.initTopics(userId)
+        this.initComments(userId)
+        this.initStars(userId)
       }
     })
   },
 
   /**
-   * 获取用户话题
+   * 初始化话题
    */
-  getTopics(userId, pageTopic = 1, size = pageSize) {
-    const url = api.topicAPI + "user/" + userId + "/"
-    let data = {
-      size: size,
-      page: pageTopic
-    }
+  async initTopics(userId) {
+    const topicPaging = new Paging(api.topicAPI + "user/" + userId + "/")
+    this.setData({
+      topicPaging: topicPaging
+    })
+    await this.getMoreTopics(topicPaging)
+  },
 
-    if (this.data.isEndTopic && pageTopic != 1) {
+  /**
+   * 获取更多话题
+   */
+  async getMoreTopics(topicPaging) {
+    const data = await topicPaging.getMore()
+    if (!data) {
       return
     }
-
-    wxutil.request.get(url, data).then((res) => {
-      if (res.code == 200) {
-        const topics = res.data
-        this.setData({
-          pageTopic: (topics.length == 0 && pageTopic != 1) ? pageTopic - 1 : pageTopic,
-          loading: false,
-          isEndTopic: ((topics.length < pageSize) || (topics.length == 0 && pageTopic != 1)) ? true : false,
-          topics: pageTopic == 1 ? topics : this.data.topics.concat(topics)
-        })
-      }
+    this.setData({
+      topics: data.accumulator,
+      hasMoreTopic: data.hasMore
     })
   },
 
   /**
-   * 获取用户收藏
+   * 初始化评论
    */
-  getStars(userId, pageStar = 1, size = pageSize) {
-    const url = api.starAPI + "user/" + userId + "/"
-    let data = {
-      size: size,
-      page: pageStar
-    }
+  async initComments(userId) {
+    const commentPaging = new Paging(api.commentAPI + "user/" + userId + "/")
+    this.setData({
+      commentPaging: commentPaging
+    })
+    await this.getMoreComments(commentPaging)
+  },
 
-    if (this.data.isEndStar && pageStar != 1) {
+  /**
+   * 获取更多评论
+   */
+  async getMoreComments(commentPaging) {
+    const data = await commentPaging.getMore()
+    if (!data) {
       return
     }
-
-    wxutil.request.get(url, data).then((res) => {
-      if (res.code == 200) {
-        const stars = res.data
-        this.setData({
-          pageStar: (stars.length == 0 && pageStar != 1) ? pageStar - 1 : pageStar,
-          loading: false,
-          isEndStar: ((stars.length < pageSize) || (stars.length == 0 && pageStar != 1)) ? true : false,
-          stars: pageStar == 1 ? stars : this.data.stars.concat(stars)
-        })
-      }
+    this.setData({
+      comments: data.accumulator,
+      hasMoreComment: data.hasMore
     })
   },
 
   /**
-   * 获取用户评论
+   * 初始化用户收藏
    */
-  getComments(userId, pageComment = 1, size = pageSize) {
-    const url = api.commentAPI + "user/" + userId + "/"
-    let data = {
-      size: size,
-      page: pageComment
-    }
+  async initStars(userId) {
+    const starPaging = new Paging(api.starAPI + "user/" + userId + "/")
+    this.setData({
+      starPaging: starPaging
+    })
+    await this.getMoreStars(starPaging)
+  },
 
-    if (this.data.isEndComment && pageComment != 1) {
+  /**
+   * 获取更多收藏
+   */
+  async getMoreStars(starPaging) {
+    const data = await starPaging.getMore()
+    if (!data) {
       return
     }
-
-    wxutil.request.get(url, data).then((res) => {
-      if (res.code == 200) {
-        const comments = res.data
-        this.setData({
-          pageComment: (comments.length == 0 && pageComment != 1) ? pageComment - 1 : pageComment,
-          loading: false,
-          isEndComment: ((comments.length < pageSize) || (comments.length == 0 && pageComment != 1)) ? true : false,
-          comments: pageComment == 1 ? comments : this.data.comments.concat(comments)
-        })
-      }
+    this.setData({
+      stars: data.accumulator,
+      hasMoreStar: data.hasMore
     })
   },
 
   /**
-   * 点击关注或取消关注按钮
+   * 点击关注或取消关注事件
    */
   onFollowTap() {
-    const that = this
     const user = this.data.user
-    if (this.data.user.has_follow) {
+
+    if (user.has_follow) {
       wx.lin.showActionSheet({
         title: "确定要取消关注" + user.nick_name + "吗？",
         showCancel: true,
-        cancelText: "暂不取消",
+        cancelText: "放弃",
         itemList: [{
           name: "取消关注",
-          color: "#666",
+          color: "#666"
         }],
-        success() {
-          that.followOrCancel(user.id, "取消关注")
+        success: () => {
+          this.followOrCancel(user.id, "取消关注")
         }
       })
     } else {
@@ -194,31 +165,28 @@ Page({
    * 关注或取关
    */
   followOrCancel(userId, msg) {
-    const url = api.followingAPI
-    const data = {
-      "follow_user_id": userId
-    }
-
-    wxutil.request.post(url, data).then((res) => {
-      if (res.code == 200) {
+    wxutil.request.post(api.followingAPI, { "follow_user_id": userId }).then((res) => {
+      if (res.code === 200) {
         wx.lin.showMessage({
           type: "success",
-          content: msg + "成功！",
+          content: msg + "成功！"
         })
+
         let user = this.data.user
         user.has_follow = !user.has_follow
+
         this.setData({
           user: user
         })
-      } else if (res.message == "Can Not Following Yourself") {
+      } else if (res.message === "Can Not Following Yourself") {
         wx.lin.showMessage({
           type: "error",
-          content: "不能关注自己",
+          content: "不能关注自己！"
         })
       } else {
         wx.lin.showMessage({
           type: "error",
-          content: msg + "失败！",
+          content: msg + "失败！"
         })
       }
     })
@@ -229,91 +197,31 @@ Page({
    */
   changeTabs(event) {
     const tabIndex = event.detail.currentIndex
-    const userId = this.data.user.id
     this.setData({
       tabIndex: tabIndex
-    })
-    if (tabIndex == 0) {
-      this.getTopics(userId)
-    }
-    if (tabIndex == 1) {
-      this.getComments(userId)
-    }
-    if (tabIndex == 2) {
-      this.getStars(userId)
-    }
-  },
-
-  /**
-   * 跳转到关注Ta的页面
-   */
-  gotoFollower() {
-    wx.navigateTo({
-      url: "/pages/follower/index?userId=" + this.data.user.id + "&genderText=" + this.data.genderText
-    })
-  },
-
-  /**
-   * 跳转到Ta关注的页面
-   */
-  gotoFollowing() {
-    wx.navigateTo({
-      url: "/pages/following/index?userId=" + this.data.user.id + "&genderText=" + this.data.genderText
-    })
-  },
-
-  /**
-   * 跳转话题详情页
-   */
-  gotoTopicDetail(event) {
-    const topicId = event.currentTarget.dataset.id
-    wx.navigateTo({
-      url: "/pages/topic-detail/index?topicId=" + topicId
-    })
-  },
-
-  /**
-   * 跳转到用户名片页
-   */
-  gotoVisitingCard(event) {
-    const userId = event.target.dataset.userId
-    wx.navigateTo({
-      url: "/pages/visiting-card/index?userId=" + userId
-    })
-  },
-
-  /**
-   * 头像预览
-   */
-  previewAvatar() {
-    wx.previewImage({
-      current: "",
-      urls: [this.data.user.avatar]
     })
   },
 
   /**
    * 触底加载
    */
-  onReachBottom() {
+  async onReachBottom() {
     const tabIndex = this.data.tabIndex
-    const userId = this.data.user.id
-
     this.setData({
       loading: true
     })
-    if (tabIndex == 0) {
-      const page = this.data.pageTopic
-      this.getTopics(userId, page + 1)
+    if (tabIndex === 0) {
+      await this.getMoreTopics(this.data.topicPaging)
     }
-    if (tabIndex == 1) {
-      const page = this.data.pageComment
-      this.getComments(userId, page + 1)
+    else if (tabIndex === 1) {
+      await this.getMoreComments(this.data.commentPaging)
     }
-    if (tabIndex == 2) {
-      const page = this.data.pageStar
-      this.getStars(userId, page + 1)
+    else if (tabIndex === 2) {
+      await this.getMoreStars(this.data.starPaging)
     }
+    this.setData({
+      loading: false
+    })
   },
 
   onPageScroll(event) {
@@ -329,10 +237,11 @@ Page({
   },
 
   onShareAppMessage() {
+    const user = this.data.user
     return {
-      title: this.data.user.nick_name,
-      imageUrl: this.data.user.avatar,
-      path: "/pages/visiting-card/index?userId=" + this.data.user.id
+      title: user.nick_name,
+      imageUrl: user.avatar,
+      path: "/pages/visiting-card/index?userId=" + user.id
     }
   }
 })

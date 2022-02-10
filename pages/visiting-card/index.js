@@ -16,15 +16,19 @@ Page({
     topicPaging: null,  // 话题分页器
     commentPaging: null,  // 评论分页器
     starPaging: null, // 收藏分页器
-    tabsFixed: false, // Tabs是否吸顶
     hasMoreTopic: true, // 是否还有更多话题
     hasMoreComment: true, // 是否还有更多评论
     hasMoreStar: true, // 是否还有更多收藏
+    tabsFixed: false, // Tabs是否吸顶
     loading: false
   },
 
   onLoad(options) {
-    this.getUser(options.userId)
+    this.getUserInfo(options.userId)
+  },
+
+  onShow() {
+    this.getUserInfo(this.data.user.id, false)
   },
 
   /**
@@ -42,7 +46,7 @@ Page({
   /**
    * 获取用户信息
    */
-  getUser(userId) {
+  getUserInfo(userId, loadPage = true) {
     wxutil.request.get(api.userAPI + userId + "/").then((res) => {
       if (res.code === 200) {
         const user = res.data
@@ -50,10 +54,12 @@ Page({
           user: user
         })
 
-        this.getTabsTop()
-        wx.setNavigationBarTitle({
-          title: user.nick_name
-        })
+        if (loadPage) {
+          this.getTabsTop()
+          wx.setNavigationBarTitle({
+            title: user.nick_name
+          })
+        }
 
         this.initTopics(userId)
         this.initComments(userId)

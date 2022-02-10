@@ -1,102 +1,47 @@
 <!-- pages/profile/index.wxml -->
 
-<view class="{{tabsFixed ? 'header-fixed' : ''}}">
-	<!-- 封面 -->
-	<image class="poster" src="{{user.poster ? user.poster : 'https://img.yejiefeng.com/poster/default.jpg'}}" mode="aspectFill" bindtap="changePoster" />
+<!-- 用户卡片 -->
+<profile-card user="{{user}}" bind:avatarTap="changeAvatar" bind:posterTap="changePoster" />
 
-	<!-- 个人信息 -->
-	<view class="header">
-		<view class="user-box">
-			<view wx:if="{{!user.avatar}}" class="avatar-box">
-				<open-data class="avatar" type="userAvatarUrl"></open-data>
-			</view>
-			<image wx:else class="avatar" src="{{user.avatar}}" bindtap="changeAvatar" mode="aspectFill" />
-			<view wx:if="{{user.gender && user.gender != 0}}" class="gender-box {{user.gender == 1 ? 'male' : 'female'}}">
-				<image class="gender-icon" src="../../images/icon_gender/{{user.gender == 1 ? 'icon_male' : 'icon_female'}}.png" />
-			</view>
-			<view class="btn-box">
-				<l-button shape="semicircle" size="mini" bg-color="#337559" width="180" height="55" bind:lintap="{{!isAuth ? 'gotoAuth' : 'gotoUserEdit'}}">{{!isAuth ? '用户授权' : '编辑'}}</l-button>
-				<navigator class="setting" url="/pages/setting/index">
-					<view class="child-circle">
-						<view class="child-core-circle"></view>
-					</view>
-				</navigator>
-			</view>
-		</view>
-		<text wx:if="{{user.nick_name}}" class="nick-name">{{tabsFixed ? '' : user.nick_name}}</text>
-		<open-data wx:else class="nick-name" type="userNickName"></open-data>
-		<text class="signature">{{user.signature ? user.signature : '这家伙很懒，什么都没有留下'}}</text>
-		<view class="follow-box">
-			<view class="follow follower" bindtap="gotoFollower">
-				<text class="num">{{user.follower ? user.follower : '0'}}</text>
-				<text class="text">关注我的</text>
-			</view>
-			<view class="follow following" bindtap="gotoFollowing">
-				<text class="num">{{user.following ? user.following : '0'}}</text>
-				<text class="text">我关注的</text>
-			</view>
-		</view>
-	</view>
+<!-- 消息胶囊 -->
+<view wx:if="{{messageBrief}}" class="msg-capsule" bindtap="gotoMessage">
+	<avatar src="{{messageBrief.avatar}}" isLink="{{false}}" />
+	<text class="msg-tip">{{messageBrief.count < 99 ? messageBrief.count : '99+' }}条新动态</text>
 </view>
 
-<!-- 消息提示 -->
-<view wx:if="{{messageBrief}}" class="message-box" bindtap="gotoMessage">
-	<image class="message-avatar" src="{{messageBrief.avatar + '?imageView2/1/w/60/h/60'}}" />
-	<text class="message-tip">{{messageBrief.count}}条新动态</text>
-</view>
-
-<!-- 我的动态 -->
-<l-tabs id="tabs" animated animated-for-line active-color="#337559" l-header-class="tabs {{tabsFixed ? 'tabs-fixed' : ''}}" l-line-class="tabs-line" bind:linchange="changeTabs">
+<!-- TAB栏 -->
+<l-tabs id="tabs" l-header-class="tabs {{tabsFixed ? 'tabs-fixed' : ''}}" l-line-class="tabs-line" animated animated-for-line active-color="#337559" bind:linchange="changeTabs">
 	<l-tabpanel tab="话题" key="topic" slot="topic">
-		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
-			<nothing wx:if="{{topics.length == 0}}" pic="../../images/icon_nothing/pic_topic.png" tip="您还没有发布话题" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" />
-			<l-card data-id="{{item.id}}" bindtap="gotoTopicDetail" wx:for="{{topics}}" wx:key="item" l-class="card" l-img-class="{{item.images.length > 0 || item.video ? 'card-img' : 'card-img-none'}}" l-title-class="topic-title" type="primary" position="left" image="{{item.images.length > 0 ? item.images[0] + '?imageView2/1/w/180/h/180' : (item.video ? item.video.cover + '?imageView2/1/w/180/h/180' : '')}}" image-mode="aspectFill" title="{{item.create_time}}">
-				<view class="card-content">
-					{{item.content}}
-				</view>
-				<text class="delete-text" data-id="{{item.id}}" catchtap="deleteTopic">删除</text>
-			</l-card>
-			<l-loadmore wx:if="{{!isEndTopic}}" show="{{loading}}" line />
-			<l-loadmore show="{{isEndTopic && pageTopic != 1}}" line type="end" />
+		<view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
+			<nothing wx:if="{{topics.length === 0}}" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" pic="../../images/icon_nothing/pic_topic.png" tip="你还没有发布话题" />
+			<profile-topic topics="{{topics}}" isOwner bind:deleteTap="deleteTopic" />
+			<l-loadmore show="{{!hasMoreTopic && topics.length > 0}}" line type="end" end-text="已经到底了" />
 		</view>
 	</l-tabpanel>
 	<l-tabpanel tab="评论" key="comment" slot="comment">
-		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
-			<nothing wx:if="{{comments.length == 0}}" pic="../../images/icon_nothing/pic_comment.png" tip="您还没有发表评论" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" />
-			<l-card data-id="{{item.topic_id}}" bindtap="gotoTopicDetail" wx:for="{{comments}}" wx:key="item" l-class="card" l-img-class="card-img-none" l-title-class="topic-title" type="primary" position="left" title="{{item.create_time}}">
-				<view class="comment-top">
-					<view class="card-content">{{item.content}}</view>
-					<view class="delete-text" data-id="{{item.id}}" catchtap="deleteComment">删除</view>
-				</view>
-				<view class="comment-topic">
-					<image src="{{item.topic.images.length > 0 ? item.topic.images[0] + '?imageView2/1/w/180/h/180' : (item.topic.video ? item.topic.video.cover + '?imageView2/1/w/180/h/180' : '')}}" class="{{item.topic.images.length > 0 || item.topic.video ? 'card-img comment-image' : 'card-img-none'}}" mode="aspectFill" />
-					<view class="comment-right">
-						<text class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" catchtap="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">{{item.topic.user.nick_name}}</text>
-						<text class="card-content">{{item.topic.content}}</text>
-					</view>
-				</view>
-			</l-card>
-			<l-loadmore wx:if="{{!isEndComment}}" show="{{loading}}" line />
-			<l-loadmore show="{{isEndComment && pageComment != 1}}" line type="end" />
+		<view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
+			<nothing wx:if="{{comments.length === 0}}" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" pic="../../images/icon_nothing/pic_comment.png" tip="你还没有发表评论" />
+			<profile-comment comments="{{comments}}" isOwner bind:deleteTap="deleteComment" />
+			<l-loadmore show="{{!hasMoreComment && comments.length > 0}}" line type="end" end-text="已经到底了" />
 		</view>
 	</l-tabpanel>
 	<l-tabpanel tab="收藏" key="star" slot="star">
-		<view class="{{tabsFixed ? 'tab-content-top' : ''}} tab-content">
-			<nothing wx:if="{{stars.length == 0}}" pic="../../images/icon_nothing/pic_star.png" tip="您还没有收藏动态" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" />
-			<l-card data-id="{{item.topic.id}}" bindtap="gotoTopicDetail" wx:for="{{stars}}" wx:key="item" l-class="card" l-img-class="{{item.topic.images.length > 0 || item.topic.video ? 'card-img' : 'card-img-none'}}" l-title-class="{{item.topic.user.id != -1 ? 'tab-nick-name' : 'tab-anon'}}" type="primary" position="left" image="{{item.topic.images.length > 0 ? item.topic.images[0] + '?imageView2/1/w/180/h/180' : (item.topic.video ? item.topic.video.cover + '?imageView2/1/w/180/h/180' : '')}}" image-mode="aspectFill" title="{{item.topic.user.nick_name}}" bind:lintitle="{{item.topic.user.id != -1 ? 'gotoVisitingCard' : ''}}" data-user-id="{{item.topic.user.id}}">
-				<view class="card-content">
-					{{item.topic.content}}
-				</view>
-				<text class="delete-text delete-star-text" data-id="{{item.topic.id}}" catchtap="deleteStar">取消收藏</text>
-			</l-card>
-			<l-loadmore wx:if="{{!isEndStar}}" show="{{loading}}" line l-class="loading" />
-			<l-loadmore show="{{isEndStar && pageStar != 1}}" line type="end" />
+		<view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
+			<nothing wx:if="{{stars.length === 0}}" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" pic="../../images/icon_nothing/pic_star.png" tip="你还没有收藏话题" />
+			<profile-star stars="{{stars}}" isOwner bind:deleteTap="deleteStar" />
+			<l-loadmore show="{{!hasMoreStar && stars.length > 0}}" line type="end" end-text="已经到底了" />
 		</view>
 	</l-tabpanel>
 </l-tabs>
 
-<!-- 消息提示 -->
-<l-message />
+<!-- 图片裁剪器 -->
+<l-image-clipper lock-width lock-height limit-move min-ratio="1" show="{{showImageClipper}}" image-url="{{tmpAvatar}}" bindlinclip="onClipTap" />
+
+<!-- 加载数据提示 -->
+<l-loadmore show="{{loading}}" line type="loading" loading-text="正在加载中..." />
 
 <!-- 消息对话框 -->
-<l-dialog />
+<l-dialog id="dialog" />
+
+<!-- 消息提示 -->
+<l-message />

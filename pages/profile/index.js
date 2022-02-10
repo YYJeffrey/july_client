@@ -1,222 +1,187 @@
 // pages/profile/index.js
+import { Paging } from "../../utils/paging"
 const app = getApp()
 const api = app.api
 const wxutil = app.wxutil
-const pageSize = 16 // 每页显示条数
 
 Page({
   data: {
-    user: {},
+    user: null,
     topics: [],
     comments: [],
     stars: [],
-    pageTopic: 1,
-    pageComment: 1,
-    pageStar: 1,
-    tabIndex: 0,
-    tabsTop: 255,
-    isAuth: false,
+    tabIndex: 0,  // Tabs选中的栏目
+    tabsTop: 300, // Tabs距离顶部的高度
+    showImageClipper: false, // 是否显示图片裁剪器
+    messageBrief: null, // 动态消息概要
+    tmpAvatar: null, // 头像临时文件
+    topicPaging: null,  // 话题分页器
+    commentPaging: null,  // 评论分页器
+    starPaging: null, // 收藏分页器
+    hasMoreTopic: true, // 是否还有更多话题
+    hasMoreComment: true, // 是否还有更多评论
+    hasMoreStar: true, // 是否还有更多收藏
     tabsFixed: false, // Tabs是否吸顶
-    isEndTopic: false, // 话题是否到底
-    isEndStar: false, // 收藏是否到底
-    isEndComment: false, // 评论是否到底
-    loading: false,
-    messageBrief: null
+    loading: false
   },
 
   onLoad() {
-    this.getTabsTop()
+    this.getUserInfo()
   },
 
   onShow() {
-    this.getUser()
+    this.getUserInfo(false)
     this.getMessageBrief()
-
-    const userId = this.data.user.id
-    if (!userId) {
-      // 数据初始化
-      this.setData({
-        topics: [],
-        comments: [],
-        stars: [],
-        pageTopic: 1,
-        pageComment: 1,
-        pageStar: 1,
-        isEndTopic: false,
-        isEndStar: false,
-        isEndComment: false
-      })
-    }
   },
 
   /**
-   * 获取Tabs的高度
+   * 计算Tabs距离顶部的高度
    */
   getTabsTop() {
-    const navigateHeight = 56
-    const query = wx.createSelectorQuery();
+    const query = wx.createSelectorQuery()
     query.select("#tabs").boundingClientRect((res) => {
       this.setData({
-        tabsTop: res.top - navigateHeight
+        tabsTop: res.top
       })
-    }).exec();
+    }).exec()
   },
 
   /**
    * 获取用户信息
    */
-  getUser() {
+  getUserInfo(loadPage = true) {
     let userDetail = app.globalData.userDetail
+    if (!userDetail) {
+      return
+    }
 
-    // 授权用户使用userDetail作为用户信息
-    if (userDetail) {
-      const userId = userDetail.id
-      const url = api.userAPI + userId + "/"
+    const userId = userDetail.id
+    wxutil.request.get(api.userAPI + userId + "/").then((res) => {
+      if (res.code === 200) {
+        // 更新缓存
+        userDetail = Object.assign(userDetail, res.data)
+        wxutil.setStorage("userDetail", userDetail)
+        app.globalData.userDetail = userDetail
+        this.setData({
+          user: userDetail
+        })
 
-      wxutil.request.get(url).then((res) => {
-        if (res.code == 200) {
-          // 更新缓存
-          const user = res.data
-          userDetail = Object.assign(userDetail, user)
-          wxutil.setStorage("userDetail", userDetail)
-          app.globalData.userDetail = userDetail
-
-          this.setData({
-            isAuth: true,
-            user: userDetail
+        if (loadPage) {
+          this.getTabsTop()
+          wx.setNavigationBarTitle({
+            title: userDetail.nick_name
           })
-
-          const tabIndex = this.data.tabIndex
-          if (tabIndex == 0) {
-            this.getTopics(userId)
-          }
-          if (tabIndex == 1) {
-            this.getComments(userId)
-          }
-          if (tabIndex == 2) {
-            this.getStars(userId)
-          }
         }
-      })
-    } else {
-      this.setData({
-        user: {},
-        isAuth: false
-      })
-    }
-  },
 
-  /**
-   * 获取用户话题
-   */
-  getTopics(userId, pageTopic = 1, size = pageSize) {
-    const url = api.topicAPI + "user/" + userId + "/"
-    let data = {
-      size: size,
-      page: pageTopic
-    }
-
-    if (this.data.isEndTopic && pageTopic != 1) {
-      return
-    }
-
-    wxutil.request.get(url, data).then((res) => {
-      if (res.code == 200) {
-        const topics = res.data
-        this.setData({
-          pageTopic: (topics.length == 0 && pageTopic != 1) ? pageTopic - 1 : pageTopic,
-          loading: false,
-          isEndTopic: ((topics.length < pageSize) || (topics.length == 0 && pageTopic != 1)) ? true : false,
-          topics: pageTopic == 1 ? topics : this.data.topics.concat(topics)
-        })
+        this.initTopics(userId)
+        this.initComments(userId)
+        this.initStars(userId)
       }
     })
   },
 
   /**
-   * 获取用户收藏
+   * 初始化话题
    */
-  getStars(userId, pageStar = 1, size = pageSize) {
-    const url = api.starAPI + "user/" + userId + "/"
-    let data = {
-      size: size,
-      page: pageStar
-    }
+  async initTopics(userId) {
+    const topicPaging = new Paging(api.topicAPI + "user/" + userId + "/")
+    this.setData({
+      topicPaging: topicPaging
+    })
+    await this.getMoreTopics(topicPaging)
+  },
 
-    if (this.data.isEndStar && pageStar != 1) {
+  /**
+   * 获取更多话题
+   */
+  async getMoreTopics(topicPaging) {
+    const data = await topicPaging.getMore()
+    if (!data) {
       return
     }
-
-    wxutil.request.get(url, data).then((res) => {
-      if (res.code == 200) {
-        const stars = res.data
-        this.setData({
-          pageStar: (stars.length == 0 && pageStar != 1) ? pageStar - 1 : pageStar,
-          loading: false,
-          isEndStar: ((stars.length < pageSize) || (stars.length == 0 && pageStar != 1)) ? true : false,
-          stars: pageStar == 1 ? stars : this.data.stars.concat(stars)
-        })
-      }
+    this.setData({
+      topics: data.accumulator,
+      hasMoreTopic: data.hasMore
     })
   },
 
   /**
-   * 获取用户评论
+   * 初始化评论
    */
-  getComments(userId, pageComment = 1, size = pageSize) {
-    const url = api.commentAPI + "user/" + userId + "/"
-    let data = {
-      size: size,
-      page: pageComment
-    }
+  async initComments(userId) {
+    const commentPaging = new Paging(api.commentAPI + "user/" + userId + "/")
+    this.setData({
+      commentPaging: commentPaging
+    })
+    await this.getMoreComments(commentPaging)
+  },
 
-    if (this.data.isEndComment && pageComment != 1) {
+  /**
+   * 获取更多评论
+   */
+  async getMoreComments(commentPaging) {
+    const data = await commentPaging.getMore()
+    if (!data) {
       return
     }
-
-    wxutil.request.get(url, data).then((res) => {
-      if (res.code == 200) {
-        const comments = res.data
-        this.setData({
-          pageComment: (comments.length == 0 && pageComment != 1) ? pageComment - 1 : pageComment,
-          loading: false,
-          isEndComment: ((comments.length < pageSize) || (comments.length == 0 && pageComment != 1)) ? true : false,
-          comments: pageComment == 1 ? comments : this.data.comments.concat(comments)
-        })
-      }
+    this.setData({
+      comments: data.accumulator,
+      hasMoreComment: data.hasMore
     })
   },
 
   /**
-   * 获取消息概要
+   * 初始化用户收藏
+   */
+  async initStars(userId) {
+    const starPaging = new Paging(api.starAPI + "user/" + userId + "/")
+    this.setData({
+      starPaging: starPaging
+    })
+    await this.getMoreStars(starPaging)
+  },
+
+  /**
+   * 获取更多收藏
+   */
+  async getMoreStars(starPaging) {
+    const data = await starPaging.getMore()
+    if (!data) {
+      return
+    }
+    this.setData({
+      stars: data.accumulator,
+      hasMoreStar: data.hasMore
+    })
+  },
+
+  /**
+   * 获取消息概要并标红点
    */
   getMessageBrief() {
-    const url = api.messageAPI + "brief/"
-
-    if (app.globalData.userDetail) {
-      wxutil.request.get(url).then((res) => {
-        if (res.code == 200) {
-          if (res.data.count > 0) {
-            this.setData({
-              messageBrief: res.data
-            })
-            wx.setTabBarBadge({
-              index: 2,
-              text: res.data.count + ""
-            })
-          } else {
-            this.setData({
-              messageBrief: null
-            })
-            wx.removeTabBarBadge({
-              index: 2,
-              fail(error) { }
-            })
-          }
-        }
-      })
+    if (!app.globalData.userDetail) {
+      return
     }
-    return this.getMessageBrief
+    wxutil.request.get(api.messageAPI + "brief/").then((res) => {
+      if (res.code === 200) {
+        if (res.data.count > 0) {
+          this.setData({
+            messageBrief: res.data
+          })
+          wx.setTabBarBadge({
+            index: 2,
+            text: res.data.count.toString()
+          })
+        } else {
+          this.setData({
+            messageBrief: null
+          })
+          wx.removeTabBarBadge({
+            index: 2
+          })
+        }
+      }
+    })
   },
 
   /**
@@ -224,67 +189,8 @@ Page({
    */
   changeTabs(event) {
     const tabIndex = event.detail.currentIndex
-    const userId = this.data.user.id
     this.setData({
       tabIndex: tabIndex
-    })
-
-    if (userId) {
-      if (tabIndex == 0) {
-        this.getTopics(userId)
-      }
-      if (tabIndex == 1) {
-        this.getComments(userId)
-      }
-      if (tabIndex == 2) {
-        this.getStars(userId)
-      }
-    }
-  },
-
-  /**
-   * 跳转到授权页面
-   */
-  gotoAuth() {
-    wx.navigateTo({
-      url: "/pages/auth/index"
-    })
-  },
-
-  /**
-   * 跳转到编辑资料页面
-   */
-  gotoUserEdit() {
-    wx.navigateTo({
-      url: "/pages/user-edit/index"
-    })
-  },
-
-  /**
-   * 跳转到关注我的页面
-   */
-  gotoFollower() {
-    wx.navigateTo({
-      url: "/pages/follower/index?userId=" + this.data.user.id
-    })
-  },
-
-  /**
-   * 跳转到我关注的页面
-   */
-  gotoFollowing() {
-    wx.navigateTo({
-      url: "/pages/following/index?userId=" + this.data.user.id
-    })
-  },
-
-  /**
-   * 跳转话题详情页
-   */
-  gotoTopicDetail(event) {
-    const topicId = event.currentTarget.dataset.id
-    wx.navigateTo({
-      url: "/pages/topic-detail/index?topicId=" + topicId
     })
   },
 
@@ -298,44 +204,29 @@ Page({
   },
 
   /**
-   * 跳转到用户名片页
-   */
-  gotoVisitingCard(event) {
-    console.log(event)
-    if (app.globalData.userDetail) {
-      const userId = event.target.dataset.userId
-      wx.navigateTo({
-        url: "/pages/visiting-card/index?userId=" + userId
-      })
-    } else {
-      wx.navigateTo({
-        url: "/pages/auth/index"
-      })
-    }
-  },
-
-  /**
    * 修改封面
    */
   changePoster() {
+    if (!this.data.user) {
+      return
+    }
     wx.lin.showMessage({
       content: "设置封面图片"
     })
 
     // 上传封面
     wxutil.image.choose(1).then((res) => {
-      if (res.errMsg == "chooseImage:ok") {
+      if (res.errMsg === "chooseImage:ok") {
         wxutil.showLoading("上传中...")
-        const url = api.userAPI + "poster/"
 
         wxutil.file.upload({
-          url: url,
+          url: api.userAPI + "poster/",
           fileKey: "file",
           filePath: res.tempFilePaths[0]
         }).then((res) => {
+          wx.hideLoading()
           const data = JSON.parse(res.data);
-          if (data.code == 200) {
-            wx.hideLoading()
+          if (data.code === 200) {
             // 更新缓存
             const user = data.data
             let userDetail = app.globalData.userDetail
@@ -346,7 +237,6 @@ Page({
             this.setData({
               user: user
             })
-
             wx.lin.showMessage({
               type: "success",
               content: "封面修改成功！"
@@ -366,13 +256,52 @@ Page({
    * 修改头像
    */
   changeAvatar() {
+    if (!this.data.user) {
+      return
+    }
     wx.lin.showMessage({
       content: "设置头像图片"
     })
     wxutil.image.choose(1).then((res) => {
-      if (res.errMsg == "chooseImage:ok") {
-        wx.navigateTo({
-          url: "/pages/images-cropper/index?src=" + res.tempFilePaths[0],
+      if (res.errMsg === "chooseImage:ok") {
+        this.setData({
+          tmpAvatar: res.tempFilePaths[0],
+          showImageClipper: true
+        })
+      }
+    })
+  },
+
+  /**
+   * 头像裁剪上传
+   */
+  onClipTap(event) {
+    wxutil.file.upload({
+      url: api.userAPI + "avatar/",
+      fileKey: "file",
+      filePath: event.detail.url
+    }).then((res) => {
+      const data = JSON.parse(res.data)
+      if (data.code === 200) {
+        // 更新缓存
+        const user = data.data
+        let userDetail = app.globalData.userDetail
+        userDetail = Object.assign(userDetail, user)
+        wxutil.setStorage("userDetail", userDetail)
+        app.globalData.userDetail = userDetail
+
+        this.setData({
+          showImageClipper: false,
+          user: user
+        })
+        wx.lin.showMessage({
+          type: "success",
+          content: "头像修改成功！"
+        })
+      } else {
+        wx.lin.showMessage({
+          type: "error",
+          content: "头像修改失败！"
         })
       }
     })
@@ -381,43 +310,46 @@ Page({
   /**
    * 触底加载
    */
-  onReachBottom() {
+  async onReachBottom() {
     const tabIndex = this.data.tabIndex
-    const userId = this.data.user.id
-
     this.setData({
       loading: true
     })
-    if (tabIndex == 0) {
-      const page = this.data.pageTopic
-      this.getTopics(userId, page + 1)
+    if (tabIndex === 0) {
+      await this.getMoreTopics(this.data.topicPaging)
     }
-    if (tabIndex == 1) {
-      const page = this.data.pageComment
-      this.getComments(userId, page + 1)
+    else if (tabIndex === 1) {
+      await this.getMoreComments(this.data.commentPaging)
     }
-    if (tabIndex == 2) {
-      const page = this.data.pageStar
-      this.getStars(userId, page + 1)
+    else if (tabIndex === 2) {
+      await this.getMoreStars(this.data.starPaging)
     }
+    this.setData({
+      loading: false
+    })
   },
 
   /**
    * 删除话题
    */
   deleteTopic(event) {
-    wx.lin.showDialog({
+    const dialog = this.selectComponent('#dialog')
+
+    dialog.linShow({
       type: "confirm",
       title: "提示",
       content: "确定要删除该话题？",
       success: (res) => {
         if (res.confirm) {
-          const topicId = event.currentTarget.dataset.id
-          const url = api.topicAPI + topicId + "/"
+          const topics = this.data.topics
+          const index = event.detail.index
 
-          wxutil.request.delete(url).then((res) => {
-            if (res.code == 200) {
-              this.getTopics(this.data.user.id)
+          wxutil.request.delete(api.topicAPI + topics[index].id + "/").then((res) => {
+            if (res.code === 200) {
+              topics.splice(index, 1)
+              this.setData({
+                topics: topics
+              })
 
               wx.lin.showMessage({
                 type: "success",
@@ -439,18 +371,23 @@ Page({
    * 删除评论
    */
   deleteComment(event) {
-    wx.lin.showDialog({
+    const dialog = this.selectComponent('#dialog')
+
+    dialog.linShow({
       type: "confirm",
       title: "提示",
       content: "确定要删除该评论？",
       success: (res) => {
         if (res.confirm) {
-          const commentId = event.currentTarget.dataset.id
-          const url = api.commentAPI + commentId + "/"
+          const comments = this.data.comments
+          const index = event.detail.index
 
-          wxutil.request.delete(url).then((res) => {
-            if (res.code == 200) {
-              this.getComments(this.data.user.id)
+          wxutil.request.delete(api.commentAPI + comments[index].id + "/").then((res) => {
+            if (res.code === 200) {
+              comments.splice(index, 1)
+              this.setData({
+                comments: comments
+              })
 
               wx.lin.showMessage({
                 type: "success",
@@ -472,22 +409,23 @@ Page({
    * 取消收藏
    */
   deleteStar(event) {
-    wx.lin.showDialog({
+    const dialog = this.selectComponent('#dialog')
+
+    dialog.linShow({
       type: "confirm",
       title: "提示",
       content: "确定要取消收藏该话题？",
       success: (res) => {
         if (res.confirm) {
-          const topicId = event.currentTarget.dataset.id
-          const url = api.starAPI
+          const stars = this.data.stars
+          const index = event.detail.index
 
-          const data = {
-            topic_id: topicId
-          }
-
-          wxutil.request.post(url, data).then((res) => {
-            if (res.code == 200) {
-              this.getStars(this.data.user.id)
+          wxutil.request.post(api.starAPI, { topic_id: stars[index].topic.id }).then((res) => {
+            if (res.code === 200) {
+              stars.splice(index, 1)
+              this.setData({
+                stars: stars
+              })
 
               wx.lin.showMessage({
                 type: "success",
@@ -521,6 +459,7 @@ Page({
    * 下拉刷新
    */
   onPullDownRefresh() {
+    this.getUserInfo(false)
     this.getMessageBrief()
     wx.stopPullDownRefresh()
     wx.vibrateShort()

@@ -1,4 +1,4 @@
 {
-  "navigationStyle": "custom",
+  "navigationBarTitleText": "我的",
   "enablePullDownRefresh": true
 }

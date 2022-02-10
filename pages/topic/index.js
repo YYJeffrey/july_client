@@ -96,7 +96,7 @@ Page({
     this.setData({
       topicPaging: topicPaging
     })
-    this.getMoreTopics(topicPaging)
+    await this.getMoreTopics(topicPaging)
   },
 
   /**

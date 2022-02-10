@@ -32,7 +32,7 @@ Page({
     this.setData({
       followerPaging: followerPaging,
     })
-    this.getMoreFollower(followerPaging)
+    await this.getMoreFollower(followerPaging)
   },
 
   /**

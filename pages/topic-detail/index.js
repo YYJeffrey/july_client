@@ -79,7 +79,7 @@ Page({
     this.setData({
       commentPaging: commentPaging,
     })
-    this.getMoreComments(commentPaging)
+    await this.getMoreComments(commentPaging)
   },
 
   /**

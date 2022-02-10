@@ -7,7 +7,10 @@
     <view class="header-left">
       <avatar src="{{topic.user.avatar}}" user-id="{{topic.user.id}}" size="80" />
       <view class="header-info">
-        <nickname nickname="{{topic.user.nick_name}}" user-id="{{topic.user.id}}" />
+        <view class="info-top">
+          <nickname nickname="{{topic.user.nick_name}}" user-id="{{topic.user.id}}" />
+          <l-tag wx:if="{{topic.user.is_admin}}" l-class="admin-tag" size="mini" type="reading">管理员</l-tag>
+        </view>
         <text class="time">{{topic.create_time}}</text>
       </view>
     </view>

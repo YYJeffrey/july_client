@@ -23,6 +23,22 @@
   margin-left: 20rpx;
 }
 
+.info-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.admin-tag {
+  height: 38rpx !important;
+  margin-left: 15rpx;
+  box-sizing: border-box;
+  border-radius: 10rpx !important;
+  color: #ffb400 !important;
+  border: 1px #ffb400 solid;
+  background: #fefad3 !important;
+}
+
 .time {
   color: #666;
   font-size: 26rpx;

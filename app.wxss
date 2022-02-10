@@ -1,22 +1,19 @@
 /**app.wxss**/
 
 page {
-  background: #f7f7f7;
-  font-family: "苹方";
-  font-size: 28rpx;
-  color: #333;
   box-sizing: border-box;
-  letter-spacing: 1rpx;
   word-wrap: break-word;
+  font-size: 28rpx;
+  letter-spacing: 1rpx;
+  color: #333;
+  background: #f7f7f7;
 }
 
 .container {
-  height: 100%;
-  width: 100%;
   display: flex;
-  box-sizing: border-box;
   flex-direction: column;
-  padding: 10rpx 30rpx;
+  box-sizing: border-box;
+  padding: 20rpx 30rpx;
 }
 
 image {

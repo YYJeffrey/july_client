@@ -1,6 +1,6 @@
 //app.js
 import api from "./config/api"
-import wxutil, { autoUpdate, getStorage } from "./miniprogram_npm/@yyjeffrey/wxutil/index"
+import wxutil from "./miniprogram_npm/@yyjeffrey/wxutil/index"
 
 App({
   api: api,
@@ -8,20 +8,23 @@ App({
 
   globalData: {
     appId: wx.getAccountInfoSync().miniProgram.appId,
+    githubURI: "YYJeffrey/july_client",
     githubURL: "https://github.com/YYJeffrey/july_client",
-    userDetail: null
+    likeAuthor: "https://img.yejiefeng.com/qr/qr_like.png", // 作者的赞赏码
+    userDetail: null, // 用户信息详情
+    tokenExpires: 86400 * 28 // Token过期时间
   },
 
   onLaunch() {
     this.getUserDetail()
-    autoUpdate()
+    wxutil.autoUpdate()
   },
 
   /**
    * 获取用户详情
    */
   getUserDetail() {
-    const userDetail = getStorage("userDetail")
+    const userDetail = wxutil.getStorage("userDetail")
     if (userDetail) {
       this.globalData.userDetail = userDetail
     } else {
@@ -44,8 +47,8 @@ App({
    * Token无效跳转授权页
    */
   gotoAuthPage(res) {
-    if (res.message == "Token Is Invalid") {
-      wx.removeStorageSync('userDetail')
+    if (res.message === "Token Is Invalid") {
+      wx.removeStorageSync("userDetail")
       wx.navigateTo({
         url: "/pages/auth/index",
       })

@@ -4,7 +4,7 @@ var __DEFINE__ = function(modId, func, req) { var m = { exports: {}, _tempexport
 var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = __MODS__[modId].m; m._exports = m._tempexports; var desp = Object.getOwnPropertyDescriptor(m, "exports"); if (desp && desp.configurable) Object.defineProperty(m, "exports", { set: function (val) { if(typeof val === "object" && val !== m._exports) { m._exports.__proto__ = val.__proto__; Object.keys(val).forEach(function (k) { m._exports[k] = val[k]; }); } m._tempexports = val }, get: function () { return m._tempexports; } }); __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); } return __MODS__[modId].m.exports; };
 var __REQUIRE_WILDCARD__ = function(obj) { if(obj && obj.__esModule) { return obj; } else { var newObj = {}; if(obj != null) { for(var k in obj) { if (Object.prototype.hasOwnProperty.call(obj, k)) newObj[k] = obj[k]; } } newObj.default = obj; return newObj; } };
 var __REQUIRE_DEFAULT__ = function(obj) { return obj && obj.__esModule ? obj.default : obj; };
-__DEFINE__(1636963401110, function(require, module, exports) {
+__DEFINE__(1644482349478, function(require, module, exports) {
 /**
  * @Author: Jeffrey
  * @CreateDate: 2019-04
@@ -22,7 +22,7 @@ __DEFINE__(1636963401110, function(require, module, exports) {
  * @param {JSON Object} header
  * @param {Boolean} showLoading
  */
-const request = {
+ const request = {
   get(url, data = {}, header = {}, showLoading = true) {
     const handler = { url, data, header }
     return this.Request('GET', handler, showLoading)
@@ -62,13 +62,13 @@ const request = {
         data: data,
         header: Object.assign(head, header),
         method: ['GET', 'POST', 'PUT', 'DELETE'].indexOf(method) > -1 ? method : 'GET',
-        success(res) {
+        success: res => {
           if (getApp().gotoAuthPage) {
             getApp().gotoAuthPage(res.data)
           }
           resolve(res.data)
         },
-        fail(error) {
+        fail: error => {
           reject(error)
         },
         complete() {
@@ -104,10 +104,10 @@ const file = {
         url: url,
         filePath: filePath,
         header: Object.assign(head, header),
-        success(res) {
+        success: res => {
           resolve(res)
         },
-        fail(error) {
+        fail: error => {
           reject(error)
         },
         complete() {
@@ -132,10 +132,10 @@ const file = {
         filePath: filePath,
         formData: data,
         header: Object.assign(head, header),
-        success(res) {
+        success: res => {
           resolve(res)
         },
-        fail(error) {
+        fail: error => {
           reject(error)
         },
         complete() {
@@ -179,10 +179,10 @@ const socket = {
         url: url,
         header: Object.assign(head, header),
         protocols: typeof protocols === 'undefined' ? [] : protocols,
-        success(res) {
+        success: res => {
           resolve(res)
         },
-        fail(error) {
+        fail: error => {
           reject(error)
         },
       })
@@ -194,10 +194,10 @@ const socket = {
     return new Promise((resolve, reject) => {
       wx.sendSocketMessage({
         data: data,
-        success(res) {
+        success: res => {
           resolve(res)
         },
-        fail(error) {
+        fail: error => {
           reject(error)
         }
       })
@@ -224,10 +224,10 @@ const image = {
     return new Promise((resolve, reject) => {
       wx.saveImageToPhotosAlbum({
         filePath: path,
-        success(res) {
+        success: res => {
           resolve(res)
         },
-        fail(error) {
+        fail: error => {
           reject(error)
         }
       })
@@ -240,10 +240,10 @@ const image = {
         current,
         urls,
         showmenu,
-        success(res) {
+        success: res => {
           resolve(res)
         },
-        fail(error) {
+        fail: error => {
           reject(error)
         }
       })
@@ -255,10 +255,10 @@ const image = {
       wx.chooseImage({
         count: count,
         sourceType: sourceType,
-        success(res) {
+        success: res => {
           resolve(res)
         },
-        fail(error) {
+        fail: error => {
           reject(error)
         }
       })
@@ -281,10 +281,10 @@ const showToast = (title, handler = {}) => {
       icon: typeof icon === 'undefined' ? 'none' : icon,
       duration: typeof duration === 'undefined' ? 1000 : duration,
       mask: typeof mask === 'undefined' ? true : mask,
-      success(res) {
+      success: res => {
         resolve(res)
       },
-      fail(error) {
+      fail: error => {
         reject(error)
       }
     })
@@ -315,10 +315,10 @@ const showModal = (title, content, handler = {}) => {
       confirmText: typeof confirmText === 'undefined' ? '确定' : confirmText,
       cancelColor: typeof cancelColor === 'undefined' ? '#000000' : cancelColor,
       confirmColor: typeof confirmColor === 'undefined' ? '#576B95' : confirmColor,
-      success(res) {
+      success: res => {
         resolve(res)
       },
-      fail(error) {
+      fail: error => {
         reject(error)
       }
     })
@@ -336,10 +336,10 @@ const showLoading = (title = '加载中...', mask = true) => {
     wx.showLoading({
       title: title,
       mask: mask,
-      success(res) {
+      success: res => {
         resolve(res)
       },
-      fail(error) {
+      fail: error => {
         reject(error)
       }
     })
@@ -357,10 +357,10 @@ const showActionSheet = (itemList, itemColor = '#000000') => {
     wx.showActionSheet({
       itemList: itemList,
       itemColor: itemColor,
-      success(res) {
+      success: res => {
         resolve(res.tapIndex)
       },
-      fail(error) {
+      fail: error => {
         reject(error)
       }
     })
@@ -415,7 +415,7 @@ const getLocation = (type = 'gcj02', watch = false) => {
   return new Promise((resolve, reject) => {
     wx.getLocation({
       type: type,
-      success(res) {
+      success: res => {
         resolve(res)
         const latitude = res.latitude
         const longitude = res.longitude
@@ -427,7 +427,7 @@ const getLocation = (type = 'gcj02', watch = false) => {
           })
         }
       },
-      fail(error) {
+      fail: error => {
         reject(error)
       }
     })
@@ -444,10 +444,10 @@ const getUserProfile = (lang = 'zh_CN', desc = '授权用于获取个人公开�
     wx.getUserProfile({
       lang: lang,
       desc: desc,
-      success(res) {
+      success: res => {
         resolve(res)
       },
-      fail(error) {
+      fail: error => {
         reject(error)
       }
     })
@@ -468,10 +468,10 @@ const requestPayment = handler => {
       packageValue: packageValue,
       paySign: paySign,
       signType: typeof signType === 'undefined' ? 'MD5' : signType,
-      success(res) {
+      success: res => {
         resolve(res)
       },
-      fail(error) {
+      fail: error => {
         reject(error)
       }
     })
@@ -627,29 +627,29 @@ const getUUID = (hasOnline = true) => {
   return s.join('')
 }
 
-module.exports = {
-  request: request,
-  file: file,
-  socket: socket,
-  image: image,
-  showToast: showToast,
-  showModal: showModal,
-  showLoading: showLoading,
-  showActionSheet: showActionSheet,
-  setStorage: setStorage,
-  getStorage: getStorage,
-  getLocation: getLocation,
-  getUserProfile: getUserProfile,
-  requestPayment: requestPayment,
-  autoUpdate: autoUpdate,
-  isNotNull: isNotNull,
-  getDateTime: getDateTime,
-  getTimestamp: getTimestamp,
-  calculate: calculate,
-  getUUID: getUUID
-}
+if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });exports.default = {
+  request,
+  file,
+  socket,
+  image,
+  showToast,
+  showModal,
+  showLoading,
+  showActionSheet,
+  setStorage,
+  getStorage,
+  getLocation,
+  getUserProfile,
+  requestPayment,
+  autoUpdate,
+  isNotNull,
+  getDateTime,
+  getTimestamp,
+  calculate,
+  getUUID
+};
 }, function(modId) {var map = {}; return __REQUIRE__(map[modId], modId); })
-return __REQUIRE__(1636963401110);
+return __REQUIRE__(1644482349478);
 })()
 //miniprogram-npm-outsideDeps=[]
 //# sourceMappingURL=index.js.map

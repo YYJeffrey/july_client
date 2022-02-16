@@ -14,7 +14,7 @@
     <text class="message-content" wx:if="{{message.category === 'star'}}">收藏了你的话题！</text>
     <text class="message-content" wx:if="{{message.category === 'follow'}}">悄悄滴关注了你！</text>
   </view>
-  <view class="topic" bindtap="gotoTopicDetail">
+  <view wx:if="{{message.topic}}" class="topic" bindtap="gotoTopicDetail">
     <image class="img" wx:if="{{message.topic.images.length > 0 || message.topic.video}}" src="{{message.topic.images.length > 0 ? message.topic.images[0] + '?imageView2/1/w/180/h/180' : (message.topic.video ? message.topic.video.cover + '?imageView2/1/w/180/h/180' : '')}}" mode="aspectFill" />
     <view class="topic-right">
       <nickname nickname="{{message.topic.user.nick_name}}" user-id="{{message.topic.user.id}}" />

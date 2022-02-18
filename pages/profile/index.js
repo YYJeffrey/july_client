@@ -192,6 +192,11 @@ Page({
     this.setData({
       tabIndex: tabIndex
     })
+    if (this.data.tabsFixed) {
+      wx.pageScrollTo({
+        scrollTop: this.data.tabsTop
+      })
+    }
   },
 
   /**

@@ -28,6 +28,9 @@ Page({
   },
 
   onShow() {
+    if (!this.data.user) {
+      return
+    }
     this.getUserInfo(this.data.user.id, false)
   },
 
@@ -206,6 +209,11 @@ Page({
     this.setData({
       tabIndex: tabIndex
     })
+    if (this.data.tabsFixed) {
+      wx.pageScrollTo({
+        scrollTop: this.data.tabsTop
+      })
+    }
   },
 
   /**

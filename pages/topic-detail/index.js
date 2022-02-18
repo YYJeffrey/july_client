@@ -192,6 +192,10 @@ Page({
   showActions() {
     const topic = this.data.topic
     let itemList = [{
+      name: "分享",
+      color: "#666",
+      openType: "share"
+    }, {
       name: "举报",
       color: "#666"
     }]
@@ -207,9 +211,9 @@ Page({
       itemList: itemList,
       showCancel: true,
       success: (res) => {
-        if (res.index === 0) {
+        if (res.index === 1) {
           this.reportTopic(topic.id)
-        } else if (res.index === 1) {
+        } else if (res.index === 2) {
           this.deleteTopic(topic.id)
         }
       }

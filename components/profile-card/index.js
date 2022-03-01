@@ -75,9 +75,13 @@ Component({
      * 跳转关注Ta的页
      */
     gotoFollower() {
+      const user = this.data.user
+      if (user === null) {
+        return
+      }
       const title = this.data.isOwner ? "关注我的" : "关注" + this.getGenderText() + "的"
       wx.navigateTo({
-        url: "/pages/follower/index?userId=" + this.data.user.id + "&title=" + title
+        url: "/pages/follower/index?userId=" + user.id + "&title=" + title
       })
     },
 
@@ -85,9 +89,13 @@ Component({
      * 跳转Ta关注的页
      */
     gotoFollowing() {
+      const user = this.data.user
+      if (user === null) {
+        return
+      }
       const title = this.data.isOwner ? "我关注的" : this.getGenderText() + "关注的"
       wx.navigateTo({
-        url: "/pages/following/index?userId=" + this.data.user.id + "&title=" + title
+        url: "/pages/following/index?userId=" + user.id + "&title=" + title
       })
     },
 

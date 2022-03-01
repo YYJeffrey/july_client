@@ -52,6 +52,12 @@ Page({
   getUserInfo(loadPage = true) {
     let userDetail = app.globalData.userDetail
     if (!userDetail) {
+      this.setData({
+        user: null,
+        topics: [],
+        comments: [],
+        stars: []
+      })
       return
     }
 

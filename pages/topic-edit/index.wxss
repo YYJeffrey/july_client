@@ -63,6 +63,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   white-space: nowrap;
+  margin-bottom: 30rpx;
   padding: 10rpx 10rpx 20rpx 10rpx;
   background: #fff;
 }

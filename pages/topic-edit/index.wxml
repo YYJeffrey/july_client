@@ -5,19 +5,19 @@
 	<text class="title">内容（必填）</text>
 	<l-textarea l-class="input-textarea" l-inner-class="inner-textarea" placeholder="分享这一刻的想法" focus border="{{false}}" indicator="{{false}}" maxlength="300" bind:lininput="setContent" />
 
-	<text class="title">图片/视频</text>
+	<text class="title">图片</text>
 	<view class="media">
 		<l-image-picker wx:if="{{!video}}" custom count="9" size="3" size-type="original" mode="aspectFill" bind:linchange="onChangeImage" bind:linremove="onChangeImage">
 			<image class="icon-pic" src="/images/icon_edit/icon_picture.png" />
 		</l-image-picker>
-		<view wx:if="{{imageFiles.length === 0 && !video}}" class="video-btn" style="margin-top: 20rpx;" bindtap="onChangeVideo">
+		<!-- <view wx:if="{{imageFiles.length === 0 && !video}}" class="video-btn" style="margin-top: 20rpx;" bindtap="onChangeVideo">
 			<image class="icon-pic" src="/images/icon_edit/icon_video.png" width="210" />
 		</view>
 		<video wx:if="{{video}}" class="tmp-video" src="{{video.src}}" poster="{{video.cover}}" direction="0">
 			<view class="del-video" bindtap="onDelVideo">
 				<l-icon name="close" color="#fff" size="18" l-class="icon-close" />
 			</view>
-		</video>
+		</video> -->
 	</view>
 
 	<text wx:if="{{labels.length > 0}}" class="title">标签</text>

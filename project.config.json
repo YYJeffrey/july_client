@@ -41,7 +41,7 @@
     "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.22.0",
+  "libVersion": "2.23.4",
   "appid": "wx0be6c8fa6d9cb4bf",
   "projectname": "july_client",
   "debugOptions": {

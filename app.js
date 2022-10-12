@@ -1,11 +1,7 @@
 //app.js
-import api from "./config/api"
 import wxutil from "./miniprogram_npm/@yyjeffrey/wxutil/index"
 
 App({
-  api: api,
-  wxutil: wxutil,
-
   globalData: {
     appId: wx.getAccountInfoSync().miniProgram.appId,
     githubURI: "YYJeffrey/july_client",

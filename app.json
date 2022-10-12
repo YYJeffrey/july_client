@@ -84,7 +84,6 @@
     "profile-comment": "./components/profile-comment/index",
     "profile-star": "./components/profile-star/index"
   },
-  "lazyCodeLoading": "requiredComponents",
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

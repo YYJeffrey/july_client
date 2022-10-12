@@ -7,8 +7,8 @@ const ossDomain = "https://img.yejiefeng.com"
 
 export default {
   baseAPI, // 根接口
-  socketAPI: socketAPI, // socket接口
-  ossDomain: ossDomain, // OSS域名
+  ossDomain: ossDomain, // 对象存储域名
+  socketAPI: socketAPI, // Socket接口
   labelAPI: baseAPI + "label/", // 标签接口
   topicAPI: baseAPI + "topic/", // 话题接口
   holeAPI: baseAPI + "hole/", // 树洞接口

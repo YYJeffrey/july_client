@@ -1,5 +1,4 @@
-const app = getApp()
-const wxutil = app.wxutil
+import wxutil from "../miniprogram_npm/@yyjeffrey/wxutil/index"
 const defaultPage = 1
 const defaultSize = 16
 

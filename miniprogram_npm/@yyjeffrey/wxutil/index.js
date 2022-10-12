@@ -4,12 +4,15 @@ var __DEFINE__ = function(modId, func, req) { var m = { exports: {}, _tempexport
 var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = __MODS__[modId].m; m._exports = m._tempexports; var desp = Object.getOwnPropertyDescriptor(m, "exports"); if (desp && desp.configurable) Object.defineProperty(m, "exports", { set: function (val) { if(typeof val === "object" && val !== m._exports) { m._exports.__proto__ = val.__proto__; Object.keys(val).forEach(function (k) { m._exports[k] = val[k]; }); } m._tempexports = val }, get: function () { return m._tempexports; } }); __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); } return __MODS__[modId].m.exports; };
 var __REQUIRE_WILDCARD__ = function(obj) { if(obj && obj.__esModule) { return obj; } else { var newObj = {}; if(obj != null) { for(var k in obj) { if (Object.prototype.hasOwnProperty.call(obj, k)) newObj[k] = obj[k]; } } newObj.default = obj; return newObj; } };
 var __REQUIRE_DEFAULT__ = function(obj) { return obj && obj.__esModule ? obj.default : obj; };
-__DEFINE__(1651659935453, function(require, module, exports) {
+__DEFINE__(1665382673789, function(require, module, exports) {
 /**
- * @Author: Jeffrey
- * @CreateDate: 2019-04
- * @Github: https://github.com/YYJeffrey/wxutil
+ * @author: Jeffrey
  */
+
+// 兼容uni-app
+if (typeof uni !== 'undefined') {
+  wx = uni
+}
 
 /**
  * request用法：
@@ -22,7 +25,7 @@ __DEFINE__(1651659935453, function(require, module, exports) {
  * @param {JSON Object} header
  * @param {Boolean} showLoading
  */
- const request = {
+const request = {
   get(url, data = {}, header = {}, showLoading = true) {
     const handler = { url, data, header }
     return this.Request('GET', handler, showLoading)
@@ -61,7 +64,10 @@ __DEFINE__(1651659935453, function(require, module, exports) {
         url: url,
         data: data,
         header: Object.assign(head, header),
-        method: ['GET', 'POST', 'PUT', 'DELETE'].indexOf(method) > -1 ? method : 'GET',
+        method:
+          ['GET', 'POST', 'PUT', 'DELETE'].indexOf(method) > -1
+            ? method
+            : 'GET',
         success: res => {
           if (getApp().gotoAuthPage) {
             getApp().gotoAuthPage(res.data)
@@ -184,7 +190,7 @@ const socket = {
         },
         fail: error => {
           reject(error)
-        },
+        }
       })
     })
   },
@@ -299,13 +305,8 @@ const showToast = (title, handler = {}) => {
  * @param {JSON Object} handler
  */
 const showModal = (title, content, handler = {}) => {
-  const {
-    showCancel,
-    cancelText,
-    confirmText,
-    cancelColor,
-    confirmColor
-  } = handler
+  const { showCancel, cancelText, confirmText, cancelColor, confirmColor } =
+    handler
   return new Promise((resolve, reject) => {
     wx.showModal({
       title: title,
@@ -314,7 +315,8 @@ const showModal = (title, content, handler = {}) => {
       cancelText: typeof cancelText === 'undefined' ? '取消' : cancelText,
       confirmText: typeof confirmText === 'undefined' ? '确定' : confirmText,
       cancelColor: typeof cancelColor === 'undefined' ? '#000000' : cancelColor,
-      confirmColor: typeof confirmColor === 'undefined' ? '#576B95' : confirmColor,
+      confirmColor:
+        typeof confirmColor === 'undefined' ? '#576B95' : confirmColor,
       success: res => {
         resolve(res)
       },
@@ -353,7 +355,7 @@ const showLoading = (title = '加载中...', mask = true) => {
  * @param {String} itemColor
  */
 const showActionSheet = (itemList, itemColor = '#000000') => {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     wx.showActionSheet({
       itemList: itemList,
       itemColor: itemColor,
@@ -396,10 +398,12 @@ const getStorage = key => {
   const dtime = '_deadtime'
   const deadtime = parseInt(wx.getStorageSync(key + dtime))
   if (deadtime && Date.parse(new Date()) / 1000 > parseInt(deadtime)) {
+    wx.removeStorageSync(key)
+    wx.removeStorageSync(key + dtime)
     return null
   }
   const res = wx.getStorageSync(key)
-  if (typeof (res) === 'boolean') {
+  if (typeof res === 'boolean') {
     return res
   }
   return res ? res : null
@@ -466,7 +470,8 @@ const autoUpdate = () => {
       })
       updateManager.onUpdateFailed(() => {
         showModal(
-          '更新提示', '新版本已经准备好，请删除当前小程序，重新搜索打开'
+          '更新提示',
+          '新版本已经准备好，请删除当前小程序，重新搜索打开'
         )
       })
     }
@@ -550,32 +555,64 @@ const getTimestamp = (date = new Date()) => {
 const calculate = {
   add(num1, num2) {
     let r1, r2, m
-    try { r1 = num1.toString().split('.')[1].length } catch (e) { r1 = 0 }
-    try { r2 = num2.toString().split('.')[1].length } catch (e) { r2 = 0 }
+    try {
+      r1 = num1.toString().split('.')[1].length
+    } catch (e) {
+      r1 = 0
+    }
+    try {
+      r2 = num2.toString().split('.')[1].length
+    } catch (e) {
+      r2 = 0
+    }
     m = Math.pow(10, Math.max(r1, r2))
     return (num1 * m + num2 * m) / m
   },
 
   sub(num1, num2) {
     let r1, r2, m, n
-    try { r1 = num1.toString().split('.')[1].length } catch (e) { r1 = 0 }
-    try { r2 = num2.toString().split('.')[1].length } catch (e) { r2 = 0 }
+    try {
+      r1 = num1.toString().split('.')[1].length
+    } catch (e) {
+      r1 = 0
+    }
+    try {
+      r2 = num2.toString().split('.')[1].length
+    } catch (e) {
+      r2 = 0
+    }
     m = Math.pow(10, Math.max(r1, r2))
-    n = (r1 >= r2) ? r1 : r2
+    n = r1 >= r2 ? r1 : r2
     return ((num1 * m - num2 * m) / m).toFixed(n)
   },
 
   mul(num1, num2) {
-    let m = 0, s1 = num1.toString(), s2 = num2.toString()
-    try { m += s1.split('.')[1].length } catch (e) { }
-    try { m += s2.split('.')[1].length } catch (e) { }
-    return Number(s1.replace('.', '')) * Number(s2.replace('.', '')) / Math.pow(10, m)
+    let m = 0,
+      s1 = num1.toString(),
+      s2 = num2.toString()
+    try {
+      m += s1.split('.')[1].length
+    } catch (e) {}
+    try {
+      m += s2.split('.')[1].length
+    } catch (e) {}
+    return (
+      (Number(s1.replace('.', '')) * Number(s2.replace('.', ''))) /
+      Math.pow(10, m)
+    )
   },
 
   div(num1, num2) {
-    var t1 = 0, t2 = 0, r1, r2
-    try { t1 = num1.toString().split('.')[1].length } catch (e) { }
-    try { t2 = num2.toString().split('.')[1].length } catch (e) { }
+    var t1 = 0,
+      t2 = 0,
+      r1,
+      r2
+    try {
+      t1 = num1.toString().split('.')[1].length
+    } catch (e) {}
+    try {
+      t2 = num2.toString().split('.')[1].length
+    } catch (e) {}
     r1 = Number(num1.toString().replace('.', ''))
     r2 = Number(num2.toString().replace('.', ''))
     return (r1 / r2) * Math.pow(10, t2 - t1)
@@ -618,8 +655,9 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
   calculate,
   getUUID
 };
+
 }, function(modId) {var map = {}; return __REQUIRE__(map[modId], modId); })
-return __REQUIRE__(1651659935453);
+return __REQUIRE__(1665382673789);
 })()
 //miniprogram-npm-outsideDeps=[]
 //# sourceMappingURL=index.js.map

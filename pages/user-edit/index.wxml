@@ -3,7 +3,7 @@
 <!-- 编辑资料 -->
 <view class="user-edit">
 	<text class="title">昵称</text>
-	<l-input l-class="input-text" placeholder="请输入昵称" value="{{nickName}}" hide-label maxlength="16" bind:lininput="setNickName" />
+	<l-input l-class="input-text" placeholder="请输入昵称" type="nickname" value="{{nickName}}" hide-label maxlength="16" bind:lininput="setNickName" />
 
 	<text class="title">性别</text>
 	<l-radio-group l-class="input-radio" current="{{gender}}" placement="row" bind:linchange="onChangeGenderTap">

@@ -17,7 +17,7 @@ Page({
     tabsTop: 300, // Tabs距离顶部的高度
     showImageClipper: false, // 是否显示图片裁剪器
     messageBrief: null, // 动态消息概要
-    tmpAvatar: null, // 头像临时文件
+    tmpAvatar: "", // 头像临时文件
     topicPaging: null,  // 话题分页器
     commentPaging: null,  // 评论分页器
     starPaging: null, // 收藏分页器
@@ -258,20 +258,16 @@ Page({
   /**
    * 修改头像
    */
-  changeAvatar() {
+  changeAvatar(event) {
     if (!this.data.user) {
       return
     }
     wx.lin.showMessage({
       content: "设置头像图片"
     })
-    wxutil.image.choose(1).then((res) => {
-      if (res.errMsg === "chooseImage:ok") {
-        this.setData({
-          tmpAvatar: res.tempFilePaths[0],
-          showImageClipper: true
-        })
-      }
+    this.setData({
+      tmpAvatar: event.detail.detail.avatarUrl,
+      showImageClipper: true
     })
   },
 

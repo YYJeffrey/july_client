@@ -7,8 +7,8 @@ Page({
   data: {
     userId: -1,
     gender: 0,
-    nickName: null,
-    signature: null
+    nickName: "",
+    signature: ""
   },
 
   onLoad() {

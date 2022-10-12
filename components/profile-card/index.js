@@ -40,10 +40,10 @@ Component({
     },
 
     /**
-     * 点击头像事件
+     * 点击选择头像事件
      */
-    onAvatarTap() {
-      this.triggerEvent("avatarTap")
+    onChooseAvatarTap(event) {
+      this.triggerEvent("chooseAvatarTap", event)
     },
 
     /**

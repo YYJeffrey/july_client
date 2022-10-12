@@ -7,8 +7,10 @@
 
   <!-- 用户 -->
   <view class="user-info">
-    <view class="avatar-info" bindtap="onAvatarTap">
-      <image class="avatar" src="{{user.avatar ? user.avatar : defaultAvatar}}" />
+    <view class="avatar-info">
+      <button class="avatar-wrapper" open-type="{{isOwner ? 'chooseAvatar' : ''}}" bind:chooseavatar="onChooseAvatarTap">
+        <image class="avatar" src="{{user.avatar ? user.avatar : defaultAvatar}}" />
+      </button>
       <view wx:if="{{user.gender && user.gender !== 0}}" class="gender-box {{user.gender === 1 ? 'male' : 'female'}}">
         <image class="gender-icon" src="../../images/icon_gender/{{user.gender === 1 ? 'icon_male' : 'icon_female'}}.png" />
       </view>

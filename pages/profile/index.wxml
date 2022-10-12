@@ -1,7 +1,7 @@
 <!-- pages/profile/index.wxml -->
 
 <!-- 用户卡片 -->
-<profile-card user="{{user}}" bind:avatarTap="changeAvatar" bind:posterTap="changePoster" />
+<profile-card user="{{user}}" bind:chooseAvatarTap="changeAvatar" bind:posterTap="changePoster" />
 
 <!-- 消息胶囊 -->
 <view wx:if="{{messageBrief}}" class="msg-capsule" bindtap="gotoMessage">

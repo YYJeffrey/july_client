@@ -18,6 +18,5 @@
 	<button class="btn-save" hover-class="btn-save-hover" bindtap="saveInfo">保存</button>
 </view>
 
-
 <!-- 消息提示 -->
 <l-message />

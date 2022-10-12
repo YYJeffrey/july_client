@@ -122,3 +122,14 @@
   color: #7d7d7d;
   margin-left: 10rpx;
 }
+
+.avatar-wrapper {
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50%;
+}
+
+.avatar-wrapper::after {
+  border: none;
+}

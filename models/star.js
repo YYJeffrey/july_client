@@ -14,7 +14,7 @@ class Star {
    * 获取话题收藏列表
    */
   static async getStarList(topicId) {
-    const res = wxutil.request.get(api.starAPI + "topic/" + topicId + "/")
+    const res = await wxutil.request.get(api.starAPI + "topic/" + topicId + "/")
     if (res.code === 200) {
       return res.data
     }

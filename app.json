@@ -85,5 +85,6 @@
     "profile-star": "./components/profile-star/index"
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
 }

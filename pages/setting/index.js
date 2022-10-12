@@ -1,6 +1,6 @@
 // pages/setting/index.js
+import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
 const app = getApp()
-const wxutil = app.wxutil
 
 Page({
   data: {

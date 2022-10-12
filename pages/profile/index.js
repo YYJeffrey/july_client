@@ -1,8 +1,11 @@
 // pages/profile/index.js
-import { Paging } from "../../utils/paging"
+import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
+import { User } from "../../models/user"
+import { Topic } from "../../models/topic"
+import { Comment } from "../../models/comment"
+import { Star } from "../../models/star"
+import { Message } from "../../models/message"
 const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
 
 Page({
   data: {
@@ -49,7 +52,7 @@ Page({
   /**
    * 获取用户信息
    */
-  getUserInfo(loadPage = true) {
+  async getUserInfo(loadPage = true) {
     let userDetail = app.globalData.userDetail
     if (!userDetail) {
       this.setData({
@@ -62,35 +65,32 @@ Page({
     }
 
     const userId = userDetail.id
-    wxutil.request.get(api.userAPI + userId + "/").then((res) => {
-      if (res.code === 200) {
-        // 更新缓存
-        userDetail = Object.assign(userDetail, res.data)
-        wxutil.setStorage("userDetail", userDetail)
-        app.globalData.userDetail = userDetail
-        this.setData({
-          user: userDetail
-        })
-
-        if (loadPage) {
-          this.getTabsTop()
-          wx.setNavigationBarTitle({
-            title: userDetail.nick_name
-          })
-        }
-
-        this.initTopics(userId)
-        this.initComments(userId)
-        this.initStars(userId)
-      }
+    const user = await User.getUserInfo(userId)
+    // 更新缓存
+    userDetail = Object.assign(userDetail, user)
+    wxutil.setStorage("userDetail", userDetail)
+    app.globalData.userDetail = userDetail
+    this.setData({
+      user: userDetail
     })
+
+    if (loadPage) {
+      this.getTabsTop()
+      wx.setNavigationBarTitle({
+        title: userDetail.nick_name
+      })
+    }
+
+    this.initTopics(userId)
+    this.initComments(userId)
+    this.initStars(userId)
   },
 
   /**
    * 初始化话题
    */
   async initTopics(userId) {
-    const topicPaging = new Paging(api.topicAPI + "user/" + userId + "/")
+    const topicPaging = await Topic.getTopicUserPaging(userId)
     this.setData({
       topicPaging: topicPaging
     })
@@ -115,7 +115,7 @@ Page({
    * 初始化评论
    */
   async initComments(userId) {
-    const commentPaging = new Paging(api.commentAPI + "user/" + userId + "/")
+    const commentPaging = await Comment.getCommentUserPaging(userId)
     this.setData({
       commentPaging: commentPaging
     })
@@ -140,7 +140,7 @@ Page({
    * 初始化用户收藏
    */
   async initStars(userId) {
-    const starPaging = new Paging(api.starAPI + "user/" + userId + "/")
+    const starPaging = await Star.getStarUserPaging(userId)
     this.setData({
       starPaging: starPaging
     })
@@ -164,30 +164,28 @@ Page({
   /**
    * 获取消息概要并标红点
    */
-  getMessageBrief() {
+  async getMessageBrief() {
     if (!app.globalData.userDetail) {
       return
     }
-    wxutil.request.get(api.messageAPI + "brief/").then((res) => {
-      if (res.code === 200) {
-        if (res.data.count > 0) {
-          this.setData({
-            messageBrief: res.data
-          })
-          wx.setTabBarBadge({
-            index: 2,
-            text: res.data.count.toString()
-          })
-        } else {
-          this.setData({
-            messageBrief: null
-          })
-          wx.removeTabBarBadge({
-            index: 2
-          })
-        }
-      }
-    })
+
+    const data = await Message.getMessageBrief()
+    if (data.count > 0) {
+      this.setData({
+        messageBrief: data
+      })
+      wx.setTabBarBadge({
+        index: 2,
+        text: data.count.toString()
+      })
+    } else {
+      this.setData({
+        messageBrief: null
+      })
+      wx.removeTabBarBadge({
+        index: 2
+      })
+    }
   },
 
   /**
@@ -217,7 +215,7 @@ Page({
   /**
    * 修改封面
    */
-  changePoster() {
+  async changePoster() {
     if (!this.data.user) {
       return
     }
@@ -226,39 +224,33 @@ Page({
     })
 
     // 上传封面
-    wxutil.image.choose(1).then((res) => {
+    wxutil.image.choose(1).then(async (res) => {
       if (res.errMsg === "chooseImage:ok") {
         wxutil.showLoading("上传中...")
+        const data = await User.uploadPoster("file", res.tempFilePaths[0])
+        wx.hideLoading()
 
-        wxutil.file.upload({
-          url: api.userAPI + "poster/",
-          fileKey: "file",
-          filePath: res.tempFilePaths[0]
-        }).then((res) => {
-          wx.hideLoading()
-          const data = JSON.parse(res.data);
-          if (data.code === 200) {
-            // 更新缓存
-            const user = data.data
-            let userDetail = app.globalData.userDetail
-            userDetail = Object.assign(userDetail, user)
-            wxutil.setStorage("userDetail", userDetail)
-            app.globalData.userDetail = userDetail
+        if (data.code === 200) {
+          // 更新缓存
+          const user = data.data
+          let userDetail = app.globalData.userDetail
+          userDetail = Object.assign(userDetail, user)
+          wxutil.setStorage("userDetail", userDetail)
+          app.globalData.userDetail = userDetail
 
-            this.setData({
-              user: user
-            })
-            wx.lin.showMessage({
-              type: "success",
-              content: "封面修改成功！"
-            })
-          } else {
-            wx.lin.showMessage({
-              type: "error",
-              content: "封面修改失败！"
-            })
-          }
-        })
+          this.setData({
+            user: user
+          })
+          wx.lin.showMessage({
+            type: "success",
+            content: "封面修改成功！"
+          })
+        } else {
+          wx.lin.showMessage({
+            type: "error",
+            content: "封面修改失败！"
+          })
+        }
       }
     })
   },
@@ -286,36 +278,33 @@ Page({
   /**
    * 头像裁剪上传
    */
-  onClipTap(event) {
-    wxutil.file.upload({
-      url: api.userAPI + "avatar/",
-      fileKey: "file",
-      filePath: event.detail.url
-    }).then((res) => {
-      const data = JSON.parse(res.data)
-      if (data.code === 200) {
-        // 更新缓存
-        const user = data.data
-        let userDetail = app.globalData.userDetail
-        userDetail = Object.assign(userDetail, user)
-        wxutil.setStorage("userDetail", userDetail)
-        app.globalData.userDetail = userDetail
+  async onClipTap(event) {
+    wxutil.showLoading("上传中...")
+    const data = await User.uploadAvatar("file", event.detail.url)
+    wx.hideLoading()
 
-        this.setData({
-          showImageClipper: false,
-          user: user
-        })
-        wx.lin.showMessage({
-          type: "success",
-          content: "头像修改成功！"
-        })
-      } else {
-        wx.lin.showMessage({
-          type: "error",
-          content: "头像修改失败！"
-        })
-      }
-    })
+    if (data.code === 200) {
+      // 更新缓存
+      const user = data.data
+      let userDetail = app.globalData.userDetail
+      userDetail = Object.assign(userDetail, user)
+      wxutil.setStorage("userDetail", userDetail)
+      app.globalData.userDetail = userDetail
+
+      this.setData({
+        showImageClipper: false,
+        user: user
+      })
+      wx.lin.showMessage({
+        type: "success",
+        content: "头像修改成功！"
+      })
+    } else {
+      wx.lin.showMessage({
+        type: "error",
+        content: "头像修改失败！"
+      })
+    }
   },
 
   /**
@@ -350,29 +339,28 @@ Page({
       type: "confirm",
       title: "提示",
       content: "确定要删除该话题？",
-      success: (res) => {
+      success: async (res) => {
         if (res.confirm) {
           const topics = this.data.topics
           const index = event.detail.index
 
-          wxutil.request.delete(api.topicAPI + topics[index].id + "/").then((res) => {
-            if (res.code === 200) {
-              topics.splice(index, 1)
-              this.setData({
-                topics: topics
-              })
+          const res = await Topic.deleteTopic(topics[index].id)
+          if (res.code === 200) {
+            topics.splice(index, 1)
+            this.setData({
+              topics: topics
+            })
 
-              wx.lin.showMessage({
-                type: "success",
-                content: "删除成功！"
-              })
-            } else {
-              wx.lin.showMessage({
-                type: "error",
-                content: "删除失败！"
-              })
-            }
-          })
+            wx.lin.showMessage({
+              type: "success",
+              content: "删除成功！"
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "删除失败！"
+            })
+          }
         }
       }
     })
@@ -388,29 +376,28 @@ Page({
       type: "confirm",
       title: "提示",
       content: "确定要删除该评论？",
-      success: (res) => {
+      success: async (res) => {
         if (res.confirm) {
           const comments = this.data.comments
           const index = event.detail.index
 
-          wxutil.request.delete(api.commentAPI + comments[index].id + "/").then((res) => {
-            if (res.code === 200) {
-              comments.splice(index, 1)
-              this.setData({
-                comments: comments
-              })
+          const res = await Comment.deleteComment(comments[index].id)
+          if (res.code === 200) {
+            comments.splice(index, 1)
+            this.setData({
+              comments: comments
+            })
 
-              wx.lin.showMessage({
-                type: "success",
-                content: "删除成功！"
-              })
-            } else {
-              wx.lin.showMessage({
-                type: "error",
-                content: "删除失败！"
-              })
-            }
-          })
+            wx.lin.showMessage({
+              type: "success",
+              content: "删除成功！"
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "删除失败！"
+            })
+          }
         }
       }
     })
@@ -426,29 +413,28 @@ Page({
       type: "confirm",
       title: "提示",
       content: "确定要取消收藏该话题？",
-      success: (res) => {
+      success: async (res) => {
         if (res.confirm) {
           const stars = this.data.stars
           const index = event.detail.index
 
-          wxutil.request.post(api.starAPI, { topic_id: stars[index].topic.id }).then((res) => {
-            if (res.code === 200) {
-              stars.splice(index, 1)
-              this.setData({
-                stars: stars
-              })
+          const res = await Star.starOrCancel(stars[index].topic.id)
+          if (res.code === 200) {
+            stars.splice(index, 1)
+            this.setData({
+              stars: stars
+            })
 
-              wx.lin.showMessage({
-                type: "success",
-                content: "取消成功！"
-              })
-            } else {
-              wx.lin.showMessage({
-                type: "error",
-                content: "取消失败！"
-              })
-            }
-          })
+            wx.lin.showMessage({
+              type: "success",
+              content: "取消成功！"
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "取消失败！"
+            })
+          }
         }
       }
     })

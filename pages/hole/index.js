@@ -1,7 +1,6 @@
 // pages/hole/index.js
-import { Paging } from "../../utils/paging"
+import { Hole } from "../../models/hole"
 const app = getApp()
-const api = app.api
 
 Page({
   data: {
@@ -17,7 +16,7 @@ Page({
    * 初始化树洞
    */
   async initHoles() {
-    const holePaging = new Paging(api.holeAPI, { app_id: app.globalData.appId })
+    const holePaging = await Hole.getHolePaging(app.globalData.appId)
     this.setData({
       holePaging: holePaging
     })

@@ -1,7 +1,5 @@
 // pages/message/index.js
-const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
+import { Message } from "../../models/message"
 
 Page({
   data: {
@@ -15,13 +13,10 @@ Page({
   /**
    * 获取动态消息
    */
-  getMessages() {
-    wxutil.request.get(api.messageAPI).then((res) => {
-      if (res.code === 200) {
-        this.setData({
-          messages: res.data
-        })
-      }
+  async getMessages() {
+    const data = await Message.getMessagList()
+    this.setData({
+      messages: data
     })
   },
 

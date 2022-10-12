@@ -1,8 +1,5 @@
 // pages/following/index.js
-import { Paging } from "../../utils/paging"
-const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
+import { Following } from "../../models/following"
 
 Page({
   data: {
@@ -28,7 +25,7 @@ Page({
    * 初始化Ta关注的列表
    */
   async initFollowingList(userId) {
-    const followingPaging = new Paging(api.followingAPI + "user/" + userId + "/")
+    const followingPaging = await Following.getFollowingPaging(userId)
     this.setData({
       followingPaging: followingPaging
     })
@@ -78,27 +75,26 @@ Page({
   /**
    * 关注或取关
    */
-  followOrCancel(userId, msg, index) {
-    wxutil.request.post(api.followingAPI, { "follow_user_id": userId }).then((res) => {
-      if (res.code === 200) {
-        wx.lin.showMessage({
-          type: "success",
-          content: msg + "成功！"
-        })
+  async followOrCancel(userId, msg, index) {
+    const res = await Following.followOrCancel(userId)
+    if (res.code === 200) {
+      wx.lin.showMessage({
+        type: "success",
+        content: msg + "成功！"
+      })
 
-        let followingList = this.data.followingList
-        followingList[index].has_follow = !followingList[index].has_follow
+      let followingList = this.data.followingList
+      followingList[index].has_follow = !followingList[index].has_follow
 
-        this.setData({
-          followingList: followingList
-        })
-      } else {
-        wx.lin.showMessage({
-          type: "error",
-          content: msg + "失败！"
-        })
-      }
-    })
+      this.setData({
+        followingList: followingList
+      })
+    } else {
+      wx.lin.showMessage({
+        type: "error",
+        content: msg + "失败！"
+      })
+    }
   },
 
   /**

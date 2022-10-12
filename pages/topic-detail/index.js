@@ -1,8 +1,10 @@
 // pages/topic-detail/index.js
-import { Paging } from "../../utils/paging"
+import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
+import { Topic } from "../../models/topic"
+import { Comment } from "../../models/comment"
+import { Star } from "../../models/star"
+import { Template } from "../../models/template"
 const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
 
 Page({
   data: {
@@ -56,26 +58,22 @@ Page({
   /**
    * 获取动态详情
    */
-  getTopicDetail(topicId) {
-    wxutil.request.get(api.topicAPI + topicId + "/").then((res) => {
-      if (res.code === 200) {
-        const topic = res.data
-        this.setData({
-          topic: topic
-        })
-        this.initComments(topicId)
-        this.getStars(topicId)
-        this.getTemplateId()
-        this.getScrollHeight()
-      }
+  async getTopicDetail(topicId) {
+    const data = await Topic.getTopicDetail(topicId)
+    this.setData({
+      topic: data
     })
+    this.initComments(topicId)
+    this.getStars(topicId)
+    this.getTemplateId()
+    this.getScrollHeight()
   },
 
   /**
    * 初始化评论
    */
   async initComments(topicId) {
-    const commentPaging = new Paging(api.commentAPI + "topic/" + topicId + "/")
+    const commentPaging = await Comment.getCommentTopicPaging(topicId)
     this.setData({
       commentPaging: commentPaging,
     })
@@ -99,29 +97,24 @@ Page({
   /**
    * 获取收藏
    */
-  getStars(topicId) {
-    wxutil.request.get(api.starAPI + "topic/" + topicId + "/").then((res) => {
-      if (res.code === 200) {
-        this.setData({
-          stars: res.data
-        })
-      }
+  async getStars(topicId) {
+    const data = await Star.getStarList(topicId)
+    this.setData({
+      stars: data
     })
   },
 
   /**
    * 获取评论订阅消息ID
    */
-  getTemplateId(title = "评论模板") {
-    if (app.globalData.userDetail) {
-      wxutil.request.get(api.templateAPI, { title: title }).then((res) => {
-        if (res.code === 200) {
-          this.setData({
-            commentTemplateId: res.data.template_id
-          })
-        }
-      })
+  async getTemplateId(title = "评论模板") {
+    if (!app.globalData.userDetail) {
+      return
     }
+    const data = await Template.getTemplateId(title)
+    this.setData({
+      commentTemplateId: data.template_id
+    })
   },
 
   /**
@@ -165,25 +158,23 @@ Page({
   /**
    * 点击收藏
    */
-  onStarTap() {
+  async onStarTap() {
     const topic = this.data.topic
+    const res = await Star.starOrCancel(topic.id)
+    if (res.code === 200) {
+      const hasStar = topic.has_star
+      topic.has_star = !topic.has_star
 
-    wxutil.request.post(api.starAPI, { topic_id: topic.id }).then((res) => {
-      if (res.code === 200) {
-        const hasStar = topic.has_star
-        topic.has_star = !topic.has_star
-
-        if (hasStar) {
-          topic.star_count--
-        } else {
-          topic.star_count++
-        }
-
-        this.setData({
-          topic: topic
-        })
+      if (hasStar) {
+        topic.star_count--
+      } else {
+        topic.star_count++
       }
-    })
+
+      this.setData({
+        topic: topic
+      })
+    }
   },
 
   /**
@@ -230,21 +221,20 @@ Page({
       type: "confirm",
       title: "提示",
       content: "确定要举报该话题？",
-      success: (res) => {
+      success: async (res) => {
         if (res.confirm) {
-          wxutil.request.post(api.topicAPI + "report/", { topic_id: topicId }).then((res) => {
-            if (res.code === 200) {
-              wx.lin.showMessage({
-                type: "success",
-                content: "举报成功！"
-              })
-            } else {
-              wx.lin.showMessage({
-                type: "error",
-                content: "举报失败！"
-              })
-            }
-          })
+          const res = await Topic.reportTopic(topicId)
+          if (res.code === 200) {
+            wx.lin.showMessage({
+              type: "success",
+              content: "举报成功！"
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "举报失败！"
+            })
+          }
         }
       }
     })
@@ -260,25 +250,24 @@ Page({
       type: "confirm",
       title: "提示",
       content: "确定要删除该话题？",
-      success: (res) => {
+      success: async (res) => {
         if (res.confirm) {
-          wxutil.request.delete(api.topicAPI + topicId + "/").then((res) => {
-            if (res.code === 200) {
-              wx.lin.showMessage({
-                type: "success",
-                content: "删除成功！",
-                success: () => {
-                  wxutil.setStorage("refreshTopics", true)
-                  wx.navigateBack()
-                }
-              })
-            } else {
-              wx.lin.showMessage({
-                type: "error",
-                content: "删除失败！"
-              })
-            }
-          })
+          const res = await Topic.deleteTopic(topicId)
+          if (res.code === 200) {
+            wx.lin.showMessage({
+              type: "success",
+              content: "删除成功！",
+              success: () => {
+                wxutil.setStorage("refreshTopics", true)
+                wx.navigateBack()
+              }
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "删除失败！"
+            })
+          }
         }
       }
     })
@@ -321,7 +310,7 @@ Page({
     const templateId = this.data.commentTemplateId
     wx.requestSubscribeMessage({
       tmplIds: [templateId],
-      complete: () => {
+      complete: async () => {
         // 发送评论
         const topic = this.data.topic
         const data = {
@@ -333,32 +322,31 @@ Page({
           data.comment_id = this.data.commentId
         }
 
-        wxutil.request.post(api.commentAPI, data).then((res) => {
-          if (res.code === 200) {
-            wx.lin.showMessage({
-              type: "success",
-              content: "评论成功！"
-            })
+        const res = await Comment.sendComment(data)
+        if (res.code === 200) {
+          wx.lin.showMessage({
+            type: "success",
+            content: "评论成功！"
+          })
 
-            this.initComments(topic.id)
-            this.scrollToBottom()
+          this.initComments(topic.id)
+          this.scrollToBottom()
 
-            topic.has_comment = true
-            topic.comment_count++
+          topic.has_comment = true
+          topic.comment_count++
 
-            this.setData({
-              topic: topic,
-              comment: null,
-              commentId: null,
-              placeholder: "说说你的想法"
-            })
-          } else {
-            wx.lin.showMessage({
-              type: "error",
-              content: "评论失败！"
-            })
-          }
-        })
+          this.setData({
+            topic: topic,
+            comment: null,
+            commentId: null,
+            placeholder: "说说你的想法"
+          })
+        } else {
+          wx.lin.showMessage({
+            type: "error",
+            content: "评论失败！"
+          })
+        }
       }
     })
   },
@@ -373,25 +361,23 @@ Page({
       type: "confirm",
       title: "提示",
       content: "确定要删除该评论？",
-      success: (res) => {
+      success: async (res) => {
         if (res.confirm) {
           const commentId = event.detail.commentId
+          const res = await Comment.deleteComment(commentId)
+          if (res.code == 200) {
+            this.getTopicDetail(this.data.topic.id)
 
-          wxutil.request.delete(api.commentAPI + commentId + "/").then((res) => {
-            if (res.code == 200) {
-              this.getTopicDetail(this.data.topic.id)
-
-              wx.lin.showMessage({
-                type: "success",
-                content: "删除成功！"
-              })
-            } else {
-              wx.lin.showMessage({
-                type: "error",
-                content: "删除失败！"
-              })
-            }
-          })
+            wx.lin.showMessage({
+              type: "success",
+              content: "删除成功！"
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "删除失败！"
+            })
+          }
         }
       }
     })
@@ -423,6 +409,15 @@ Page({
       title: topic.content,
       imageUrl: topic.images.length > 0 ? topic.images[0] : (topic.video ? topic.video.cover : ''),
       path: "/pages/topic-detail/index?topicId=" + topic.id
+    }
+  },
+
+  onShareTimeline() {
+    const topic = this.data.topic
+    return {
+      title: topic.content,
+      query: "topicId=" + topic.id,
+      imageUrl: topic.images.length > 0 ? topic.images[0] : (topic.video ? topic.video.cover : '')
     }
   }
 })

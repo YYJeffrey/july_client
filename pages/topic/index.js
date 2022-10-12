@@ -1,8 +1,10 @@
 // pages/topic/index.js
-import { Paging } from "../../utils/paging"
+import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
+import { Label } from "../../models/label"
+import { Message } from "../../models/message"
+import { Star } from "../../models/star"
+import { Topic } from "../../models/topic"
 const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
 
 Page({
   data: {
@@ -30,17 +32,14 @@ Page({
   /**
    * 获取标签
    */
-  getLabels() {
-    wxutil.request.get(api.labelAPI, { app_id: app.globalData.appId }).then((res) => {
-      if (res.code === 200) {
-        let labels = [{
-          id: -1,
-          name: "全部"
-        }]
-        this.setData({
-          labels: labels.concat(res.data)
-        })
-      }
+  async getLabels() {
+    const data = await Label.getLabelList(app.globalData.appId)
+    let labels = [{
+      id: -1,
+      name: "全部"
+    }]
+    this.setData({
+      labels: labels.concat(data)
     })
   },
 
@@ -64,24 +63,22 @@ Page({
   /**
    * 获取消息概要并标红点
    */
-  getMsgBrief() {
+  async getMsgBrief() {
     if (!app.globalData.userDetail) {
       return
     }
-    wxutil.request.get(api.messageAPI + "brief/").then((res) => {
-      if (res.code === 200) {
-        if (res.data.count > 0) {
-          wx.setTabBarBadge({
-            index: 2,
-            text: res.data.count.toString()
-          })
-        } else {
-          wx.removeTabBarBadge({
-            index: 2
-          })
-        }
-      }
-    })
+
+    const data = await Message.getMessageBrief()
+    if (data.count > 0) {
+      wx.setTabBarBadge({
+        index: 2,
+        text: data.count.toString()
+      })
+    } else {
+      wx.removeTabBarBadge({
+        index: 2
+      })
+    }
   },
 
   /**
@@ -92,7 +89,7 @@ Page({
     if (labelId !== -1) {
       params.label_id = labelId
     }
-    const topicPaging = new Paging(api.topicAPI, params)
+    const topicPaging = await Topic.getTopicPaging(params)
     this.setData({
       topicPaging: topicPaging
     })
@@ -191,21 +188,20 @@ Page({
       type: "confirm",
       title: "提示",
       content: "确定要举报该话题？",
-      success: (res) => {
+      success: async (res) => {
         if (res.confirm) {
-          wxutil.request.post(api.topicAPI + "report/", { topic_id: topicId }).then((res) => {
-            if (res.code === 200) {
-              wx.lin.showMessage({
-                type: "success",
-                content: "举报成功！"
-              })
-            } else {
-              wx.lin.showMessage({
-                type: "error",
-                content: "举报失败！"
-              })
-            }
-          })
+          const res = await Topic.reportTopic(topicId)
+          if (res.code === 200) {
+            wx.lin.showMessage({
+              type: "success",
+              content: "举报成功！"
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "举报失败！"
+            })
+          }
         }
       }
     })
@@ -222,26 +218,24 @@ Page({
       type: "confirm",
       title: "提示",
       content: "确定要删除该话题？",
-      success: (res) => {
+      success: async (res) => {
         if (res.confirm) {
-          wxutil.request.delete(api.topicAPI + topicId + "/").then((res) => {
-            if (res.code === 200) {
-              topics.splice(topicIndex, 1)
-              this.setData({
-                topics: topics
-              })
-
-              wx.lin.showMessage({
-                type: "success",
-                content: "删除成功！"
-              })
-            } else {
-              wx.lin.showMessage({
-                type: "error",
-                content: "删除失败！"
-              })
-            }
-          })
+          const res = await Topic.deleteTopic(topicId)
+          if (res.code === 200) {
+            topics.splice(topicIndex, 1)
+            this.setData({
+              topics: topics
+            })
+            wx.lin.showMessage({
+              type: "success",
+              content: "删除成功！"
+            })
+          } else {
+            wx.lin.showMessage({
+              type: "error",
+              content: "删除失败！"
+            })
+          }
         }
       }
     })
@@ -272,40 +266,40 @@ Page({
   /**
    * 点击收藏
    */
-  onStarTap(event) {
+  async onStarTap(event) {
     const index = event.currentTarget.dataset.index
     const topics = this.data.topics
     const topic = topics[index]
 
-    wxutil.request.post(api.starAPI, { topic_id: topic.id }).then((res) => {
-      if (res.code === 200) {
-        const hasStar = topic.has_star
-        topic.has_star = !topic.has_star
+    const res = await Star.starOrCancel(topic.id)
+    if (res.code === 200) {
+      const hasStar = topic.has_star
+      topic.has_star = !topic.has_star
 
-        if (hasStar) {
-          topic.star_count--
-        } else {
-          topic.star_count++
-        }
-
-        this.setData({
-          topics: topics
-        })
+      if (hasStar) {
+        topic.star_count--
+      } else {
+        topic.star_count++
       }
-    })
+
+      this.setData({
+        topics: topics
+      })
+    }
   },
 
   /**
    * 跳转话题编辑页或授权页
    */
   onEditTap() {
+    const url = "/pages/topic-edit/index"
     if (app.globalData.userDetail) {
       wx.navigateTo({
-        url: "/pages/topic-edit/index"
+        url: url
       })
     } else {
       wx.navigateTo({
-        url: "/pages/auth/index"
+        url: `/pages/auth/index?goto=${encodeURIComponent(url)}`
       })
     }
   },

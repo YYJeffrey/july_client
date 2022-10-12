@@ -1,8 +1,9 @@
 // pages/visiting-card/index.js
-import { Paging } from "../../utils/paging"
-const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
+import { User } from "../../models/user"
+import { Following } from "../../models/following"
+import { Topic } from "../../models/topic"
+import { Comment } from "../../models/comment"
+import { Star } from "../../models/star"
 
 Page({
   data: {
@@ -49,33 +50,31 @@ Page({
   /**
    * 获取用户信息
    */
-  getUserInfo(userId, loadPage = true) {
-    wxutil.request.get(api.userAPI + userId + "/").then((res) => {
-      if (res.code === 200) {
-        const user = res.data
-        this.setData({
-          user: user
+  async getUserInfo(userId, loadPage = true) {
+    const user = await User.getUserInfo(userId)
+    if (user) {
+      this.setData({
+        user: user
+      })
+
+      if (loadPage) {
+        this.getTabsTop()
+        wx.setNavigationBarTitle({
+          title: user.nick_name
         })
-
-        if (loadPage) {
-          this.getTabsTop()
-          wx.setNavigationBarTitle({
-            title: user.nick_name
-          })
-        }
-
-        this.initTopics(userId)
-        this.initComments(userId)
-        this.initStars(userId)
       }
-    })
+
+      this.initTopics(userId)
+      this.initComments(userId)
+      this.initStars(userId)
+    }
   },
 
   /**
    * 初始化话题
    */
   async initTopics(userId) {
-    const topicPaging = new Paging(api.topicAPI + "user/" + userId + "/")
+    const topicPaging = await Topic.getTopicUserPaging(userId)
     this.setData({
       topicPaging: topicPaging
     })
@@ -100,7 +99,7 @@ Page({
    * 初始化评论
    */
   async initComments(userId) {
-    const commentPaging = new Paging(api.commentAPI + "user/" + userId + "/")
+    const commentPaging = await Comment.getCommentUserPaging(userId)
     this.setData({
       commentPaging: commentPaging
     })
@@ -125,7 +124,7 @@ Page({
    * 初始化用户收藏
    */
   async initStars(userId) {
-    const starPaging = new Paging(api.starAPI + "user/" + userId + "/")
+    const starPaging = await Star.getStarUserPaging(userId)
     this.setData({
       starPaging: starPaging
     })
@@ -173,32 +172,31 @@ Page({
   /**
    * 关注或取关
    */
-  followOrCancel(userId, msg) {
-    wxutil.request.post(api.followingAPI, { "follow_user_id": userId }).then((res) => {
-      if (res.code === 200) {
-        wx.lin.showMessage({
-          type: "success",
-          content: msg + "成功！"
-        })
+  async followOrCancel(userId, msg) {
+    const res = await Following.followOrCancel(userId)
+    if (res.code === 200) {
+      wx.lin.showMessage({
+        type: "success",
+        content: msg + "成功！"
+      })
 
-        let user = this.data.user
-        user.has_follow = !user.has_follow
+      const user = this.data.user
+      user.has_follow = !user.has_follow
 
-        this.setData({
-          user: user
-        })
-      } else if (res.message === "Can Not Following Yourself") {
-        wx.lin.showMessage({
-          type: "error",
-          content: "不能关注自己！"
-        })
-      } else {
-        wx.lin.showMessage({
-          type: "error",
-          content: msg + "失败！"
-        })
-      }
-    })
+      this.setData({
+        user: user
+      })
+    } else if (res.message === "Can Not Following Yourself") {
+      wx.lin.showMessage({
+        type: "error",
+        content: "不能关注自己！"
+      })
+    } else {
+      wx.lin.showMessage({
+        type: "error",
+        content: msg + "失败！"
+      })
+    }
   },
 
   /**

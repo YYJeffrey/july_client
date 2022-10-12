@@ -1,7 +1,7 @@
 // pages/user-edit/index.js
+import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
+import { User } from "../../models/user"
 const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
 
 Page({
   data: {
@@ -18,19 +18,14 @@ Page({
   /**
    * 获取用户详情
    */
-  getUserDetail() {
+  async getUserDetail() {
     const userId = app.globalData.userDetail.id
-
-    wxutil.request.get(api.userAPI + userId + "/").then((res) => {
-      if (res.code === 200) {
-        const user = res.data
-        this.setData({
-          userId: user.id,
-          nickName: user.nick_name,
-          gender: user.gender,
-          signature: user.signature
-        })
-      }
+    const data = await User.getUserInfo(userId)
+    this.setData({
+      userId: data.id,
+      nickName: data.nick_name,
+      gender: data.gender,
+      signature: data.signature
     })
   },
 
@@ -64,7 +59,7 @@ Page({
   /**
    * 保存用户信息
    */
-  saveInfo() {
+  async saveInfo() {
     const nickName = this.data.nickName
     const signature = this.data.signature
     const gender = this.data.gender
@@ -93,28 +88,27 @@ Page({
     }]
 
     // 更新用户信息
-    wxutil.request.put(api.userAPI, data).then((res) => {
-      if (res.code === 200) {
-        let userDetail = app.globalData.userDetail
-        // 更新缓存
-        userDetail = Object.assign(userDetail, res.data)
-        wxutil.setStorage("userDetail", userDetail)
-        app.globalData.userDetail = userDetail
+    const res = await User.updateUser(data)
+    if (res.code === 200) {
+      let userDetail = app.globalData.userDetail
+      // 更新缓存
+      userDetail = Object.assign(userDetail, res.data)
+      wxutil.setStorage("userDetail", userDetail)
+      app.globalData.userDetail = userDetail
 
-        wx.lin.showMessage({
-          type: "success",
-          content: "更新成功！",
-          success: () => {
-            wx.navigateBack()
-          }
-        })
-      } else {
-        wx.lin.showMessage({
-          type: "error",
-          content: "更新失败！"
-        })
-      }
-    })
+      wx.lin.showMessage({
+        type: "success",
+        content: "更新成功！",
+        success: () => {
+          wx.navigateBack()
+        }
+      })
+    } else {
+      wx.lin.showMessage({
+        type: "error",
+        content: "更新失败！"
+      })
+    }
   },
 
   onShareAppMessage() {

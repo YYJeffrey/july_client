@@ -1,8 +1,9 @@
 // pages/chat-room/index.js
 import io from "../../utils/socket.io"
+import api from "../../config/api"
+import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
+import { Chat } from "../../models/chat"
 const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
 let socket = null
 
 Page({
@@ -43,7 +44,7 @@ Page({
   /**
    * 获取聊天列表
    */
-  getChatList() {
+  async getChatList() {
     const msg = this.data.msg
     let data = {
       room_id: this.data.roomId
@@ -52,14 +53,10 @@ Page({
       data["create_time"] = msg[0]["create_time"]
     }
 
-    wxutil.request.get(api.chatResAPI, data).then((res) => {
-      if (res.code === 200) {
-        let data = res.data
-        data.reverse()
-        this, this.setData({
-          msg: data.concat(this.data.msg),
-        })
-      }
+    let chatList = await Chat.getChatList(data)
+    chatList.reverse()
+    this, this.setData({
+      msg: chatList.concat(this.data.msg),
     })
   },
 
@@ -193,23 +190,19 @@ Page({
    * 发送图片
    */
   sendImg() {
-    wxutil.image.choose(1).then((res) => {
+    wxutil.image.choose(1).then(async (res) => {
       if (res.errMsg === "chooseImage:ok") {
-        wxutil.file.upload({
-          url: api.holeAPI + "images/",
-          fileKey: "file",
-          filePath: res.tempFilePaths[0]
-        }).then((res) => {
-          const data = JSON.parse(res.data)
-          if (data.code === 200) {
-            this.sendSocketMessage("images", data.data.url)
-          } else {
-            wx.lin.showMessage({
-              type: "error",
-              content: "发送图片失败！"
-            })
-          }
-        })
+        wxutil.showLoading("发送中...")
+        const data = await Chat.uploadImage("file", res.tempFilePaths[0])
+        wx.hideLoading()
+        if (data.code === 200) {
+          this.sendSocketMessage("images", data.data.url)
+        } else {
+          wx.lin.showMessage({
+            type: "error",
+            content: "发送图片失败！"
+          })
+        }
       }
     })
   },

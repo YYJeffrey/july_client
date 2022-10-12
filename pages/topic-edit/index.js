@@ -1,8 +1,12 @@
 // pages/topic-edit/index.js
+import api from "../../config/api"
+import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
+import { init, upload } from "../../utils/qiniuUploader"
+import { Label } from "../../models/label"
+import { Template } from "../../models/template"
+import { OSS } from "../../models/oss"
+import { Topic } from "../../models/topic"
 const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
-import { init, upload } from "../../utils/qiniuUploader";
 
 Page({
   data: {
@@ -46,44 +50,35 @@ Page({
   /**
    * 获取标签
    */
-  getLabels() {
-    wxutil.request.get(api.labelAPI, { app_id: app.globalData.appId }).then((res) => {
-      if (res.code === 200) {
-        this.setData({
-          labels: res.data
-        })
-      }
+  async getLabels() {
+    const data = await Label.getLabelList(app.globalData.appId)
+    this.setData({
+      labels: data
     })
   },
 
   /**
-   * 获取评论模板ID
+   * 获取评论订阅消息ID
    */
-  getTemplateId(title = "评论模板") {
-    wxutil.request.get(api.templateAPI, { title: title }).then((res) => {
-      if (res.code === 200) {
-        this.setData({
-          commentTemplateId: res.data.template_id
-        })
-      }
+  async getTemplateId(title = "评论模板") {
+    const data = await Template.getTemplateId(title)
+    this.setData({
+      commentTemplateId: data.template_id
     })
   },
 
   /**
    * 初始化七牛云配置
    */
-  initQiniu() {
-    wxutil.request.get(api.ossAPI).then((res) => {
-      if (res.code === 200) {
-        const options = {
-          region: "ECN",
-          uptoken: res.data.uptoken,
-          domain: api.ossDomain,
-          shouldUseQiniuFileName: false
-        }
-        init(options)
-      }
-    })
+  async initQiniu() {
+    const data = await OSS.getQiniu()
+    const options = {
+      region: "ECN",
+      uptoken: data.uptoken,
+      domain: api.ossDomain,
+      shouldUseQiniuFileName: false
+    }
+    init(options)
   },
 
   /**
@@ -283,25 +278,24 @@ Page({
   /**
    * 上传话题
    */
-  uploadTopic(data) {
-    wxutil.request.post(api.topicAPI, data).then((res) => {
-      wx.hideLoading()
-      if (res.code === 200) {
-        wx.lin.showMessage({
-          type: "success",
-          content: "发布成功！",
-          success: () => {
-            wxutil.setStorage("refreshTopics", true)
-            wx.navigateBack()
-          }
-        })
-      } else {
-        wx.lin.showMessage({
-          type: "error",
-          content: "发布失败！"
-        })
-      }
-    })
+  async uploadTopic(data) {
+    const res = await Topic.sendTopic(data)
+    wx.hideLoading()
+    if (res.code === 200) {
+      wx.lin.showMessage({
+        type: "success",
+        content: "发布成功！",
+        success: () => {
+          wxutil.setStorage("refreshTopics", true)
+          wx.navigateBack()
+        }
+      })
+    } else {
+      wx.lin.showMessage({
+        type: "error",
+        content: "发布失败！"
+      })
+    }
   },
 
   onShareAppMessage() {

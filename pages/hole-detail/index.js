@@ -1,7 +1,8 @@
 // pages/hole-detail/index.js
+import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
+import { Hole } from "../../models/hole"
+import { Template } from "../../models/template"
 const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
 
 Page({
   data: {
@@ -20,29 +21,23 @@ Page({
   /**
    * 获取树洞详情
    */
-  getHoleDetail(holeId) {
-    wxutil.request.get(api.holeAPI + holeId + "/").then((res) => {
-      if (res.code === 200) {
-        this.setData({
-          hole: res.data
-        })
-      }
+  async getHoleDetail(holeId) {
+    const data = await Hole.getHoleDetail(holeId)
+    this.setData({
+      hole: data
     })
   },
 
   /**
    * 获取预约订阅消息ID
    */
-  getTemplateId(title = "预约模板") {
+  async getTemplateId(title = "预约模板") {
     if (!app.globalData.userDetail) {
       return
     }
-    wxutil.request.get(api.templateAPI, { title: title }).then((res) => {
-      if (res.code === 200) {
-        this.setData({
-          reportTemplateId: res.data.template_id
-        })
-      }
+    const data = await Template.getTemplateId(title)
+    this.setData({
+      reportTemplateId: data.template_id
     })
   },
 
@@ -92,25 +87,24 @@ Page({
   /**
    * 预约树洞
    */
-  orderHole(holeId) {
-    wxutil.request.post(api.holeAPI + "order/", { hole_id: holeId }).then((res) => {
-      if (res.code === 200) {
-        wx.lin.showMessage({
-          type: "success",
-          content: "预约成功！"
-        })
-      } else if (res.message === "Can Not Repeated Report") {
-        wx.lin.showMessage({
-          type: "error",
-          content: "请勿重复预约！"
-        })
-      } else {
-        wx.lin.showMessage({
-          type: "error",
-          content: "预约失败！"
-        })
-      }
-    })
+  async orderHole(holeId) {
+    const res = await Hole.orderHole(holeId)
+    if (res.code === 200) {
+      wx.lin.showMessage({
+        type: "success",
+        content: "预约成功！"
+      })
+    } else if (res.message === "Can Not Repeated Report") {
+      wx.lin.showMessage({
+        type: "error",
+        content: "请勿重复预约！"
+      })
+    } else {
+      wx.lin.showMessage({
+        type: "error",
+        content: "预约失败！"
+      })
+    }
   },
 
   /**
@@ -140,21 +134,21 @@ Page({
     wx.vibrateShort()
   },
 
-  onShareTimeline() {
-    const hole = this.data.hole
-    return {
-      title: hole.title,
-      query: "holeId=" + hole.id,
-      imageUrl: hole.poster
-    }
-  },
-
   onShareAppMessage() {
     const hole = this.data.hole
     return {
       title: hole.title,
       imageUrl: hole.poster,
       path: "/pages/hole-detail/index?holeId=" + hole.id
+    }
+  },
+
+  onShareTimeline() {
+    const hole = this.data.hole
+    return {
+      title: hole.title,
+      query: "holeId=" + hole.id,
+      imageUrl: hole.poster
     }
   }
 })

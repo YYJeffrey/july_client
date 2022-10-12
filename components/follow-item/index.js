@@ -10,12 +10,12 @@ Component({
     // 是否为已关注
     hasFollow: {
       type: Boolean,
-      type: false
+      value: false
     },
     // 是否为主动关注
     isFollowing: {
       type: Boolean,
-      type: false
+      value: false
     }
   },
   data: {

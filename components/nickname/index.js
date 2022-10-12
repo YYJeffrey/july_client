@@ -27,13 +27,14 @@ Component({
      * 跳转名片页或授权页
      */
     onNicknameTap() {
+      const url = "/pages/visiting-card/index?userId=" + this.data.userId
       if (app.globalData.userDetail) {
         wx.navigateTo({
-          url: "/pages/visiting-card/index?userId=" + this.data.userId
+          url: url
         })
       } else {
         wx.navigateTo({
-          url: "/pages/auth/index"
+          url: `/pages/auth/index?goto=${encodeURIComponent(url)}`
         })
       }
     }

@@ -1,7 +1,5 @@
 // components/profile-topic/index.js
 const app = getApp()
-const api = app.api
-const wxutil = app.wxutil
 
 Component({
   properties: {

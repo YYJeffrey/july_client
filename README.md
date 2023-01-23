@@ -62,6 +62,30 @@
 
     <img src="https://img.yejiefeng.com/screenshots/%E6%A8%A1%E6%9D%BF%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE.png" width="650px" />
 
+6. **域名配置**  
+    发布小程序，需进入[微信小程序后台](https://mp.weixin.qq.com/)的开发管理中配置如下域名：
+
+    **request 域名**
+    ```
+    https://api.july.yejiefeng.com
+    ```
+
+    **socket 域名**
+    ```
+    wss://api.july.yejiefeng.com
+    ```
+
+    **uploadFile 域名**
+    ```
+    https://api.july.yejiefeng.com
+    https://up.qiniup.com
+    ```
+
+    **downloadFile 域名**
+    ```
+    https://img.yejiefeng.com
+    ```
+
 
 ## API文档
 七月接口遵循 RESTful 开发风格，接口内容参阅下方链接。

@@ -394,15 +394,6 @@ Page({
     }, 1000)
   },
 
-  onShareTimeline() {
-    const topic = this.data.topic
-    return {
-      title: topic.content,
-      query: "topicId=" + topic.id,
-      imageUrl: topic.images.length > 0 ? topic.images[0] : (topic.video ? topic.video.cover : '')
-    }
-  },
-
   onShareAppMessage() {
     const topic = this.data.topic
     return {

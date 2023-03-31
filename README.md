@@ -6,7 +6,7 @@
 
 一款集成 Lin UI 开发而成的 SaaS 社交微信小程序。海内存知己，天涯若比邻，期待大家的交流互动！
 
-技术交流（闲聊吹水）群：592832957
+技术交流（闲聊吹水）群：592832957，请备注来源，谢谢！
 
 <img src="https://img.yejiefeng.com/qr/july_qr_code.jpg" width="180px" />
 

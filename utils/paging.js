@@ -1,4 +1,4 @@
-import wxutil from "../miniprogram_npm/@yyjeffrey/wxutil/index"
+import wxutil from '../miniprogram_npm/@yyjeffrey/wxutil/index'
 const defaultPage = 1
 const defaultSize = 16
 
@@ -40,19 +40,19 @@ class Paging {
     const params = this._getMergeParams()
     const res = await wxutil.request.get(this.url, params)
 
-    if (!res || res.code !== 200) {
+    if (!res || res.code !== 0) {
       return null
     }
-    if (res.data.length < this.size) {
+    if (res.data.next_page === null) {
       this.hasMore = false
     }
 
-    this.accumulator = this.accumulator.concat(res.data)
+    this.accumulator = this.accumulator.concat(res.data.items)
     this.page++
 
     return {
       hasMore: this.hasMore,
-      items: res.data,
+      items: res.data.items,
       accumulator: this.accumulator
     }
   }

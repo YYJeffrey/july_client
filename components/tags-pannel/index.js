@@ -4,8 +4,8 @@ Component({
     labels: Array,
     // 激活的标签ID
     activeLabelId: {
-      type: Number,
-      value: -1
+      type: String,
+      value: '-1'
     },
     // 是否下拉弹窗
     showPopup: {
@@ -33,7 +33,7 @@ Component({
       this.setData({
         activeLabelId: activeLabelId
       })
-      this.triggerEvent("tagtap", { "activeLabelId": activeLabelId })
+      this.triggerEvent('tagtap', { 'activeLabelId': activeLabelId })
     }
   }
 })

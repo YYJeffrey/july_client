@@ -1,21 +1,14 @@
 // pages/hole-detail/index.js
-import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
-import { Hole } from "../../models/hole"
-import { Template } from "../../models/template"
+import { Hole } from '../../models/hole'
 const app = getApp()
 
 Page({
   data: {
     hole: null,
-    reportTemplateId: null  // 预约订阅消息ID
   },
 
   onLoad(options) {
     this.getHoleDetail(options.holeId)
-  },
-
-  onShow() {
-    this.getTemplateId()
   },
 
   /**
@@ -29,19 +22,6 @@ Page({
   },
 
   /**
-   * 获取预约订阅消息ID
-   */
-  async getTemplateId(title = "预约模板") {
-    if (!app.globalData.userDetail) {
-      return
-    }
-    const data = await Template.getTemplateId(title)
-    this.setData({
-      reportTemplateId: data.template_id
-    })
-  },
-
-  /**
    * 进入树洞或预约树洞
    */
   onJoinTap() {
@@ -50,20 +30,15 @@ Page({
     }
 
     const hole = this.data.hole
-    let now = wxutil.getDateTime()
-    now = now.replace(/-/g, "/");
-    const nowTime = new Date(now)
-    const startTime = new Date(now.substr(0, 11) + hole.start_time)
-    const endTime = new Date(now.substr(0, 11) + hole.end_time)
 
     // 预约树洞
-    if (nowTime < startTime || nowTime > endTime) {
+    if (hole.status === 'UN_ENABLED') {
       const dialog = this.selectComponent('#dialog')
 
       dialog.linShow({
-        type: "confirm",
-        title: "提示",
-        content: "树洞暂未开启，是否提前预约？",
+        type: 'confirm',
+        title: '提示',
+        content: '树洞暂未开启，是否提前预约？',
         success: (res) => {
           if (res.confirm) {
             wx.requestSubscribeMessage({
@@ -76,33 +51,27 @@ Page({
         }
       })
     }
+
     // 进入树洞
-    else {
-      const roomId = this.data.hole.room_id
-      const countDown = (endTime - nowTime) / 1000
-      this.gotoChatRoom(roomId, countDown)
+    else if (hole.status === 'ENABLED') {
+      this.gotoChatRoom()
     }
   },
 
   /**
    * 预约树洞
    */
-  async orderHole(holeId) {
-    const res = await Hole.orderHole(holeId)
-    if (res.code === 200) {
+  async orderHole() {
+    const res = await Hole.orderHole(this.data.hole.id)
+    if (res.code === 0) {
       wx.lin.showMessage({
-        type: "success",
-        content: "预约成功！"
-      })
-    } else if (res.message === "Can Not Repeated Report") {
-      wx.lin.showMessage({
-        type: "error",
-        content: "请勿重复预约！"
+        type: 'success',
+        content: '预约成功！'
       })
     } else {
       wx.lin.showMessage({
-        type: "error",
-        content: "预约失败！"
+        type: 'error',
+        content: res.msg
       })
     }
   },
@@ -110,9 +79,17 @@ Page({
   /**
    * 跳转聊天室页
    */
-  gotoChatRoom(roomId, countDown) {
+  gotoChatRoom() {
+    const hole = this.data.hole
+    const roomId = hole.room_id
+    const holeId = hole.id
+
+    const endTime = new Date(hole.end_time)
+    const nowTime = new Date()
+    const countDown = Math.floor(Math.abs((endTime - nowTime) / 1000))
+
     wx.navigateTo({
-      url: "/pages/chat-room/index?roomId=" + roomId + "&countDown=" + countDown,
+      url: `/pages/chat-room/index?roomId=${roomId}&holeId=${holeId}&countDown=${countDown}`
     })
   },
 
@@ -121,7 +98,7 @@ Page({
    */
   gotoAuth() {
     wx.navigateTo({
-      url: "/pages/auth/index"
+      url: '/pages/auth/index'
     })
   },
 
@@ -139,7 +116,7 @@ Page({
     return {
       title: hole.title,
       imageUrl: hole.poster,
-      path: "/pages/hole-detail/index?holeId=" + hole.id
+      path: `/pages/hole-detail/index?holeId=${hole.id}`
     }
   },
 
@@ -147,7 +124,7 @@ Page({
     const hole = this.data.hole
     return {
       title: hole.title,
-      query: "holeId=" + hole.id,
+      query: `holeId=${hole.id}`,
       imageUrl: hole.poster
     }
   }

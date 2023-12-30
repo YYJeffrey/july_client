@@ -1,27 +1,23 @@
-import api from "../config/api"
-import wxutil from "../miniprogram_npm/@yyjeffrey/wxutil/index"
+import api from '../config/api'
+import wxutil from '../miniprogram_npm/@yyjeffrey/wxutil/index'
 
 class Message {
   /**
-   * 获取消息概要
+   * 获取消息
    */
-  static async getMessageBrief() {
-    const res = await wxutil.request.get(api.messageAPI + "brief/")
-    if (res.code === 200) {
+  static async getMessages() {
+    const res = await wxutil.request.get(api.messageAPI)
+    if (res.code === 0) {
       return res.data
     }
     return null
   }
 
   /**
-   * 获取消息列表
+   * 已读消息
    */
-  static async getMessagList() {
-    const res = await wxutil.request.get(api.messageAPI)
-    if (res.code === 200) {
-      return res.data
-    }
-    return null
+  static async readMessages() {
+    return await wxutil.request.post(`${api.messageAPI}/read`)
   }
 }
 

@@ -5,7 +5,7 @@
   <view class="item {{topics.length - 1 === index ? 'no-border' : ''}}" wx:for="{{topics}}" wx:key="index" data-index="{{index}}" bindtap="gotoTopicDetail">
     <image wx:if="{{item.images.length > 0 || item.video}}" class="img" src="{{item.images.length > 0 ? item.images[0] + '?imageView2/1/w/180/h/180' : (item.video ? item.video.cover + '?imageView2/1/w/180/h/180' : '')}}" mode="aspectFill" />
     <view class="item-right">
-      <text class="time">{{item.create_time}}</text>
+      <text class="time">{{item.push_time}}</text>
       <text class="content">{{item.content}}</text>
       <text wx:if="{{isOwner}}" class="delete" data-index="{{index}}" catchtap="onDeleteTap">删除</text>
     </view>

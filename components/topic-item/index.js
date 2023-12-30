@@ -1,8 +1,9 @@
 // components/topic-item/index.js
 Component({
-  externalClasses: ["topic-item-class"],
+  externalClasses: ['topic-item-class'],
   properties: {
     topic: Object,
+    labels: Array,
     // 最大内容显示字数
     maxContentLen: {
       type: Number,
@@ -32,6 +33,11 @@ Component({
     autoplay: {
       type: Boolean,
       value: false
+    },
+    // 是否静音播放视频
+    muted: {
+      type: Boolean,
+      value: false
     }
   },
   data: {
@@ -42,14 +48,14 @@ Component({
      * 点击更多图标事件
      */
     onMoreIconTap() {
-      this.triggerEvent("moreIconTap")
+      this.triggerEvent('moreIconTap')
     },
 
     /**
      * 点击标签事件
      */
     onTagTap(event) {
-      this.triggerEvent("tagTap", { labelId: event.target.dataset.labelId })
+      this.triggerEvent('tagTap', { labelId: event.target.dataset.labelId })
     },
 
     /**
@@ -79,7 +85,7 @@ Component({
       })
 
       wx.navigateTo({
-        url: "/pages/topic-detail/index?topicId=" + topic.id
+        url: `/pages/topic-detail/index?topicId=${topic.id}`
       })
     },
 

@@ -2,16 +2,19 @@
 const app = getApp()
 
 Component({
-  externalClasses: ["nickname-class"],
+  externalClasses: ['nickname-class'],
   properties: {
-    nickname: String,
+    nickname: {
+      type: String,
+      value: null
+    },
     size: {
       type: Number,
       value: 28
     },
     userId: {
-      type: Number,
-      value: -1
+      type: String,
+      value: null
     },
     // 是否可链接
     isLink: {
@@ -20,14 +23,15 @@ Component({
     }
   },
   data: {
-
+    defaultNickname: '微信用户'
   },
   methods: {
     /**
      * 跳转名片页或授权页
      */
     onNicknameTap() {
-      const url = "/pages/visiting-card/index?userId=" + this.data.userId
+      const url = `/pages/visiting-card/index?userId=${this.data.userId}`
+
       if (app.globalData.userDetail) {
         wx.navigateTo({
           url: url

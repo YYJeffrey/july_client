@@ -5,33 +5,33 @@
 
 <!-- 消息胶囊 -->
 <view wx:if="{{messageBrief}}" class="msg-capsule" bindtap="gotoMessage">
-	<avatar src="{{messageBrief.avatar}}" isLink="{{false}}" />
-	<text class="msg-tip">{{messageBrief.count < 99 ? messageBrief.count : '99+' }}条新动态</text>
+  <avatar src="{{messageBrief[0].action_user.avatar}}" isLink="{{false}}" />
+  <text class="msg-tip">{{messageBrief.length < 99 ? messageBrief.length : '99+' }}条新动态</text>
 </view>
 
 <!-- TAB栏 -->
 <l-tabs id="tabs" l-header-class="tabs {{tabsFixed ? 'tabs-fixed' : ''}}" l-line-class="tabs-line" animated animated-for-line active-color="#337559" bind:linchange="changeTabs">
-	<l-tabpanel tab="话题" key="topic" slot="topic">
-		<view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
-			<nothing wx:if="{{topics.length === 0}}" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" pic="../../images/icon_nothing/pic_topic.png" tip="你还没有发布话题" />
-			<profile-topic topics="{{topics}}" isOwner bind:deleteTap="deleteTopic" />
-			<l-loadmore show="{{!hasMoreTopic && topics.length > 0}}" line type="end" end-text="已经到底了" />
-		</view>
-	</l-tabpanel>
-	<l-tabpanel tab="评论" key="comment" slot="comment">
-		<view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
-			<nothing wx:if="{{comments.length === 0}}" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" pic="../../images/icon_nothing/pic_comment.png" tip="你还没有发表评论" />
-			<profile-comment comments="{{comments}}" isOwner bind:deleteTap="deleteComment" />
-			<l-loadmore show="{{!hasMoreComment && comments.length > 0}}" line type="end" end-text="已经到底了" />
-		</view>
-	</l-tabpanel>
-	<l-tabpanel tab="收藏" key="star" slot="star">
-		<view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
-			<nothing wx:if="{{stars.length === 0}}" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" pic="../../images/icon_nothing/pic_star.png" tip="你还没有收藏话题" />
-			<profile-star stars="{{stars}}" isOwner bind:deleteTap="deleteStar" />
-			<l-loadmore show="{{!hasMoreStar && stars.length > 0}}" line type="end" end-text="已经到底了" />
-		</view>
-	</l-tabpanel>
+  <l-tabpanel tab="话题" key="topic" slot="topic">
+    <view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
+      <nothing wx:if="{{topics.length === 0}}" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" pic="../../images/icon_nothing/pic_topic.png" tip="你还没有发布话题" />
+      <profile-topic topics="{{topics}}" isOwner bind:deleteTap="deleteTopic" />
+      <l-loadmore show="{{!hasMoreTopic && topics.length > 0}}" line type="end" end-text="已经到底了" />
+    </view>
+  </l-tabpanel>
+  <l-tabpanel tab="评论" key="comment" slot="comment">
+    <view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
+      <nothing wx:if="{{comments.length === 0}}" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" pic="../../images/icon_nothing/pic_comment.png" tip="你还没有发表评论" />
+      <profile-comment comments="{{comments}}" isOwner bind:deleteTap="deleteComment" />
+      <l-loadmore show="{{!hasMoreComment && comments.length > 0}}" line type="end" end-text="已经到底了" />
+    </view>
+  </l-tabpanel>
+  <l-tabpanel tab="收藏" key="star" slot="star">
+    <view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
+      <nothing wx:if="{{stars.length === 0}}" nothing-class="{{messageBrief ? 'nothing-message' : 'nothing'}}" pic="../../images/icon_nothing/pic_star.png" tip="你还没有收藏话题" />
+      <profile-star stars="{{stars}}" isOwner bind:deleteTap="deleteStar" />
+      <l-loadmore show="{{!hasMoreStar && stars.length > 0}}" line type="end" end-text="已经到底了" />
+    </view>
+  </l-tabpanel>
 </l-tabs>
 
 <!-- 图片裁剪器 -->

@@ -2,20 +2,20 @@
 
 <!-- 编辑资料 -->
 <view class="user-edit">
-	<text class="title">昵称</text>
-	<l-input l-class="input-text" placeholder="请输入昵称" type="nickname" value="{{nickName}}" hide-label maxlength="16" bind:lininput="setNickName" />
+  <text class="title">昵称</text>
+  <l-input l-class="input-text" placeholder="请输入昵称" type="nickname" value="{{nickname}}" hide-label maxlength="16" bind:lininput="setNickname" />
 
-	<text class="title">性别</text>
-	<l-radio-group l-class="input-radio" current="{{gender}}" placement="row" bind:linchange="onChangeGenderTap">
-		<l-radio l-class="radio" select-color="#337559" key="1">男</l-radio>
-		<l-radio l-class="radio" select-color="#337559" key="2">女</l-radio>
-		<l-radio l-class="radio" select-color="#337559" key="0">保密</l-radio>
-	</l-radio-group>
+  <text class="title">性别</text>
+  <l-radio-group l-class="input-radio" current="{{gender}}" placement="row" bind:linchange="onChangeGenderTap">
+    <l-radio l-class="radio" select-color="#337559" key="MAN">男</l-radio>
+    <l-radio l-class="radio" select-color="#337559" key="WOMAN">女</l-radio>
+    <l-radio l-class="radio" select-color="#337559" key="UN_KNOW">保密</l-radio>
+  </l-radio-group>
 
-	<text class="title">个性签名</text>
-	<l-textarea l-class="input-textarea" l-inner-class="inner-textarea" placeholder="请输入个性签名" border="{{false}}" indicator="{{false}}" maxlength="30" value="{{signature}}" bind:lininput="setSignature" />
+  <text class="title">个性签名</text>
+  <l-textarea l-class="input-textarea" l-inner-class="inner-textarea" placeholder="请输入个性签名" border="{{false}}" indicator="{{false}}" maxlength="30" value="{{signature}}" bind:lininput="setSignature" />
 
-	<button class="btn-save" hover-class="btn-save-hover" bindtap="saveInfo">保存</button>
+  <button class="btn-save" hover-class="btn-save-hover" bindtap="saveInfo">保存</button>
 </view>
 
 <!-- 消息提示 -->

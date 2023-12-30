@@ -1,5 +1,6 @@
 // pages/message/index.js
-import { Message } from "../../models/message"
+import { Message } from '../../models/message'
+const app = getApp()
 
 Page({
   data: {
@@ -8,16 +9,24 @@ Page({
 
   onLoad() {
     this.getMessages()
+    this.readMessages()
   },
 
   /**
    * 获取动态消息
    */
   async getMessages() {
-    const data = await Message.getMessagList()
+    const data = await Message.getMessages()
     this.setData({
       messages: data
     })
+  },
+
+  /**
+   * 已读动态消息
+   */
+  async readMessages() {
+    await Message.readMessages()
   },
 
   /**
@@ -27,21 +36,21 @@ Page({
     const category = event.detail.category
     const topicId = event.detail.topicId
 
-    if (category === "star" || category === "comment") {
+    if (category === 'STAR' || category === 'COMMENT') {
       wx.navigateTo({
-        url: "/pages/topic-detail/index?topicId=" + topicId
+        url: `/pages/topic-detail/index?topicId=${topicId}`
       })
-    } else if (category === "follow") {
+    } else if (category === 'FOLLOWING') {
       wx.navigateTo({
-        url: "/pages/follower/index?userId=" + app.globalData.userDetail.id + "&title=我的关注"
+        url: `/pages/follower/index?userId=${app.globalData.userDetail.id}&title=关注我的`
       })
     }
   },
 
   onShareAppMessage() {
     return {
-      title: "主页",
-      path: "/pages/topic/index"
+      title: '主页',
+      path: '/pages/topic/index'
     }
   }
 })

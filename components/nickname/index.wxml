@@ -1,4 +1,4 @@
 <!--components/nickname/index.wxml-->
 
 <!-- 昵称 -->
-<text class="nickname-class {{userId !== -1 ? 'nickname' : 'nickname-anon'}}" style="font-size: {{size}}rpx;" data-user-id="{{userId}}" catchtap="{{isLink ? 'onNicknameTap' : ''}}">{{nickname}}</text>
+<text class="nickname-class {{nickname ? 'nickname' : 'nickname-anon'}}" style="font-size: {{size}}rpx;" data-user-id="{{userId}}" catchtap="{{isLink ? 'onNicknameTap' : ''}}">{{nickname || defaultNickname}}</text>

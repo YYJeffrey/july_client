@@ -5,27 +5,27 @@
 
 <!-- Ta的动态 -->
 <l-tabs wx:if="{{user}}" id="tabs" l-header-class="tabs {{tabsFixed ? 'tabs-fixed' : ''}}" l-line-class="tabs-line" animated animated-for-line active-color="#337559" bind:linchange="changeTabs">
-	<l-tabpanel tab="话题" key="topic" slot="topic">
-		<view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
-			<nothing wx:if="{{topics.length === 0}}" nothing-class="nothing" pic="../../images/icon_nothing/pic_topic.png" tip="{{m.getGenderText(user.gender)}}还没有发布话题" />
-			<profile-topic topics="{{topics}}" isOwner="{{false}}" />
-			<l-loadmore show="{{!hasMoreTopic && topics.length > 0}}" line type="end" end-text="已经到底了" />
-		</view>
-	</l-tabpanel>
-	<l-tabpanel tab="评论" key="comment" slot="comment">
-		<view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
-			<nothing wx:if="{{comments.length === 0}}" nothing-class="nothing" pic="../../images/icon_nothing/pic_comment.png" tip="{{m.getGenderText(user.gender)}}还没有发表评论" />
-			<profile-comment comments="{{comments}}" isOwner="{{false}}" />
-			<l-loadmore show="{{!hasMoreComment && comments.length > 0}}" line type="end" end-text="已经到底了" />
-		</view>
-	</l-tabpanel>
-	<l-tabpanel tab="收藏" key="star" slot="star">
-		<view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
-			<nothing wx:if="{{stars.length === 0}}" nothing-class="nothing" pic="../../images/icon_nothing/pic_star.png" tip="{{m.getGenderText(user.gender)}}还没有收藏话题" />
-			<profile-star stars="{{stars}}" isOwner="{{false}}" />
-			<l-loadmore show="{{!hasMoreStar && stars.length > 0}}" line type="end" end-text="已经到底了" />
-		</view>
-	</l-tabpanel>
+  <l-tabpanel tab="话题" key="topic" slot="topic">
+    <view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
+      <nothing wx:if="{{topics.length === 0}}" nothing-class="nothing" pic="../../images/icon_nothing/pic_topic.png" tip="{{m.getGenderText(user.gender)}}还没有发布话题" />
+      <profile-topic topics="{{topics}}" isOwner="{{false}}" />
+      <l-loadmore show="{{!hasMoreTopic && topics.length > 0}}" line type="end" end-text="已经到底了" />
+    </view>
+  </l-tabpanel>
+  <l-tabpanel tab="评论" key="comment" slot="comment">
+    <view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
+      <nothing wx:if="{{comments.length === 0}}" nothing-class="nothing" pic="../../images/icon_nothing/pic_comment.png" tip="{{m.getGenderText(user.gender)}}还没有发表评论" />
+      <profile-comment comments="{{comments}}" isOwner="{{false}}" />
+      <l-loadmore show="{{!hasMoreComment && comments.length > 0}}" line type="end" end-text="已经到底了" />
+    </view>
+  </l-tabpanel>
+  <l-tabpanel tab="收藏" key="star" slot="star">
+    <view style="{{tabsFixed ? 'margin-top: 80rpx;' : ''}}">
+      <nothing wx:if="{{stars.length === 0}}" nothing-class="nothing" pic="../../images/icon_nothing/pic_star.png" tip="{{m.getGenderText(user.gender)}}还没有收藏话题" />
+      <profile-star stars="{{stars}}" isOwner="{{false}}" />
+      <l-loadmore show="{{!hasMoreStar && stars.length > 0}}" line type="end" end-text="已经到底了" />
+    </view>
+  </l-tabpanel>
 </l-tabs>
 
 <!-- nothing -->
@@ -38,16 +38,16 @@
 <l-message />
 
 <wxs module="m">
-	var getGenderText = function (gender) {
-		if (gender === 1) {
-			return "他"
-		}
-		else if (gender === 2) {
-			return "她"
-		}
-		return "Ta"
-	}
-	module.exports = {
-		getGenderText: getGenderText
-	}
+  var getGenderText = function (gender) {
+    if (gender === 'MAN') {
+      return "他"
+    }
+    else if (gender === 'WOMAN') {
+      return "她"
+    }
+    return "Ta"
+  }
+  module.exports = {
+    getGenderText: getGenderText
+  }
 </wxs>

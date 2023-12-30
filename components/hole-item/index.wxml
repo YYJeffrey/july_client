@@ -5,6 +5,6 @@
   <image class="item-poster" mode="aspectFill" src="{{hole.poster + '?imageView2/1/w/335/h/190'}}" />
   <view class="item-right">
     <view class="title">{{hole.title}}</view>
-    <view class="tip">{{hole.total_content + '条动态'}}</view>
+    <view class="tip">{{'共发布 ' + hole.chat_count + ' 条动态'}}</view>
   </view>
 </view>

@@ -22,7 +22,7 @@ Component({
       const stars = this.data.stars
 
       wx.navigateTo({
-        url: "/pages/topic-detail/index?topicId=" + stars[index].topic.id
+        url: `/pages/topic-detail/index?topicId=${stars[index].topic.id}`
       })
     },
 
@@ -30,7 +30,7 @@ Component({
      * 点击取消收藏事件
      */
     onDeleteTap(event) {
-      this.triggerEvent("deleteTap", { index: event.currentTarget.dataset.index })
+      this.triggerEvent('deleteTap', { index: event.currentTarget.dataset.index })
     }
   }
 })

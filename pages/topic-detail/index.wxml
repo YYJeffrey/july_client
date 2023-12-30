@@ -2,28 +2,28 @@
 
 <!-- 话题内容区 -->
 <scroll-view style="height: {{height}}px" scroll-into-view="comment_{{toIndex}}" scroll-y scroll-with-animation enable-back-to-top>
-	<!-- 话题详情 -->
-	<topic-item topic-item-class="topic-item" topic="{{topic}}" isOwner="{{userId === topic.user.id || isAdmin}}" isLink="{{false}}" autoplay showTags showDetail bind:tagTap="onTagTap" bind:moreIconTap="showActions" bind:commentIconTap="onCommentIconTap" bind:starIconTap="onStarTap" />
+  <!-- 话题详情 -->
+  <topic-item topic-item-class="topic-item" topic="{{topic}}" labels="{{labels}}" isOwner="{{userId === topic.user.id || isAdmin}}" isLink="{{false}}" autoplay showTags showDetail bind:tagTap="onTagTap" bind:moreIconTap="showActions" bind:commentIconTap="onCommentIconTap" bind:starIconTap="onStarTap" />
 
-	<!-- 收藏 -->
-	<star-list wx:if="{{topic && stars.length > 0}}" stars="{{stars}}" />
+  <!-- 收藏 -->
+  <star-list wx:if="{{topic && stars.length > 0}}" stars="{{stars}}" />
 
-	<!-- 评论 -->
-	<view wx:if="{{topic && comments.length > 0}}">
-		<comment-item wx:for="{{comments}}" comment="{{item}}" wx:key="index" id="comment_{{index}}" has-border="{{index !== comments.length - 1}}" isOwner="{{userId === item.user.id || isAdmin}}" bind:commentTap="onCommentItemTap" bind:deleteTap="deleteComment" />
-		<view class="more" wx:if="{{hasMore}}" bindtap="getMoreComments">
-			<text>展开更多评论</text>
-			<view class="more-icon">
-				<l-icon name="down" color="#337559" size="22" />
-			</view>
-		</view>
-	</view>
+  <!-- 评论 -->
+  <view wx:if="{{topic && comments.length > 0}}">
+    <comment-item wx:for="{{comments}}" comment="{{item}}" wx:key="index" id="comment_{{index}}" has-border="{{index !== comments.length - 1}}" isOwner="{{userId === item.user.id || isAdmin}}" bind:commentTap="onCommentItemTap" bind:deleteTap="deleteComment" />
+    <view class="more" wx:if="{{hasMore}}" bindtap="getMoreComments">
+      <text>展开更多评论</text>
+      <view class="more-icon">
+        <l-icon name="down" color="#337559" size="22" />
+      </view>
+    </view>
+  </view>
 </scroll-view>
 
 <!-- 评论编辑区 -->
 <view wx:if="{{topic}}" class="edit-item">
-	<input class="edit-input" placeholder="{{placeholder}}" maxlength="150" value="{{comment}}" focus="{{focus}}" confirm-hold confirm-type="send" bindinput="setComment" bindconfirm="onCommntBtnTap" />
-	<l-button shape="semicircle" size="mini" bg-color="#337559" width="125" height="60" bind:lintap="onCommntBtnTap">评论</l-button>
+  <input class="edit-input" placeholder="{{placeholder}}" maxlength="150" value="{{comment}}" focus="{{focus}}" confirm-hold confirm-type="send" bindinput="setComment" bindconfirm="onCommntBtnTap" />
+  <l-button shape="semicircle" size="mini" bg-color="#337559" width="125" height="60" bind:lintap="onCommntBtnTap">评论</l-button>
 </view>
 
 <!-- nothing -->

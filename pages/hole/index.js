@@ -1,6 +1,5 @@
 // pages/hole/index.js
-import { Hole } from "../../models/hole"
-const app = getApp()
+import { Hole } from '../../models/hole'
 
 Page({
   data: {
@@ -16,7 +15,7 @@ Page({
    * 初始化树洞
    */
   async initHoles() {
-    const holePaging = await Hole.getHolePaging(app.globalData.appId)
+    const holePaging = await Hole.getHolePaging()
     this.setData({
       holePaging: holePaging
     })
@@ -54,8 +53,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "树洞",
-      path: "/pages/hole/index"
+      title: '树洞',
+      path: '/pages/hole/index'
     }
   }
 })

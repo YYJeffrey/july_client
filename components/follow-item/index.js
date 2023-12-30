@@ -26,7 +26,7 @@ Component({
      * 点击标签事件
      */
     onTagTap() {
-      this.triggerEvent("tagTap")
+      this.triggerEvent('tagTap')
     }
   }
 })

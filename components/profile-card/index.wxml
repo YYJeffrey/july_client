@@ -3,16 +3,19 @@
 <!-- 资料卡片 -->
 <view class="profile-card">
   <!-- 封面 -->
-  <image class="poster" src="{{user.poster ? user.poster : defaultPoster}}" mode="aspectFill" bindtap="onPosterTap" />
+  <image class="poster" src="{{user.poster || defaultPoster}}" mode="aspectFill" bindtap="onPosterTap" />
 
   <!-- 用户 -->
   <view class="user-info">
     <view class="avatar-info">
       <button class="avatar-wrapper" open-type="{{isOwner ? 'chooseAvatar' : ''}}" bind:chooseavatar="onChooseAvatarTap">
-        <image class="avatar" src="{{user.avatar ? user.avatar : defaultAvatar}}" />
+        <image class="avatar" src="{{user.avatar || defaultAvatar}}" />
       </button>
-      <view wx:if="{{user.gender && user.gender !== 0}}" class="gender-box {{user.gender === 1 ? 'male' : 'female'}}">
-        <image class="gender-icon" src="../../images/icon_gender/{{user.gender === 1 ? 'icon_male' : 'icon_female'}}.png" />
+      <view wx:if="{{user.gender === 'MAN'}}" class="gender-box male">
+        <image class="gender-icon" src="../../images/icon_gender/icon_male.png" />
+      </view>
+      <view wx:if="{{user.gender=== 'WOMAN'}}" class="gender-box female">
+        <image class="gender-icon" src="../../images/icon_gender/icon_female.png" />
       </view>
     </view>
 
@@ -21,19 +24,20 @@
       <navigator wx:if="{{isOwner}}" class="setting" url="/pages/setting/index">
         <view class="child-circle"></view>
       </navigator>
-      <l-button wx:if="{{!isOwner}}" l-class="{{user.has_follow ? 'btn-unfollow' : ''}}" plain="{{user.has_follow}}" bg-color="{{user.has_follow ? '#fff' : '#337559'}}" shape="semicircle" size="mini" width="180" height="58" bind:lintap="onFollowTap">{{user.has_follow ? '取消关注' : '关注'}}</l-button>
+      <l-button wx:if="{{!isOwner}}" l-class="{{user.followed ? 'btn-unfollow' : ''}}" plain="{{user.followed}}" bg-color="{{user.followed ? '#fff' : '#337559'}}" shape="semicircle" size="mini" width="180" height="58" bind:lintap="onFollowTap">{{user.followed ? '取消关注' : '关注'}}</l-button>
     </view>
 
-    <text class="nickname">{{user.nick_name ? user.nick_name : defaultNickname}}</text>
-    <text class="signature">{{user.signature ? user.signature : defaultSignature}}</text>
+    <text class="nickname">{{user.nickname || defaultNickname}}</text>
+    <text class="signature">{{user.signature || defaultSignature}}</text>
+    <text class="ip-belong" wx:if="{{user && user.ip_belong}}">IP归属地: {{user.ip_belong}}</text>
 
     <view class="follow-group">
       <view class="follow" bindtap="gotoFollower">
-        <text class="follow-num">{{user.follower ? user.follower : '0'}}</text>
+        <text class="follow-num">{{user.follower_count || '0'}}</text>
         <text class="follow-text">{{isOwner ? '关注我的' : '关注' + m.getGenderText(user.gender) + '的'}}</text>
       </view>
       <view class="follow following" bindtap="gotoFollowing">
-        <text class="follow-num">{{user.following ? user.following : '0'}}</text>
+        <text class="follow-num">{{user.following_count || '0'}}</text>
         <text class="follow-text">{{isOwner ? '我关注的' : m.getGenderText(user.gender) + '关注的'}}</text>
       </view>
     </view>
@@ -42,10 +46,10 @@
 
 <wxs module="m">
   var getGenderText = function (gender) {
-    if (gender === 1) {
+    if (gender === 'MAN') {
       return "他"
     }
-    else if (gender === 2) {
+    else if (gender === 'WOMAN') {
       return "她"
     }
     return "Ta"

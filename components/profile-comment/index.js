@@ -22,7 +22,7 @@ Component({
       const comments = this.data.comments
 
       wx.navigateTo({
-        url: "/pages/topic-detail/index?topicId=" + comments[index].topic.id
+        url: `/pages/topic-detail/index?topicId=${comments[index].topic.id}`
       })
     },
 
@@ -30,7 +30,7 @@ Component({
      * 点击删除评论事件
      */
     onDeleteTap(event) {
-      this.triggerEvent("deleteTap", { index: event.currentTarget.dataset.index })
+      this.triggerEvent('deleteTap', { index: event.currentTarget.dataset.index })
     }
   }
 })

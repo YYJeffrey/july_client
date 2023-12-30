@@ -1,4 +1,4 @@
 <!--components/avatar/index.wxml-->
 
 <!-- 头像 -->
-<image class="avatar-class" style="width: {{size}}rpx;height: {{size}}rpx;border-radius: 50%;" src="{{src + '?imageView2/1/w/' + size + '/h/' + size}}" data-user-id="{{userId}}" catchtap="{{isLink ? 'onAvatarTap' : ''}}" />
+<image class="avatar-class" style="width: {{size}}rpx; height: {{size}}rpx; border-radius: 50%;" src="{{src || defaultAvatar + '?imageView2/1/w/' + size + '/h/' + size}}" data-user-id="{{userId}}" catchtap="{{isLink ? 'onAvatarTap' : ''}}" />

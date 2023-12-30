@@ -1,10 +1,13 @@
 // pages/profile/index.js
-import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
-import { User } from "../../models/user"
-import { Topic } from "../../models/topic"
-import { Comment } from "../../models/comment"
-import { Star } from "../../models/star"
-import { Message } from "../../models/message"
+import api from '../../config/api'
+import wxutil from '../../miniprogram_npm/@yyjeffrey/wxutil/index'
+import { init, upload } from '../../utils/qiniuUploader'
+import { User } from '../../models/user'
+import { Topic } from '../../models/topic'
+import { Comment } from '../../models/comment'
+import { Star } from '../../models/star'
+import { Message } from '../../models/message'
+import { OSS } from '../../models/oss'
 const app = getApp()
 
 Page({
@@ -16,8 +19,8 @@ Page({
     tabIndex: 0,  // Tabs选中的栏目
     tabsTop: 300, // Tabs距离顶部的高度
     showImageClipper: false, // 是否显示图片裁剪器
+    tmpAvatar: '', // 头像临时文件
     messageBrief: null, // 动态消息概要
-    tmpAvatar: "", // 头像临时文件
     topicPaging: null,  // 话题分页器
     commentPaging: null,  // 评论分页器
     starPaging: null, // 收藏分页器
@@ -34,7 +37,7 @@ Page({
 
   onShow() {
     this.getUserInfo(false)
-    this.getMessageBrief()
+    this.getMessages()
   },
 
   /**
@@ -42,7 +45,7 @@ Page({
    */
   getTabsTop() {
     const query = wx.createSelectorQuery()
-    query.select("#tabs").boundingClientRect((res) => {
+    query.select('#tabs').boundingClientRect((res) => {
       this.setData({
         tabsTop: res.top
       })
@@ -68,7 +71,10 @@ Page({
     const user = await User.getUserInfo(userId)
     // 更新缓存
     userDetail = Object.assign(userDetail, user)
-    wxutil.setStorage("userDetail", userDetail)
+    const deadtime = wxutil.getStorage('userDetail_deadtime')
+    wxutil.setStorage('userDetail', userDetail)
+    wxutil.setStorage('userDetail_deadtime', deadtime)
+
     app.globalData.userDetail = userDetail
     this.setData({
       user: userDetail
@@ -77,7 +83,7 @@ Page({
     if (loadPage) {
       this.getTabsTop()
       wx.setNavigationBarTitle({
-        title: userDetail.nick_name
+        title: userDetail.nickname
       })
     }
 
@@ -87,10 +93,43 @@ Page({
   },
 
   /**
+   * 初始化七牛云配置
+   */
+  async initQiniu() {
+    const uptoken = await OSS.getQiniu()
+    const options = {
+      region: 'ECN',
+      uptoken: uptoken,
+      domain: api.ossDomain,
+      shouldUseQiniuFileName: false
+    }
+    init(options)
+  },
+
+  /**
+   * 媒体文件上传至OSS
+   */
+  sendMedia(imageFile, path) {
+    return new Promise((resolve, reject) => {
+      upload(imageFile, (res) => {
+        resolve(res.imageURL)
+      }, (error) => {
+        reject(error)
+      }, {
+        region: 'ECN',
+        uptoken: null,
+        domain: null,
+        shouldUseQiniuFileName: false,
+        key: path + '/' + wxutil.getUUID(false)
+      })
+    })
+  },
+
+  /**
    * 初始化话题
    */
   async initTopics(userId) {
-    const topicPaging = await Topic.getTopicUserPaging(userId)
+    const topicPaging = await Topic.getTopicPaging({ user_id: userId })
     this.setData({
       topicPaging: topicPaging
     })
@@ -115,7 +154,7 @@ Page({
    * 初始化评论
    */
   async initComments(userId) {
-    const commentPaging = await Comment.getCommentUserPaging(userId)
+    const commentPaging = await Comment.getCommentPaging({ user_id: userId })
     this.setData({
       commentPaging: commentPaging
     })
@@ -140,7 +179,7 @@ Page({
    * 初始化用户收藏
    */
   async initStars(userId) {
-    const starPaging = await Star.getStarUserPaging(userId)
+    const starPaging = await Star.getStarPaging({ user_id: userId })
     this.setData({
       starPaging: starPaging
     })
@@ -162,21 +201,21 @@ Page({
   },
 
   /**
-   * 获取消息概要并标红点
+   * 获取消息并标红点
    */
-  async getMessageBrief() {
+  async getMessages() {
     if (!app.globalData.userDetail) {
       return
     }
 
-    const data = await Message.getMessageBrief()
-    if (data.count > 0) {
+    const data = await Message.getMessages()
+    if (data && data.length > 0) {
       this.setData({
         messageBrief: data
       })
       wx.setTabBarBadge({
         index: 2,
-        text: data.count.toString()
+        text: data.length.toString()
       })
     } else {
       this.setData({
@@ -208,7 +247,7 @@ Page({
    */
   gotoMessage() {
     wx.navigateTo({
-      url: "/pages/message/index"
+      url: '/pages/message/index'
     })
   },
 
@@ -220,38 +259,41 @@ Page({
       return
     }
     wx.lin.showMessage({
-      content: "设置封面图片"
+      content: '设置封面图片'
     })
 
     // 上传封面
-    wxutil.image.choose(1).then(async (res) => {
-      if (res.errMsg === "chooseImage:ok") {
-        wxutil.showLoading("上传中...")
-        const data = await User.uploadPoster("file", res.tempFilePaths[0])
-        wx.hideLoading()
-
-        if (data.code === 200) {
-          // 更新缓存
-          const user = data.data
-          let userDetail = app.globalData.userDetail
-          userDetail = Object.assign(userDetail, user)
-          wxutil.setStorage("userDetail", userDetail)
-          app.globalData.userDetail = userDetail
-
-          this.setData({
-            user: user
-          })
-          wx.lin.showMessage({
-            type: "success",
-            content: "封面修改成功！"
-          })
-        } else {
-          wx.lin.showMessage({
-            type: "error",
-            content: "封面修改失败！"
-          })
-        }
+    wxutil.image.choose(1).then(async res => {
+      if (res.errMsg !== 'chooseImage:ok') {
+        return
       }
+
+      wxutil.showLoading('上传中...')
+      await this.initQiniu()
+      const poster = await this.sendMedia(res.tempFilePaths[0], 'poster')
+
+      const data = {
+        avatar: this.data.user.avatar,
+        nickname: this.data.user.nickname,
+        signature: this.data.user.signature,
+        gender: this.data.user.gender,
+        poster: poster
+      }
+      const info = await User.updateUser(data)
+      if (info.code === 2) {
+        this.getUserInfo(false)
+
+        wx.lin.showMessage({
+          type: 'success',
+          content: '封面修改成功！',
+        })
+      } else {
+        wx.lin.showMessage({
+          type: 'error',
+          content: '封面修改失败！'
+        })
+      }
+      wx.hideLoading()
     })
   },
 
@@ -263,7 +305,7 @@ Page({
       return
     }
     wx.lin.showMessage({
-      content: "设置头像图片"
+      content: '设置头像图片'
     })
     this.setData({
       tmpAvatar: event.detail.detail.avatarUrl,
@@ -275,32 +317,36 @@ Page({
    * 头像裁剪上传
    */
   async onClipTap(event) {
-    wxutil.showLoading("上传中...")
-    const data = await User.uploadAvatar("file", event.detail.url)
-    wx.hideLoading()
+    wxutil.showLoading('上传中...')
+    await this.initQiniu()
+    const avatar = await this.sendMedia(event.detail.url, 'avatar')
 
-    if (data.code === 200) {
-      // 更新缓存
-      const user = data.data
-      let userDetail = app.globalData.userDetail
-      userDetail = Object.assign(userDetail, user)
-      wxutil.setStorage("userDetail", userDetail)
-      app.globalData.userDetail = userDetail
+    // 更新用户信息
+    const data = {
+      avatar: avatar,
+      nickname: this.data.user.nickname,
+      signature: this.data.user.signature,
+      gender: this.data.user.gender
+    }
+    const res = await User.updateUser(data)
+    if (res.code === 2) {
+      this.getUserInfo(false)
 
-      this.setData({
-        showImageClipper: false,
-        user: user
-      })
       wx.lin.showMessage({
-        type: "success",
-        content: "头像修改成功！"
+        type: 'success',
+        content: '头像修改成功！',
       })
     } else {
       wx.lin.showMessage({
-        type: "error",
-        content: "头像修改失败！"
+        type: 'error',
+        content: '头像修改失败！'
       })
     }
+    wx.hideLoading()
+
+    this.setData({
+      showImageClipper: false,
+    })
   },
 
   /**
@@ -332,29 +378,29 @@ Page({
     const dialog = this.selectComponent('#dialog')
 
     dialog.linShow({
-      type: "confirm",
-      title: "提示",
-      content: "确定要删除该话题？",
+      type: 'confirm',
+      title: '提示',
+      content: '确定要删除该话题？',
       success: async (res) => {
         if (res.confirm) {
           const topics = this.data.topics
           const index = event.detail.index
 
           const res = await Topic.deleteTopic(topics[index].id)
-          if (res.code === 200) {
+          if (res.code === 3) {
             topics.splice(index, 1)
             this.setData({
               topics: topics
             })
 
             wx.lin.showMessage({
-              type: "success",
-              content: "删除成功！"
+              type: 'success',
+              content: '删除成功！'
             })
           } else {
             wx.lin.showMessage({
-              type: "error",
-              content: "删除失败！"
+              type: 'error',
+              content: '删除失败！'
             })
           }
         }
@@ -369,29 +415,29 @@ Page({
     const dialog = this.selectComponent('#dialog')
 
     dialog.linShow({
-      type: "confirm",
-      title: "提示",
-      content: "确定要删除该评论？",
+      type: 'confirm',
+      title: '提示',
+      content: '确定要删除该评论？',
       success: async (res) => {
         if (res.confirm) {
           const comments = this.data.comments
           const index = event.detail.index
 
           const res = await Comment.deleteComment(comments[index].id)
-          if (res.code === 200) {
+          if (res.code === 3) {
             comments.splice(index, 1)
             this.setData({
               comments: comments
             })
 
             wx.lin.showMessage({
-              type: "success",
-              content: "删除成功！"
+              type: 'success',
+              content: '删除成功！'
             })
           } else {
             wx.lin.showMessage({
-              type: "error",
-              content: "删除失败！"
+              type: 'error',
+              content: '删除失败！'
             })
           }
         }
@@ -406,29 +452,29 @@ Page({
     const dialog = this.selectComponent('#dialog')
 
     dialog.linShow({
-      type: "confirm",
-      title: "提示",
-      content: "确定要取消收藏该话题？",
+      type: 'confirm',
+      title: '提示',
+      content: '确定要取消收藏该话题？',
       success: async (res) => {
         if (res.confirm) {
           const stars = this.data.stars
           const index = event.detail.index
 
           const res = await Star.starOrCancel(stars[index].topic.id)
-          if (res.code === 200) {
+          if (res.code === 0) {
             stars.splice(index, 1)
             this.setData({
               stars: stars
             })
 
             wx.lin.showMessage({
-              type: "success",
-              content: "取消成功！"
+              type: 'success',
+              content: '取消成功！'
             })
           } else {
             wx.lin.showMessage({
-              type: "error",
-              content: "取消失败！"
+              type: 'error',
+              content: '取消失败！'
             })
           }
         }
@@ -453,15 +499,15 @@ Page({
    */
   onPullDownRefresh() {
     this.getUserInfo(false)
-    this.getMessageBrief()
+    this.getMessages()
     wx.stopPullDownRefresh()
     wx.vibrateShort()
   },
 
   onShareAppMessage() {
     return {
-      title: "个人中心",
-      path: "/pages/profile/index"
+      title: '个人中心',
+      path: '/pages/profile/index'
     }
   }
 })

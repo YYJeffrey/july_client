@@ -1,14 +1,15 @@
 // pages/user-edit/index.js
-import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
-import { User } from "../../models/user"
+import wxutil from '../../miniprogram_npm/@yyjeffrey/wxutil/index'
+import { User } from '../../models/user'
 const app = getApp()
 
 Page({
   data: {
-    userId: -1,
-    gender: 0,
-    nickName: "",
-    signature: ""
+    gender: 'MAN',
+    userId: null,
+    nickname: null,
+    signature: null,
+    avatar: null,
   },
 
   onLoad() {
@@ -21,20 +22,22 @@ Page({
   async getUserDetail() {
     const userId = app.globalData.userDetail.id
     const data = await User.getUserInfo(userId)
+
     this.setData({
       userId: data.id,
-      nickName: data.nick_name,
+      nickname: data.nickname,
       gender: data.gender,
-      signature: data.signature
+      signature: data.signature,
+      avatar: data.avatar
     })
   },
 
   /**
    * 设置昵称
    */
-  setNickName(event) {
+  setNickname(event) {
     this.setData({
-      nickName: event.detail.value
+      nickname: event.detail.value
     })
   },
 
@@ -60,61 +63,43 @@ Page({
    * 保存用户信息
    */
   async saveInfo() {
-    const nickName = this.data.nickName
-    const signature = this.data.signature
-    const gender = this.data.gender
-
-    if (!wxutil.isNotNull(nickName)) {
+    if (!wxutil.isNotNull(this.data.nickname)) {
       wx.lin.showMessage({
-        type: "error",
-        content: "昵称不能为空！"
+        type: 'error',
+        content: '昵称不能为空！'
       })
       return
     }
 
-    // 构造请求参数
-    const data = [{
-      op: "replace",
-      path: "/nick_name",
-      value: nickName
-    }, {
-      op: "replace",
-      path: "/gender",
-      value: gender
-    }, {
-      op: "replace",
-      path: "/signature",
-      value: signature
-    }]
+    const data = {
+      avatar: this.data.avatar,
+      nickname: this.data.nickname,
+      signature: this.data.signature,
+      gender: this.data.gender
+    }
 
     // 更新用户信息
     const res = await User.updateUser(data)
-    if (res.code === 200) {
-      let userDetail = app.globalData.userDetail
-      // 更新缓存
-      userDetail = Object.assign(userDetail, res.data)
-      wxutil.setStorage("userDetail", userDetail)
-      app.globalData.userDetail = userDetail
-
+    if (res.code === 2) {
       wx.lin.showMessage({
-        type: "success",
-        content: "更新成功！",
+        type: 'success',
+        content: '更新成功！',
         success: () => {
           wx.navigateBack()
         }
       })
     } else {
       wx.lin.showMessage({
-        type: "error",
-        content: "更新失败！"
+        type: 'error',
+        content: '更新失败！'
       })
     }
   },
 
   onShareAppMessage() {
     return {
-      title: "主页",
-      path: "/pages/topic/index"
+      title: '主页',
+      path: '/pages/topic/index'
     }
   }
 })

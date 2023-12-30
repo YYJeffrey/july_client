@@ -1,5 +1,5 @@
 // pages/follower/index.js
-import { Following } from "../../models/following"
+import { Following } from '../../models/following'
 
 Page({
   data: {
@@ -25,7 +25,7 @@ Page({
    * 初始化关注Ta的列表
    */
   async initFollowerList(followUserId) {
-    const followerPaging = await Following.getFollowerPaging(followUserId)
+    const followerPaging = await Following.getFollowingPaging({ follow_user_id: followUserId })
     this.setData({
       followerPaging: followerPaging,
     })
@@ -52,23 +52,23 @@ Page({
     const index = event.currentTarget.dataset.index
     const item = this.data.followerList[index]
     const user = item.user
-    const hasFollow = item.has_follow
+    const hasFollow = item.followed
 
     if (hasFollow) {
       wx.lin.showActionSheet({
-        title: "确定要取消关注" + user.nick_name + "吗？",
+        title: '确定要取消关注' + user.nickname + '吗？',
         showCancel: true,
-        cancelText: "放弃",
+        cancelText: '放弃',
         itemList: [{
-          name: "取消关注",
-          color: "#666"
+          name: '取消关注',
+          color: '#666'
         }],
         success: () => {
-          this.followOrCancel(user.id, "取消关注", index)
+          this.followOrCancel(user.id, '取消关注', index)
         }
       })
     } else {
-      this.followOrCancel(user.id, "关注", index)
+      this.followOrCancel(user.id, '关注', index)
     }
   },
 
@@ -77,22 +77,22 @@ Page({
    */
   async followOrCancel(userId, msg, index) {
     const res = await Following.followOrCancel(userId)
-    if (res.code === 200) {
+    if (res.code === 0) {
       wx.lin.showMessage({
-        type: "success",
-        content: msg + "成功！"
+        type: 'success',
+        content: msg + '成功！'
       })
 
       let followerList = this.data.followerList
-      followerList[index].has_follow = !followerList[index].has_follow
+      followerList[index].followed = !followerList[index].followed
 
       this.setData({
         followerList: followerList
       })
     } else {
       wx.lin.showMessage({
-        type: "error",
-        content: msg + "失败！"
+        type: 'error',
+        content: msg + '失败！'
       })
     }
   },
@@ -106,8 +106,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "主页",
-      path: "/pages/topic/index"
+      title: '主页',
+      path: '/pages/topic/index'
     }
   }
 })

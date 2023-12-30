@@ -29,9 +29,6 @@
   color: #999;
 }
 
-.tip-member {
-  margin-left: 20rpx;
-}
 
 .btn-group {
   display: flex;

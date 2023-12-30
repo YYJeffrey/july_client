@@ -2,27 +2,27 @@
 
 <!-- 聊天消息单项 -->
 <view class="chat-item">
-  <view wx:if="{{chat.type === 'message'}}" class="chat {{isOwner? 'reverse' : ''}}">
-    <avatar src="{{chat.avatar}}" user-id="{{chat.user_id}}" size="80" />
+  <view wx:if="{{chat.message_type === 'TEXT'}}" class="chat {{isOwner? 'reverse' : ''}}">
+    <avatar src="{{chat.user.avatar}}" user-id="{{chat.user.id}}" size="80" />
     <view class="message">
-      <nickname nickname-class="nickname {{isOwner ? 'text-right' : ''}}" nickname="{{chat.nick_name}}" user-id="{{chat.user_id}}" />
-      <view class="{{isOwner ? 'content-right triangle-right' : 'content-left triangle-left'}}">{{chat.data}}</view>
+      <nickname nickname-class="nickname {{isOwner ? 'text-right' : ''}}" nickname="{{chat.user.nickname}}" user-id="{{chat.user.id}}" />
+      <view class="{{isOwner ? 'content-right triangle-right' : 'content-left triangle-left'}}">{{chat.content}}</view>
     </view>
   </view>
 
-  <view wx:if="{{chat.type === 'images'}}" class="chat {{isOwner ? 'reverse' : ''}}">
-    <avatar src="{{chat.avatar}}" user-id="{{chat.user_id}}" size="80" />
+  <view wx:if="{{chat.message_type === 'IMAGE'}}" class="chat {{isOwner ? 'reverse' : ''}}">
+    <avatar src="{{chat.user.avatar}}" user-id="{{chat.user.id}}" size="80" />
     <view class="message">
-      <nickname nickname-class="nickname {{isOwner ? 'text-right' : ''}}" nickname="{{chat.nick_name}}" user-id="{{chat.user_id}}" />
-      <image src="{{chat.data}}" class="chat-images" mode="widthFix" bindtap="previewImage" />
+      <nickname nickname-class="nickname {{isOwner ? 'text-right' : ''}}" nickname="{{chat.user.nickname}}" user-id="{{chat.user.id}}" />
+      <image src="{{chat.content}}" class="chat-images" mode="widthFix" bindtap="previewImage" />
     </view>
   </view>
 
-  <view wx:if="{{chat.type === 'status'}}" class="chat">
-    <view class="tip">{{chat.nick_name + chat.data}}</view>
+  <view wx:if="{{chat.message_type === 'INFO'}}" class="chat">
+    <view class="tip">{{chat.content}}</view>
   </view>
 
-  <view wx:if="{{chat.type === 'time'}}" class="chat">
-    <view class="tip">{{chat.data}}</view>
+  <view wx:if="{{chat.message_type === 'TIME'}}" class="chat">
+    <view class="tip">{{chat.content}}</view>
   </view>
 </view>

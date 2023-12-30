@@ -2,19 +2,19 @@
 const app = getApp()
 
 Component({
-  externalClasses: ["avatar-class"],
+  externalClasses: ['avatar-class'],
   properties: {
     src: {
       type: String,
-      value: "https://img.yejiefeng.com/poster/default.jpg"
+      value: null
+    },
+    userId: {
+      type: String,
+      value: null
     },
     size: {
       type: Number,
       value: 60
-    },
-    userId: {
-      type: Number,
-      value: -1
     },
     // 是否可链接
     isLink: {
@@ -23,14 +23,15 @@ Component({
     }
   },
   data: {
-
+    defaultAvatar: 'https://img.yejiefeng.com/avatar/default.jpg'
   },
   methods: {
     /**
      * 跳转名片页或授权页
      */
     onAvatarTap() {
-      const url = "/pages/visiting-card/index?userId=" + this.data.userId
+      const url = `/pages/visiting-card/index?userId=${this.data.userId}`
+
       if (app.globalData.userDetail) {
         wx.navigateTo({
           url: url

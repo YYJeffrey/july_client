@@ -22,7 +22,7 @@ Component({
       const index = event.currentTarget.dataset.index
 
       wx.navigateTo({
-        url: "/pages/topic-detail/index?topicId=" + topics[index].id
+        url: `/pages/topic-detail/index?topicId=${topics[index].id}`
       })
     },
 
@@ -30,7 +30,7 @@ Component({
      * 点击删除话题事件
      */
     onDeleteTap(event) {
-      this.triggerEvent("deleteTap", { index: event.currentTarget.dataset.index })
+      this.triggerEvent('deleteTap', { index: event.currentTarget.dataset.index })
     }
   }
 })

@@ -95,10 +95,15 @@
 
 .signature {
   display: block;
-  width: 550rpx;
+  width: 600rpx;
   margin-top: 10rpx;
   text-align: justify;
-  color: #7d7d7d;
+}
+
+.ip-belong {
+  display: block;
+  margin-top: 10rpx;
+  color: #999;
 }
 
 .follow-group {

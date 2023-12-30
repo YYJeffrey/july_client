@@ -21,14 +21,14 @@ Component({
      * 点击评论事件
      */
     onCommentTap() {
-      this.triggerEvent("commentTap", { commentId: this.data.comment.id, nickname: this.data.comment.user.nick_name })
+      this.triggerEvent('commentTap', { commentId: this.data.comment.id, nickname: this.data.comment.user.nickname })
     },
 
     /**
      * 点击删除事件
      */
     onDeleteTap() {
-      this.triggerEvent("deleteTap", { commentId: this.data.comment.id })
+      this.triggerEvent('deleteTap', { commentId: this.data.comment.id })
     }
   }
 })

@@ -5,7 +5,7 @@
   <view class="item {{stars.length - 1 === index ? 'no-border' : ''}}" wx:for="{{stars}}" wx:key="index" data-index="{{index}}" bindtap="gotoTopicDetail">
     <image wx:if="{{item.topic.images.length > 0 || item.topic.video}}" class="img" src="{{item.topic.images.length > 0 ? item.topic.images[0] + '?imageView2/1/w/180/h/180' : (item.topic.video ? item.topic.video.cover + '?imageView2/1/w/180/h/180' : '')}}" mode="aspectFill" />
     <view class="item-right">
-      <nickname nickname="{{item.topic.user.nick_name}}" user-id="{{item.topic.user.id}}" />
+      <nickname nickname="{{item.topic.user.nickname || ''}}" user-id="{{item.topic.user.id || ''}}" />
       <text class="content">{{item.topic.content}}</text>
       <text wx:if="{{isOwner}}" class="delete" data-index="{{index}}" catchtap="onDeleteTap">取消收藏</text>
     </view>

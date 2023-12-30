@@ -16,7 +16,7 @@ Component({
      * 点击消息事件
      */
     onMessageTap() {
-      this.triggerEvent("messageTap", { category: this.data.message.category, topicId: this.data.message.topic.id })
+      this.triggerEvent('messageTap', { category: this.data.message.category, topicId: this.data.message.topic ? this.data.message.topic.id : null })
     },
 
     /**
@@ -24,7 +24,7 @@ Component({
      */
     gotoTopicDetail() {
       wx.navigateTo({
-        url: "/pages/topic-detail/index?topicId=" + this.data.message.topic.id
+        url: `/pages/topic-detail/index?topicId=${this.data.message.topic.id}`
       })
     }
   }

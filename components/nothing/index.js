@@ -6,7 +6,7 @@ Component({
     pic: String,
     tip: {
       type: String,
-      value: "暂时没有数据"
+      value: '暂时没有数据'
     }
   },
   data: {

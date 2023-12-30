@@ -5,13 +5,13 @@
   <!-- 话题头部 -->
   <view class="header">
     <view class="header-left">
-      <avatar src="{{topic.user.avatar}}" user-id="{{topic.user.id}}" size="80" />
+      <avatar src="{{topic.user.avatar || ''}}" user-id="{{topic.user.id || ''}}" size="80" />
       <view class="header-info">
         <view class="info-top">
-          <nickname nickname="{{topic.user.nick_name}}" user-id="{{topic.user.id}}" />
+          <nickname nickname="{{topic.user.nickname || ''}}" user-id="{{topic.user.id || ''}}" />
           <l-tag wx:if="{{topic.user.is_admin}}" l-class="admin-tag" size="mini" type="reading">管理员</l-tag>
         </view>
-        <text class="time">{{topic.create_time}}</text>
+        <text class="time">{{topic.push_time}} {{topic.ip_belong || ''}}</text>
       </view>
     </view>
     <l-icon l-class="icon-more" name="ellipsis" bindtap="onMoreIconTap" />
@@ -37,14 +37,14 @@
       </block>
     </view>
 
-    <video class="video" wx:if="{{topic.video}}" src="{{topic.video.src}}" poster="{{topic.video.cover}}" direction="0" play-btn-position="center" style="max-height: 580rpx;{{topic.video.height > topic.video.width ? 'height: 580rpx;width: ' + 580 * topic.video.width / topic.video.height + 'rpx' : 'width: 580rpx;height: ' + 580 * topic.video.height / topic.video.width + 'rpx'}}" autoplay="{{autoplay}}" catchtap="doNothing" />
+    <video class="video" wx:if="{{topic.video}}" src="{{topic.video.src}}" poster="{{topic.video.cover}}" direction="0" play-btn-position="center" style="max-height: 580rpx;{{topic.video.height > topic.video.width ? 'height: 580rpx; width: ' + 580 * topic.video.width / topic.video.height + 'rpx' : 'width: 580rpx; height: ' + 580 * topic.video.height / topic.video.width + 'rpx;'}}" autoplay="{{autoplay}}" muted="{{muted}}" catchtap="doNothing" />
   </view>
 
   <!-- 话题标签 -->
-  <view class="tags-list" wx:if="{{showTags && topic.label.length > 0}}">
-    <l-tag wx:for="{{topic.label}}" wx:key="index" l-class="tag" plain shape="circle" bg-color="#337559" font-color="#337559" data-label-id="{{item.id}}" bindtap="onTagTap">#{{item.name}}</l-tag>
+  <view class="tags-list" wx:if="{{showTags && labels.length > 0}}">
+    <l-tag wx:for="{{labels}}" wx:key="index" l-class="tag" plain shape="circle" bg-color="#337559" font-color="#337559" data-label-id="{{item.id}}" bindtap="onTagTap">#{{item.name}}</l-tag>
   </view>
 
   <!-- 话题底部 -->
-  <favor-bar comment-count="{{topic.comment_count}}" star-count="{{topic.star_count}}" view-count="{{topic.click_count}}" has-comment="{{topic.has_comment}}" has-star="{{topic.has_star}}" />
+  <favor-bar comment-count="{{topic.comment_count}}" star-count="{{topic.star_count}}" view-count="{{topic.click_count}}" has-comment="{{topic.commented}}" has-star="{{topic.starred}}" />
 </view>

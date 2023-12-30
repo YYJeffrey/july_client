@@ -17,7 +17,7 @@ Component({
      */
     previewImage() {
       wx.previewImage({
-        urls: [this.data.chat.data]
+        urls: [this.data.chat.content]
       })
     }
   }

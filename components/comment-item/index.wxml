@@ -1,17 +1,17 @@
 <!--components/comment-item/index.wxml-->
 
 <!-- 评论单项 -->
-<view class="comment-item" bindtap="onCommentTap">
+<view class="comment-item" bindtap="onCommentTap" wx:if="{{comment}}">
   <avatar src="{{comment.user.avatar}}" user-id="{{comment.user.id}}" />
   <view class="comment-right {{!hasBorder ? 'no-border' : ''}}">
     <view class="comment-top">
-      <nickname nickname="{{comment.user.nick_name}}" user-id="{{comment.user.id}}" />
-      <view class="time">{{comment.create_time}}</view>
+      <nickname nickname="{{comment.user.nickname}}" user-id="{{comment.user.id}}" />
+      <view class="time">{{comment.push_time}} {{comment.ip_belong || ''}}</view>
     </view>
     <view class="comment-bottom">
       <view class="content">
         <text wx:if="{{comment.reply_user.id}}">回复</text>
-        <nickname wx:if="{{comment.reply_user.id}}" nickname="{{comment.reply_user.nick_name + ': '}}" user-id="{{comment.reply_user.id}}" />{{comment.content}}
+        <nickname wx:if="{{comment.reply_user.id}}" nickname="{{comment.reply_user.nickname + ': '}}" user-id="{{comment.reply_user.id}}" />{{comment.content}}
       </view>
       <view class="delete" wx:if="{{isOwner}}" catchtap="onDeleteTap">删除</view>
     </view>

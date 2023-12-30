@@ -34,21 +34,21 @@ Component({
      * 点击评论图标事件
      */
     onCommentIconTap() {
-      this.triggerEvent("commentIconTap", {}, { bubbles: true, composed: true })
+      this.triggerEvent('commentIconTap', {}, { bubbles: true, composed: true })
     },
 
     /**
      * 点击收藏图标事件
      */
     onStarIconTap() {
-      this.triggerEvent("starIconTap", {}, { bubbles: true, composed: true })
+      this.triggerEvent('starIconTap', {}, { bubbles: true, composed: true })
     },
 
     /**
      * 点击浏览图标事件
      */
     onViewIconTap() {
-      this.triggerEvent("viewIconTap", {}, { bubbles: true, composed: true })
+      this.triggerEvent('viewIconTap', {}, { bubbles: true, composed: true })
     }
   }
 })

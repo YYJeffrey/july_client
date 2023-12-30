@@ -1,6 +1,6 @@
 // components/hole-item/index.js
 Component({
-  externalClasses: ["hole-item-class"],
+  externalClasses: ['hole-item-class'],
   properties: {
     hole: Object
   },
@@ -13,7 +13,7 @@ Component({
      */
     gotoHoleDetail() {
       wx.navigateTo({
-        url: "/pages/hole-detail/index?holeId=" + this.data.hole.id
+        url: `/pages/hole-detail/index?holeId=${this.data.hole.id}`
       })
     }
   }

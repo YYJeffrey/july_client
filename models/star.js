@@ -1,24 +1,16 @@
-import api from "../config/api"
-import wxutil from "../miniprogram_npm/@yyjeffrey/wxutil/index"
-import { Paging } from "../utils/paging"
+import api from '../config/api'
+import wxutil from '../miniprogram_npm/@yyjeffrey/wxutil/index'
+import { Paging } from '../utils/paging'
+
+const defaultPage = 1
+const defaultSize = 16
 
 class Star {
   /**
-   * 获取用户收藏分页器
+   * 获取收藏分页器
    */
-  static async getStarUserPaging(userId) {
-    return new Paging(api.starAPI + "user/" + userId + "/")
-  }
-
-  /**
-   * 获取话题收藏列表
-   */
-  static async getStarList(topicId) {
-    const res = await wxutil.request.get(api.starAPI + "topic/" + topicId + "/")
-    if (res.code === 200) {
-      return res.data
-    }
-    return null
+  static async getStarPaging(params, page = defaultPage, size = defaultSize) {
+    return new Paging(api.starAPI, params, page, size)
   }
 
   /**

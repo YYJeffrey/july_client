@@ -1,6 +1,6 @@
-import api from "../config/api"
-import wxutil from "../miniprogram_npm/@yyjeffrey/wxutil/index"
-import { Paging } from "../utils/paging"
+import api from '../config/api'
+import wxutil from '../miniprogram_npm/@yyjeffrey/wxutil/index'
+import { Paging } from '../utils/paging'
 
 class Topic {
   /**
@@ -11,18 +11,11 @@ class Topic {
   }
 
   /**
-   * 获取用户话题分页器
-   */
-  static async getTopicUserPaging(userId) {
-    return new Paging(api.topicAPI + "user/" + userId + "/")
-  }
-
-  /**
    * 获取话题详情
    */
   static async getTopicDetail(topicId) {
-    const res = await wxutil.request.get(api.topicAPI + topicId + "/")
-    if (res.code === 200) {
+    const res = await wxutil.request.get(`${api.topicAPI}/${topicId}`)
+    if (res.code === 0) {
       return res.data
     }
     return null
@@ -35,19 +28,18 @@ class Topic {
     return await wxutil.request.post(api.topicAPI, data)
   }
 
-
   /**
    * 删除话题
    */
   static async deleteTopic(topicId) {
-    return await wxutil.request.delete(api.topicAPI + topicId + "/")
+    return await wxutil.request.delete(`${api.topicAPI}/${topicId}`)
   }
 
   /**
    * 举报话题
    */
   static async reportTopic(topicId) {
-    return await wxutil.request.post(api.topicAPI + "report/", { topic_id: topicId })
+    return await wxutil.request.post(`${api.topicAPI}/report/${topicId}`)
   }
 }
 

@@ -1,7 +1,7 @@
 <!-- pages/follower/index.wxml -->
 
 <!-- 关注Ta的 -->
-<follow-item wx:for="{{followerList}}" wx:key="index" user="{{item.user}}" has-follow="{{item.has_follow}}" has-border="{{index !== followerList.length - 1}}" data-index="{{index}}" bind:tagTap="onTagTap" />
+<follow-item wx:for="{{followerList}}" wx:key="index" user="{{item.user}}" has-follow="{{item.followed}}" has-border="{{index !== followerList.length - 1}}" data-index="{{index}}" bind:tagTap="onTagTap" />
 
 <!-- nothing -->
 <nothing wx:if="{{followerList.length === 0}}" pic="../../images/icon_nothing/pic_follow.png" tip="居然连一个粉丝都没有？！" />

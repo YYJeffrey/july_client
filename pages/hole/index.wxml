@@ -2,15 +2,15 @@
 
 <!-- 兴趣树洞 -->
 <view class="hole-content" wx:if="{{holes.length !== 0}}">
-	<view class="header">
-		<view class="header-line line-left"></view>
-		<text class="header-title">兴趣树洞</text>
-		<view class="header-line line-right"></view>
-	</view>
+  <view class="header">
+    <view class="header-line line-left"></view>
+    <text class="header-title">兴趣树洞</text>
+    <view class="header-line line-right"></view>
+  </view>
 
-	<view class="holes">
-		<hole-item hole-item-class="hole-item" wx:for="{{holes}}" wx:key="index" hole="{{item}}" />
-	</view>
+  <view class="holes">
+    <hole-item hole-item-class="hole-item" wx:for="{{holes}}" wx:key="index" hole="{{item}}" />
+  </view>
 </view>
 
 <!-- nothing -->

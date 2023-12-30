@@ -1,7 +1,7 @@
 <!--pages/following/index.wxml -->
 
 <!-- Ta的关注 -->
-<follow-item wx:for="{{followingList}}" wx:key="index" user="{{item.follow_user}}" has-follow="{{item.has_follow}}" has-border="{{index !== followingList.length - 1}}" is-following data-index="{{index}}" bind:tagTap="onTagTap" />
+<follow-item wx:for="{{followingList}}" wx:key="index" user="{{item.follow_user}}" has-follow="{{item.followed}}" has-border="{{index !== followingList.length - 1}}" is-following data-index="{{index}}" bind:tagTap="onTagTap" />
 
 <!-- nothing -->
 <nothing wx:if="{{followingList.length === 0}}" pic="../../images/icon_nothing/pic_follow.png" tip="暂时还没有关注任何人" />

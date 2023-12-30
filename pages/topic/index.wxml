@@ -5,12 +5,12 @@
 
 <!-- 话题内容 -->
 <view class="topic-list">
-	<topic-item topic-item-class="topic-item" wx:for="{{topics}}" wx:key="index" topic="{{item}}" isOwner="{{userId === topic.user.id || isAdmin}}" data-index="{{index}}" bind:moreIconTap="showActions" bind:commentIconTap="gotoTopicDetail" bind:starIconTap="onStarTap" bind:viewIconTap="gotoTopicDetail" />
+  <topic-item topic-item-class="topic-item" wx:for="{{topics}}" wx:key="index" topic="{{item}}" isOwner="{{userId === topic.user.id || isAdmin}}" data-index="{{index}}" bind:moreIconTap="showActions" bind:commentIconTap="gotoTopicDetail" bind:starIconTap="onStarTap" bind:viewIconTap="gotoTopicDetail" />
 </view>
 
 <!-- 编辑按钮 -->
 <view class="btn-edit" bindtap="onEditTap">
-	<l-icon name="edit" color="#fff" size="30" />
+  <l-icon name="edit" color="#fff" size="30" />
 </view>
 
 <!-- 页面提示 -->

@@ -1,6 +1,6 @@
 // pages/auth/index.js
-import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
-import { User } from "../../models/user"
+import wxutil from '../../miniprogram_npm/@yyjeffrey/wxutil/index'
+import { Auth } from '../../models/auth'
 const app = getApp()
 
 Page({
@@ -32,9 +32,11 @@ Page({
   },
 
   /**
-   * 授权登录
+   * 主动授权登录
    */
   auth() {
+    app.globalData.userDetail = null
+
     wx.getUserProfile({
       desc: '授权信息将用于绑定用户',
       lang: 'zh_CN',
@@ -46,8 +48,8 @@ Page({
           app_id: app.globalData.appId
         }
 
-        const info = await User.auth(data)
-        if (info.code === 200) {
+        const info = await Auth.initiative(data)
+        if (info.code === 0) {
           const userDetail = info.data
           wxutil.setStorage('userDetail', userDetail, app.globalData.tokenExpires)
           app.globalData.userDetail = userDetail
@@ -80,8 +82,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "授权",
-      path: "/pages/auth/index"
+      title: '授权',
+      path: '/pages/auth/index'
     }
   }
 })

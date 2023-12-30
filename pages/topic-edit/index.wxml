@@ -2,33 +2,33 @@
 
 <!-- 话题发布 -->
 <scroll-view style="height: {{height}}px" scroll-y scroll-with-animation enable-back-to-top>
-	<text class="title">内容（必填）</text>
-	<l-textarea l-class="input-textarea" l-inner-class="inner-textarea" placeholder="分享这一刻的想法" focus border="{{false}}" indicator="{{false}}" maxlength="300" bind:lininput="setContent" />
+  <text class="title">内容（必填）</text>
+  <l-textarea l-class="input-textarea" l-inner-class="inner-textarea" placeholder="分享这一刻的想法" focus border="{{false}}" indicator="{{false}}" maxlength="300" bind:lininput="setContent" />
 
-	<text class="title">图片</text>
-	<view class="media">
-		<l-image-picker wx:if="{{!video}}" custom count="9" size="3" size-type="original" mode="aspectFill" bind:linchange="onChangeImage" bind:linremove="onChangeImage">
-			<image class="icon-pic" src="/images/icon_edit/icon_picture.png" />
-		</l-image-picker>
-		<view wx:if="{{imageFiles.length === 0 && !video}}" class="video-btn" style="margin-top: 20rpx;" bindtap="onChangeVideo">
-			<image class="icon-pic" src="/images/icon_edit/icon_video.png" width="210" />
-		</view>
-		<video wx:if="{{video}}" class="tmp-video" src="{{video.src}}" poster="{{video.cover}}" direction="0">
-			<view class="del-video" bindtap="onDelVideo">
-				<l-icon name="close" color="#fff" size="18" l-class="icon-close" />
-			</view>
-		</video>
-	</view>
+  <text class="title">图片</text>
+  <view class="media">
+    <l-image-picker wx:if="{{!video}}" custom count="9" size="3" size-type="original" mode="aspectFill" bind:linchange="onChangeImage" bind:linremove="onChangeImage">
+      <image class="icon-pic" src="/images/icon_edit/icon_picture.png" />
+    </l-image-picker>
+    <view wx:if="{{imageFiles.length === 0 && !video}}" class="video-btn" style="margin-top: 20rpx;" bindtap="onChangeVideo">
+      <image class="icon-pic" src="/images/icon_edit/icon_video.png" width="210" />
+    </view>
+    <video wx:if="{{video}}" class="tmp-video" src="{{video.src}}" poster="{{video.cover}}" direction="0">
+      <view class="del-video" bindtap="onDelVideo">
+        <l-icon name="close" color="#fff" size="18" l-class="icon-close" />
+      </view>
+    </video>
+  </view>
 
-	<text wx:if="{{labels.length > 0}}" class="title">标签</text>
-	<view wx:if="{{labels.length > 0}}" class="tag-items">
-		<l-tag l-class="tag" wx:for="{{labels}}" wx:key="index" shape="circle" bg-color="#337559" plain="{{!item.active}}" font-color="{{item.active ? '#fff' : '#337559'}}" data-label="{{item.id}}" bind:lintap="onTagTap">#{{item.name}}</l-tag>
-	</view>
+  <text wx:if="{{labels.length > 0}}" class="title">标签</text>
+  <view wx:if="{{labels.length > 0}}" class="tag-items">
+    <l-tag l-class="tag" wx:for="{{labels}}" wx:key="index" shape="circle" bg-color="#337559" plain="{{!item.active}}" font-color="{{item.active ? '#fff' : '#337559'}}" data-label="{{item.id}}" bind:lintap="onTagTap">#{{item.name}}</l-tag>
+  </view>
 
-	<text wx:if="{{canAnon}}" class="title">是否匿名</text>
-	<l-radio-group wx:if="{{canAnon}}" l-class="input-radio" bind:linchange="onAnonTap">
-		<l-radio l-class="radio" select-color="#337559" key="1">匿名</l-radio>
-	</l-radio-group>
+  <text wx:if="{{canAnon}}" class="title">是否匿名</text>
+  <l-radio-group wx:if="{{canAnon}}" l-class="input-radio" bind:linchange="onAnonTap">
+    <l-radio l-class="radio" select-color="#337559" key="1">匿名</l-radio>
+  </l-radio-group>
 </scroll-view>
 
 <button class="btn-send" hover-class="btn-send-hover" bindtap="sumitTopic">立即发布</button>

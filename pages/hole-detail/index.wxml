@@ -5,16 +5,17 @@
 
 <!-- 内容 -->
 <view class="content">
-	<view class="title">{{hole.title}}</view>
-	<view class="desp">{{hole.description}}</view>
-	<view class="tip-group">
-		<text class="tip-content">{{hole.total_content}}条动态</text>
-		<text class="tip-member">{{hole.total_member}}人在线</text>
-	</view>
-	<view class="btn-group">
-		<l-button l-class="btn-share" plain open-type="share" width="240">分享好友</l-button>
-		<l-button disabled="{{!hole.state}}" bg-color="#337559" width="240" bind:lintap="onJoinTap">{{hole.state ? '进入树洞' : '暂未开放'}}</l-button>
-	</view>
+  <view class="title">{{hole.title}}</view>
+  <view class="desp">{{hole.description}}</view>
+  <view class="tip-group">
+    <text class="tip-content">共发布 {{hole.chat_count}} 条动态</text>
+  </view>
+  <view class="btn-group">
+    <l-button l-class="btn-share" plain open-type="share" width="240">分享好友</l-button>
+    <l-button wx:if="{{hole.status === 'ENABLED'}}" bg-color="#337559" width="240" bind:lintap="onJoinTap">进入树洞</l-button>
+    <l-button wx:if="{{hole.status === 'UN_ENABLED'}}" bg-color="#337559" width="240" bind:lintap="orderHole">预约树洞</l-button>
+    <l-button wx:if="{{hole.status === 'CLOSED'}}" disabled bg-color="#337559" width="240">已结束</l-button>
+  </view>
 </view>
 
 <!-- 消息对话框 -->

@@ -1,27 +1,28 @@
 // pages/topic-detail/index.js
-import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
-import { Topic } from "../../models/topic"
-import { Comment } from "../../models/comment"
-import { Star } from "../../models/star"
-import { Template } from "../../models/template"
+import template from '../../config/template'
+import wxutil from '../../miniprogram_npm/@yyjeffrey/wxutil/index'
+import { Topic } from '../../models/topic'
+import { Label } from '../../models/label'
+import { Comment } from '../../models/comment'
+import { Star } from '../../models/star'
 const app = getApp()
 
 Page({
   data: {
     stars: [],
     comments: [],
+    labels: [],
     topic: null,
     comment: null,
     commentId: null,
-    commentTemplateId: null, // 评论订阅消息ID
     commentPaging: null,  // 评论分页器
     focus: false, // 获取焦点
     isAdmin: false, // 是否为平台管理员
     hasMore: false, // 是否还有更多数据
     height: 1000, // 内容区高度
     toIndex: 0, // 滚动至元素坐标
-    userId: -1,
-    placeholder: "说说你的想法"
+    userId: null,
+    placeholder: '说说你的想法'
   },
 
   onLoad(options) {
@@ -47,7 +48,7 @@ Page({
     const windowHeight = systemInfo.windowHeight
 
     const query = wx.createSelectorQuery()
-    query.select(".edit-item").boundingClientRect(rect => {
+    query.select('.edit-item').boundingClientRect(rect => {
       const editHeight = rect.height
       this.setData({
         height: windowHeight - editHeight
@@ -56,16 +57,27 @@ Page({
   },
 
   /**
+   * 获取标签
+   */
+  async getLabels(topicId) {
+    const labels = await Label.getLabelList({ topic_id: topicId })
+    this.setData({
+      labels: labels
+    })
+  },
+
+  /**
    * 获取动态详情
    */
   async getTopicDetail(topicId) {
-    const data = await Topic.getTopicDetail(topicId)
+    const topic = await Topic.getTopicDetail(topicId)
+
     this.setData({
-      topic: data
+      topic: topic
     })
-    this.initComments(topicId)
-    this.getStars(topicId)
-    this.getTemplateId()
+    this.getLabels(topic.id)
+    this.initComments(topic.id)
+    this.getStars(topic.id)
     this.getScrollHeight()
   },
 
@@ -73,7 +85,8 @@ Page({
    * 初始化评论
    */
   async initComments(topicId) {
-    const commentPaging = await Comment.getCommentTopicPaging(topicId)
+    const commentPaging = await Comment.getCommentPaging({ topic_id: topicId })
+
     this.setData({
       commentPaging: commentPaging,
     })
@@ -88,6 +101,7 @@ Page({
     if (!data) {
       return
     }
+
     this.setData({
       hasMore: data.hasMore,
       comments: data.accumulator
@@ -98,22 +112,15 @@ Page({
    * 获取收藏
    */
   async getStars(topicId) {
-    const data = await Star.getStarList(topicId)
-    this.setData({
-      stars: data
-    })
-  },
-
-  /**
-   * 获取评论订阅消息ID
-   */
-  async getTemplateId(title = "评论模板") {
-    if (!app.globalData.userDetail) {
+    // 满载所有收藏
+    const starCount = this.data.topic.star_count
+    if (starCount === 0) {
       return
     }
-    const data = await Template.getTemplateId(title)
+
+    const res = await (await Star.getStarPaging({ topic_id: topicId }, 1, starCount)).getMore()
     this.setData({
-      commentTemplateId: data.template_id
+      stars: res.items
     })
   },
 
@@ -128,7 +135,7 @@ Page({
       })
     } else {
       this.setData({
-        userId: -1,
+        userId: null,
         isAdmin: false
       })
     }
@@ -138,9 +145,9 @@ Page({
    * 跳转话题页
    */
   onTagTap(event) {
-    wxutil.setStorage("labelId", event.detail.labelId)
+    wxutil.setStorage('labelId', event.detail.labelId)
     wx.switchTab({
-      url: "/pages/topic/index"
+      url: '/pages/topic/index'
     })
   },
 
@@ -151,7 +158,7 @@ Page({
     this.setData({
       focus: true,
       commentId: event.detail.commentId,
-      placeholder: "@" + event.detail.nickname,
+      placeholder: '@' + event.detail.nickname,
     })
   },
 
@@ -161,9 +168,10 @@ Page({
   async onStarTap() {
     const topic = this.data.topic
     const res = await Star.starOrCancel(topic.id)
-    if (res.code === 200) {
-      const hasStar = topic.has_star
-      topic.has_star = !topic.has_star
+
+    if (res.code === 0) {
+      const hasStar = topic.starred
+      topic.starred = !topic.starred
 
       if (hasStar) {
         topic.star_count--
@@ -182,19 +190,25 @@ Page({
    */
   showActions() {
     const topic = this.data.topic
+
     let itemList = [{
-      name: "分享",
-      color: "#666",
-      openType: "share"
+      icon: '',
+      name: '分享',
+      color: '#666',
+      openType: 'share'
     }, {
-      name: "举报",
-      color: "#666"
+      icon: '',
+      openType: '',
+      name: '举报',
+      color: '#666'
     }]
 
     if (this.data.userId === topic.user.id || this.data.isAdmin) {
       itemList.push({
-        name: "删除",
-        color: "#d81e06"
+        icon: '',
+        openType: '',
+        name: '删除',
+        color: '#d81e06'
       })
     }
 
@@ -218,21 +232,21 @@ Page({
     const dialog = this.selectComponent('#dialog')
 
     dialog.linShow({
-      type: "confirm",
-      title: "提示",
-      content: "确定要举报该话题？",
+      type: 'confirm',
+      title: '提示',
+      content: '确定要举报该话题？',
       success: async (res) => {
         if (res.confirm) {
           const res = await Topic.reportTopic(topicId)
-          if (res.code === 200) {
+          if (res.code === 0) {
             wx.lin.showMessage({
-              type: "success",
-              content: "举报成功！"
+              type: 'success',
+              content: '举报成功！'
             })
           } else {
             wx.lin.showMessage({
-              type: "error",
-              content: "举报失败！"
+              type: 'error',
+              content: '举报失败！'
             })
           }
         }
@@ -247,25 +261,25 @@ Page({
     const dialog = this.selectComponent('#dialog')
 
     dialog.linShow({
-      type: "confirm",
-      title: "提示",
-      content: "确定要删除该话题？",
+      type: 'confirm',
+      title: '提示',
+      content: '确定要删除该话题？',
       success: async (res) => {
         if (res.confirm) {
           const res = await Topic.deleteTopic(topicId)
-          if (res.code === 200) {
+          if (res.code === 3) {
             wx.lin.showMessage({
-              type: "success",
-              content: "删除成功！",
+              type: 'success',
+              content: '删除成功！',
               success: () => {
-                wxutil.setStorage("refreshTopics", true)
+                wxutil.setStorage('refreshTopics', true)
                 wx.navigateBack()
               }
             })
           } else {
             wx.lin.showMessage({
-              type: "error",
-              content: "删除失败！"
+              type: 'error',
+              content: '删除失败！'
             })
           }
         }
@@ -280,7 +294,7 @@ Page({
     this.setData({
       focus: true,
       commentId: null,
-      placeholder: "说说你的想法"
+      placeholder: '说说你的想法'
     })
   },
 
@@ -297,19 +311,24 @@ Page({
    * 发送评论
    */
   onCommntBtnTap() {
+    if (!app.globalData.userDetail) {
+      wx.navigateTo({
+        url: '/pages/auth/index'
+      })
+    }
+
     const content = this.data.comment
     if (!wxutil.isNotNull(content)) {
       wx.lin.showMessage({
-        type: "error",
-        content: "内容不能为空！"
+        type: 'error',
+        content: '内容不能为空！'
       })
       return
     }
 
     // 授权订阅消息
-    const templateId = this.data.commentTemplateId
     wx.requestSubscribeMessage({
-      tmplIds: [templateId],
+      tmplIds: [template.messageTemplateId],
       complete: async () => {
         // 发送评论
         const topic = this.data.topic
@@ -323,28 +342,28 @@ Page({
         }
 
         const res = await Comment.sendComment(data)
-        if (res.code === 200) {
+        if (res.code === 1) {
           wx.lin.showMessage({
-            type: "success",
-            content: "评论成功！"
+            type: 'success',
+            content: '评论成功！'
           })
 
           this.initComments(topic.id)
           this.scrollToBottom()
 
-          topic.has_comment = true
+          topic.commented = true
           topic.comment_count++
 
           this.setData({
             topic: topic,
             comment: null,
             commentId: null,
-            placeholder: "说说你的想法"
+            placeholder: '说说你的想法'
           })
         } else {
           wx.lin.showMessage({
-            type: "error",
-            content: "评论失败！"
+            type: 'error',
+            content: '评论失败！'
           })
         }
       }
@@ -358,24 +377,24 @@ Page({
     const dialog = this.selectComponent('#dialog')
 
     dialog.linShow({
-      type: "confirm",
-      title: "提示",
-      content: "确定要删除该评论？",
+      type: 'confirm',
+      title: '提示',
+      content: '确定要删除该评论？',
       success: async (res) => {
         if (res.confirm) {
           const commentId = event.detail.commentId
           const res = await Comment.deleteComment(commentId)
-          if (res.code == 200) {
+          if (res.code == 3) {
             this.getTopicDetail(this.data.topic.id)
 
             wx.lin.showMessage({
-              type: "success",
-              content: "删除成功！"
+              type: 'success',
+              content: '删除成功！'
             })
           } else {
             wx.lin.showMessage({
-              type: "error",
-              content: "删除失败！"
+              type: 'error',
+              content: '删除失败！'
             })
           }
         }
@@ -399,7 +418,7 @@ Page({
     return {
       title: topic.content,
       imageUrl: topic.images.length > 0 ? topic.images[0] : (topic.video ? topic.video.cover : ''),
-      path: "/pages/topic-detail/index?topicId=" + topic.id
+      path: '/pages/topic-detail/index?topicId=' + topic.id
     }
   },
 
@@ -407,7 +426,7 @@ Page({
     const topic = this.data.topic
     return {
       title: topic.content,
-      query: "topicId=" + topic.id,
+      query: 'topicId=' + topic.id,
       imageUrl: topic.images.length > 0 ? topic.images[0] : (topic.video ? topic.video.cover : '')
     }
   }

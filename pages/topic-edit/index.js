@@ -1,12 +1,12 @@
 // pages/topic-edit/index.js
-import api from "../../config/api"
-import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
-import { init, upload } from "../../utils/qiniuUploader"
-import { Label } from "../../models/label"
-import { Template } from "../../models/template"
-import { OSS } from "../../models/oss"
-import { Topic } from "../../models/topic"
-const app = getApp()
+import api from '../../config/api'
+import template from '../../config/template'
+import wxutil from '../../miniprogram_npm/@yyjeffrey/wxutil/index'
+import { init, upload } from '../../utils/qiniuUploader'
+import { Label } from '../../models/label'
+import { OSS } from '../../models/oss'
+import { Topic } from '../../models/topic'
+import { Video } from '../../models/video'
 
 Page({
   data: {
@@ -16,19 +16,13 @@ Page({
     height: 1000,  // 内容区高度
     canAnon: false, // 是否可匿名
     isAnon: false,  // 是否为匿名话题
-    commentTemplateId: null, // 评论订阅消息ID
     content: null,
     video: null
   },
 
   onLoad() {
     this.getLabels()
-    this.getTemplateId()
     this.getScrollHeight()
-  },
-
-  onShow() {
-    this.initQiniu()
   },
 
   /**
@@ -39,7 +33,7 @@ Page({
     const windowHeight = systemInfo.windowHeight
 
     const query = wx.createSelectorQuery()
-    query.select(".btn-send").boundingClientRect(rect => {
+    query.select('.btn-send').boundingClientRect(rect => {
       const btnHeight = rect.height
       this.setData({
         height: windowHeight - btnHeight
@@ -51,19 +45,9 @@ Page({
    * 获取标签
    */
   async getLabels() {
-    const data = await Label.getLabelList(app.globalData.appId)
+    const data = await Label.getLabelList()
     this.setData({
       labels: data
-    })
-  },
-
-  /**
-   * 获取评论订阅消息ID
-   */
-  async getTemplateId(title = "评论模板") {
-    const data = await Template.getTemplateId(title)
-    this.setData({
-      commentTemplateId: data.template_id
     })
   },
 
@@ -71,10 +55,10 @@ Page({
    * 初始化七牛云配置
    */
   async initQiniu() {
-    const data = await OSS.getQiniu()
+    const uptoken = await OSS.getQiniu()
     const options = {
-      region: "ECN",
-      uptoken: data.uptoken,
+      region: 'ECN',
+      uptoken: uptoken,
       domain: api.ossDomain,
       shouldUseQiniuFileName: false
     }
@@ -124,8 +108,8 @@ Page({
 
     if (!label.active && labelsActive.length >= 3) {
       wx.lin.showMessage({
-        type: "error",
-        content: "最多选择3个标签！"
+        type: 'error',
+        content: '最多选择3个标签！'
       })
       return
     }
@@ -165,18 +149,18 @@ Page({
   /**
    * 媒体文件上传至OSS
    */
-  sendMedia(imageFile, path = "topic") {
+  sendMedia(imageFile, path = 'topic') {
     return new Promise((resolve, reject) => {
       upload(imageFile, (res) => {
         resolve(res.imageURL)
       }, (error) => {
         reject(error)
       }, {
-        region: "ECN",
+        region: 'ECN',
         uptoken: null,
         domain: null,
         shouldUseQiniuFileName: false,
-        key: path + "/" + wxutil.getUUID(false)
+        key: path + '/' + wxutil.getUUID(false)
       })
     })
   },
@@ -186,11 +170,11 @@ Page({
    */
   onChangeVideo() {
     wx.chooseMedia({
-      count: 9,
-      mediaType: ["video"],
-      sourceType: ["album", "camera"],
+      count: 1,
+      mediaType: ['video'],
+      sourceType: ['album', 'camera'],
       maxDuration: 60,
-      camera: "back",
+      camera: 'back',
       success: (res) => {
         const videoRes = res.tempFiles[0]
         this.setData({
@@ -224,22 +208,21 @@ Page({
 
     if (!wxutil.isNotNull(content)) {
       wx.lin.showMessage({
-        type: "error",
-        content: "内容不能为空！"
+        type: 'error',
+        content: '内容不能为空！'
       })
       return
     }
 
-    const templateId = this.data.commentTemplateId
     const imageFiles = this.data.imageFiles
     let video = this.data.video
 
     // 授权订阅消息
     wx.requestSubscribeMessage({
-      tmplIds: [templateId],
-      complete: () => {
-        wxutil.showLoading("发布中...")
-        let data = {
+      tmplIds: [template.messageTemplateId],
+      complete: async () => {
+        wxutil.showLoading('发布中...')
+        const data = {
           content: content,
           is_anon: this.data.isAnon,
           images: [],
@@ -248,6 +231,7 @@ Page({
 
         // 发布图文
         if (imageFiles.length > 0) {
+          await this.initQiniu()
           this.sendImages(imageFiles).then((res) => {
             data.images = res
             this.uploadTopic(data)
@@ -255,15 +239,19 @@ Page({
         }
         // 发布视文
         else if (video) {
-          this.sendMedia(video.src, "video").then((src) => {
-            this.sendMedia(video.cover, "video-cover").then((cover) => {
+          await this.initQiniu()
+          this.sendMedia(video.src, 'video').then(src => {
+            this.sendMedia(video.cover, 'video-cover').then(async cover => {
               video.src = src
               video.cover = cover
               this.setData({
                 video: video
               })
-              data.video = video
-              this.uploadTopic(data)
+              const res = await Video.uploadVideo(video)
+              if (res.code === 1) {
+                data.video_id = res.data.video_id
+                this.uploadTopic(data)
+              }
             })
           })
         }
@@ -281,27 +269,27 @@ Page({
   async uploadTopic(data) {
     const res = await Topic.sendTopic(data)
     wx.hideLoading()
-    if (res.code === 200) {
+    if (res.code === 1) {
       wx.lin.showMessage({
-        type: "success",
-        content: "发布成功！",
+        type: 'success',
+        content: '发布成功！',
         success: () => {
-          wxutil.setStorage("refreshTopics", true)
+          wxutil.setStorage('refreshTopics', true)
           wx.navigateBack()
         }
       })
     } else {
       wx.lin.showMessage({
-        type: "error",
-        content: "发布失败！"
+        type: 'error',
+        content: '发布失败！'
       })
     }
   },
 
   onShareAppMessage() {
     return {
-      title: "主页",
-      path: "/pages/topic/index"
+      title: '主页',
+      path: '/pages/topic/index'
     }
   }
 })

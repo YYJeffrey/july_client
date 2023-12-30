@@ -1,17 +1,17 @@
 // pages/topic/index.js
-import wxutil from "../../miniprogram_npm/@yyjeffrey/wxutil/index"
-import { Label } from "../../models/label"
-import { Message } from "../../models/message"
-import { Star } from "../../models/star"
-import { Topic } from "../../models/topic"
+import wxutil from '../../miniprogram_npm/@yyjeffrey/wxutil/index'
+import { Label } from '../../models/label'
+import { Message } from '../../models/message'
+import { Star } from '../../models/star'
+import { Topic } from '../../models/topic'
 const app = getApp()
 
 Page({
   data: {
     labels: [],
     topics: [],
-    labelId: -1,
-    userId: -1,
+    labelId: '-1',
+    userId: null,
     topicPaging: null,  // 话题分页器
     isAdmin: false, // 是否为平台管理员
     hasMore: true, // 是否还有更多数据
@@ -25,7 +25,7 @@ Page({
 
   onShow() {
     this.getUserInfo()
-    this.getMsgBrief()
+    this.getMessages()
     this.reInitTopics()
   },
 
@@ -33,10 +33,10 @@ Page({
    * 获取标签
    */
   async getLabels() {
-    const data = await Label.getLabelList(app.globalData.appId)
+    const data = await Label.getLabelList()
     let labels = [{
-      id: -1,
-      name: "全部"
+      id: '-1',
+      name: '全部'
     }]
     this.setData({
       labels: labels.concat(data)
@@ -54,7 +54,7 @@ Page({
       })
     } else {
       this.setData({
-        userId: -1,
+        userId: null,
         isAdmin: false
       })
     }
@@ -63,16 +63,16 @@ Page({
   /**
    * 获取消息概要并标红点
    */
-  async getMsgBrief() {
+  async getMessages() {
     if (!app.globalData.userDetail) {
       return
     }
 
-    const data = await Message.getMessageBrief()
-    if (data.count > 0) {
+    const data = await Message.getMessages()
+    if (data && data.length > 0) {
       wx.setTabBarBadge({
         index: 2,
-        text: data.count.toString()
+        text: data.length.toString()
       })
     } else {
       wx.removeTabBarBadge({
@@ -84,11 +84,12 @@ Page({
   /**
    * 初始化话题
    */
-  async initTopics(labelId = -1) {
-    const params = { app_id: app.globalData.appId }
-    if (labelId !== -1) {
+  async initTopics(labelId = '-1') {
+    const params = {}
+    if (labelId !== '-1') {
       params.label_id = labelId
     }
+
     const topicPaging = await Topic.getTopicPaging(params)
     this.setData({
       topicPaging: topicPaging
@@ -104,6 +105,7 @@ Page({
     if (!data) {
       return
     }
+
     this.setData({
       topics: data.accumulator,
       hasMore: data.hasMore
@@ -115,19 +117,19 @@ Page({
    */
   reInitTopics() {
     // 由于 wx.switchTab() 传参限制，只能使用缓存获取参数
-    const refresh = wxutil.getStorage("refreshTopics")
-    const labelId = wxutil.getStorage("labelId")
+    const refresh = wxutil.getStorage('refreshTopics')
+    const labelId = wxutil.getStorage('labelId')
 
     if (refresh) {
-      wx.removeStorageSync("refreshTopics")
+      wx.removeStorageSync('refreshTopics')
       this.setData({
-        labelId: -1
+        labelId: '-1'
       })
       this.initTopics()
     }
 
     if (labelId) {
-      wx.removeStorageSync("labelId")
+      wx.removeStorageSync('labelId')
       this.setData({
         labelId: labelId
       })
@@ -153,15 +155,20 @@ Page({
     const index = event.currentTarget.dataset.index
     const topics = this.data.topics
     const topic = topics[index]
+
     let itemList = [{
-      name: "举报",
-      color: "#666"
+      icon: '',
+      openType: '',
+      name: '举报',
+      color: '#666'
     }]
 
     if (this.data.userId === topic.user.id || this.data.isAdmin) {
       itemList.push({
-        name: "删除",
-        color: "#d81e06"
+        icon: '',
+        openType: '',
+        name: '删除',
+        color: '#d81e06'
       })
     }
 
@@ -185,21 +192,21 @@ Page({
     const dialog = this.selectComponent('#dialog')
 
     dialog.linShow({
-      type: "confirm",
-      title: "提示",
-      content: "确定要举报该话题？",
+      type: 'confirm',
+      title: '提示',
+      content: '确定要举报该话题？',
       success: async (res) => {
         if (res.confirm) {
           const res = await Topic.reportTopic(topicId)
-          if (res.code === 200) {
+          if (res.code === 0) {
             wx.lin.showMessage({
-              type: "success",
-              content: "举报成功！"
+              type: 'success',
+              content: '举报成功！'
             })
           } else {
             wx.lin.showMessage({
-              type: "error",
-              content: "举报失败！"
+              type: 'error',
+              content: '举报失败！'
             })
           }
         }
@@ -215,25 +222,25 @@ Page({
     const topics = this.data.topics
 
     dialog.linShow({
-      type: "confirm",
-      title: "提示",
-      content: "确定要删除该话题？",
+      type: 'confirm',
+      title: '提示',
+      content: '确定要删除该话题？',
       success: async (res) => {
         if (res.confirm) {
           const res = await Topic.deleteTopic(topicId)
-          if (res.code === 200) {
+          if (res.code === 3) {
             topics.splice(topicIndex, 1)
             this.setData({
               topics: topics
             })
             wx.lin.showMessage({
-              type: "success",
-              content: "删除成功！"
+              type: 'success',
+              content: '删除成功！'
             })
           } else {
             wx.lin.showMessage({
-              type: "error",
-              content: "删除失败！"
+              type: 'error',
+              content: '删除失败！'
             })
           }
         }
@@ -248,10 +255,10 @@ Page({
     const index = event.currentTarget.dataset.index
     const topics = this.data.topics
     const topic = topics[index]
-    let url = "/pages/topic-detail/index?"
+    let url = '/pages/topic-detail/index?'
 
-    if (event.type === "commentIconTap") {
-      url += "focus=true&"
+    if (event.type === 'commentIconTap') {
+      url += 'focus=true&'
     }
     topic.click_count++
     this.setData({
@@ -259,7 +266,7 @@ Page({
     })
 
     wx.navigateTo({
-      url: url + "topicId=" + topic.id
+      url: url + 'topicId=' + topic.id
     })
   },
 
@@ -272,9 +279,9 @@ Page({
     const topic = topics[index]
 
     const res = await Star.starOrCancel(topic.id)
-    if (res.code === 200) {
-      const hasStar = topic.has_star
-      topic.has_star = !topic.has_star
+    if (res.code === 0) {
+      const hasStar = topic.starred
+      topic.starred = !topic.starred
 
       if (hasStar) {
         topic.star_count--
@@ -292,7 +299,7 @@ Page({
    * 跳转话题编辑页或授权页
    */
   onEditTap() {
-    const url = "/pages/topic-edit/index"
+    const url = '/pages/topic-edit/index'
     if (app.globalData.userDetail) {
       wx.navigateTo({
         url: url
@@ -330,8 +337,8 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: "主页",
-      path: "/pages/topic/index"
+      title: '主页',
+      path: '/pages/topic/index'
     }
   }
 })

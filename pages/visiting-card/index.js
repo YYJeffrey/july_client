@@ -1,9 +1,10 @@
 // pages/visiting-card/index.js
-import { User } from "../../models/user"
-import { Following } from "../../models/following"
-import { Topic } from "../../models/topic"
-import { Comment } from "../../models/comment"
-import { Star } from "../../models/star"
+import { User } from '../../models/user'
+import { Following } from '../../models/following'
+import { Topic } from '../../models/topic'
+import { Comment } from '../../models/comment'
+import { Star } from '../../models/star'
+const app = getApp()
 
 Page({
   data: {
@@ -13,7 +14,7 @@ Page({
     stars: [],
     tabIndex: 0,  // Tabs选中的栏目
     tabsTop: 300, // Tabs距离顶部的高度
-    genderText: "Ta", // 性别文本
+    genderText: 'Ta', // 性别文本
     topicPaging: null,  // 话题分页器
     commentPaging: null,  // 评论分页器
     starPaging: null, // 收藏分页器
@@ -25,7 +26,9 @@ Page({
   },
 
   onLoad(options) {
-    this.getUserInfo(options.userId)
+    if (options.userId !== '') {
+      this.getUserInfo(options.userId)
+    }
   },
 
   onShow() {
@@ -40,7 +43,7 @@ Page({
    */
   getTabsTop() {
     const query = wx.createSelectorQuery()
-    query.select("#tabs").boundingClientRect((res) => {
+    query.select('#tabs').boundingClientRect((res) => {
       this.setData({
         tabsTop: res.top
       })
@@ -52,29 +55,32 @@ Page({
    */
   async getUserInfo(userId, loadPage = true) {
     const user = await User.getUserInfo(userId)
-    if (user) {
-      this.setData({
-        user: user
-      })
-
-      if (loadPage) {
-        this.getTabsTop()
-        wx.setNavigationBarTitle({
-          title: user.nick_name
-        })
-      }
-
-      this.initTopics(userId)
-      this.initComments(userId)
-      this.initStars(userId)
+    if (!user) {
+      return
     }
+
+    this.setData({
+      user: user
+    })
+
+    if (loadPage) {
+      this.getTabsTop()
+      wx.setNavigationBarTitle({
+        title: user.nickname
+      })
+    }
+
+    this.initTopics(user.id)
+    this.initComments(user.id)
+    this.initStars(user.id)
   },
 
   /**
    * 初始化话题
    */
   async initTopics(userId) {
-    const topicPaging = await Topic.getTopicUserPaging(userId)
+    const topicPaging = await Topic.getTopicPaging({ user_id: userId })
+
     this.setData({
       topicPaging: topicPaging
     })
@@ -89,6 +95,7 @@ Page({
     if (!data) {
       return
     }
+
     this.setData({
       topics: data.accumulator,
       hasMoreTopic: data.hasMore
@@ -99,7 +106,8 @@ Page({
    * 初始化评论
    */
   async initComments(userId) {
-    const commentPaging = await Comment.getCommentUserPaging(userId)
+    const commentPaging = await Comment.getCommentPaging({ user_id: userId })
+
     this.setData({
       commentPaging: commentPaging
     })
@@ -114,6 +122,7 @@ Page({
     if (!data) {
       return
     }
+
     this.setData({
       comments: data.accumulator,
       hasMoreComment: data.hasMore
@@ -124,7 +133,8 @@ Page({
    * 初始化用户收藏
    */
   async initStars(userId) {
-    const starPaging = await Star.getStarUserPaging(userId)
+    const starPaging = await Star.getStarPaging({ user_id: userId })
+
     this.setData({
       starPaging: starPaging
     })
@@ -139,6 +149,7 @@ Page({
     if (!data) {
       return
     }
+
     this.setData({
       stars: data.accumulator,
       hasMoreStar: data.hasMore
@@ -150,22 +161,29 @@ Page({
    */
   onFollowTap() {
     const user = this.data.user
+    if (app.globalData.userDetail && app.globalData.userDetail.id === user.id) {
+      wx.lin.showMessage({
+        type: 'error',
+        content: '不可以关注自己哦！'
+      })
+      return
+    }
 
-    if (user.has_follow) {
+    if (user.followed) {
       wx.lin.showActionSheet({
-        title: "确定要取消关注" + user.nick_name + "吗？",
+        title: '确定要取消关注' + user.nickname + '吗？',
         showCancel: true,
-        cancelText: "放弃",
+        cancelText: '放弃',
         itemList: [{
-          name: "取消关注",
-          color: "#666"
+          name: '取消关注',
+          color: '#666'
         }],
         success: () => {
-          this.followOrCancel(user.id, "取消关注")
+          this.followOrCancel(user.id, '取消关注')
         }
       })
     } else {
-      this.followOrCancel(user.id, "关注")
+      this.followOrCancel(user.id, '关注')
     }
   },
 
@@ -174,27 +192,27 @@ Page({
    */
   async followOrCancel(userId, msg) {
     const res = await Following.followOrCancel(userId)
-    if (res.code === 200) {
+    if (res.code === 0) {
       wx.lin.showMessage({
-        type: "success",
-        content: msg + "成功！"
+        type: 'success',
+        content: msg + '成功！'
       })
 
       const user = this.data.user
-      user.has_follow = !user.has_follow
+      user.followed = !user.followed
 
       this.setData({
         user: user
       })
-    } else if (res.message === "Can Not Following Yourself") {
+    } else if (res.message === 'Can Not Following Yourself') {
       wx.lin.showMessage({
-        type: "error",
-        content: "不能关注自己！"
+        type: 'error',
+        content: '不能关注自己！'
       })
     } else {
       wx.lin.showMessage({
-        type: "error",
-        content: msg + "失败！"
+        type: 'error',
+        content: msg + '失败！'
       })
     }
   },
@@ -204,6 +222,7 @@ Page({
    */
   changeTabs(event) {
     const tabIndex = event.detail.currentIndex
+
     this.setData({
       tabIndex: tabIndex
     })
@@ -219,6 +238,7 @@ Page({
    */
   async onReachBottom() {
     const tabIndex = this.data.tabIndex
+
     this.setData({
       loading: true
     })
@@ -251,9 +271,9 @@ Page({
   onShareAppMessage() {
     const user = this.data.user
     return {
-      title: user.nick_name,
+      title: user.nickname,
       imageUrl: user.avatar,
-      path: "/pages/visiting-card/index?userId=" + user.id
+      path: `/pages/visiting-card/index?userId=${user.id}`
     }
   }
 })

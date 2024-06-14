@@ -47,5 +47,6 @@
   "packOptions": {
     "ignore": [],
     "include": []
-  }
+  },
+  "projectname": "july_client"
 }

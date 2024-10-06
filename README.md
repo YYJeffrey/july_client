@@ -17,7 +17,7 @@
 
 ## 快速开始
 
-确保 [服务端](https://github.com/YYJeffrey/july_server) 接口正常运行后即可开始以下步骤
+确保 [服务端](https://github.com/YYJeffrey/july_server) 接口正常运行，即可开始以下步骤
 
 **1. 下载源码**
 
@@ -36,27 +36,27 @@ git clone git@github.com:YYJeffrey/july_api.git
 
 ## 产品展示
 
-<img src="https://img.yejiefeng.com/screenshots/1.PNG" width="275px" /><br/>
+<img src="assets/1.png" width="275px" /><br/>
 
-<img src="https://img.yejiefeng.com/screenshots/2.PNG" width="275px" /><br/>
+<img src="assets/2.png" width="275px" /><br/>
 
-<img src="https://img.yejiefeng.com/screenshots/3.PNG" width="275px" /><br/>
+<img src="assets/3.png" width="275px" /><br/>
 
-<img src="https://img.yejiefeng.com/screenshots/4.PNG" width="275px" /><br/>
+<img src="assets/4.png" width="275px" /><br/>
 
-<img src="https://img.yejiefeng.com/screenshots/5.PNG" width="275px" /><br/>
+<img src="assets/5.png" width="275px" /><br/>
 
-<img src="https://img.yejiefeng.com/screenshots/6.PNG" width="275px" /><br/>
+<img src="assets/6.png" width="275px" /><br/>
 
-<img src="https://img.yejiefeng.com/screenshots/7.PNG" width="275px" /><br/>
+<img src="assets/7.png" width="275px" /><br/>
 
-<img src="https://img.yejiefeng.com/screenshots/8.PNG" width="275px" /><br/>
+<img src="assets/8.png" width="275px" /><br/>
 
-<img src="https://img.yejiefeng.com/screenshots/9.jpeg" width="275px" /><br/>
+<img src="assets/9.jpeg" width="275px" /><br/>
 
 
 ## 捐赠
 
 如果觉得还不错，就支持一下作者吧 😊
 
-<img src="https://img.yejiefeng.com/qr/qr_like.png" width="235px" />
+<img src="assets/qr_like.png" width="235px" />
